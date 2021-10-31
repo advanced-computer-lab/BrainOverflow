@@ -19,7 +19,10 @@ app.post('/createFlight',async(req,res,next)=>{
   
     res.send();
   })
-
+  app.get("/getflights",async(req,res)=>{
+    Flight.find().then(result=>
+    res.send(result));
+  });
 
 
  
