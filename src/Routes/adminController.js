@@ -22,7 +22,14 @@ app.post('/createFlight',async(req,res,next)=>{
 
 
 
-  app.get()
+ 
+app.get('/flight/:id/delete', function(req, res){
+user.findByIdAndRemove({_id: req.params.id}, 
+   function(err, docs){
+if(err) res.json(err);
+else    res.redirect('/view');
+});
+})
 
 
 module.exports=router;
