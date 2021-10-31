@@ -21,4 +21,8 @@ app.post('/createFlight',async(req,res,next)=>{
   })
 
 
+
+  app.get()
+
+
 module.exports=router;
