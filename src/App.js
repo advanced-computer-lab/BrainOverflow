@@ -11,6 +11,13 @@ client.connect(err => {
   client.close();
 });
 
+//Models
+const User= require('./models/User')
+
+
+//Routes
+const adminRoutes = require('./Routes/adminController')
+
 
 //App variables
 const app = express();
@@ -25,6 +32,8 @@ mongoose.connect(MongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(result =>console.log("MongoDB is now connected") )
 .catch(err => console.log(err));
 
+//ROutes
+app.use('/admin', adminRoutes);
 
 
 
