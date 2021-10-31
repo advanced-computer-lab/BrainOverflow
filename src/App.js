@@ -26,6 +26,32 @@ mongoose.connect(MongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 .catch(err => console.log(err));
 
 
+
+
+exports.findFlight= async (req , res)=>{
+
+  try{
+    const flight = await Flight.findById(req.params.id);
+    res.send({data : flight});
+  } catch {
+    res.status(404).send({error : "flight not found"});
+  }
+
+}
+
+
+exports.UpdateFlight= async (req , res)=>{
+  try{
+    const flight = await Flight.findById(req.params.id);
+    Object.assign(flight , req.body);
+    flight.save();
+    res.send({data : flight});
+  } catch {
+    res.status(404).send({error : "flight not found"});
+  }
+  
+
+}
 // Starting server
 app.listen(port, () => {
     console.log(`Listening to requests on http://localhost:${port}`);
