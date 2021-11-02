@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require('mongoose');
- 
+//var cors = require('cors');
 
 const { MongoClient } = require('mongodb');
 const MongoURI = "mongodb+srv://admin:12345@cluster0.zvvff.mongodb.net/Cluster0?retryWrites=true&w=majority";
@@ -12,7 +12,7 @@ client.connect(err => {
 });
 
 //Models
-const User= require('./models/User')
+const User= require('./models/User');
 
 
 //Routes
@@ -35,9 +35,14 @@ mongoose.connect(MongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 //ROutes
 app.use('/admin', adminRoutes);
 
+//app.use(cors({ origin: true, credentials: true }));
+
+app.get("/Home", (req, res) => {
+    res.status(200).send("You have everything installed !");
+  });
 
 
-exports.findFlight= async (req , res)=>{
+/*exports.findFlight= async (req , res)=>{
 
   try{
     const flight = await Flight.findById(req.params.id);
@@ -60,7 +65,14 @@ exports.UpdateFlight= async (req , res)=>{
   }
   
 
-}
+}*/
+//app.get('/view-flights',adminRoutes.viewFlights)
+
+/*app.get("/getflights",async(req,res)=>{
+  Flight.find().then(result=>
+  res.send(result));
+});*/
+
 // Starting server
 app.listen(port, () => {
     console.log(`Listening to requests on http://localhost:${port}`);
