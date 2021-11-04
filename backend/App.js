@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require('mongoose');
- 
+const cors = require('cors');
+
 
 const { MongoClient } = require('mongodb');
 const MongoURI = "mongodb+srv://admin:12345@cluster0.zvvff.mongodb.net/Cluster0?retryWrites=true&w=majority";
@@ -25,12 +26,16 @@ const port = process.env.PORT || "8000";
 const Flight = require('./models/Flight');
 // #Importing the userController
 
-
+app.use(express.json());
 // configurations
 // Mongo DB
 mongoose.connect(MongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(result =>console.log("MongoDB is now connected") )
 .catch(err => console.log(err));
+
+
+
+app.use(cors({ origin: true, credentials: true }));
 
 //ROutes
 app.use('/admin', adminRoutes);
