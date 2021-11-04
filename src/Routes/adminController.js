@@ -13,6 +13,17 @@ router.get('/viewFlights' ,(req, res) => {                                      
       });
     });
 
+    router.get('/updateFlight',async (req , res)=> {
+      try{
+        const flight = await Flight.findById("617ebe033384877628052d1f");
+        Object.assign(flight , req.body);
+        flight.save();
+        res.send({data : flight});
+      } catch {
+        res.status(404).send({error : "flight not found"});
+      } }
+      ); 
+
 
 //Creating new flight
 /*app.post('/createFlight', async (req, res, next) => {
