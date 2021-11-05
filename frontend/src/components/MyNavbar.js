@@ -10,7 +10,7 @@ import {
 } from 'reactstrap';
 
 const links = [
-  { href: 'admin/createFlight', text: 'CreateFlight' },
+  { href: 'cr', text: 'CreateFlight' },
   { href: '#card', text: 'Product' },
   { href: '#about', text: 'About' },
   { href: '#cata', text: 'Categories' },

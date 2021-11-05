@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState , props} from 'react';
 import Axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import{
@@ -22,10 +22,11 @@ function CreateFlight() {
         Economy:Economy,
         Business:Business,
         First:First
-    });
+    },{params:{token:props.realToken}});
   }
   return (
       <Container className='m-3'>
+        <MyNavBar/>
         <Card className='p-3'>
     <CardHeader className='mb-2'  >
       Create New Flight
