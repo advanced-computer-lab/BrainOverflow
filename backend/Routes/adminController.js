@@ -25,8 +25,22 @@ router.post('/createFlight',catchAsync(async(req,res,next)=>{
     res.send(result));
   });
 
+ //search 
+ /*
+ router.get('/search',async(req,res,next)=>{
+  await Flight.find(
+      { $or: [{ ID: }, { Departure: }, { Arrival:},{FlightDate:},{Terminal:}] },
+      function(err, result) {
+        if (err) {
+          res.send(err);
+        } else {
+          res.send(result);
+        }
+      }
+    );
 
- 
+})
+*/
 router.get('/flight/:id/delete', function(req, res){
 user.findByIdAndRemove({_id: req.params.id}, 
    function(err, docs){

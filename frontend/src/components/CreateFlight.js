@@ -1,6 +1,10 @@
 import React, {useState} from 'react';
 import Axios from 'axios'
-//To , FlightDate,Economy,Business,First
+import 'bootstrap/dist/css/bootstrap.min.css';
+import{
+   CardBody,Card , CardHeader , Form,Input , FormGroup , Label , Button, Container, Row , Col
+} from 'reactstrap';
+import MyNavBar from './MyNavbar';
 function CreateFlight() {
   const [From,setFrom]=React.useState("");
   const [To,setTo]=React.useState("");
@@ -21,33 +25,116 @@ function CreateFlight() {
     });
   }
   return (
-    <div className="App">
-        <label> From </label><input type = "text"
-        onChange={(e)=>{
-          setFrom(e.target.value);
-        }}></input>
-         <label> To </label><input type = "text"
-        onChange={(e)=>{
-          setTo(e.target.value);
-        }}></input>
-         <label> Date </label><input type = "text"
-        onChange={(e)=>{
-          setFlightDate(e.target.value);
-        }}></input>
-         <label> Economy </label><input type = "text"
-        onChange={(e)=>{
-          setEconomy(e.target.value);
-        }}></input>
-         <label> Business </label><input type = "text"
-        onChange={(e)=>{
-          setBusiness(e.target.value);
-        }}></input>
-         <label> First </label><input type = "text"
-        onChange={(e)=>{
-          setFirst(e.target.value);
-        }}></input>
-      <button onClick={addtoList}>Add</button>
-    </div>
+      <Container className='m-3'>
+        <Card className='p-3'>
+    <CardHeader className='mb-2'  >
+      Create New Flight
+    </CardHeader>
+    <CardBody>
+
+    <Form>
+    <FormGroup>
+    <Label for="From">
+      From
+    </Label>
+    <Input
+      id="From"
+      name="From"
+      placeholder="Departure airport"
+      type="text"
+      onChange={(e)=>{
+        setTo(e.target.value);
+      }}
+    />
+  </FormGroup>
+  <FormGroup>
+    <Label for="To">
+      To
+    </Label>
+    <Input
+      id="To"
+      name="To"
+      placeholder="Arrival airport"
+      type="text"
+      onChange={(e)=>{
+        setTo(e.target.value);
+      }}
+    />
+  </FormGroup>
+
+
+  <FormGroup>
+    <Label for="exampleDate">
+      Flight Date
+    </Label>
+    <Input
+      id="date"
+      name="date"
+      placeholder="date placeholder"
+      type="date"
+      onChange={(e)=>{
+        setTo(e.target.value);
+      }}
+    />
+  </FormGroup>
+  
+  <FormGroup>
+    <Label for="Economy">
+     Number of Economy class seats
+    </Label>
+    <Input
+      id="economy"
+      name="Economy"
+      placeholder=""
+      type="number"
+      onChange={(e)=>{
+        setFrom(e.target.value);
+      }}
+    />
+  </FormGroup>
+  
+  <FormGroup>
+    <Label for="Business">
+     Number of Business class seats
+    </Label>
+    <Input
+      id="business"
+      name="business"
+      placeholder=""
+      type="number"
+      onChange={(e)=>{
+        setTo(e.target.value);
+      }}
+    />
+  </FormGroup>
+  
+  <FormGroup>
+    <Label for="First">
+     Number of first class seats
+    </Label>
+    <Input
+      id="first"
+      name="first"
+      placeholder=""
+      type="number"
+      onChange={(e)=>{
+        setTo(e.target.value);
+      }}
+    />
+  </FormGroup>
+  <div className="float-right">
+  <Button 
+    color="success"
+    size="lg"
+    onClick={addtoList}>
+Create Flight  </Button>
+</div>
+ 
+</Form>
+</CardBody>
+</Card>
+</Container>
+    
   );
 }
 

@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
 const flightSchema = new Schema({
     From : {
         type: String,
@@ -26,6 +25,18 @@ const flightSchema = new Schema({
         type: Number,
         required: true
       },
+      Terminal:{
+        type: String,
+        required: true
+      },
+      Departure:{
+        type: Date,
+        required: true
+      },
+      Arrival:{
+        type: Date,
+        required: true
+      }
     }, { timestamps: true });
 
       const Flight = mongoose.model('Flight', flightSchema);
