@@ -1,4 +1,4 @@
-import React, {useState , props} from 'react';
+import React, {useState} from 'react';
 import Axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import{
@@ -9,24 +9,29 @@ function CreateFlight() {
   const [From,setFrom]=React.useState("");
   const [To,setTo]=React.useState("");
   const [FlightDate,setFlightDate]=React.useState(new Date());
+  const [Arrival,setArrival]=React.useState("");
+  const [Departure,setDeparture]=React.useState("");
+  const [Terminal,setTerminal]=React.useState(0);
   const [Economy,setEconomy]=React.useState(0);
   const [Business,setBusiness]=React.useState(0);
   const [First,setFirst]=React.useState(0);
 
   const addtoList=()=>{
-      console.log(From,To,FlightDate,Economy,First,Business)
+      //console.log(ArrivalTime,DepartureTime)
     Axios.post("http://localhost:8000/admin/createFlight",{
         From:From,
         To:To,
         FlightDate:FlightDate,
         Economy:Economy,
         Business:Business,
-        First:First
-    },{params:{token:props.realToken}});
+        First:First,
+        Departure:Departure,
+        Arrival:Arrival,
+        Terminal:Terminal
+    }).then(() => this.setState({ redirect: true }));
   }
   return (
       <Container className='m-3'>
-        <MyNavBar/>
         <Card className='p-3'>
     <CardHeader className='mb-2'  >
       Create New Flight
@@ -44,7 +49,7 @@ function CreateFlight() {
       placeholder="Departure airport"
       type="text"
       onChange={(e)=>{
-        setTo(e.target.value);
+        setFrom(e.target.value);
       }}
     />
   </FormGroup>
@@ -70,11 +75,51 @@ function CreateFlight() {
     </Label>
     <Input
       id="date"
-      name="date"
+      name="FlightDate"
       placeholder="date placeholder"
       type="date"
       onChange={(e)=>{
         setTo(e.target.value);
+      }}
+    />
+  </FormGroup>
+  <FormGroup>
+    <Label for="Departure">
+Departure Time    </Label>
+    <Input
+      id="Departure"
+      name="Departure"
+      placeholder=""
+      type="text"
+      onChange={(e)=>{
+        setDeparture(e.target.value);
+      }}
+    />
+  </FormGroup>
+  <FormGroup>
+    <Label for="Arrival">
+      Arrival Time
+    </Label>
+    <Input
+      id="Arrival"
+      name="Arrival"
+      placeholder=""
+      type="text"
+      onChange={(e)=>{
+        setArrival(e.target.value);
+      }}
+    />
+  </FormGroup>
+  <FormGroup>
+    <Label for="Terminal">
+Terminal    </Label>
+    <Input
+      id="Terminal"
+      name="Terminal"
+      placeholder=""
+      type="number"
+      onChange={(e)=>{
+        setTerminal(e.target.value);
       }}
     />
   </FormGroup>
@@ -84,12 +129,12 @@ function CreateFlight() {
      Number of Economy class seats
     </Label>
     <Input
-      id="economy"
+      id="Economy"
       name="Economy"
       placeholder=""
       type="number"
       onChange={(e)=>{
-        setFrom(e.target.value);
+        setEconomy(e.target.value);
       }}
     />
   </FormGroup>
@@ -99,12 +144,12 @@ function CreateFlight() {
      Number of Business class seats
     </Label>
     <Input
-      id="business"
-      name="business"
+      id="Business"
+      name="Business"
       placeholder=""
       type="number"
       onChange={(e)=>{
-        setTo(e.target.value);
+        setBusiness(e.target.value);
       }}
     />
   </FormGroup>
@@ -114,12 +159,12 @@ function CreateFlight() {
      Number of first class seats
     </Label>
     <Input
-      id="first"
-      name="first"
+      id="First"
+      name="First"
       placeholder=""
       type="number"
       onChange={(e)=>{
-        setTo(e.target.value);
+        setFirst(e.target.value);
       }}
     />
   </FormGroup>

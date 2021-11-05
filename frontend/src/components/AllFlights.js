@@ -27,7 +27,7 @@ function AllFlights() {
         <br />
         <Container>
 
-            <Table>
+            <Table striped>
               <thead><tr>
                   <th>From</th>
                   <th>To</th>
@@ -49,7 +49,7 @@ function AllFlights() {
         {flights.map((flights) => (
           <Container>
 
-            <Table>
+            <Table striped>
               
               <tbody>
 

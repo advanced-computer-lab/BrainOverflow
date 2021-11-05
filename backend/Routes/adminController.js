@@ -13,18 +13,22 @@ const catchAsync=func=>{
 
 //Creating new flight
 router.post('/createFlight',catchAsync(async(req,res,next)=>{
+  console.log(req.body);
     const details=req.body;
     console.log(req.body);
     const flight = new Flight(details);
     await flight.save();
-  
-    res.send();
+    res.redirect('/viewFlights');
   }))
-  router.get("/getflights",async(req,res)=>{
-    Flight.find().then(result=>
-    res.send(result));
+  router.get('/viewFlights' ,(req, res) => {                                               ``
+  Flight.find({})
+    .then(result => {
+      res.send(result);
+    })
+    .catch(err => {
+      console.log(err);
+    });
   });
-
  //search 
  /*
  router.get('/search',async(req,res,next)=>{

@@ -10,7 +10,9 @@ function App() {
   return (
     <BrowserRouter>
     <Routes>
-      <Route path="/cr" element={<CreateFlight />} />
+      <Route path="/admin/createFlight" element={<CreateFlight />} />
+      <Route path="/admin/viewFlights" element={<AllFlights />} />
+
       {/* <Route path="users" element={<Users />}>
         <Route path="me" element={<OwnUserProfile />} />
         <Route path=":id" element={<UserProfile />} />
