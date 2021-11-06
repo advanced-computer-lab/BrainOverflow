@@ -42,7 +42,7 @@ app.use('/admin', adminRoutes);
 
 
 
-exports.findFlight= async (req , res)=>{
+/*exports.findFlight= async (req , res)=>{
 
   try{
     const flight = await Flight.findById(req.params.id);
@@ -51,10 +51,11 @@ exports.findFlight= async (req , res)=>{
     res.status(404).send({error : "flight not found"});
   }
 
-}
+}*/
 
 
-exports.UpdateFlight= async (req , res)=>{
+
+/*exports.UpdateFlight= async (req , res)=>{
   try{
     const flight = await Flight.findById(req.params.id);
     Object.assign(flight , req.body);
@@ -65,7 +66,11 @@ exports.UpdateFlight= async (req , res)=>{
   }
   
 
-}
+}*/
+
+
+
+
 // Starting server
 app.listen(port, () => {
     console.log(`Listening to requests on http://localhost:${port}`);

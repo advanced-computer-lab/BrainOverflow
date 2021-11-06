@@ -2,6 +2,7 @@
 import './App.css';
 import CreateFlight from './components/CreateFlight';
 import AllFlights from './components/AllFlights';
+import UpdateFlight from './components/UpdateFlight';
 import MyNavBar from './components/MyNavbar';
 import { Container } from 'reactstrap';
 import { BrowserRouter, Routes, Route, Link, Outlet } from 'react-router-dom';
@@ -12,7 +13,9 @@ function App() {
     <Routes>
       <Route path="/admin/createFlight" element={<CreateFlight />} />
       <Route path="/admin/viewFlights" element={<AllFlights />} />
-
+      <Route path="/admin/UpdateFlight/:id" element={<UpdateFlight/>}/> 
+      {/*haidy changes*/}
+ 
       {/* <Route path="users" element={<Users />}>
         <Route path="me" element={<OwnUserProfile />} />
         <Route path=":id" element={<UserProfile />} />
