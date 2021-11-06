@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const Flight = require('../models/Flight');
+const { isValidObjectId } = require('mongoose');
+const { time, timeStamp } = require('console');
 
 ///
 const catchAsync=func=>{
@@ -9,7 +11,15 @@ const catchAsync=func=>{
       func(req,res,next).catch(next);
   }
 }
-
+router.get('/viewFlights' ,(req, res) => {                                               ``
+    Flight.find({})
+      .then(result => {
+        res.send(result);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    });
 
 //Creating new flight
 router.post('/createFlight',catchAsync(async(req,res,next)=>{
@@ -26,21 +36,25 @@ router.post('/createFlight',catchAsync(async(req,res,next)=>{
   });
 
  //search 
- /*
- router.get('/search',async(req,res,next)=>{
+ 
+ /*router.post('/search',async(req,res,next)=>{
+  const searchItem='^'+req.body;
   await Flight.find(
-      { $or: [{ ID: }, { Departure: }, { Arrival:},{FlightDate:},{Terminal:}] },
+   { $or: [{ ID:ObjectId(searchItem) }, { Departure: timeStamp(searchItem)}, { Arrival:searchItem},{FlightDate:Date(searchItem)},{Terminal:searchItem}] },
       function(err, result) {
         if (err) {
           res.send(err);
         } else {
-          res.send(result);
-        }
+          res.send(JSON.stringify(result, null, 4));
+          
       }
-    );
+     } )
 
-})
-*/
+})*/
+
+ 
+
+
 router.get('/flight/:id/delete', function(req, res){
 user.findByIdAndRemove({_id: req.params.id}, 
    function(err, docs){
