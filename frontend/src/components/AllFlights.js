@@ -67,7 +67,11 @@ function AllFlights() {
    
     console.log(event.target[0].value)
     setDisplayed(flights.filter((f) => { 
-    let flag= false //initialize flag
+    let flag1= false
+    let flag2= false
+    let flag3=false
+    let flag4=false
+    let flag5=false  
 
     if(event.target[0].value !==''){
 
@@ -75,14 +79,20 @@ function AllFlights() {
     let d2= f.FlightDate.slice(0,10) 
     console.log(event.target[0].value)
     console.log(d2)
-    flag= (d1==d2)  
-   }
-   if(event.target[1].value !==''){flag=(event.target[1].value==f.Terminal)}
-   if(event.target[2].value !==''){flag=(event.target[2].value==f._id)}
-   if(event.target[3].value !==''){flag=(event.target[3].value==f.Departure)}
-   if(event.target[4].value !==''){flag=(event.target[4].value==f.Arrival)}
+    flag1= (d1==d2) 
+     
+   }else{flag1 = true}
+    
+   if(event.target[1].value !==''){flag2=(event.target[1].value==f.Terminal)}
+   else{flag2=true}
+   if(event.target[2].value !==''){flag3=(event.target[2].value==f._id)}
+   else{flag3 = true}
+   if(event.target[3].value !==''){flag4=(event.target[3].value==f.Departure)}
+   else{flag4 = true}
+   if(event.target[4].value !==''){flag5=(event.target[4].value==f.Arrival)}
+   else{flag5 = true}
 
-   return flag;
+   return flag1&flag2&flag3&flag4&flag5;
   }
  
 
