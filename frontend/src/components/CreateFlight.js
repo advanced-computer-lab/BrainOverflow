@@ -1,4 +1,9 @@
+<<<<<<< Updated upstream
 import React, {useState , props} from 'react';
+=======
+import React, {useState} from 'react';
+import { useNavigate } from 'react-router-dom'
+>>>>>>> Stashed changes
 import Axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import{
@@ -6,6 +11,8 @@ import{
 } from 'reactstrap';
 import MyNavBar from './MyNavbar';
 function CreateFlight() {
+  const navigate = useNavigate();
+
   const [From,setFrom]=React.useState("");
   const [To,setTo]=React.useState("");
   const [FlightDate,setFlightDate]=React.useState(new Date());
@@ -21,8 +28,17 @@ function CreateFlight() {
         FlightDate:FlightDate,
         Economy:Economy,
         Business:Business,
+<<<<<<< Updated upstream
         First:First
     },{params:{token:props.realToken}});
+=======
+        First:First,
+        Departure:Departure,
+        Arrival:Arrival,
+        Terminal:Terminal
+    }).then(console.log({Response}),() => this.setState({ redirect: true }));
+    navigate('/admin/viewFlights', { replace: true })
+>>>>>>> Stashed changes
   }
   return (
       <Container className='m-3'>
@@ -74,10 +90,53 @@ function CreateFlight() {
       placeholder="date placeholder"
       type="date"
       onChange={(e)=>{
-        setTo(e.target.value);
+        setFlightDate(e.target.value);
       }}
     />
   </FormGroup>
+<<<<<<< Updated upstream
+=======
+  <FormGroup>
+    <Label for="Departure">
+Departure Time    </Label>
+    <Input
+      id="Departure"
+      name="Departure"
+      placeholder=""
+      type="time"
+      onChange={(e)=>{
+        setDeparture(e.target.value);
+      }}
+    />
+  </FormGroup>
+  <FormGroup>
+    <Label for="Arrival">
+    Arrival Time
+    </Label>
+    <Input
+      id="Arrival"
+      name="Arrival"
+      placeholder="time placeholder"
+      type="time"
+      onChange={(e)=>{
+        setArrival(e.target.value);
+      }}
+    />
+  </FormGroup>
+  <FormGroup>
+    <Label for="Terminal">
+Terminal    </Label>
+    <Input
+      id="Terminal"
+      name="Terminal"
+      placeholder=""
+      type="number"
+      onChange={(e)=>{
+        setTerminal(e.target.value);
+      }}
+    />
+  </FormGroup>
+>>>>>>> Stashed changes
   
   <FormGroup>
     <Label for="Economy">

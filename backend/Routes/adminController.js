@@ -17,8 +17,13 @@ router.post('/createFlight',catchAsync(async(req,res,next)=>{
     console.log(req.body);
     const flight = new Flight(details);
     await flight.save();
+<<<<<<< Updated upstream
   
     res.send();
+=======
+    
+    //res.redirect('/viewFlights');
+>>>>>>> Stashed changes
   }))
   router.get("/getflights",async(req,res)=>{
     Flight.find().then(result=>
