@@ -1,51 +1,68 @@
 import {React,useState, useEffect }from 'react';
 import axios from 'axios'
+import { get, patch,put } from 'axios';
+import { Link, useParams } from "react-router-dom";
+import { useNavigate } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import{
    CardBody,Card , CardHeader , Form,Input , FormGroup , Label , Button, Container, Row , Col
 } from 'reactstrap';
 import MyNavBar from './MyNavbar';
-function UpdateFlight() {
-  const [flight, setFlight] = useState([]);
+function UpdateFlight(props) {
+  const navigate= useNavigate;
+  const initialstate= {
+  
+    From:'',
+    To:'',
+    FlightDate:'',
+    Economy:0,
+    Business:0,
+    First:0,
+    Departure:'',
+    Arrival:'',
+    Terminal:0
+  }
+  const { id } = useParams()
+  const [flight, setFlight] = useState(initialstate);
   useEffect(() => {
-    axios.get('http://localhost:8000/admin/updateFlight/:id').then(res => {
-      setFlight(res.data);
-      //setDisplayed(res.data);
-    })
-  }, []);
-  const [From,setFrom]=React.useState("");
-  const [To,setTo]=React.useState("");
-  const [FlightDate,setFlightDate]=React.useState(new Date());
-  const [Arrival,setArrival]=React.useState("");
-  const [Departure,setDeparture]=React.useState("");
-  const [Terminal,setTerminal]=React.useState(0);
-  const [Economy,setEconomy]=React.useState(0);
-  const [Business,setBusiness]=React.useState(0);
-  const [First,setFirst]=React.useState(0);
- 
-
-  const UpdateList=()=>{
-      //console.log(ArrivalTime,DepartureTime)
-    axios.put("http://localhost:8000/admin/UpdateFlight/:id", {
-
-      From:From,
-      To:To,
-      FlightDate:FlightDate,
-      Economy:Economy,
-      Business:Business,
-      First:First,
-      Departure:Departure,
-      Arrival:Arrival,
-      Terminal:Terminal
-  }).then( res => {
-      alert('Updated successfully!');
-     }   )
-     .catch(err => {
-       console.log(err.response);
-       alert('An error occurred! Try submitting the form again.');
-     });
-        
+    async function getFlight() {
+      try {
+        const response = await get(`http://localhost:8000/admin/updateFlight/${id}`);
+        console.log(id);
+        setFlight(response.data);        
+      } catch(error) {
+        console.log(error);
+      }
     }
+    getFlight(); 
+  }, [props]);
+ 
+ 
+  function handleSubmit(event) {
+    event.preventDefault();
+ 
+    console.log(flight);
+    async function updateFlight() {
+      try {
+         put(`http://localhost:8000/admin/updateFlight/${id}`, flight).then(
+         window.location.href = "/admin" )
+        
+         
+      } catch(error) {
+        console.log(error);
+      }
+    }
+    updateFlight();
+  }
+
+  function handleChange(event) {
+    setFlight({...flight, [event.target.name]: event.target.value})
+  }
+
+  
+  
+  
+   
   return (
       <Container className='m-3'>
         <Card className='p-3'>
@@ -55,7 +72,7 @@ function UpdateFlight() {
     </CardHeader>
     <CardBody>
 
-    <Form>
+    <Form >
     <FormGroup>
     <Label for="From">
       From
@@ -66,9 +83,7 @@ function UpdateFlight() {
       placeholder="Departure airport"
       type="text"
       value={flight.From}
-      onChange={(e)=>{
-        setFrom(e.target.value);
-      }}
+      onChange={handleChange}
     />
   </FormGroup>
   <FormGroup>
@@ -81,9 +96,7 @@ function UpdateFlight() {
       placeholder="Arrival airport"
       type="text"
       value={flight.To}
-      onChange={(e)=>{
-        setTo(e.target.value);
-      }}
+      onChange={handleChange}
     />
   </FormGroup>
 
@@ -98,9 +111,7 @@ function UpdateFlight() {
       placeholder="date placeholder"
       type="date"
       value={flight.FlightDate}
-      onChange={(e)=>{
-        setTo(e.target.value);
-      }}
+      onChange={handleChange}
     />
   </FormGroup>
   <FormGroup>
@@ -111,9 +122,9 @@ Departure Time    </Label>
       name="Departure"
       placeholder=""
       type="text"
-      onChange={(e)=>{
-        setDeparture(e.target.value);
-      }}
+      value={flight.Departure}
+      onChange={handleChange}
+       
     />
   </FormGroup>
   <FormGroup>
@@ -125,9 +136,8 @@ Departure Time    </Label>
       name="Arrival"
       placeholder=""
       type="text"
-      onChange={(e)=>{
-        setArrival(e.target.value);
-      }}
+      value={flight.Departure}
+      onChange={handleChange}
     />
   </FormGroup>
   <FormGroup>
@@ -138,9 +148,8 @@ Terminal    </Label>
       name="Terminal"
       placeholder=""
       type="number"
-      onChange={(e)=>{
-        setTerminal(e.target.value);
-      }}
+      value={flight.Terminal}
+      onChange={handleChange}
     />
   </FormGroup>
   
@@ -153,9 +162,8 @@ Terminal    </Label>
       name="Economy"
       placeholder=""
       type="number"
-      onChange={(e)=>{
-        setEconomy(e.target.value);
-      }}
+      value={flight.Economy}
+      onChange={handleChange}
     />
   </FormGroup>
   
@@ -168,9 +176,8 @@ Terminal    </Label>
       name="Business"
       placeholder=""
       type="number"
-      onChange={(e)=>{
-        setBusiness(e.target.value);
-      }}
+      value= {flight.Business}
+      onChange={handleChange}
     />
   </FormGroup>
   
@@ -183,17 +190,17 @@ Terminal    </Label>
       name="First"
       placeholder=""
       type="number"
-      onChange={(e)=>{
-        setFirst(e.target.value);
-      }}
+      value= {flight.First}
+      onChange={handleChange}
     />
   </FormGroup>
   <div className="float-right">
-  <Button 
-    color="success"
-    size="lg"
-    onClick={UpdateList}>
-Update Flight  </Button>
+   <Button 
+   onClick={handleSubmit}
+   color="success"
+   size="lg"
+     >
+Update Flight  </Button> 
 </div>
  
 </Form>

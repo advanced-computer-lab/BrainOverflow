@@ -10,14 +10,8 @@ import {
 } from 'reactstrap';
 
 const links = [
-  { href: 'cr', text: 'CreateFlight' },
-  { href: '#card', text: 'Product' },
-  { href: '#about', text: 'About' },
-  { href: '#cata', text: 'Categories' },
-  { href: '#test', text: 'Blogs' },
-  { href: '#test2', text: 'News' },
-  { href: '#busns', text: 'Adds', className: 'btnadd' },
-  { href: '/login', text: 'LOGIN' },
+  { href: '/admin/createFlight', text: 'CreateFlight' },
+ 
 ];
 
 const createNavItem = ({ href, text, className }) => (
@@ -47,7 +41,7 @@ export default class MyNavbar extends Component {
     return (
       <div>
         <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">reactstrap</NavbarBrand>
+          <NavbarBrand href="/">Sky OverFlow</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>

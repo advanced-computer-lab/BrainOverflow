@@ -32,11 +32,11 @@ function CreateFlight() {
         Departure:Departure,
         Arrival:Arrival,
         Terminal:Terminal
-    }).then(navigate('/admin/viewFlights', { replace: true }));
+    }).then(navigate('/admin', { replace: true }));
   }
   return (
       <Container className='m-3'>
-        <MyNavBar/>
+       
         <Card className='p-3'>
     <CardHeader className='mb-2'  >
       Create New Flight
@@ -54,7 +54,7 @@ function CreateFlight() {
       placeholder="Departure airport"
       type="text"
       onChange={(e)=>{
-        setTo(e.target.value);
+        setFrom(e.target.value);
       }}
     />
   </FormGroup>
@@ -139,7 +139,7 @@ Terminal    </Label>
       placeholder=""
       type="number"
       onChange={(e)=>{
-        setFrom(e.target.value);
+        setEconomy(e.target.value);
       }}
     />
   </FormGroup>
@@ -154,7 +154,7 @@ Terminal    </Label>
       placeholder=""
       type="number"
       onChange={(e)=>{
-        setTo(e.target.value);
+        setBusiness(e.target.value);
       }}
     />
   </FormGroup>
@@ -169,7 +169,7 @@ Terminal    </Label>
       placeholder=""
       type="number"
       onChange={(e)=>{
-        setTo(e.target.value);
+        setFirst(e.target.value);
       }}
     />
   </FormGroup>
