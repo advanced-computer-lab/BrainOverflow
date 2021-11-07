@@ -1,12 +1,18 @@
-import { Component,  useEffect } from 'react';
-import React, {useState} from 'react';
-import Axios from 'axios'
+import {React,useState, useEffect }from 'react';
+import axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import{
    CardBody,Card , CardHeader , Form,Input , FormGroup , Label , Button, Container, Row , Col
 } from 'reactstrap';
 import MyNavBar from './MyNavbar';
 function UpdateFlight() {
+  const [flight, setFlight] = useState([]);
+  useEffect(() => {
+    axios.get('http://localhost:8000/admin//updateFlight/:id').then(res => {
+      setFlight(res.data);
+
+    })
+  }, []);
   const[_id,setID]=React.useState("");
   const [From,setFrom]=React.useState("");
   const [To,setTo]=React.useState("");
@@ -23,7 +29,7 @@ function UpdateFlight() {
       //console.log(ArrivalTime,DepartureTime)
       
     
-    Axios.put("http://localhost:8000/admin/UpdateFlight/:id", {
+    axios.put("http://localhost:8000/admin/UpdateFlight/:id", {
 
       From:From,
       To:To,
@@ -43,22 +49,12 @@ function UpdateFlight() {
      });
         
     }
-    
-   
-    const [flights, setFlights] = useState([]);
-
-  useEffect(() => {
-    Axios.get('http://localhost:8000/admin/UpdateFlight/:id').then(res => {
-      setFlights(res.data);
-
-    })
-  }, []);
-  
   return (
       <Container className='m-3'>
         <Card className='p-3'>
     <CardHeader className='mb-2'  >
       Update the flight
+      {flight.From}
     </CardHeader>
     <CardBody>
 

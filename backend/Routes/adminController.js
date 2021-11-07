@@ -30,7 +30,7 @@ router.post('/createFlight',catchAsync(async(req,res,next)=>{
     });
   });
 
-  router.get('/UpdateFlight/:id' ,(req, res) => {  
+  router.get('/updateFlight/:id' ,(req, res) => {  
     Flight.findById(req.params.id).then(result => {
       res.send(result);
     })
