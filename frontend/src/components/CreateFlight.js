@@ -1,9 +1,5 @@
-<<<<<<< Updated upstream
-import React, {useState , props} from 'react';
-=======
 import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom'
->>>>>>> Stashed changes
 import Axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import{
@@ -19,6 +15,10 @@ function CreateFlight() {
   const [Economy,setEconomy]=React.useState(0);
   const [Business,setBusiness]=React.useState(0);
   const [First,setFirst]=React.useState(0);
+  const [Departure,setDeparture]=React.useState("");
+  const [Arrival,setArrival]=React.useState("");
+  const [Terminal,setTerminal]=React.useState(0);
+
 
   const addtoList=()=>{
       console.log(From,To,FlightDate,Economy,First,Business)
@@ -28,17 +28,11 @@ function CreateFlight() {
         FlightDate:FlightDate,
         Economy:Economy,
         Business:Business,
-<<<<<<< Updated upstream
-        First:First
-    },{params:{token:props.realToken}});
-=======
         First:First,
         Departure:Departure,
         Arrival:Arrival,
         Terminal:Terminal
-    }).then(console.log({Response}),() => this.setState({ redirect: true }));
-    navigate('/admin/viewFlights', { replace: true })
->>>>>>> Stashed changes
+    }).then(navigate('/admin/viewFlights', { replace: true }));
   }
   return (
       <Container className='m-3'>
@@ -94,8 +88,6 @@ function CreateFlight() {
       }}
     />
   </FormGroup>
-<<<<<<< Updated upstream
-=======
   <FormGroup>
     <Label for="Departure">
 Departure Time    </Label>
@@ -136,7 +128,6 @@ Terminal    </Label>
       }}
     />
   </FormGroup>
->>>>>>> Stashed changes
   
   <FormGroup>
     <Label for="Economy">

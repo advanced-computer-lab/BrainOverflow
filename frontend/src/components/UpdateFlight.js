@@ -8,12 +8,11 @@ import MyNavBar from './MyNavbar';
 function UpdateFlight() {
   const [flight, setFlight] = useState([]);
   useEffect(() => {
-    axios.get('http://localhost:8000/admin//updateFlight/:id').then(res => {
+    axios.get('http://localhost:8000/admin/updateFlight/:id').then(res => {
       setFlight(res.data);
-
+      //setDisplayed(res.data);
     })
   }, []);
-  const[_id,setID]=React.useState("");
   const [From,setFrom]=React.useState("");
   const [To,setTo]=React.useState("");
   const [FlightDate,setFlightDate]=React.useState(new Date());
@@ -27,8 +26,6 @@ function UpdateFlight() {
 
   const UpdateList=()=>{
       //console.log(ArrivalTime,DepartureTime)
-      
-    
     axios.put("http://localhost:8000/admin/UpdateFlight/:id", {
 
       From:From,
@@ -68,6 +65,7 @@ function UpdateFlight() {
       name="From"
       placeholder="Departure airport"
       type="text"
+      value={flight.From}
       onChange={(e)=>{
         setFrom(e.target.value);
       }}
@@ -82,6 +80,7 @@ function UpdateFlight() {
       name="To"
       placeholder="Arrival airport"
       type="text"
+      value={flight.To}
       onChange={(e)=>{
         setTo(e.target.value);
       }}
@@ -98,6 +97,7 @@ function UpdateFlight() {
       name="FlightDate"
       placeholder="date placeholder"
       type="date"
+      value={flight.FlightDate}
       onChange={(e)=>{
         setTo(e.target.value);
       }}
