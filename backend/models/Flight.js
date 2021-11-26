@@ -1,12 +1,18 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const flightSchema = new Schema({
+  FlightNumber : {
+    type: String,
+    required: true,
+  },
     From : {
-        type: String,
+        airport: String,
+        terminal: Number,
         required: true,
       },
       To:{
         type: String,
+        terminal: Number,
         required: true,
       },
       FlightDate:{
@@ -14,19 +20,21 @@ const flightSchema = new Schema({
         required:true,
       },
       Economy:{
-        type: Number,
+        seats: Number,
+        price:Number,
+        baggage:Number,
         required:true,
       },
       Business:{
-        type: Number,
+        seats: Number,
+        price:Number,
+        baggage:Number,
         required: true,
       },
       First:{
-        type: Number,
-        required: true
-      },
-      Terminal:{
-        type: Number,
+        seats: Number,
+        price:Number,
+        baggage:Number,
         required: true
       },
       Departure:{
