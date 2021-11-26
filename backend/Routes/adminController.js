@@ -2,8 +2,6 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const Flight = require('../models/Flight');
-const { isValidObjectId } = require('mongoose');
-const { time, timeStamp } = require('console');
 
 ///
 const catchAsync=func=>{
@@ -11,57 +9,70 @@ const catchAsync=func=>{
       func(req,res,next).catch(next);
   }
 }
-router.get('/viewFlights' ,(req, res) => {                                               ``
-    Flight.find({})
-      .then(result => {
-        res.send(result);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    });
+
 
 //Creating new flight
 router.post('/createFlight',catchAsync(async(req,res,next)=>{
+  console.log(req.body);
     const details=req.body;
     console.log(req.body);
     const flight = new Flight(details);
     await flight.save();
-  
-    res.send();
+    res.redirect('/viewFlights');
   }))
-  router.get("/getflights",async(req,res)=>{
-    Flight.find().then(result=>
-    res.send(result));
+  router.get('/viewFlights' ,(req, res) => {                                               ``
+  Flight.find({})
+    .then(result => {
+      res.send(result);
+    })
+    .catch(err => {
+      console.log(err);
+    });
   });
 
- //search 
- 
- /*router.post('/search',async(req,res,next)=>{
-  const searchItem='^'+req.body;
-  await Flight.find(
-   { $or: [{ ID:ObjectId(searchItem) }, { Departure: timeStamp(searchItem)}, { Arrival:searchItem},{FlightDate:Date(searchItem)},{Terminal:searchItem}] },
-      function(err, result) {
-        if (err) {
-          res.send(err);
-        } else {
-          res.send(JSON.stringify(result, null, 4));
-          
-      }
-     } )
-
-})*/
-
- 
-
-
-router.get('/flight/:id/delete', function(req, res){
-user.findByIdAndRemove({_id: req.params.id}, 
+  router.get('/updateFlight/:id' ,(req, res) => {  
+    Flight.findById(req.params.id).then(result => {
+      res.send(result);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  });
+  
+router.delete('/delete/:id', function(req, res){
+Flight.findByIdAndRemove({_id: req.params.id}, 
    function(err, docs){
 if(err) res.json(err);
-else    res.redirect('/view');
+ 
 });
 })
+
+
+ 
+    router.put("/UpdateFlight/:id", (req, res) => {
+      console.log("req.body", req.body);
+      var _id = req.body._id;
+      
+      var flights =req.body;
+
+
+        Flight.findByIdAndUpdate( {
+          _id: req.params.id
+        },flights).then(
+          () => {
+             res.status(201).json({
+                message: 'Thing updated successfully!'
+             });
+          }
+        ).catch(
+          (error) => {
+             res.status(400).json({
+                error: error
+             });
+          }
+        );
+
+      });
 
 
 module.exports=router;

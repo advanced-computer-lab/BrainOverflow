@@ -3,27 +3,63 @@ import { Switch, Route, Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Component, useState, useEffect } from 'react';
 import axios from 'axios';
+ 
+import { useNavigate } from 'react-router-dom'
 //import 'bootstrap/dist/css/bootstrap.min.css';
-import {
+import {Modal,ModalHeader,ModalBody,ModalFooter,
   CardBody, Card, CardHeader, Form, Input, FormGroup, Label, Button, Container, Row, Col, Table
 } from 'reactstrap';
+import UpdateFlight from "./UpdateFlight";
 
 function AllFlights() {
-
+ const[closeId, setId]=useState(0);
+  const [show, setShow] = useState(false);
+  const navigate = useNavigate();
   const [flights, setFlights] = useState([]);
   //const[searchItem,setSearchItem]=useState([]);
   const [displayed, setDisplayed] = useState([]);
+  //const toggle = () => setS(!show);
+  const handleClose = () => setShow(false);
+  const handleShow = (id) => {setShow(true);
+                              setId(id);}
+                               
+                              
+  
+  const updateClick=(id)=>{
+    axios.get("http://localhost:8000/admin/updateFlight"+id,{
+    }).then(navigate('http://localhost:8000/admin/updateFlight"+id', { replace: true }));
+  }
+  
 
   useEffect(() => {
     axios.get('http://localhost:8000/admin/viewFlights').then(res => {
       setFlights(res.data);
       setDisplayed(res.data);
+    
  
  
 
     })
 
   }, []);
+  async function handleDelete() { 
+    console.log(closeId);
+    try {
+        
+       await axios.delete(`http://localhost:8000/admin/delete/${closeId}`).then(
+
+         setFlights(flights.filter((f) => { return f._id!=closeId})),
+         setDisplayed(flights.filter((f) => { return f._id!=closeId})),
+         handleClose()
+         )
+         
+      
+     
+    } catch(error) {
+      console.error(error);
+    }
+  }
+
   
   const addtoList=(event)=>{
     event.preventDefault()
@@ -31,7 +67,11 @@ function AllFlights() {
    
     console.log(event.target[0].value)
     setDisplayed(flights.filter((f) => { 
-    let flag= false //initialize flag
+    let flag1= false
+    let flag2= false
+    let flag3=false
+    let flag4=false
+    let flag5=false  
 
     if(event.target[0].value !==''){
 
@@ -39,14 +79,20 @@ function AllFlights() {
     let d2= f.FlightDate.slice(0,10) 
     console.log(event.target[0].value)
     console.log(d2)
-    flag= (d1==d2)  
-   }
-   if(event.target[1].value !==''){flag=(event.target[1].value==f.Terminal)}
-   if(event.target[2].value !==''){flag=(event.target[2].value==f._id)}
-   if(event.target[3].value !==''){flag=(event.target[3].value==f.Departure)}
-   if(event.target[4].value !==''){flag=(event.target[4].value==f.Arrival)}
+    flag1= (d1==d2) 
+     
+   }else{flag1 = true}
+    
+   if(event.target[1].value !==''){flag2=(event.target[1].value==f.Terminal)}
+   else{flag2=true}
+   if(event.target[2].value !==''){flag3=(event.target[2].value==f._id)}
+   else{flag3 = true}
+   if(event.target[3].value !==''){flag4=(event.target[3].value==f.Departure)}
+   else{flag4 = true}
+   if(event.target[4].value !==''){flag5=(event.target[4].value==f.Arrival)}
+   else{flag5 = true}
 
-   return flag;
+   return flag1&flag2&flag3&flag4&flag5;
   }
  
 
@@ -56,6 +102,29 @@ function AllFlights() {
  
   return (
  <div>
+    <Modal isOpen={show}  >
+    <ModalHeader
+      charCode="Y"
+     
+    >
+      Delete Flight
+    </ModalHeader>
+    <ModalBody>
+     Are you Sure you want to delete flight no: ${closeId}
+    </ModalBody>
+    <ModalFooter>
+      <Button
+        color="danger"
+        onClick={()=>handleDelete()}
+      >
+        Yes, Delete
+      </Button>
+      {' '}
+      <Button onClick={handleClose}>
+        Cancel
+      </Button>
+    </ModalFooter>
+  </Modal>
     <Form onSubmit={addtoList}>
 
     <Col md={3}>
@@ -132,7 +201,7 @@ function AllFlights() {
         <br />
         <Container>
 
-            <Table>
+            <Table bordered>
               <thead><tr>
                 <th>FlightNo</th>
                   <th>From</th>
@@ -154,28 +223,31 @@ function AllFlights() {
 
         {displayed.map((flight) => (
           <Container>
-            <Table>            
+            <Table bordered>            
               <tbody>
 
                 <tr>
                   <td>{flight._id}</td>
                   <td>{flight.From }</td>
                   <td>{flight.To}</td>
-                  <td>{flight.FlightDate}</td>
+                  <td>{flight.FlightDate.slice(0,10)}</td>
                   <td>{flight.Economy}</td>
                   <td>{flight.Business}</td>
                   <td>{flight.First}</td>
                   <td>{flight.Arrival}</td>
                   <td>{flight.Departure}</td>
                   <td>{flight.Terminal}</td>
-                  <td><button>update</button>
-                  <button>Delete</button>
+                  <td><Link to={`/admin/updateFlight/${flight._id}`} className="btn btn-primary">Edit</Link> 
+                   
+                  <Button color="danger"onClick={()=>handleShow(flight._id)}> Delete </Button>
+                  
                   </td>
                 </tr>
               </tbody>
             </Table>
 
           </Container>
+          
 
 
 
@@ -184,6 +256,8 @@ function AllFlights() {
       </div>
     </div>
     </div>
+  
+  
   );
 }
 
