@@ -38,19 +38,18 @@ const userSchema = new Schema({
         type:String,
         required:true
     }
-    ,
+,
     flights: [{
-        id: mongoose.Schema.Types.ObjectId,
-        economySeats:Number,
-        firstSeats:Number,
-        BusinessSeats:Number
-    }],
+        id:{type: mongoose.Schema.Types.ObjectId,required:true},
+        economySeats:{type:Number,required:true},
+        firstSeats:{type:Number,required:true},
+        BusinessSeats:{type:Number,required:true}}],
     isAdmin:{
         type: Boolean,
         required: true
       },
 });
-var validateEmail = function(email) {
+function validateEmail(email) {
     var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     return re.test(email)
 };

@@ -6,36 +6,33 @@ const flightSchema = new Schema({
     required: true,
   },
     From : {
-        airport: String,
-        terminal: Number,
-        required: true,
+        airport:{type :String,required:true} ,
+        terminal:{ type:Number,
+        required: true}
       },
       To:{
-        type: String,
-        terminal: Number,
-        required: true,
+        airport:{type :String,required:true} ,
+        terminal:{ type:Number,
+        required: true}
       },
       FlightDate:{
         type: Date,
-        required:true,
+        required:true
       },
       Economy:{
-        seats: Number,
-        price:Number,
-        baggage:Number,
-        required:true,
+        seats: {type:Number,required:true},
+        price:{type:Number,required:true},
+        baggage:{type:Number,required:true},
       },
       Business:{
-        seats: Number,
-        price:Number,
-        baggage:Number,
-        required: true,
+        seats: {type:Number,required:true},
+        price:{type:Number,required:true},
+        baggage:{type:Number,required:true},
       },
       First:{
-        seats: Number,
-        price:Number,
-        baggage:Number,
-        required: true
+        seats: {type:Number,required:true},
+        price:{type:Number,required:true},
+        baggage:{type:Number,required:true},
       },
       Departure:{
         type: String,
