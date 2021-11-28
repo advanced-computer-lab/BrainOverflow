@@ -5,9 +5,15 @@ import axios from 'axios'
 
 import CreateFlight from './components/CreateFlight';
 import AllFlights from './components/AllFlights';
+<<<<<<< Updated upstream
+=======
+import UpdateFlight from './components/UpdateFlight';
+import SearchFlight from './components/SearchFlight';
+>>>>>>> Stashed changes
 import MyNavBar from './components/MyNavbar';
 import { Container } from 'reactstrap';
 
+<<<<<<< Updated upstream
 
 class App extends Component {
   
@@ -24,6 +30,22 @@ class App extends Component {
   }
   
 
+=======
+function App() {
+  return (
+    
+    <BrowserRouter>
+    <MyNavBar></MyNavBar>
+    <Routes>
+      <Route path="/admin/createFlight" element={<CreateFlight />} />
+      <Route path="/admin" element={<AllFlights />} />
+      <Route path="/admin/UpdateFlight/:id" element={<UpdateFlight/>}/> 
+      <Route path="admin/SearchFlight" element ={<SearchFlight/>}/>
+       
+    </Routes>
+  </BrowserRouter>
+  );
+>>>>>>> Stashed changes
 }
 
 

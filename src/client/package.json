@@ -16,6 +16,10 @@
     "react-router-dom": "^6.0.0",
 >>>>>>> Stashed changes:frontend/package.json
     "react-scripts": "4.0.3",
+<<<<<<< Updated upstream:src/client/package.json
+=======
+    "reactstrap": "^9.0.1",
+>>>>>>> Stashed changes:frontend/package.json
     "web-vitals": "^1.1.2"
   },
   "scripts": {
