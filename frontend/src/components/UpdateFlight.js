@@ -3,7 +3,6 @@ import axios from 'axios'
 import { get, patch,put } from 'axios';
 import { Link, useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom'
-import 'bootstrap/dist/css/bootstrap.min.css';
 import{
    CardBody,Card , CardHeader , Form,Input , FormGroup , Label , Button, Container, Row , Col
 } from 'reactstrap';
