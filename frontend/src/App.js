@@ -15,6 +15,9 @@ import SearchFlight from'./components/SearchFlight';
 import ViewFlight from './components/ViewFlight';
  
  
+import UpdateProfile from './components/UpdateProfile';
+import UserProfile from './components/UserProfile';
+
 import { Container } from 'reactstrap';
 
  
@@ -35,6 +38,9 @@ function App() {
       <Route path="/user/viewFlight/:id" element={<ViewFlight />} />
  
        
+      <Route path="/admin/updateFlight/:id" element={<UpdateFlight/>}/> 
+      <Route path="/user/updateProfile/:id" element={<UpdateProfile/>}/> 
+      <Route path="/user/:id" element={<UserProfile/>}/> 
     </Routes>
   </BrowserRouter>
   );
