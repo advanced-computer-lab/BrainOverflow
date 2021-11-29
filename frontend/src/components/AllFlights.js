@@ -3,25 +3,15 @@ import { Switch, Route, Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Component, useState, useEffect } from 'react';
 import axios from 'axios';
-<<<<<<< Updated upstream
-//import 'bootstrap/dist/css/bootstrap.min.css';
-import {
-  CardBody, Card, CardHeader, Form, Input, FormGroup, Label, Button, Container, Row, Col, Table
-=======
 
 import { useNavigate } from 'react-router-dom'
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   Modal, ModalHeader, ModalBody, ModalFooter,
   CardBody, Card, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, CardHeader, Form, Input, FormGroup, Label, Button, Container, Row, Col, Table
->>>>>>> Stashed changes
 } from 'reactstrap';
 
 function AllFlights() {
-<<<<<<< Updated upstream
-
-  const [flights, setFlights] = useState([]);
-=======
   const [closeId, setId] = useState(0);
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
@@ -42,31 +32,17 @@ function AllFlights() {
     }).then(navigate('http://localhost:8000/admin/updateFlight"+id', { replace: true }));
   }
 
->>>>>>> Stashed changes
 
   useEffect(() => {
     axios.get('http://localhost:8000/admin/viewFlights').then(res => {
       setFlights(res.data);
-<<<<<<< Updated upstream
-=======
       setDisplayed(res.data);
 
 
 
->>>>>>> Stashed changes
 
     })
   }, []);
-<<<<<<< Updated upstream
-
-  return (
-    <div className="">
-      <div className="content">
-        <h1>Flights available : </h1>
-
-        <br />
-        <Container>
-=======
   async function handleDelete() {
     console.log(closeId);
     try {
@@ -225,23 +201,9 @@ function AllFlights() {
 
           <br />
           <Container>
->>>>>>> Stashed changes
 
             <Table>
               <thead><tr>
-<<<<<<< Updated upstream
-                  <th>From</th>
-                  <th>To</th>
-                  <th> Flight Date</th>
-                  <th> Economy </th>
-                  <th>Business</th>
-                  <th>First class</th>
-                  <th>Arrival time </th>
-                  <th>Departure time</th>
-                  <th>Terminal</th>
-                  <th>        </th>
-                </tr>
-=======
                 <th>FlightNo</th>
                 <th>From</th>
                 <th>To</th>
@@ -254,40 +216,12 @@ function AllFlights() {
                 <th>Terminal</th>
                 <th>        </th>
               </tr>
->>>>>>> Stashed changes
               </thead>
             </Table>
           </Container>
 
 
 
-<<<<<<< Updated upstream
-        {flights.map((flights) => (
-          <Container>
-
-            <Table>
-              
-              <tbody>
-
-                <tr>
-                  <td>{flights.From }</td>
-                  <td>{flights.To}</td>
-                  <td>{flights.FlightDate}</td>
-                  <td>{flights.Economy}</td>
-                  <td>{flights.Business}</td>
-                  <td>{flights.First}</td>
-                  <td>{flights.Arrival}</td>
-                  <td>{flights.Departure}</td>
-                  <td>{flights.Terminal}</td>
-                  <td><button>update</button>
-                  <button>Delete</button>
-                  </td>
-                </tr>
-              </tbody>
-            </Table>
-
-          </Container>
-=======
           {displayed.map((flight) => (
             <Container>
               <Table bordered>
@@ -314,7 +248,6 @@ function AllFlights() {
               </Table>
 
             </Container>
->>>>>>> Stashed changes
 
 
 
@@ -413,10 +346,6 @@ function AllFlights() {
       </Form>
     </div>
 
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
   );
 }
 
