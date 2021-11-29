@@ -282,7 +282,7 @@ Arrival:{
                           Arrival time:{flight.Arrival.Time} 
                           Departure time: {flight.Departure.Time}</CardText>
                           <Button>
-                            Book
+                          <Link to={`/user/viewFlight/${flight._id}`} className="btn btn-primary">Show Details</Link>
                           </Button>
                         </CardBody>
                       </Card>

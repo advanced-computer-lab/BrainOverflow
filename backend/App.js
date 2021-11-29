@@ -17,8 +17,8 @@ const User= require('./models/User')
 
 
 //Routes
-const adminRoutes = require('./Routes/adminController')
-
+const adminRoutes = require('./Routes/adminController');
+const userRoutes= require('./Routes/userController');
 
 //App variables
 const app = express();
@@ -39,34 +39,8 @@ app.use(cors({ origin: true, credentials: true }));
 
 //ROutes
 app.use('/admin', adminRoutes);
+app.use('/user', userRoutes);
 
-
-
-/*exports.findFlight= async (req , res)=>{
-
-  try{
-    const flight = await Flight.findById(req.params.id);
-    res.send({data : flight});
-  } catch {
-    res.status(404).send({error : "flight not found"});
-  }
-
-}*/
-
-
-
-/*exports.UpdateFlight= async (req , res)=>{
-  try{
-    const flight = await Flight.findById(req.params.id);
-    Object.assign(flight , req.body);
-    flight.save();
-    res.send({data : flight});
-  } catch {
-    res.status(404).send({error : "flight not found"});
-  }
-  
-
-}*/
 
 
 

@@ -58,7 +58,7 @@ if(err) res.json(err);
 
 
  
-    router.put("/UpdateFlight/:id", (req, res) => {
+    router.put("/updateFlight/:id", (req, res) => {
       console.log("req.body", req.body);
       var _id = req.body._id;
       

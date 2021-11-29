@@ -52,5 +52,16 @@ router.get('/viewReserved/:id',catchAsync(async(req,res,next)=>{
       console.log(err);
     });
   });
+  router.get('/viewFlight/:id' ,async (req, res)=> {                                               
+   await Flight.findById(req.params.id).then(result => {
+      console.log(result);
+      res.send(result);
+      
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  });
+    
 module.exports=router;
      

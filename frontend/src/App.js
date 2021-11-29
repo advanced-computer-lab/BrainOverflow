@@ -1,5 +1,5 @@
 import React, { Component} from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter , Routes, Route } from 'react-router-dom';
 import './App.css';
 import axios from 'axios'
 
@@ -12,6 +12,7 @@ import MyNavBar from './components/MyNavbar';
  
 import ViewReserved from'./components/ViewReserved';
 import SearchFlight from'./components/SearchFlight';
+import ViewFlight from './components/ViewFlight';
  
  
 import { Container } from 'reactstrap';
@@ -31,6 +32,7 @@ function App() {
       <Route path="/admin/UpdateFlight/:id" element={<UpdateFlight/>}/> 
       <Route path="user/viewReserved/:id" element={<ViewReserved/>}/>
       <Route path="/user/viewFlights" element={<SearchFlight />} />
+      <Route path="/user/viewFlight/:id" element={<ViewFlight />} />
  
        
     </Routes>
