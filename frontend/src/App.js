@@ -9,6 +9,9 @@ import AllFlights from './components/AllFlights';
 =======
 import UpdateFlight from './components/UpdateFlight';
 import SearchFlight from './components/SearchFlight';
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 import MyNavBar from './components/MyNavbar';
 import { Container } from 'reactstrap';
@@ -40,7 +43,13 @@ function App() {
       <Route path="/admin/createFlight" element={<CreateFlight />} />
       <Route path="/admin" element={<AllFlights />} />
       <Route path="/admin/UpdateFlight/:id" element={<UpdateFlight/>}/> 
+<<<<<<< Updated upstream
       <Route path="admin/SearchFlight" element ={<SearchFlight/>}/>
+=======
+      <Route path="/admin/SearchFlight" element={<SearchFlight/>}/> 
+
+      
+>>>>>>> Stashed changes
        
     </Routes>
   </BrowserRouter>
