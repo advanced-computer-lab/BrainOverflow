@@ -5,35 +5,21 @@ import axios from 'axios'
 
 import CreateFlight from './components/CreateFlight';
 import AllFlights from './components/AllFlights';
-<<<<<<< Updated upstream
-=======
 import UpdateFlight from './components/UpdateFlight';
-import SearchFlight from './components/SearchFlight';
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+ 
+ 
 import MyNavBar from './components/MyNavbar';
+ 
+import ViewReserved from'./components/ViewReserved';
+import SearchFlight from'./components/SearchFlight';
+ 
+ 
 import { Container } from 'reactstrap';
 
-<<<<<<< Updated upstream
+ 
 
-class App extends Component {
+
   
-  render() {
-    return (
-      <div>
-        <MyNavBar>
-        </MyNavBar>
-        <div> <AllFlights></AllFlights></div>
-        
-      </div>
-
-    );
-  }
-  
-
-=======
 function App() {
   return (
     
@@ -43,18 +29,14 @@ function App() {
       <Route path="/admin/createFlight" element={<CreateFlight />} />
       <Route path="/admin" element={<AllFlights />} />
       <Route path="/admin/UpdateFlight/:id" element={<UpdateFlight/>}/> 
-<<<<<<< Updated upstream
-      <Route path="admin/SearchFlight" element ={<SearchFlight/>}/>
-=======
-      <Route path="/admin/SearchFlight" element={<SearchFlight/>}/> 
-
-      
->>>>>>> Stashed changes
+      <Route path="user/viewReserved/:id" element={<ViewReserved/>}/>
+      <Route path="/user/viewFlights" element={<SearchFlight />} />
+ 
        
     </Routes>
   </BrowserRouter>
   );
->>>>>>> Stashed changes
+ 
 }
 
 

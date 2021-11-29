@@ -16,13 +16,15 @@ const User= require('./models/User');
 
 
 //Routes
-const adminRoutes = require('./Routes/adminController')
+const userRoutes = require('./Routes/userController');
+const adminRoutes = require('./Routes/adminController');
 
 
 //App variables
 const app = express();
 const port = process.env.PORT || "8000";
 const Flight = require('./models/Flight');
+ 
 // #Importing the userController
 
 
@@ -32,47 +34,14 @@ mongoose.connect(MongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(result =>console.log("MongoDB is now connected") )
 .catch(err => console.log(err));
 
-//ROutes
+
+
+app.use(cors({ origin: true, credentials: true }));
+
+//Routes
 app.use('/admin', adminRoutes);
 
-//app.use(cors({ origin: true, credentials: true }));
-
-app.get("/Home", (req, res) => {
-    res.status(200).send("You have everything installed !");
-  });
-
-
-/*exports.findFlight= async (req , res)=>{
-
-  try{
-    const flight = await Flight.findById(req.params.id);
-    res.send({data : flight});
-  } catch {
-    res.status(404).send({error : "flight not found"});
-  }
-
-}
-
-
-exports.UpdateFlight= async (req , res)=>{
-  try{
-    const flight = await Flight.findById(req.params.id);
-    Object.assign(flight , req.body);
-    flight.save();
-    res.send({data : flight});
-  } catch {
-    res.status(404).send({error : "flight not found"});
-  }
-  
-
-}*/
-//app.get('/view-flights',adminRoutes.viewFlights)
-
-/*app.get("/getflights",async(req,res)=>{
-  Flight.find().then(result=>
-  res.send(result));
-});*/
-
+app.use('/user', userRoutes);
 // Starting server
 app.listen(port, () => {
     console.log(`Listening to requests on http://localhost:${port}`);

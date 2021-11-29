@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const Flight  = require('./Flight')
+const Flight  = require('./Flight');
+const Ticket  = require('./Ticket');
+
 
 const userSchema = new Schema({
     Email: {
@@ -25,7 +27,7 @@ const userSchema = new Schema({
         required: true
       },
       PhoneNumber:{
-        type: Number,
+        type: String,
         required: true
       },
       LastName:{
@@ -41,29 +43,10 @@ const userSchema = new Schema({
         required:true
     }
 ,
-    Tickets: [{
-      Id:{type: mongoose.Schema.Types.ObjectId,required:true,
-        ref:"Flight"},
-         isBusiness: 
-          {
-            type: Boolean,
-            required: true
-          },
-          isFirst: 
-          {
-            type: Boolean,
-            required: true
-          },
-          isEconomy: 
-          {
-            type: Boolean,
-            required: true
-          },
-          Seat:{
-            type: String,
-            required: true
-          }
-        }],
+    TicketsId: [{
+      type: mongoose.Schema.Types.ObjectId,required:true,
+        ref:"Ticket"},
+          ],
     IsAdmin:{
         type: Boolean,
         required: true

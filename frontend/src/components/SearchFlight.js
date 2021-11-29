@@ -13,12 +13,47 @@ import {
 import UpdateFlight from "./UpdateFlight";
 
 function AllFlights() {
+ const initialstate=
+      {From:{
+      Airport:'',
+      Terminal:''
+  },
+        To:{
+    Airport:'',
+    Terminal:''
+},
+Economy:{
+    SeatId:[],
+    Price:0,
+    Baggage:0
+},
+Business:{
+    SeatId:[],
+    Price:0,
+    Baggage:0
+},
+First:{
+    SeatId:[],
+    Price:0,
+    Baggage:0
+},
+Departure:{
+    Date:new Date(),
+    Time:''
+},
+Arrival:{
+    Date:new Date(),
+    Time:''
+}
+
+  };
+    
     const [closeId, setId] = useState(0);
     const [show, setShow] = useState(false);
     const navigate = useNavigate();
-    const [flights, setFlights] = useState([]);
+    const [flights, setFlights] = useState([initialstate]);
     //const[searchItem,setSearchItem]=useState([]);
-    const [displayed, setDisplayed] = useState([]);
+    const [displayed, setDisplayed] = useState([initialstate]);
     //const toggle = () => setS(!show);
     const handleClose = () => setShow(false);
     const handleShow = (id) => {
@@ -26,16 +61,8 @@ function AllFlights() {
         setId(id);
     }
 
-
-
-    const updateClick = (id) => {
-        axios.get("http://localhost:8000/admin/updateFlight" + id, {
-        }).then(navigate('http://localhost:8000/admin/updateFlight"+id', { replace: true }));
-    }
-
-
-    useEffect(() => {
-        axios.get('http://localhost:8000/admin/viewFlights').then(res => {
+     useEffect(() => {
+        axios.get(`http://localhost:8000/user/viewFlights`).then(res => {
             setFlights(res.data);
             setDisplayed(res.data);
 
@@ -66,15 +93,15 @@ function AllFlights() {
 
     const addtoList = (event) => {
         event.preventDefault()
-        console.log("heloooooooooo")
-
-        console.log(event.target[0].value)
+    console.log(event.target[0].value)
         setDisplayed(flights.filter((f) => {
             let flag1 = false
             let flag2 = false
             let flag3 = false
             let flag4 = false
             let flag5 = false
+            let flag6= false
+            let flag7 = false
             let flagFirst =false 
             let flagBusiness =false 
             let flagEconomy =false 
@@ -87,44 +114,61 @@ function AllFlights() {
 
             if (event.target[0].value !== ''&& event.target[0].value == 'Economy') { flagEconomy = true }
 
-            if (flagFirst && (event.target[1].value + event.target[2].value)<=f.First.seats){
-                flag1 = ((event.target[1].value + event.target[2].value)<=f.First.seats)
+            if (flagFirst){
+                console.log("1 is",event.target[1].value);
+                flag1 = (
+                    (event.target[1].value + event.target[2].value)<=f.First.SeatId.length)
             }
             else { flag1 = true }
 
-            if (flagBusiness && (event.target[1].value + event.target[2].value)<=f.Business.seats){
-                flag2 = ((event.target[1].value + event.target[2].value)<=f.Business.seats)
+            if (flagBusiness){
+                console.log("1 is",event.target[1].value);
+                flag2 = ((event.target[1].value + event.target[2].value)<=f.Business.SeatId.length)
             }
             else { flag2 = true }
 
-            if (flagEconomy && (event.target[1].value + event.target[2].value)<=f.Economy.seats){
-                flag3 = ((event.target[1].value + event.target[2].value)<=f.Economy.seats)
+            if (flagEconomy ){
+                console.log("1 is",event.target[1].value);
+                flag3 = ((event.target[1].value + event.target[2].value)<=f.Economy.SeatId.length)
             }
             else { flag3 = true }
 
-            if (event.target[3].value !== '') {
+            if(event.target[3].value !==''){
+                console.log("3 is",event.target[3].value);
+                flag4=(event.target[3].value==f.From.Airport);}
+            else{flag4 = true}
 
-                let d1 = event.target[3].value
-                let d2 = f.FlightDate.slice(0, 10)
-                console.log(event.target[3].value)
-                console.log(d2)
-                flag4 = (d1 == d2)
+            if(event.target[4].value !==''){
+                console.log("4 is",event.target[4].value);
+                flag5=(event.target[4].value==f.To.Airport)}
+            else{flag5 = true}
 
-            } else { flag4 = true }
+            if (event.target[5].value !== '') {
 
-            if (event.target[4].value !== '') {
+                let d1 = event.target[5].value
+                let d2 = f.Departure.Date.slice(0, 10)
+                console.log("5 is",event.target[5].value);
+                console.log(d2);
+                flag6 = (d1 == d2);
 
-                let d1 = event.target[4].value
-                let d2 = f.FlightDate.slice(0, 10)
-                console.log(event.target[4].value)
-                console.log(d2)
-                flag5 = (d1 == d2)
+            } else { flag6 = true }
 
-            } else { flag5 = true }
+            if (event.target[6].value !== '') {
+
+                let d1 = event.target[6].value;
+                let d2 = f.Arrival.Date.slice(0, 10);
+                console.log("6 is",event.target[6].value);
+                console.log(d2);
+                flag7 = (d1 == d2);
+
+            } else { flag7 = true }
+            
 
 
-            return flag1 & flag2 & flag3 & flag4 & flag5;
+            return flag1 & flag2 & flag3 & flag4 & flag5 &flag6 &flag7;
         }
+
+           
 
 
         ))
@@ -228,15 +272,15 @@ function AllFlights() {
                             className="mb-2 text-muted"
                             tag="h6"
                           >
-                            From :{flight.From.airport}
-                            To :{flight.To.airport}
+                            From :{flight.From.Airport}
+                            To :{flight.To.Airport}
                           </CardSubtitle>
                           <CardText>
-                          price of First class : {flight.First.price}
-                          price of Business class : {flight.Business.price}
-                          price of Economy class : {flight.Economy.price}
-                          Arrival time:{flight.Arrival} 
-                          Departure time: {flight.Departure}</CardText>
+                          price of First class : {flight.First.Price}
+                          price of Business class : {flight.Business.Price}
+                          price of Economy class : {flight.Economy.Price}
+                          Arrival time:{flight.Arrival.Time} 
+                          Departure time: {flight.Departure.Time}</CardText>
                           <Button>
                             Book
                           </Button>
