@@ -1,5 +1,5 @@
 import React, { Component} from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter, Route,Routes } from 'react-router-dom';
 import './App.css';
 import axios from 'axios'
 
@@ -14,6 +14,9 @@ import ViewReserved from'./components/ViewReserved';
 import SearchFlight from'./components/SearchFlight';
  
  
+import UpdateProfile from './components/UpdateProfile';
+import UserProfile from './components/UserProfile';
+
 import { Container } from 'reactstrap';
 
  
@@ -33,6 +36,9 @@ function App() {
       <Route path="/user/viewFlights" element={<SearchFlight />} />
  
        
+      <Route path="/admin/updateFlight/:id" element={<UpdateFlight/>}/> 
+      <Route path="/user/updateProfile/:id" element={<UpdateProfile/>}/> 
+      <Route path="/user/:id" element={<UserProfile/>}/> 
     </Routes>
   </BrowserRouter>
   );
