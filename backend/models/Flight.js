@@ -26,6 +26,7 @@ const flightSchema = new Schema({
             ref:"Seat"}],
 
         Price:Number,
+        ChildPrice:Number,
         Baggage:Number,
         //required:true
       },
@@ -33,6 +34,7 @@ const flightSchema = new Schema({
         SeatId: [{type: mongoose.Schema.Types.ObjectId,required:true,
           ref:"Seat"}],
         Price:Number,
+        ChildPrice:Number,
         Baggage:Number,
         //required: true
       },
@@ -40,6 +42,7 @@ const flightSchema = new Schema({
         SeatId: [{type: mongoose.Schema.Types.ObjectId,required:true,
           ref:"Seat"}],
         Price:Number,
+        ChildPrice:Number,
         Baggage:Number,
        // required: true
       },

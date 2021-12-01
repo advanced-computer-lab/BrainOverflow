@@ -381,10 +381,8 @@ Arrival:{
                           Departure time: {flight.Departure.Time}</CardText>
                           <Button>
                           <Link to={{ pathname:`/user/viewFlight/${flight._id}` 
-                         , search:'?'+new URLSearchParams(mysearch ).toString()
-                          ,habal:{alia:"amoura",
-                          
-                          salma:"amoura"}}}className="btn btn-primary">Show Details</Link>
+                         , search:'?'+new URLSearchParams(mysearch).toString()
+                           }}className="btn btn-primary">Show Details</Link>
                           
                           </Button>
                         </CardBody>

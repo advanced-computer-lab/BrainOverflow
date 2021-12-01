@@ -23,7 +23,7 @@ const catchAsync=func=>{
 //    }))
 
    router.put("/updateReserved/:id", (req, res) => {
-    console.log("req.body", req.body);
+   
   
     
     var flights =req.body;
@@ -55,7 +55,7 @@ const catchAsync=func=>{
   });
   router.get('/viewFlight/:id' ,async (req, res)=> {                                               
    await Flight.findById(req.params.id).then(result => {
-      console.log(result);
+       
       res.send(result);
       
     })
@@ -72,7 +72,7 @@ module.exports=router;
 router.get('/updateProfile/:id', (req, res) => {
   const user = User.findById(req.params.id);
   User.findById(req.params.id).then(result => {
-    console.log(user)
+     
     res.send(result);
   })
     .catch(err => {
@@ -80,7 +80,7 @@ router.get('/updateProfile/:id', (req, res) => {
     });
 });
 router.put("/updateProfile/:id", (req, res) => {
-  console.log("req.body", req.body);
+   
   var _id = req.body._id;
   var user = req.body;
   User.findByIdAndUpdate({
