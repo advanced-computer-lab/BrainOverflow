@@ -43,14 +43,34 @@ router.get('/viewReserved/:id',catchAsync(async(req,res,next)=>{
       );
     });
 
+<<<<<<< Updated upstream
   router.get('/viewFlights' ,(req, res) => {                                               
   Flight.find({}) 
     .then(result => {
       res.send(result);
+=======
+ 
+    router.get('/viewFlights' ,catchAsync(async (req, res,next) => {  
+      const f = await Flight.find({}).populate(['First.SeatId','Business.SeatId','Economy.SeatId']);
+      const seats = f.Seat;
+      res.send(f);
+      }))
+
+  router.get('/viewFlight/:id' ,async (req, res)=> {   
+    const f = await Flight.find({});
+                                              
+   await Flight.findById(req.params.id).then(result => {
+       
+      res.send({aFlight: result, allFlight: f});
+>>>>>>> Stashed changes
     })
     .catch(err => {
       console.log(err);
     });
   });
+<<<<<<< Updated upstream
+=======
+    
+>>>>>>> Stashed changes
 module.exports=router;
      

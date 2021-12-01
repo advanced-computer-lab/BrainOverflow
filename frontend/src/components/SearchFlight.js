@@ -28,7 +28,7 @@ Economy:{
     Baggage:0
 },
 Business:{
-    SeatId:[],
+    SeatId:[{IsBooked:''}],
     Price:0,
     Baggage:0
 },
@@ -46,10 +46,28 @@ Arrival:{
     Time:''
 }
 
+<<<<<<< Updated upstream
   };
     
     const [closeId, setId] = useState(0);
     const [show, setShow] = useState(false);
+=======
+
+
+  };
+  const searchObject={
+    Cabin:'',
+    Adults:0,
+    Children:0,
+};
+    const [searchTerm , setSearchTerm] =useState('');
+    const [closeId, setId] = useState(0);
+    const [show, setShow] = useState(false);
+    const [View,setView] = useState(true);
+    const [firstView ,setFirst ]=useState(false);
+    const [BusinessView ,setBusiness ]=useState(false);
+    const [EconomyView ,setEconomy ]=useState(false);
+>>>>>>> Stashed changes
     const navigate = useNavigate();
     const [flights, setFlights] = useState([initialstate]);
     //const[searchItem,setSearchItem]=useState([]);
@@ -67,6 +85,7 @@ Arrival:{
             setDisplayed(res.data);
 
 
+<<<<<<< Updated upstream
 
 
         })
@@ -77,6 +96,23 @@ Arrival:{
         try {
 
             await axios.delete(`http://localhost:8000/admin/delete/${closeId}`).then(
+=======
+        })
+
+    }, []);
+    function myFunction(item) {
+         return (item.IsBooked =='false');
+         
+      };
+     // foreach((element) => { flights.filter((f)=>{element.isbooked=true} )})
+    //  const filteredSeates =  flights.filter(f =>(f.Business.SeatId.foreach((element) => { SeatId.filter((f)=>{element.isbooked==false} )});
+
+    const filteredBusinessSeats = flights.filter(f =>(f.Business.SeatId.filter((s)=> s.IsBooked!='true')));
+    
+
+    console.log(flights[0].Business.SeatId[0].IsBooked);
+    console.log(filteredBusinessSeats);
+>>>>>>> Stashed changes
 
                 setFlights(flights.filter((f) => { return f._id != closeId })),
                 setDisplayed(flights.filter((f) => { return f._id != closeId })),
@@ -93,7 +129,12 @@ Arrival:{
 
     const addtoList = (event) => {
         event.preventDefault()
+<<<<<<< Updated upstream
     console.log(event.target[0].value)
+=======
+        setView(true);
+        console.log(View);
+>>>>>>> Stashed changes
         setDisplayed(flights.filter((f) => {
             let flag1 = false
             let flag2 = false
@@ -105,8 +146,36 @@ Arrival:{
             let flagFirst =false 
             let flagBusiness =false 
             let flagEconomy =false 
+            if(event.target[0].value !=''){
+                setSearch(
+                    {Cabin:event.target[0].value,
+                    Adults:event.target[1].value,
+                    Children:event.target[2].value,
+                  }
+              );
+                 console.log(mysearch);
+            }
 
 
+<<<<<<< Updated upstream
+=======
+            if (flagFirst){
+                //console.log("length is",f.First.SeatId.length);
+                if(event.target[1].value ==''){
+                    flag1 = ((0 + parseInt(event.target[2].value))<=f.First.SeatId.length )
+                }
+                else if (event.target[2].value==''){
+                    flag1 = ((parseInt(event.target[1].value)+ 0)<=f.First.SeatId.length)
+
+                }
+                else if (event.target[1].value=='' && event.target[2].value==''){
+                    flag1 = (0<=f.First.SeatId.length)
+                }
+                else {
+                    flag1 = ((parseInt(event.target[1].value)+ parseInt(event.target[2].value))<=f.First.SeatId.length)
+
+                }
+>>>>>>> Stashed changes
 
             if (event.target[0].value !== ''&& event.target[0].value == 'First') { flagFirst = true }
 
@@ -122,8 +191,27 @@ Arrival:{
             else { flag1 = true }
 
             if (flagBusiness){
+<<<<<<< Updated upstream
                 console.log("1 is",event.target[1].value);
                 flag2 = ((event.target[1].value + event.target[2].value)<=f.Business.SeatId.length)
+=======
+                //console.log("total is",parseInt(event.target[1].value)+ parseInt(event.target[2].value));
+                if(event.target[1].value ==''){
+                    flag2 = ((0 + parseInt(event.target[2].value))<=f.Business.SeatId.length)
+                }
+                else if (event.target[2].value==''){
+                    flag2 = ((parseInt(event.target[1].value)+ 0)<=f.Business.SeatId.length)
+
+                }
+                else if (event.target[1].value=='' && event.target[2].value==''){
+                    flag2 = (0<=f.Business.SeatId.length)
+                }
+                else {
+                    flag2 = ((parseInt(event.target[1].value)+ parseInt(event.target[2].value))<=f.Business.SeatId.length)
+
+                }
+
+>>>>>>> Stashed changes
             }
             else { flag2 = true }
 
@@ -134,6 +222,7 @@ Arrival:{
             else { flag3 = true }
 
             if(event.target[3].value !==''){
+<<<<<<< Updated upstream
                 console.log("3 is",event.target[3].value);
                 flag4=(event.target[3].value==f.From.Airport);}
             else{flag4 = true}
@@ -141,6 +230,15 @@ Arrival:{
             if(event.target[4].value !==''){
                 console.log("4 is",event.target[4].value);
                 flag5=(event.target[4].value==f.To.Airport)}
+=======
+                //console.log("3 is",event.target[3].value);
+                flag4 =(event.target[3].value.toLocaleLowerCase()==f.From.Airport.toLocaleLowerCase());}
+            else{flag4 = true}
+
+           if(event.target[4].value !==''){
+                //console.log("4 is",event.target[4].value);
+                flag5=(event.target[4].value.toLocaleLowerCase()==f.To.Airport.toLocaleLowerCase())}
+>>>>>>> Stashed changes
             else{flag5 = true}
 
             if (event.target[5].value !== '') {
@@ -153,6 +251,7 @@ Arrival:{
 
             } else { flag6 = true }
 
+<<<<<<< Updated upstream
             if (event.target[6].value !== '') {
 
                 let d1 = event.target[6].value;
@@ -169,6 +268,15 @@ Arrival:{
         }
 
            
+=======
+                            
+            return flag1 & flag2 & flag3 & flag4 & flag5 & flag6 ;
+        }
+
+
+        ))
+
+>>>>>>> Stashed changes
 
 
         ))
@@ -231,13 +339,18 @@ Arrival:{
                             placeholder="DepartureDate"
                             type="date"
                         />
+<<<<<<< Updated upstream
                         <Label for="arrival Date">
                             arrival Date:
+=======
+                        <br></br>
+                        <Label for="Return Date">
+                            Return Date:
+>>>>>>> Stashed changes
                         </Label>
                         <Input
-                            id="ArrivalDate"
-                            name="ArrivalDate"
-                            placeholder="ArrivalDate"
+                            id="ReturnDate"
+                            placeholder="ReturnDate"
                             type="date"
                         />
                     </FormGroup>
@@ -291,6 +404,10 @@ Arrival:{
 
                 </div>
             </div>
+<<<<<<< Updated upstream
+=======
+            :<label> </label>}   
+>>>>>>> Stashed changes
 
         </div>
 
