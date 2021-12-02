@@ -55,16 +55,17 @@ const catchAsync=func=>{
       const f = await Flight.find({}).populate(['First.SeatId','Business.SeatId','Economy.SeatId']);
       res.send(f);
       }))
-  router.get('/viewFlight/:id' ,async (req, res)=> {                                               
-   await Flight.findById(req.params.id).then(result => {
-       
-      res.send(result);
-      
-    })
-    .catch(err => {
-      console.log(err);
-    });
-  });
+      router.get('/viewFlight/:id' ,async (req, res)=> {   
+        const f = await Flight.find({});
+                                                  
+       await Flight.findById(req.params.id).then(result => {
+           
+          res.send({aFlight: result, allFlight: f});
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      });
     
 module.exports=router;
      
