@@ -5,6 +5,7 @@ import { Component, useState, useEffect } from 'react';
 import axios from 'axios';
 import JSONDATA from './MOCK_DATA.json';
 
+
 import { useNavigate } from 'react-router-dom'
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import {
@@ -194,7 +195,16 @@ Arrival:{
             if (flagFirst){
                 //console.log("total is",parseInt(event.target[1].value)+ parseInt(event.target[2].value));
                 //console.log("length is",f.First.SeatId.length);
+                let len = f.First.SeatId.length;
+                let countseats=0;
+                console.log("length of First ", len)
+                for(let i =0 ;i<len ;i++){
+                  if(f.First.SeatId[i].IsBooked == false){
+                    countseats++;
+                 }
+                 }
                 if(event.target[1].value ==''){
+<<<<<<< Updated upstream
                     flag1 = ((0 + parseInt(event.target[2].value))<=f.First.SeatId.length )
                 }
                 else if (event.target[2].value==''){
@@ -206,6 +216,19 @@ Arrival:{
                 }
                 else {
                     flag1 = ((parseInt(event.target[1].value)+ parseInt(event.target[2].value))<=f.First.SeatId.length)
+=======
+                    flag1 = (((0 + parseInt(event.target[2].value))<=countseats )&&(countseats !=0 ))
+                }
+                else if (event.target[2].value==''){
+                    flag1 = ((parseInt(event.target[1].value)+ 0)<=countseats)
+
+                }
+                else if (event.target[1].value=='' && event.target[2].First==''){
+                    flag1 = ((0<=countseats)&&(countseats !=0 ))
+                }
+                else {
+                    flag1 = (((parseInt(event.target[1].value)+ parseInt(event.target[2].value))<=countseats)&&(countseats !=0 ))
+>>>>>>> Stashed changes
 
                 }
 
@@ -213,8 +236,17 @@ Arrival:{
             else { flag1 = true }
 
             if (flagBusiness){
+                let len = f.Business.SeatId.length;
+                let countseats=0;
+                console.log("length of Bussiness ", len)
+                for(let i =0 ;i<len ;i++){
+                  if(f.Business.SeatId[i].IsBooked == false){
+                    countseats++;
+                 }
+                 }
                 //console.log("total is",parseInt(event.target[1].value)+ parseInt(event.target[2].value));
                 if(event.target[1].value ==''){
+<<<<<<< Updated upstream
                     flag2 = ((0 + parseInt(event.target[2].value))<=f.Business.SeatId.length)
                 }
                 else if (event.target[2].value==''){
@@ -226,6 +258,19 @@ Arrival:{
                 }
                 else {
                     flag2 = ((parseInt(event.target[1].value)+ parseInt(event.target[2].value))<=f.Business.SeatId.length)
+=======
+                    flag2 = (((0 + parseInt(event.target[2].value))<=countseats) &&(countseats !=0 ))
+                }
+                else if (event.target[2].value==''){
+                    flag2 = (((parseInt(event.target[1].value)+ 0)<= countseats)&&(countseats !=0 ))
+
+                }
+                else if (event.target[1].value=='' && event.target[2].value==''){
+                    flag2 = ((0<= countseats)&&(countseats !=0 ))
+                }
+                else {
+                    flag2 = (((parseInt(event.target[1].value)+ parseInt(event.target[2].value))<=countseats)&&(countseats !=0 ))
+>>>>>>> Stashed changes
 
                 }
 
@@ -233,19 +278,27 @@ Arrival:{
             else { flag2 = true }
 
             if (flagEconomy ){
+                let len = f.Economy.SeatId.length;
+                let countseats=0;
+                console.log("length of Economy ", len)
+                for(let i =0 ;i<len ;i++){
+                  if(f.Economy.SeatId[i].IsBooked == false){
+                    countseats++;
+                 }
+                 }
                 //console.log("total is",parseInt(event.target[1].value)+ parseInt(event.target[2].value));
                 if(event.target[1].value ==''){
-                    flag3 = ((0 + parseInt(event.target[2].value))<=f.Economy.SeatId.length)
+                    flag3 = (((0 + parseInt(event.target[2].value))<=countseats)&&(countseats !=0 ))
                 }
                 else if (event.target[2].value==''){
-                    flag3 = ((parseInt(event.target[1].value)+ 0)<=f.Economy.SeatId.length)
+                    flag3 = (((parseInt(event.target[1].value)+ 0)<=countseats)&&(countseats !=0 ))
 
                 }
                 else if (event.target[1].value=='' && event.target[2].value==''){
-                    flag3 = (0<=f.Economy.SeatId.length)
+                    flag3 = ((0<=countseats)&&(countseats !=0 ))
                 }
                 else {
-                    flag3 = ((parseInt(event.target[1].value)+ parseInt(event.target[2].value))<=f.Economy.SeatId.length)
+                    flag3 = (((parseInt(event.target[1].value)+ parseInt(event.target[2].value))<=countseats)&&(countseats !=0 ))
 
                 }
                 
@@ -427,11 +480,17 @@ Arrival:{
                             To :{flight.To.Airport}
                           </CardSubtitle>
                           <CardText>
-                          {firstView ? <label>price of First class : {flight.First.Price}</label> :<label></label>}
-                          {BusinessView?<label> price of Business class : {flight.Business.Price}</label>:<label></label>}
-                          {EconomyView?<label> price of Economy class : {flight.Economy.Price}</label>:<label></label>}
+                          {(firstView )&& (mysearch.Adults >0)? <label>price of First class Adult Ticket : {flight.First.Price}</label> :<label></label>}
+                          {BusinessView && (mysearch.Adults >0)?<label> price of Business class Adult Ticket: {flight.Business.Price}</label>:<label></label>}
+                          {EconomyView&& (mysearch.Adults >0)?<label> price of Economy class Adult Ticket : {flight.Economy.Price}</label>:<label></label>}
+                          {(firstView )&& (mysearch.Children >0)? <label>price of First class Children Ticket : {flight.First.ChildPrice}</label> :<label></label>}
+                          {BusinessView && (mysearch.Children >0)?<label> price of Business class Children Ticket: {flight.Business.ChildPrice}</label>:<label></label>}
+                          {EconomyView&& (mysearch.Children >0)?<label> price of Economy class Children Ticket : {flight.Economy.ChildPrice}</label>:<label></label>}
+                          Departure Date : {flight.Departure.Time}
+                          Departure time: {flight.Departure.Time}
+
                           Arrival time:{flight.Arrival.Time} 
-                          Departure time: {flight.Departure.Time}</CardText>
+                          </CardText>
                           <Button>
                           <Link to={{ pathname:`/user/viewFlight/${flight._id}` 
                          , search:'?'+new URLSearchParams(mysearch).toString()
