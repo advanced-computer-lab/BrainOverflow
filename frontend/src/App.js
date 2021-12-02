@@ -33,12 +33,14 @@ function App() {
       <Route path="/admin/createFlight" element={<CreateFlight />} />
       <Route path="/admin" element={<AllFlights />} />
       <Route path="/admin/UpdateFlight/:id" element={<UpdateFlight/>}/> 
+      
       <Route path="user/viewReserved/:id" element={<ViewReserved/>}/>
+
       <Route path="/user/viewFlights" element={<SearchFlight />} />
       <Route path="/user/viewFlight/:id" element={<ViewFlight />} />
  
        
-      <Route path="/admin/updateFlight/:id" element={<UpdateFlight/>}/> 
+     
       <Route path="/user/updateProfile/:id" element={<UpdateProfile/>}/> 
       <Route path="/user/:id" element={<UserProfile/>}/> 
     </Routes>
