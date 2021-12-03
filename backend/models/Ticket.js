@@ -5,16 +5,36 @@ const Seat = require('./Seat');
 const User = require('./User');
 
 const ticketSchema = new Schema({
+    Name:{type:String,
+    required:true},
+
     UserId :{type: mongoose.Schema.Types.ObjectId,required:true,
         ref:"User" },
-    FlightId:{type: mongoose.Schema.Types.ObjectId,required:true,
-        ref:"Flight"},
-    Age:{ type: String,
-        enum : ['Child','Adult'],
-        default: 'Adult' ,
+    Flight:{FlightId: {type: mongoose.Schema.Types.ObjectId, 
+               ref:"Flight" ,
+               required:true
+            },
+             Number:{type:String,required:true}  },
+      
+    Departure:{Airport:{type:String,
+              required:true},
+              Terminal:{type:Number,
+              required:true},
+              Date:{type:Date,required:true},
+              Time:{type:String,required:true} },
+    Arrival:{Airport:{type:String,
+                required:true},
+                Terminal:{type:Number,
+                required:true},
+                Date:{type:Date,required:true},
+                Time:{type:String,required:true} },
+    Cabin:{ type: String,
+        enum : ['Economy','Business','First'],
+        
     required:true},
-    SeatId:{ type: mongoose.Schema.Types.ObjectId,required:true,
-             ref:"Seat"} ,
+    Seat:{ SeatId:{type: mongoose.Schema.Types.ObjectId,required:true,
+             ref:"Seat"},
+           SeatNumber:{type:String,required:true} } ,
     Price:{type:Number,
     required:true}
 })

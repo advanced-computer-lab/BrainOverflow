@@ -5,7 +5,6 @@ const Ticket  = require('./Ticket');
 
 
 const userSchema = new Schema({
-    email: {
     Email: {
         type: String,
         trim: true,
@@ -24,9 +23,12 @@ const userSchema = new Schema({
         required: true
       },
       Address:{
-        type: String,
-        required: true
+        type: String
+        
       },
+      Country:{type:String,
+      required:true},
+      
       PhoneNumber:{
         type: String,
         required: true
