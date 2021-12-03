@@ -34,7 +34,6 @@ function App() {
       <Route path="user/viewReserved/:id" element={<ViewReserved/>}/>
       <Route path="/user/viewFlights" element={<SearchFlight />} />
       <Route path="/user/viewFlight/:id" element={<ViewFlight />} />
-      <Route path="/admin/updateFlight/:id" element={<UpdateFlight/>}/> 
       <Route path="/user/viewSeats/:FlightId/:Cabin/:TicketId" element={<ViewSeats/>}/>  
       <Route path="/user/updateProfile/:id" element={<UpdateProfile/>}/>
       <Route path="/user/:id" element={<UserProfile/>}/> 

@@ -6,57 +6,91 @@ import { Component, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
 import {useParams} from "react-router-dom";
-import {Modal,ModalHeader,ModalBody,ModalFooter,CardBody, Card, CardHeader, Form, Input, FormGroup,
-        Label, Button, Container, Row, Col, Table} from 'reactstrap';
+import {Modal,ModalHeader,ModalBody,ModalFooter,CardBody,CardColumns,CardTitle,CardSubtitle, Card, CardHeader, Form, Input, FormGroup,
+        Label, Button, Container, Row, Col, Table,Alert} from 'reactstrap';
       
 function ViewReserved(props){
-    const initialstate = {
-        FirstName: '',
-        LastName: '',
-        Tickets: []
-    }
- 
-    const[closeId, setId]=useState(0);
-    const [show, setShow] = useState(false);
+  const[theObject,setTheObject]=useState({
+    SeatId:"",
+    Ticket:[""],
+    theTicket:"",
+    Email:"",
+    Price:0,
+    TicketName:'',
+    UserName:''
+  })
+ const initialState={_id:"",
+ FirstName:"",
+ LastName:"shreef",
+ Email:"",
+  TicketsId:[{Flight:
+    {
+      FlightId:""
+      ,Number:""},
+  Departure:{Airport:"",Terminal:0,Date:"",Time:""},
+  Arrival:{Airport: "",
+  Terminal:0,
+  Date:"",
+  Time:""},
+  Seat:{SeatNumber:"",
+        SeatId:""},
+    _id:"",
+    UserId:"",
+    Cabin:" ",
+    Price:0,
+    Name:""}],
+  Country:""};
+    
+  const[theUser,setTheUser]=useState(initialState);
+  const[closeId,setId]=useState();
+  const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = (theid) => {setShow(true);
-                              setId(theid);}
-    const { id } = useParams()
-    const [user, setUser] = useState(initialstate);
-    useEffect(() => {
-       console.log(id);
-        async function getUser() {
-            try {
-                const response = await get(`http://localhost:8000/user/viewReserved/${id}`);
-                setUser(response.data);
-               
-                
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        getUser();
-    }, [props]);
+                                setId(theid);}
+                               
+ const { id } = useParams();
+   var theIds=[];
+  
+  useEffect(() => {
+          axios.get(`http://localhost:8000/user/viewReserved/${id}`).then(res => {
+            setTheUser(res.data) 
+             
+          
+           })
+      }, [props]);
+console.log(theUser);
 
        
 
     async function handleSubmit() { 
     
+      (theUser.TicketsId).forEach((t)=>{
+       theIds.push(t._id)
+     } ) 
+
+      console.log(theIds);
       console.log(closeId);
-      console.log(user.Tickets.filter(function(s){ 
-        return s._id !== closeId; }));
+      console.log(theIds.filter(function(s){ 
+        return  s!== closeId; })   );
+      
+        theObject.Ticket= theIds.filter(function(s){ 
+        return  s!== closeId; }) ;
+        theObject.theTicket=closeId;
+       theObject.Email=theUser.Email;
+        theObject.UserName=theUser.FirstName;
+    
+
+       
+      console.log(theObject);
       try {
          
 
-         await axios.put(`http://localhost:8000/user/updateReserved/${id}`,user.Tickets.filter(function(s){ 
-          return s._id !== closeId; })).then(
-      
-      setUser({FirstName:user.FirstName,
-        LastName:user.LastName,
-        Tickets:user.Tickets.filter(function(s){ 
-          return s._id !== closeId; })
+         await axios.put(`http://localhost:8000/user/updateReserved/${id}`,theObject).then(
+        
+         theUser.TicketsId=(theUser.TicketsId).filter(function(s){ 
+          return  s._id!== closeId; })  
           
-        }),handleClose()
+       ,handleClose()
         )
         
       }
@@ -72,7 +106,7 @@ function ViewReserved(props){
 
 return (
   <div>
-     <Modal isOpen={show}  >
+     <Modal isOpen={show}>
      <ModalHeader
        charCode="Y">
        Delete Flight
@@ -93,60 +127,39 @@ return (
        </Button>
      </ModalFooter>
    </Modal>
-       <div className="">
-       <div className="content">
-         <h1>Flights Reserved: </h1>
- 
-         <br />
-         <Container>
- 
-             <Table bordered>
-               <thead><tr>
-                 <th>FlightNo</th>
-                   <th>From</th>
-                   <th>To</th>
-                   <th> Flight Date</th>
-                   <th>Arrival time </th>
-                   <th>Departure time</th>
-                   <th>Terminal</th>
-                   
-                 </tr>
-               </thead>
-               </Table>
-               </Container>
- 
- 
- 
-         {user.Tickets.map((flight) => (
-           <Container>
-             <Table bordered>            
-               <tbody>
- 
-                 <tr>
-                   <td>{flight.Id._id}</td>
-                   <td>{flight.Id.From }</td>
-                   <td>{flight.Id.To}</td>
-                   <td>{flight.Id.FlightDate.slice(0,10)}</td>
-                   <td>{flight.Id.Arrival}</td>
-                   <td>{flight.Id.Departure}</td>
-                   <td>{flight.Id.Terminal}</td>
-                  <Button color="danger"onClick={()=>handleShow(flight._id)}> Cancel </Button>
-                   
-                   
-                 </tr>
-               </tbody>
-             </Table>
- 
-           </Container>
-           ))}
- 
-       </div>
-     </div>
-     </div>
-     
-   
-   
-   );
- }
+   <CardColumns>
+   <Row>
+   <Col sm="6">
+    { (theUser.TicketsId).map((ticket) => ( 
+                     
+          <Card >      
+        <CardBody>
+        <CardTitle tag="h5">
+         SkyOverFlow  
+        </CardTitle>
+        <CardSubtitle
+              className="mb-2 text-muted"
+              tag="h6"
+            >
+          Passenger Name: {ticket.Name} &nbsp;&nbsp;FlightNumber: {ticket.Flight.Number}&nbsp;&nbsp;Ticket Number: {ticket._id} <br/>
+          From: {ticket.Departure.Airport }&nbsp;&nbsp;To: {ticket.Arrival.Airport} <br/>
+          Class: {ticket.Cabin}&nbsp;&nbsp;Seat:{ticket.Seat.SeatNumber} &nbsp;&nbsp; Date:{ticket.Departure.Date}&nbsp;&nbsp;Departs At:{ticket.Departure.Time} &nbsp;&nbsp;  Arrives At:{ticket.Arrival.Time} <br/>
+          Departure Terminal: {ticket.Departure.Terminal}&nbsp;&nbsp;Arrival Terminal:{ticket.Arrival.Terminal} <br/>
+         <Button color="danger"onClick={()=>{handleShow(ticket._id);
+                                             theObject.SeatId=ticket.Seat.SeatId;
+                                             theObject.Price=ticket.Price
+                                             theObject.TicketName= ticket.Name}}> Cancel </Button>
+         </CardSubtitle>
+         </CardBody>
+         </Card> 
+         
+         
+    ))}  </Col>
+    </Row></CardColumns> 
+      
+         </div>
+               
+               )
+              }
  
 export default ViewReserved;

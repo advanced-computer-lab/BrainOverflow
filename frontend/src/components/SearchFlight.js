@@ -5,6 +5,7 @@ import { Component, useState, useEffect } from 'react';
 import axios from 'axios';
 import JSONDATA from './MOCK_DATA.json';
 
+
 import { useNavigate } from 'react-router-dom'
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import {
@@ -14,6 +15,13 @@ import {
 
 
 function AllFlights() {
+    const searchObject={
+        Cabin:'',
+        Adults:0,
+        Children:0,
+        ReturnDate:''
+    };
+
 
  const initialstate=
       {From:{
@@ -50,11 +58,6 @@ Arrival:{
 
 
   };
-  const searchObject={
-    Cabin:'',
-    Adults:0,
-    Children:0
-};
     const [searchTerm , setSearchTerm] =useState('');
     const [closeId, setId] = useState(0);
     const [show, setShow] = useState(false);
@@ -67,6 +70,7 @@ Arrival:{
     const[mysearch,setSearch]=useState(searchObject);
     //const[searchItem,setSearchItem]=useState([]);
     const [displayed, setDisplayed] = useState([initialstate]);
+
     //const toggle = () => setS(!show);
     const handleClose = () => setShow(false);
     const handleShow = (id) => {
@@ -82,19 +86,35 @@ Arrival:{
         })
 
     }, []);
+    console.log(flights);
 
 
+    /*for(let i =0 ; i<filteredFirst.length;i++){
+        if(filteredFirst[i].length == 0){
+            filteredFirst.splice(i,1);
+        }
+    
+    }*/
 
-    const addtoList = (event) => {
+    
+
+    //console.log("array : ", flights.length);
+
+   
+    //console.log("length" ,flights[3]);
+
+
+const addtoList = (event) => {
         event.preventDefault()
         setView(true)
     console.log(View)
-  
     setSearch({Cabin:event.target[0].value,
-              Adults:event.target[1].value,
-              Children:event.target[2].value}
-        );
-        console.log(mysearch);
+        Adults:event.target[1].value,
+        Children:event.target[2].value,
+        ReturnDate:event.target[6].value
+    }
+  );
+  console.log(mysearch);
         setDisplayed(flights.filter((f) => {
             let flag1 = false
             let flag2 = false
@@ -102,11 +122,10 @@ Arrival:{
             let flag4 = false
             let flag5 = false
             let flag6 = false
-            let flag7 = false
             let flagFirst =false 
             let flagBusiness =false 
             let flagEconomy =false 
-
+    
             if (event.target[0].value !== ''&& event.target[0].value == 'First') { 
                 //console.log("class is" ,event.target[0].value);
                 setBusiness(false);
@@ -131,18 +150,26 @@ Arrival:{
             if (flagFirst){
                 //console.log("total is",parseInt(event.target[1].value)+ parseInt(event.target[2].value));
                 //console.log("length is",f.First.SeatId.length);
+                let len = f.First.SeatId.length;
+                let countseats=0;
+                console.log("length of First ", len)
+                for(let i =0 ;i<len ;i++){
+                  if(f.First.SeatId[i].IsBooked == false){
+                    countseats++;
+                 }
+                 }
                 if(event.target[1].value ==''){
-                    flag1 = ((0 + parseInt(event.target[2].value))<=f.Economy.SeatId.length)
+                    flag1 = (((0 + parseInt(event.target[2].value))<=countseats )&&(countseats !=0 ))
                 }
                 else if (event.target[2].value==''){
-                    flag1 = ((parseInt(event.target[1].value)+ 0)<=f.Economy.SeatId.length)
+                    flag1 = ((parseInt(event.target[1].value)+ 0)<=countseats)
 
                 }
-                else if (event.target[1].value=='' && event.target[2].value==''){
-                    flag1 = (0<=f.Economy.SeatId.length)
+                else if (event.target[1].value=='' && event.target[2].First==''){
+                    flag1 = ((0<=countseats)&&(countseats !=0 ))
                 }
                 else {
-                    flag1 = ((parseInt(event.target[1].value)+ parseInt(event.target[2].value))<=f.Economy.SeatId.length)
+                    flag1 = (((parseInt(event.target[1].value)+ parseInt(event.target[2].value))<=countseats)&&(countseats !=0 ))
 
                 }
 
@@ -150,19 +177,27 @@ Arrival:{
             else { flag1 = true }
 
             if (flagBusiness){
+                let len = f.Business.SeatId.length;
+                let countseats=0;
+                console.log("length of Bussiness ", len)
+                for(let i =0 ;i<len ;i++){
+                  if(f.Business.SeatId[i].IsBooked == false){
+                    countseats++;
+                 }
+                 }
                 //console.log("total is",parseInt(event.target[1].value)+ parseInt(event.target[2].value));
                 if(event.target[1].value ==''){
-                    flag2 = ((0 + parseInt(event.target[2].value))<=f.Economy.SeatId.length)
+                    flag2 = (((0 + parseInt(event.target[2].value))<=countseats) &&(countseats !=0 ))
                 }
                 else if (event.target[2].value==''){
-                    flag2 = ((parseInt(event.target[1].value)+ 0)<=f.Economy.SeatId.length)
+                    flag2 = (((parseInt(event.target[1].value)+ 0)<= countseats)&&(countseats !=0 ))
 
                 }
                 else if (event.target[1].value=='' && event.target[2].value==''){
-                    flag2 = (0<=f.Economy.SeatId.length)
+                    flag2 = ((0<= countseats)&&(countseats !=0 ))
                 }
                 else {
-                    flag2 = ((parseInt(event.target[1].value)+ parseInt(event.target[2].value))<=f.Economy.SeatId.length)
+                    flag2 = (((parseInt(event.target[1].value)+ parseInt(event.target[2].value))<=countseats)&&(countseats !=0 ))
 
                 }
 
@@ -170,19 +205,27 @@ Arrival:{
             else { flag2 = true }
 
             if (flagEconomy ){
+                let len = f.Economy.SeatId.length;
+                let countseats=0;
+                console.log("length of Economy ", len)
+                for(let i =0 ;i<len ;i++){
+                  if(f.Economy.SeatId[i].IsBooked == false){
+                    countseats++;
+                 }
+                 }
                 //console.log("total is",parseInt(event.target[1].value)+ parseInt(event.target[2].value));
                 if(event.target[1].value ==''){
-                    flag3 = ((0 + parseInt(event.target[2].value))<=f.Economy.SeatId.length)
+                    flag3 = (((0 + parseInt(event.target[2].value))<=countseats)&&(countseats !=0 ))
                 }
                 else if (event.target[2].value==''){
-                    flag3 = ((parseInt(event.target[1].value)+ 0)<=f.Economy.SeatId.length)
+                    flag3 = (((parseInt(event.target[1].value)+ 0)<=countseats)&&(countseats !=0 ))
 
                 }
                 else if (event.target[1].value=='' && event.target[2].value==''){
-                    flag3 = (0<=f.Economy.SeatId.length)
+                    flag3 = ((0<=countseats)&&(countseats !=0 ))
                 }
                 else {
-                    flag3 = ((parseInt(event.target[1].value)+ parseInt(event.target[2].value))<=f.Economy.SeatId.length)
+                    flag3 = (((parseInt(event.target[1].value)+ parseInt(event.target[2].value))<=countseats)&&(countseats !=0 ))
 
                 }
                 
@@ -191,12 +234,12 @@ Arrival:{
 
             if(event.target[3].value !==''){
                 //console.log("3 is",event.target[3].value);
-                flag4 =(event.target[3].value==f.From.Airport);}
+                flag4 =(event.target[3].value.toLocaleLowerCase()==f.From.Airport.toLocaleLowerCase());}
             else{flag4 = true}
 
            if(event.target[4].value !==''){
                 //console.log("4 is",event.target[4].value);
-                flag5=(event.target[4].value==f.To.Airport)}
+                flag5=(event.target[4].value.toLocaleLowerCase()==f.To.Airport.toLocaleLowerCase())}
             else{flag5 = true}
 
            if (event.target[5].value !== '') {
@@ -208,18 +251,8 @@ Arrival:{
                 flag6 = (d1 == d2);
 
             } else { flag6 = true }
-
-            if (event.target[6].value !== '') {
-
-                let d1 = event.target[6].value;
-                let d2 = f.Arrival.Date.slice(0, 10);
-                //console.log("6 is",event.target[6].value);
-                //console.log(d2);
-                flag7 = (d1 == d2);
-
-            } else { flag7 = true }
                             
-            return flag1 & flag2 & flag3 & flag4 & flag5 & flag6 & flag7;
+            return flag1 & flag2 & flag3 & flag4 & flag5 & flag6 ;
         }
 
         ))
@@ -323,18 +356,18 @@ Arrival:{
                             name="DepartureDate"
                             placeholder="DepartureDate"
                             type="date"
-                            
+                            required
                         />
                         <br></br>
-                        <Label for="arrival Date">
-                            arrival Date:
+                        <Label for="Return Date">
+                            Return Date:
                         </Label>
                         <Input
-                            id="ArrivalDate"
+                            id="ReturnDate"
                             name="ArrivalDate"
                             placeholder="ArrivalDate"
                             type="date"
-                            
+                            required
                         />
             
                         
@@ -374,18 +407,22 @@ Arrival:{
                             To :{flight.To.Airport}
                           </CardSubtitle>
                           <CardText>
-                          {firstView ? <label>price of First class : {flight.First.Price}</label> :<label></label>}
-                          {BusinessView?<label> price of Business class : {flight.Business.Price}</label>:<label></label>}
-                          {EconomyView?<label> price of Economy class : {flight.Economy.Price}</label>:<label></label>}
+                          {(firstView )&& (mysearch.Adults >0)? <label>price of First class Adult Ticket : {flight.First.Price}</label> :
+                          BusinessView && (mysearch.Adults >0)?<label> price of Business class Adult Ticket: {flight.Business.Price}</label>:
+                          EconomyView&& (mysearch.Adults >0)?<label> price of Economy class Adult Ticket : {flight.Economy.Price}</label>:<label></label>}<br/>
+
+                          {(firstView )&& (mysearch.Children >0)? <label>price of First class Children Ticket : {flight.First.ChildPrice}</label> :
+                          BusinessView && (mysearch.Children >0)?<label> price of Business class Children Ticket: {flight.Business.ChildPrice}</label>:
+                          EconomyView&& (mysearch.Children >0)?<label> price of Economy class Children Ticket : {flight.Economy.ChildPrice}</label>:<label></label>}<br/>
+                          Departure Date : {flight.Departure.Date.slice(0, 10)}
+                          Departure time: {flight.Departure.Time}
+                          Arrival Date : {flight.Arrival.Date.slice(0, 10)}
                           Arrival time:{flight.Arrival.Time} 
-                          Departure time: {flight.Departure.Time}</CardText>
+                          </CardText>
                           <Button>
                           <Link to={{ pathname:`/user/viewFlight/${flight._id}` 
-                         , search:'?'+new URLSearchParams(mysearch ).toString()
-                          ,habal:{alia:"amoura",
-                          
-                          salma:"amoura"}}}className="btn btn-primary">Show Details</Link>
-                          
+                         , search:'?'+new URLSearchParams(mysearch).toString()
+                           }}className="btn btn-primary">Choose Flight</Link>
                           </Button>
                         </CardBody>
                       </Card>
