@@ -6,6 +6,7 @@ const Ticket  = require('./Ticket');
 
 const userSchema = new Schema({
     email: {
+    Email: {
         type: String,
         trim: true,
         lowercase: true,
