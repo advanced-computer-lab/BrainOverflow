@@ -2,10 +2,8 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const Flight = require('../models/Flight');
-<<<<<<< Updated upstream
-=======
 const Seat =require('../models/Seat');
->>>>>>> Stashed changes
+
 const catchAsync=func=>{
   return (req,res,next)=>{
       func(req,res,next).catch(next);
@@ -48,21 +46,19 @@ router.get('/viewReserved/:id',catchAsync(async(req,res,next)=>{
     });
 
  
-    router.get('/viewFlights' ,catchAsync(async (req, res,next) => {  
+router.get('/viewFlights' ,catchAsync(async (req, res,next) => {  
       const f = await Flight.find({}).populate(['First.SeatId','Business.SeatId','Economy.SeatId']);
       res.send(f);
       }))
 
-<<<<<<< Updated upstream
-=======
       router.get('/viewSeats' ,catchAsync(async (req, res,next) => {  
         const f = await Seat.find({});
         res.send(f);
         }))
 
->>>>>>> Stashed changes
   router.get('/viewFlight/:id' ,async (req, res)=> {   
-    const f = await Flight.find({});
+    const f = await Flight.find({}).populate(['First.SeatId','Business.SeatId','Economy.SeatId']);
+
                                               
    await Flight.findById(req.params.id).then(result => {
        

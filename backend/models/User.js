@@ -18,7 +18,11 @@ const userSchema = new Schema({
         type: String,
         required: true
       },
-      address:{
+      Address:{
+        type: String,
+        required: true
+      },
+      PhoneNumber:{
         type: String,
         required: true
       },
