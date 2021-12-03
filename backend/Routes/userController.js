@@ -23,7 +23,7 @@ const catchAsync=func=>{
   }
 }
  
- 
+
 
    router.put("/updateReserved/:id", (req, res) => {
     let theSeat= req.body.SeatId;
@@ -85,12 +85,12 @@ console.log(theEmail);
 });
 })  
 
-    router.get('/viewFlights' ,catchAsync(async (req, res,next) => {  
+  router.get('/viewFlights' ,catchAsync(async (req, res,next) => {  
       const f = await Flight.find({}).populate(['First.SeatId','Business.SeatId','Economy.SeatId']);
       res.send(f);
       }))
-      router.get('/viewFlight/:id' ,async (req, res)=> {   
-        const f = await Flight.find({});
+   router.get('/viewFlight/:id' ,async (req, res)=> {   
+        const f = await Flight.find({}).populate(['First.SeatId','Business.SeatId','Economy.SeatId']);
                                                   
        await Flight.findById(req.params.id).then(result => {
            
@@ -130,6 +130,7 @@ router.put("/updateProfile/:id", (req, res) => {
   );
 
 }); 
+
 router.get('/viewReserved/:id', catchAsync(async (req, res, next) => {
   const user = await User.findById(req.params.id).populate("TicketsId");
   res.send(user);

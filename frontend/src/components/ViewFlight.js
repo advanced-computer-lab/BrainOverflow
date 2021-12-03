@@ -10,7 +10,25 @@ import { CardBody, Card, CardColumns,CardImg,CardSubtitle,CardText,CardGroup,
           Button,CardTitle } from 'reactstrap';
       
 function ViewFlight(props){
- 
+  const Summary={
+    Cabin:'',
+    Adults:0,
+    Children:0,
+    //ReturnFlight
+    From:'',
+    To:'',
+    ReturnDate:'',
+    ReturnTime:'',
+    ReturnArrivalDate:'',
+    ReturnArrivalTime:'',
+    ReturnFlightNumber:'',
+    ReturnPriceAdult:0,
+    ReturnPriceChild:0,
+    ReturnTotalPrice:0,
+    ReturnBaggage:0
+    //ReturnSeat:
+    //ReturnDuration:
+};
 
     const initialstate=
     {From:{
@@ -56,7 +74,13 @@ Arrival:{
     const [Returnflight, setReturnFlights] = useState([initialstate]);
     const [displayed, setDisplayed] = useState([initialstate]);
 
-    const [viewSummary,setView] = useState(false);
+    const [viewSummary,setViewSummary] = useState(false);
+    const [viewReturn,setReturnView] = useState(true);
+    const [ViewOutBound,setViewOutBound] = useState(true);
+
+
+    const[mysummary,setSummary]=useState(Summary);
+
 
 
     const { id } = useParams();
@@ -95,17 +119,45 @@ Arrival:{
     const total =mysearch.Adults+mysearch.Children;
     console.log("total : ", total);
 
-      function handleSummary() {  
-        setView(true);
+      function handleSummary(FromAirport,ToAirport,FirstPrice,BusinessPrice,EconomyPrice,ArrivalTime,DepartureTime,DepartureDate,ArrivalDate,FlightNumber,FirstChildPrice,BusinessChildPrice,EconomyChildPrice,FirstBaggage,BusinessBaggage,EconomyBaggage) {  
+        setReturnView(false);
+        const ReturnadultTicket= (cabin=="First")?FirstPrice:(cabin=="Business")?BusinessPrice:(cabin=="Economy")?EconomyPrice:0;
+        const ReturnchildTicket= (cabin=="First")?FirstChildPrice:(cabin=="Business")?BusinessChildPrice:(cabin=="Economy")?EconomyChildPrice:0;
+        const ReturntotalPrice= childTicketsno*childTicket+adultTicketsno*adultTicket;
+        const Baggage =(cabin=="First")?FirstBaggage:(cabin=="Business")?BusinessBaggage:(cabin=="Economy")?EconomyBaggage:0;
+
+
+        setSummary({
+          Cabin:cabin,
+          Adults:adultTicketsno,
+          Children:childTicketsno,
+          //ReturnFlight
+          From: FromAirport,
+          To:ToAirport,
+          ReturnDate:DepartureDate,
+          ReturnTime:DepartureTime,
+          ReturnArrivalDate: ArrivalDate,
+          ReturnArrivalTime:ArrivalTime,
+          ReturnFlightNumber:FlightNumber,
+          ReturnPriceAdult:ReturnadultTicket,
+          ReturnPriceChild:ReturnchildTicket,
+          ReturnTotalPrice:ReturntotalPrice,
+          ReturnBaggage: Baggage
+        })
+        setViewSummary(true);
+        setViewOutBound(false);
+
       }
+      console.log(mysummary);
+      
+      function handleConfirm(){
 
-
-
-
+      }
 
 
       return(
         <div>
+    {ViewOutBound ?
         <CardColumns>
         <Card>
           <CardBody>
@@ -136,9 +188,9 @@ Arrival:{
           </CardBody>
         </Card>
        
-      </CardColumns>
+      </CardColumns>:<label></label>}
 
-
+{viewReturn?
 <div className="">
     <div className="content">
     <CardGroup>
@@ -149,8 +201,7 @@ Arrival:{
     let flag4 =false ;
     console.log("depart ",f.Departure.Date);
 
-    if(f.To.Airport ==flight.From.Airport && f.From.Airport ==flight.To.Airport && 
-      f.Departure.Date.slice(0,10)==returnDate){
+    if(f.To.Airport ==flight.From.Airport && f.From.Airport ==flight.To.Airport && f.Departure.Date.slice(0,10)==returnDate){
       flag4 = true ;
     }
     if (cabin =="first"){
@@ -205,10 +256,10 @@ return flag1 & flag2 & flag3 & flag4 ;
                             className="mb-2 text-muted"
                             tag="h6"
                           >
-                            From :{x.From.Airport}
-                            To :{x.To.Airport}
+                            From :{x.From.Airport} To :{x.To.Airport}
                           </CardSubtitle>
                           <CardText>
+                            FlightNumber:{x.FlightNumber}<br></br>
                           {(mysearch.Cabin =="First")&& (adultTicketsno >0)? <label>price of First class Adult Ticket : {x.First.Price} </label> :
                           (cabin =="Business") && (adultTicketsno >0)?<label> price of Business class Adult Ticket: {x.Business.Price}</label>:
                           (cabin =="Economy")&& (adultTicketsno>0)?<label> price of Economy class Adult Ticket : {x.Economy.Price}</label>:<label></label>}<br/>
@@ -227,9 +278,10 @@ return flag1 & flag2 & flag3 & flag4 ;
                           </CardText>
                           <br></br>
                         </CardBody>
+                        <Button onClick={() => handleSummary(x.From.Airport,x.To.Airport,x.First.Price,x.Business.Price,x.Economy.Price,x.Arrival.Time,x.Departure.Time,x.Departure.Date.slice(0, 10),x.Arrival.Date.slice(0, 10),x.FlightNumber,x.First.ChildPrice,x.Business.ChildPrice,x.Economy.ChildPrice,x.First.Baggage,x.Business.Baggage,x.Economy.Baggage)}>Show Summary</Button>
                         
-                        <Button onClick={() => handleSummary(x.From.Airport,x.To.Airport,x.First.Price,x.Business.Price,x.Economy.Price,x.Arrival.Time,x.Departure.Time)}>Choose Flight</Button>
                       </Card>
+                      
                       
 
   ))}
@@ -239,7 +291,43 @@ return flag1 & flag2 & flag3 & flag4 ;
 
     </div>
 </div>
-{viewSummary? <div><Card>
+:<label></label>}
+
+
+{viewSummary? <div>
+  <Card>
+    <CardBody>
+                 <CardSubtitle
+                    className="mb-2 text-muted"
+                    tag="h6"
+                  > OutBound {flight.Departure.Date.slice(0, 10)} at {flight.Departure.Time}<br/>
+                    </CardSubtitle>
+                    <CardText>
+                    Flight From  {flight.From.Airport} to {flight.To.Airport}
+                    Duration :
+                    </CardText>
+           </CardBody>
+
+</Card>
+  <Card>
+    <CardBody>
+                 <CardSubtitle
+                    className="mb-2 text-muted"
+                    tag="h6"
+                  >
+                    Return {mysummary.ReturnDate} at {mysummary.ReturnTime}<br/>
+
+                    </CardSubtitle>
+                    <CardText>
+                    Flight From {mysummary.From} to {mysummary.To}
+                    Duration :
+                    </CardText>
+           </CardBody>
+
+</Card>
+<CardColumns>
+  <Card>
+    
         <CardBody>
                   <CardTitle tag="h5">
                     Summary
@@ -247,25 +335,44 @@ return flag1 & flag2 & flag3 & flag4 ;
                   <CardSubtitle
                     className="mb-2 text-muted"
                     tag="h6"
-                    
                   >
                     Flight From {flight.From.Airport} to {flight.To.Airport}
                     </CardSubtitle>
                     <CardText>
-                    
                     Flight number: {flight.FlightNumber}<br/>
                     Departure Date: {flight.Departure.Date.slice(0, 10)} at {flight.Departure.Time}<br/>
                     Arrival Date: {flight.Arrival.Date.slice(0, 10)} at {flight.Arrival.Time}<br/>
                     {/*longest trip duration is 18 hours and 50 mins*/}
                     {/* Trip Duration:{(diffDays==0)?<label>{ }hours and   </label> :}<br/> */}
                     Cabin Class: {cabin}<br/>
-                    Baggage Allowance: {(cabin=="First")?<label>{flight.First.Baggage}</label>:(cabin=="Business")?<label>{flight.Business.Baggage}</label>:(cabin=="Economy")?<label>{flight.Economy.Baggage}</label>:<label></label>}<br/>
-                   { (adultTicketsno>0)?(<label> price / Adult ticket: {adultTicket} </label>):<label></label> }<br/>
-                   {(childTicketsno>0)?(<label> price / Child ticket: {childTicket}</label>):<label></label>}<br/>
-                   Total Tickets price:{totalPrice}<br/>   
-                   </CardText>           
+                    Baggage Allowance: {(cabin=="First")?<label>{flight.First.Baggage}</label>:(cabin=="Business")?<label>{flight.Business.Baggage}</label>:(cabin=="Economy")?<label>{flight.Economy.Baggage}</label>:
+                   (adultTicketsno>0)?(<label> price / Adult ticket: {adultTicket} </label>):
+                   (childTicketsno>0)?(<label> price / Child ticket: {childTicket}</label>):<label></label>}<br/>
+                   Total Tickets price for OutBound Flight:{totalPrice}<br/> 
+                   </CardText> 
+                   <CardSubtitle
+                    className="mb-2 text-muted"
+                    tag="h6"
+                  >
+                    Return Flight From {mysummary.From} to {mysummary.To}
 
-                  
+                    </CardSubtitle>
+                    <CardText>
+                    Flight number: {mysummary.ReturnFlightNumber}<br/>
+                    Departure Date: {mysummary.ReturnDate} at {mysummary.ReturnTime}<br/>
+                    Arrival Date: {mysummary.ReturnArrivalDate} at {mysummary.ReturnArrivalTime}<br/>
+                    Cabin Class: {cabin}<br/>
+                    Baggage Allowance:{mysummary.ReturnBaggage}<br/>
+                    Total Tickets price For Return Flight: {mysummary.ReturnTotalPrice}<br/> 
+                    TotalPrice {mysummary.ReturnTotalPrice + totalPrice} <br/> 
+                    </CardText>
+                    <Button >
+                    <Link to={{ pathname:`/user/confirmFlight/${flight._id}` 
+                         , search:'?'+new URLSearchParams(mysummary).toString()
+                           }}className="btn btn-primary">Confirm</Link> 
+                      </Button>
+
+
       </CardBody>
                          <Button>
                           <Link to={{ pathname:`/user/viewFlight/${flight._id}` 
@@ -273,6 +380,7 @@ return flag1 & flag2 & flag3 & flag4 ;
                            }}className="btn btn-primary">Choose Flight</Link>
                           </Button>
       </Card>
+      </CardColumns>
       </div>:<label></label>}
 
 
