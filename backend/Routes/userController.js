@@ -4,6 +4,8 @@ const User = require('../models/User');
 const Flight = require('../models/Flight');
 const Seat =require('../models/Seat')
 const Ticket =require('../models/Ticket')
+const nodemailer = require("nodemailer");
+
 
 const catchAsync=func=>{
   return (req,res,next)=>{
@@ -11,15 +13,14 @@ const catchAsync=func=>{
   }
 }
  
- 
+
 
    router.put("/updateReserved/:id", (req, res) => {
     let theSeat= req.body.SeatId;
     let tickets= req.body.Ticket;
+    
     console.log(theSeat);
      tickets.forEach((f) =>{console.log(f)})
-    
-    
 
     User.findByIdAndUpdate( {
         _id: req.params.id
@@ -46,12 +47,16 @@ const catchAsync=func=>{
       }
       else{
           console.log("Updated Seat : ", docs);
+
+
       }
   });
+
 })
+
     });
 
-    router.get('/viewFlights' ,catchAsync(async (req, res,next) => {  
+  router.get('/viewFlights' ,catchAsync(async (req, res,next) => {  
       const f = await Flight.find({}).populate(['First.SeatId','Business.SeatId','Economy.SeatId']);
       res.send(f);
       }))
@@ -101,6 +106,7 @@ router.put("/updateProfile/:id", (req, res) => {
   );
 
 }); 
+
 router.get('/viewReserved/:id', catchAsync(async (req, res, next) => {
   const user = await User.findById(req.params.id).populate("TicketsId");
   res.send(user);

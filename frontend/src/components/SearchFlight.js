@@ -356,7 +356,7 @@ const addtoList = (event) => {
                             name="DepartureDate"
                             placeholder="DepartureDate"
                             type="date"
-                            
+                            required
                         />
                         <br></br>
                         <Label for="Return Date">
@@ -367,7 +367,7 @@ const addtoList = (event) => {
                             name="ArrivalDate"
                             placeholder="ArrivalDate"
                             type="date"
-                            
+                            required
                         />
             
                         
@@ -407,12 +407,13 @@ const addtoList = (event) => {
                             To :{flight.To.Airport}
                           </CardSubtitle>
                           <CardText>
-                          {(firstView )&& (mysearch.Adults >0)? <label>price of First class Adult Ticket : {flight.First.Price}</label> :<label></label>}
-                          {BusinessView && (mysearch.Adults >0)?<label> price of Business class Adult Ticket: {flight.Business.Price}</label>:<label></label>}
-                          {EconomyView&& (mysearch.Adults >0)?<label> price of Economy class Adult Ticket : {flight.Economy.Price}</label>:<label></label>}
-                          {(firstView )&& (mysearch.Children >0)? <label>price of First class Children Ticket : {flight.First.ChildPrice}</label> :<label></label>}
-                          {BusinessView && (mysearch.Children >0)?<label> price of Business class Children Ticket: {flight.Business.ChildPrice}</label>:<label></label>}
-                          {EconomyView&& (mysearch.Children >0)?<label> price of Economy class Children Ticket : {flight.Economy.ChildPrice}</label>:<label></label>}
+                          {(firstView )&& (mysearch.Adults >0)? <label>price of First class Adult Ticket : {flight.First.Price}</label> :
+                          BusinessView && (mysearch.Adults >0)?<label> price of Business class Adult Ticket: {flight.Business.Price}</label>:
+                          EconomyView&& (mysearch.Adults >0)?<label> price of Economy class Adult Ticket : {flight.Economy.Price}</label>:<label></label>}<br/>
+
+                          {(firstView )&& (mysearch.Children >0)? <label>price of First class Children Ticket : {flight.First.ChildPrice}</label> :
+                          BusinessView && (mysearch.Children >0)?<label> price of Business class Children Ticket: {flight.Business.ChildPrice}</label>:
+                          EconomyView&& (mysearch.Children >0)?<label> price of Economy class Children Ticket : {flight.Economy.ChildPrice}</label>:<label></label>}<br/>
                           Departure Date : {flight.Departure.Date.slice(0, 10)}
                           Departure time: {flight.Departure.Time}
                           Arrival Date : {flight.Arrival.Date.slice(0, 10)}
