@@ -10,16 +10,14 @@ import MyNavBar from './MyNavbar';
 function UpdateFlight(props) {
   const navigate= useNavigate;
   const initialstate= {
-  
-    From:'',
-    To:'',
-    FlightDate:'',
-    Economy:0,
-    Business:0,
-    First:0,
-    Departure:'',
-    Arrival:'',
-    Terminal:0
+    FlightNumber:'',
+    From:{Airport:'',Terminal:0},
+    To:{Airport:'',Terminal:0},
+    Economy:{SeatId:[],Price:0,ChildPrice:0,Baggage:0},
+    Business:{SeatId:[],Price:0,ChildPrice:0,Baggage:0},
+    First:{SeatId:[],Price:0,ChildPrice:0,Baggage:0},
+    Departure:{Date:new Date(),Time:''},
+    Arrival:{Date:new Date(),Time:''}
   }
   const { id } = useParams()
   const [flight, setFlight] = useState(initialstate);
@@ -67,12 +65,23 @@ function UpdateFlight(props) {
         <Card className='p-3'>
     <CardHeader className='mb-2'  >
       Update the flight
-      {flight.From}
+      {flight.FlightNumber}
     </CardHeader>
     <CardBody>
 
     <Form >
     <FormGroup>
+    <Label for="FlightNumber">
+      From
+    </Label>
+    <Input
+      id="FlightNumber"
+      name="FlightNumber"
+      placeholder="Flight Number"
+      type="text"
+      value={flight.FlightNumber}
+      onChange={handleChange}
+    />
     <Label for="From">
       From
     </Label>
@@ -81,7 +90,18 @@ function UpdateFlight(props) {
       name="From"
       placeholder="Departure airport"
       type="text"
-      value={flight.From}
+      value={flight.From.Airport}
+      onChange={handleChange}
+    />
+    <Label for="FromTerminal">
+    Departure Terminal
+    </Label>
+    <Input
+      id="FromTerminal"
+      name="FromTerminal"
+      placeholder="Departure Terminal"
+      type="number"
+      value={flight.From.Terminal}
       onChange={handleChange}
     />
   </FormGroup>
@@ -94,7 +114,21 @@ function UpdateFlight(props) {
       name="To"
       placeholder="Arrival airport"
       type="text"
-      value={flight.To}
+      value={flight.To.Airport}
+      onChange={handleChange}
+    />
+  </FormGroup>
+
+  <FormGroup>
+    <Label for="ToTerminal">
+      Arrival Terminal
+    </Label>
+    <Input
+      id="ToTerminal"
+      name="ToTerminal"
+      placeholder="Arrival Terminal"
+      type="number"
+      value={flight.To.Terminal}
       onChange={handleChange}
     />
   </FormGroup>
@@ -102,14 +136,14 @@ function UpdateFlight(props) {
 
   <FormGroup>
     <Label for="exampleDate">
-      Flight Date
+      Departure Date
     </Label>
     <Input
-      id="date"
-      name="FlightDate"
+      id="DepartureDate"
+      name="DepartureDate"
       placeholder="date placeholder"
-      type="date"
-      value={flight.FlightDate}
+      type="datetime-local"
+      //value={flight.Departure.Date}
       onChange={handleChange}
     />
   </FormGroup>
@@ -117,13 +151,26 @@ function UpdateFlight(props) {
     <Label for="Departure">
 Departure Time    </Label>
     <Input
-      id="Departure"
-      name="Departure"
-      placeholder=""
-      type="text"
-      value={flight.Departure}
+      id="DepartureTime"
+      name="DepartureTime"
+      placeholder="date placeholder"
+      type="time"
+      //value={flight.Departure.Time}
       onChange={handleChange}
        
+    />
+  </FormGroup>
+  <FormGroup>
+    <Label for="exampleDate">
+      Arrival Date
+    </Label>
+    <Input
+      id="ArrivalDate"
+      name="ArrivalDate"
+      placeholder="date placeholder"
+      type="datetime-local"
+      //value={flight.Arrival.Date}
+      onChange={handleChange}
     />
   </FormGroup>
   <FormGroup>
@@ -134,24 +181,11 @@ Departure Time    </Label>
       id="Arrival"
       name="Arrival"
       placeholder=""
-      type="text"
-      value={flight.Departure}
+      type="time"
+      //v/alue={flight.Arrival.Time}
       onChange={handleChange}
     />
   </FormGroup>
-  <FormGroup>
-    <Label for="Terminal">
-Terminal    </Label>
-    <Input
-      id="Terminal"
-      name="Terminal"
-      placeholder=""
-      type="number"
-      value={flight.Terminal}
-      onChange={handleChange}
-    />
-  </FormGroup>
-  
   <FormGroup>
     <Label for="Economy">
      Number of Economy class seats
@@ -161,21 +195,34 @@ Terminal    </Label>
       name="Economy"
       placeholder=""
       type="number"
-      value={flight.Economy}
+      value={flight.Economy.SeatId.length}
+      onChange={handleChange}
+    />
+  </FormGroup>
+  <FormGroup>
+    <Label for="EconomyPrice">
+      Price of Economy seat for Adults
+    </Label>
+    <Input
+      id="EconomyPrice"
+      name="EconomyPrice"
+      placeholder=""
+      type="number"
+      value={flight.Economy.Price}
       onChange={handleChange}
     />
   </FormGroup>
   
   <FormGroup>
-    <Label for="Business">
-     Number of Business class seats
+    <Label for="EconomyChildPrice">
+    Price of Economy seat for children
     </Label>
     <Input
-      id="Business"
-      name="Business"
+      id="EconomyChildPrice"
+      name="EconomyChildPrice"
       placeholder=""
       type="number"
-      value= {flight.Business}
+      value= {flight.Economy.Price}
       onChange={handleChange}
     />
   </FormGroup>
@@ -189,7 +236,34 @@ Terminal    </Label>
       name="First"
       placeholder=""
       type="number"
-      value= {flight.First}
+      value= {flight.First.SeatId.length}
+      onChange={handleChange}
+    />
+  </FormGroup>
+  <FormGroup>
+    <Label for="FirstPrice">
+      Price of First class seat for Adults
+    </Label>
+    <Input
+      id="FirstPrice"
+      name="FirstPrice"
+      placeholder=""
+      type="number"
+      value={flight.First.Price}
+      onChange={handleChange}
+    />
+  </FormGroup>
+  
+  <FormGroup>
+    <Label for="FirstChildPrice">
+    Price of First class seat for children
+    </Label>
+    <Input
+      id="FirstChildPrice"
+      name="FirstChildPrice"
+      placeholder=""
+      type="FirstChildPrice"
+      value= {flight.First.ChildPrice}
       onChange={handleChange}
     />
   </FormGroup>

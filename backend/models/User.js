@@ -22,10 +22,11 @@ const userSchema = new Schema({
         type: String,
         required: true
       },
-      Address:{
+      Country:{
         type: String,
         required: true
       },
+      Address:{type: String},
       PhoneNumber:{
         type: String,
         required: true

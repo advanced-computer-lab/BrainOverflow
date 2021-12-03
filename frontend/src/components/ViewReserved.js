@@ -10,9 +10,6 @@ import {Modal,ModalHeader,ModalBody,ModalFooter,CardBody, Card, CardHeader, Form
         Label, Button, Container, Row, Col, Table} from 'reactstrap';
       
 function ViewReserved(props){
- 
-   
-  
     const initialstate = {
         FirstName: '',
         LastName: '',

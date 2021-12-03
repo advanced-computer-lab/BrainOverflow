@@ -5,10 +5,12 @@ import { Link, useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
-    CardBody, Card, CardTitle, CardText, Badge, Button, Container, Row, Col
+    CardBody, Card, CardTitle, CardText, Badge, Button, Container, Row, Col,Alert , ReactCenter
 } from 'reactstrap';
 import MyNavBar from './MyNavbar';
 function UserProfile(props) {
+    const [hasError, setHasError] = useState(false);
+    const [Error, setError] = useState('');
     const navigate = useNavigate;
     const handleSubmit=()=>{
         navigate(`user/${id}`, { replace: true });
@@ -20,23 +22,24 @@ function UserProfile(props) {
         Password: '',
         Passport: '',
         Address: '',
+        Country:'',
         PhoneNumber: 0,
         VisaNumber: 0,
-        Filghts: []
     }
-    const { id } = useParams()
+    const { id } = useParams();
     const myLink = `/user/updateProfile/${id}`;
 
     const [user, setUser] = useState(initialstate);
     useEffect(() => {
         async function getUser() {
-            try {
+           
                 const response = await get(`http://localhost:8000/user/${id}`);
-                console.log(id);
+                if(!response.data.FirstName){
+                    //console.log(response.data);
+                    setHasError(true);
+                    setError("This user doesn't exist on the system !");}
                 setUser(response.data);
-            } catch (error) {
-                console.log(error);
-            }
+            
         }
         getUser();
     }, [props]);
@@ -46,7 +49,7 @@ function UserProfile(props) {
     return (
         <Container className='m-3'>
             <div>
-                <Card
+            {!hasError && <Card
                     body
                     color="light"
                 >
@@ -69,6 +72,10 @@ function UserProfile(props) {
                                     </Col><Col className="bg-light border ">   {user.Passport}</Col>
                                 </Row>
                                 <Row xs="2">
+                                    <Col className="bg-light border "> Country
+                                    </Col><Col className="bg-light border ">   {user.Country}</Col>
+                                </Row>
+                                <Row xs="2">
                                     <Col className="bg-light border "> Address
                                     </Col><Col className="bg-light border ">   {user.Address}</Col>
                                 </Row>
@@ -83,10 +90,14 @@ function UserProfile(props) {
                         <Link to={myLink} className="btn btn-primary">Update Profile</Link>
 
                     </CardBody>
-                </Card>
+                </Card>}
             </div>
+            {hasError &&  <Col className="bg-light "> <Alert align="center" color="danger" Row > 
+<a align="center" style={(Error)?{display: 'block',color:'red',fontSize:'20px'}:{display: 'none'}}><CardTitle>{Error}</CardTitle></a></Alert></Col> 
+}
 
         </Container>
+        
 
     );
 }

@@ -5,22 +5,73 @@ import { Link, useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import{
-   CardBody,Card , CardHeader , Form,Input , FormGroup , Label , Button, Container, Row , Col
+   CardBody,Card , CardHeader , Form,Input , FormGroup , Label , Button, Container, Row , Col ,FormFeedback
 } from 'reactstrap';
 import MyNavBar from './MyNavbar';
 function UpdateProfile(props) {
-  const navigate= useNavigate;
-   const initialstate= {
+  // const navigate= useNavigate;
+  // const [EmailErr, setEmailErr] = React.useState('');
+  // const [FirstNameErr, setFirstNameErr] = React.useState('');
+  // const [LastNameErr,setLastNameErr]=React.useState("");
+  // const [PasswordErr,setPasswordErr]=React.useState("");
+
+   const initialstate= {   
     Email:'',
     FirstName:'',
     LastName:'',
     Password:'',
     Passport:'',
+    Country:'',
     Address:'',
     PhoneNumber:0,
     VisaNumber:0,
-    Filghts:[]
   }
+ function handleFormValidation() {    
+    let formIsValid = true;    
+  console.log(user);
+    //Student name     
+    if (!(user.FirstName)) {  
+        formIsValid = false;    
+        // setFirstNameErr("First Name is required.");    
+    }    
+    if (!user.LastName) {    
+      formIsValid = false;    
+      // setLastNameErr("Last Name is required.");    
+  } 
+
+    //Email    
+    if (!user.Email) {    
+        formIsValid = false;    
+        // setEmailErr("Email is required.");    
+    }    
+    else if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user.Email))) {    
+
+        formIsValid = false;    
+        // setEmailErr("Invalid email address");    
+    }    
+    //Password    
+    if (!user.Password) {    
+      formIsValid = false;    
+      // setPasswordErr("Password is required.");    
+  }   
+    
+  
+
+    //Phone number    
+    // if (!user.PhoneNumber) {    
+    //     formIsValid = false;    
+    //     "Phone number is required.";    
+    // }    
+       
+
+    //City    
+    // if (user.Country === '') {    
+    //     formIsValid = false;    
+    //     formErrors["Country"] = "Please Provide a country";    
+    // }
+    // setUser({...user,[formErrors]: formErrors })
+    return formIsValid;    
+}   
   const { id } = useParams()
   const [user, setUser] = useState(initialstate);
   useEffect(() => {
@@ -37,8 +88,9 @@ function UpdateProfile(props) {
   }, [props]);
   function handleSubmit(event) {
     event.preventDefault();
- 
-    console.log(user);
+    if (handleFormValidation()) {    
+     
+  
     async function updateProfile() {
       try {
          put(`http://localhost:8000/user/updateProfile/${id}`, user).then(
@@ -51,12 +103,20 @@ function UpdateProfile(props) {
     }
     updateProfile();
   }
+  else{
+    alert('You Must fill all required info')    
+
+  }
+}
+  
 
   function handleChange(event) {
     setUser({...user, [event.target.name]: event.target.value})
+    handleFormValidation();
   }
 
   return (
+    
       <Container className='m-3'>
         <Card className='p-3'>
     <CardHeader className='mb-2'  >
@@ -77,13 +137,21 @@ function UpdateProfile(props) {
       type="text"
       value={user.FirstName}
       onChange={handleChange}
+      required
     />
+   {/* <FormFeedback valid style={!(FirstNameErr)?{display: 'block'}:{display: 'none'}}>
+     valid input
+    </FormFeedback>
+    <FormFeedback invalid style={(FirstNameErr)?{display: 'block'}:{display: 'none'}}>
+     You Must enter your first name
+    </FormFeedback> */}
   </FormGroup>
   <FormGroup>
     <Label for="LastName">
     Last Name
     </Label>
     <Input
+    required
       id="LastName"
       name="LastName"
       placeholder="Last Name"
@@ -91,6 +159,12 @@ function UpdateProfile(props) {
       value={user.LastName}
       onChange={handleChange}
     />
+    {/* <FormFeedback valid style={!(LastNameErr)?{display: 'block'}:{display: 'none'}}>
+     valid input
+    </FormFeedback>
+    <FormFeedback invalid style={((LastNameErr))?{display: 'block'}:{display: 'none'}}>
+     You Must enter your last name
+    </FormFeedback> */}
   </FormGroup>
 
 
@@ -106,6 +180,12 @@ function UpdateProfile(props) {
       value={user.Email}
       onChange={handleChange}
     />
+     {/* <FormFeedback valid style={!(EmailErr)?{display: 'block'}:{display: 'none'}}>
+     valid input
+    </FormFeedback>
+    <FormFeedback invalid style={((EmailErr))?{display: 'block'}:{display: 'none'}}>
+     You Must enter your Email address in the specified pattern 
+    </FormFeedback> */}
   </FormGroup>
   <FormGroup>
     <Label for="Password">
@@ -119,6 +199,12 @@ function UpdateProfile(props) {
       onChange={handleChange}
        
     />
+     {/* <FormFeedback valid style={!(user.formErrors.Password)?{display: 'block'}:{display: 'none'}}>
+     valid input
+    </FormFeedback>
+    <FormFeedback invalid style={((user.formErrors.Password))?{display: 'block'}:{display: 'none'}}>
+     You Must enter a password
+    </FormFeedback> */}
   </FormGroup>
   <FormGroup>
     <Label for="Passport">
@@ -134,6 +220,24 @@ function UpdateProfile(props) {
     />
   </FormGroup>
   <FormGroup>
+    <Label for="PhoneNumber">
+Visa card number    </Label>
+    <Input
+      id="PhoneNumber"
+      name="PhoneNumber"
+      placeholder=""
+      type="tel"
+      value={user.PhoneNumber}
+      onChange={handleChange}
+    />
+     {/* <FormFeedback valid style={!(user.formErrors.PhoneNumber)?{display: 'block'}:{display: 'none'}}>
+     valid input
+    </FormFeedback>
+    <FormFeedback invalid style={((user.formErrors.PhoneNumber))?{display: 'block'}:{display: 'none'}}>
+     You Must enter your phone number
+    </FormFeedback> */}
+  </FormGroup>
+  <FormGroup>
     <Label for="VisaNumber">
 Visa card number    </Label>
     <Input
@@ -145,6 +249,27 @@ Visa card number    </Label>
       onChange={handleChange}
     />
   </FormGroup>
+  <FormGroup>
+    <Label for="Country">
+    Country
+    </Label>
+    <Input
+      id="Country"
+      name="Country"
+      placeholder=""
+      type="text"
+      value={user.Country}
+      onChange={handleChange}
+      
+    />
+     {/* <FormFeedback valid style={!(user.formErrors.Country)?{display: 'block'}:{display: 'none'}}>
+     valid input
+    </FormFeedback>
+    <FormFeedback invalid style={((user.formErrors.Country))?{display: 'block'}:{display: 'none'}}>
+     You Must enter your Country
+    </FormFeedback> */}
+  </FormGroup>
+  
   
   <FormGroup>
     <Label for="Address">
@@ -177,8 +302,5 @@ Update Profile  </Button>
     
   );
 }
-
-
-
 
 export default UpdateProfile;

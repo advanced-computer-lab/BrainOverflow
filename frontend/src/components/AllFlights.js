@@ -77,7 +77,7 @@ function AllFlights() {
       if (event.target[0].value !== '') {
 
         let d1 = event.target[0].value
-        let d2 = f.FlightDate.slice(0, 10)
+        let d2 = f.FlightDate
         console.log(event.target[0].value)
         console.log(d2)
         flag1 = (d1 == d2)
@@ -102,7 +102,7 @@ function AllFlights() {
   }
 
   return (
-    <div>
+    <Container>
       <Modal isOpen={show}  >
         <ModalHeader
           charCode="Y"
@@ -126,11 +126,12 @@ function AllFlights() {
           </Button>
         </ModalFooter>
       </Modal>
+      <Row xs="1">
       <Form onSubmit={addtoList}>
 
-        <Col md={3}>
 
-          <FormGroup>
+          <FormGroup row>
+            <Col>
             <Label for="exampleDate">
               Date:
             </Label>
@@ -141,6 +142,8 @@ function AllFlights() {
               type="date"
 
             />
+            </Col>
+            <Col>
             <Label for="terminal">
               terminal:
             </Label>
@@ -151,6 +154,8 @@ function AllFlights() {
               type="text"
 
             />
+            </Col>
+            <Col>
             <Label for="flight number">
               flight number:
             </Label>
@@ -162,6 +167,8 @@ function AllFlights() {
 
 
             />
+            </Col>
+            <Col>
             <Label for="departure time">
               departure time:
             </Label>
@@ -172,6 +179,8 @@ function AllFlights() {
               type="time"
 
             />
+            </Col>
+            <Col>
             <Label for="arrival time">
               arrival time:
             </Label>
@@ -183,8 +192,8 @@ function AllFlights() {
 
 
             />
+            </Col>
           </FormGroup>
-        </Col>
         <div className="search">
           <Button
             color="info"
@@ -194,70 +203,62 @@ function AllFlights() {
             Search</Button>
         </div>
       </Form>
-
+</Row>
       <div className="">
         <div className="content">
-          <h1>Flights available : </h1>
 
           <br />
           <Container>
+          <h1>Flights available : </h1>
 
             <Table>
               <thead><tr>
                 <th>FlightNo</th>
                 <th>From</th>
+                <th>Deaprture Terminal</th>
                 <th>To</th>
-                <th> Flight Date</th>
-                <th> Economy </th>
-                <th>Business</th>
-                <th>First class</th>
-                <th>Arrival time </th>
-                <th>Departure time</th>
-                <th>Terminal</th>
+                <th>Arrival Terminal</th>
+                <th> Departure Date</th>
+                <th> Departure Time</th>
+                <th>Arrival Date </th>
+                <th>Arrival Time </th>
                 <th>        </th>
               </tr>
               </thead>
-            </Table>
-          </Container>
+
+              <tbody>
 
 
+          {
+          displayed.map((flight) => (
 
-          {displayed.map((flight) => (
-            <Container>
-              <Table bordered>
-                <tbody>
-
-                  <tr>
-                    <td>{flight._id}</td>
-                    <td>{flight.From}</td>
-                    <td>{flight.To}</td>
-                    <td>{flight.FlightDate.slice(0, 10)}</td>
-                    <td>{flight.Economy}</td>
-                    <td>{flight.Business}</td>
-                    <td>{flight.First}</td>
-                    <td>{flight.Arrival}</td>
-                    <td>{flight.Departure}</td>
-                    <td>{flight.Terminal}</td>
+                  <tr key ={flight._id}>
+                    <td>{flight.FlightNumber}</td>
+                    <td>{flight.From.Airport}</td>
+                    <td>{flight.From.Terminal}</td>
+                    <td>{flight.To.Airport}</td>
+                    <td>{flight.To.Terminal}</td>
+                    <td>{flight.Departure.Date}</td>
+                    <td>{flight.Departure.Time}</td>
+                    <td>{flight.Arrival.Date}</td>
+                    <td>{flight.Arrival.Time}</td>
                     <td><Link to={`/admin/updateFlight/${flight._id}`} className="btn btn-primary">Edit</Link>
 
                       <Button color="danger" onClick={() => handleShow(flight._id)}> Delete </Button>
 
                     </td>
                   </tr>
+                   ))
+                  }
                 </tbody>
               </Table>
 
             </Container>
 
-
-
-
-          ))}
-
         </div>
       </div>
       
-    </div>
+    </Container>
 
   );
 }
