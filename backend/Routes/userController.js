@@ -2,8 +2,20 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const Flight = require('../models/Flight');
-const Seat =require('../models/Seat')
-const Ticket =require('../models/Ticket')
+const Seat =require('../models/Seat');
+const Ticket =require('../models/Ticket');
+const nodemailer = require('nodemailer');
+
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'sky.overflow.flight@gmail.com',
+    pass: '1_2_3_4_5'
+
+  } 
+ 
+});
 
 const catchAsync=func=>{
   return (req,res,next)=>{
@@ -16,9 +28,24 @@ const catchAsync=func=>{
    router.put("/updateReserved/:id", (req, res) => {
     let theSeat= req.body.SeatId;
     let tickets= req.body.Ticket;
+    let theTicket= req.body.theTicket;
+    let theEmail= req.body.Email;
+    let Price=req.body.Price;
+    let Name= req.body.TicketName;
+    let userName= req.body.UserName;
     console.log(theSeat);
-     tickets.forEach((f) =>{console.log(f)})
+     tickets.forEach((f) =>{console.log(f)});
+   
     
+console.log(theEmail);
+   var mailOptions = {
+      from: 'sky.overflow.flight@gmail.com' ,
+      to: theEmail,
+      subject: 'Reservation Cancelled!!',
+      text: 
+      `Dear ${userName}, 
+      you have cancelled Ticket no: ${theTicket} of passenger ${Name} and the amount refunded is ${Price} LE`
+    }; 
     
 
     User.findByIdAndUpdate( {
@@ -31,7 +58,7 @@ const catchAsync=func=>{
             console.log("Updated User : ", docs);
         }
     });
-      Seat.findByIdAndUpdate({_id:theSeat},{IsBooked:false}, function (err, docs) {
+      Seat.findByIdAndUpdate({_id: theSeat},{IsBooked:false}, function (err, docs) {
         if (err){
             console.log(err)
         }
@@ -39,17 +66,24 @@ const catchAsync=func=>{
             console.log("Updated Seat : ", docs);
         }
     });
-    tickets.forEach((f) =>{
-    Ticket.findByIdAndDelete({_id:f} , function (err, docs) {
+    
+    Ticket.findByIdAndDelete({_id:theTicket} , function (err, docs) {
       if (err){
           console.log(err)
       }
       else{
-          console.log("Updated Seat : ", docs);
+          console.log("Tickets : ", docs);
       }
   });
-})
-    });
+
+ transporter.sendMail( mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
+})  
 
     router.get('/viewFlights' ,catchAsync(async (req, res,next) => {  
       const f = await Flight.find({}).populate(['First.SeatId','Business.SeatId','Economy.SeatId']);
@@ -67,8 +101,7 @@ const catchAsync=func=>{
         });
       });
     
-module.exports=router;
-     
+ 
 
 ///
  

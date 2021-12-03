@@ -18,7 +18,8 @@ function AllFlights() {
     const searchObject={
         Cabin:'',
         Adults:0,
-        Children:0
+        Children:0,
+        ReturnDate:''
     };
 
 
@@ -60,7 +61,7 @@ Arrival:{
     const [searchTerm , setSearchTerm] =useState('');
     const [closeId, setId] = useState(0);
     const [show, setShow] = useState(false);
-    const [View,setView] = useState(true);
+    const [View,setView] = useState(false);
     const [firstView ,setFirst ]=useState(false);
     const [BusinessView ,setBusiness ]=useState(false);
     const [EconomyView ,setEconomy ]=useState(false);
@@ -103,14 +104,15 @@ Arrival:{
     //console.log("length" ,flights[3]);
 
 
-
-    const addtoList = (event) => {
+const addtoList = (event) => {
         event.preventDefault()
         setView(true)
     console.log(View)
     setSearch({Cabin:event.target[0].value,
         Adults:event.target[1].value,
-        Children:event.target[2].value}
+        Children:event.target[2].value,
+        ReturnDate:event.target[6].value
+    }
   );
   console.log(mysearch);
         setDisplayed(flights.filter((f) => {
@@ -123,54 +125,7 @@ Arrival:{
             let flagFirst =false 
             let flagBusiness =false 
             let flagEconomy =false 
-            /*
-
-            const filteredBussiness  =[];
-            const filteredEconomy  =[];
-            const filteredFirst  =[];
-        
-            let len = f.length ;
-        
-            for(let i=0; i< len;i++ ){
-                //console.log('lehhhhh');
-                //console.log("is booked : ", flights[i].Business.SeatId[0]);
-                let lenBusiness = flights[i].Business.SeatId.length;
-                let lenEconomy = flights[i].Economy.SeatId.length;
-                let lenFirst = flights[i].First.SeatId.length;
-                const filteredSeats =[];
-                
-        
-                //console.log(len2);
-        
-        
-        
-                for (let b = 0; b < lenBusiness; b++) {
-                    //console.log("is booked : ", flights[i].Business.SeatId[b].IsBooked);
-                    if (flights[i].Business.SeatId[b].IsBooked == false) {
-                        filteredBussiness.push(flights[i]);
-                    }
-                }
-        
-                for (let c = 0; c < lenEconomy; c++) {
-                    //console.log("is ECobooked : ", flights[i].Economy.SeatId[c].IsBooked);
-                    if (flights[i].Economy.SeatId[c].IsBooked == false) {
-                        filteredEconomy.push(flights[i].Business.SeatId[c]);
-                    }
-                }
-        
-                for (let f = 0; f < lenFirst; f++) {
-                    //console.log("is First booked : ", flights[i].First.SeatId[f].IsBooked);
-                    if (flights[i].First.SeatId[f].IsBooked == false) {
-                        filteredSeats.push(flights[i].First.SeatId[f]);
-                    }
-                }
-                filteredFirst.push(filteredSeats);
-        
-            };*/
-        
-
-            
-
+    
             if (event.target[0].value !== ''&& event.target[0].value == 'First') { 
                 //console.log("class is" ,event.target[0].value);
                 setBusiness(false);
@@ -401,10 +356,10 @@ Arrival:{
                             name="DepartureDate"
                             placeholder="DepartureDate"
                             type="date"
-                            
+                            required
                         />
                         <br></br>
-                        <Label for="arrival Date">
+                        <Label for="Return Date">
                             Return Date:
                         </Label>
                         <Input
@@ -412,7 +367,7 @@ Arrival:{
                             name="ArrivalDate"
                             placeholder="ArrivalDate"
                             type="date"
-                            
+                            required
                         />
             
                         
@@ -452,18 +407,22 @@ Arrival:{
                             To :{flight.To.Airport}
                           </CardSubtitle>
                           <CardText>
-                          {firstView ? <label>price of First class : {flight.First.Price}</label> :<label></label>}
-                          {BusinessView?<label> price of Business class : {flight.Business.Price}</label>:<label></label>}
-                          {EconomyView?<label> price of Economy class : {flight.Economy.Price}</label>:<label></label>}
-                          Departure Date : {flight.Departure.Time}
-                          Departure time: {flight.Departure.Time}
+                          {(firstView )&& (mysearch.Adults >0)? <label>price of First class Adult Ticket : {flight.First.Price}</label> :
+                          BusinessView && (mysearch.Adults >0)?<label> price of Business class Adult Ticket: {flight.Business.Price}</label>:
+                          EconomyView&& (mysearch.Adults >0)?<label> price of Economy class Adult Ticket : {flight.Economy.Price}</label>:<label></label>}<br/>
 
+                          {(firstView )&& (mysearch.Children >0)? <label>price of First class Children Ticket : {flight.First.ChildPrice}</label> :
+                          BusinessView && (mysearch.Children >0)?<label> price of Business class Children Ticket: {flight.Business.ChildPrice}</label>:
+                          EconomyView&& (mysearch.Children >0)?<label> price of Economy class Children Ticket : {flight.Economy.ChildPrice}</label>:<label></label>}<br/>
+                          Departure Date : {flight.Departure.Date.slice(0, 10)}
+                          Departure time: {flight.Departure.Time}
+                          Arrival Date : {flight.Arrival.Date.slice(0, 10)}
                           Arrival time:{flight.Arrival.Time} 
                           </CardText>
                           <Button>
                           <Link to={{ pathname:`/user/viewFlight/${flight._id}` 
                          , search:'?'+new URLSearchParams(mysearch).toString()
-                           }}className="btn btn-primary">Show Details</Link>
+                           }}className="btn btn-primary">Choose Flight</Link>
                           </Button>
                         </CardBody>
                       </Card>

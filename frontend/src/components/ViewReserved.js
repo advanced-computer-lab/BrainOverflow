@@ -12,11 +12,17 @@ import {Modal,ModalHeader,ModalBody,ModalFooter,CardBody,CardColumns,CardTitle,C
 function ViewReserved(props){
   const[theObject,setTheObject]=useState({
     SeatId:"",
-    Ticket:[""]
+    Ticket:[""],
+    theTicket:"",
+    Email:"",
+    Price:0,
+    TicketName:'',
+    UserName:''
   })
  const initialState={_id:"",
  FirstName:"",
  LastName:"shreef",
+ Email:"",
   TicketsId:[{Flight:
     {
       FlightId:""
@@ -61,6 +67,7 @@ console.log(theUser);
       (theUser.TicketsId).forEach((t)=>{
        theIds.push(t._id)
      } ) 
+
       console.log(theIds);
       console.log(closeId);
       console.log(theIds.filter(function(s){ 
@@ -68,8 +75,9 @@ console.log(theUser);
       
         theObject.Ticket= theIds.filter(function(s){ 
         return  s!== closeId; }) ;
-      
-
+        theObject.theTicket=closeId;
+       theObject.Email=theUser.Email;
+        theObject.UserName=theUser.FirstName;
     
 
        
@@ -138,7 +146,9 @@ return (
           Class: {ticket.Cabin}&nbsp;&nbsp;Seat:{ticket.Seat.SeatNumber} &nbsp;&nbsp; Date:{ticket.Departure.Date}&nbsp;&nbsp;Departs At:{ticket.Departure.Time} &nbsp;&nbsp;  Arrives At:{ticket.Arrival.Time} <br/>
           Departure Terminal: {ticket.Departure.Terminal}&nbsp;&nbsp;Arrival Terminal:{ticket.Arrival.Terminal} <br/>
          <Button color="danger"onClick={()=>{handleShow(ticket._id);
-                                             theObject.SeatId=ticket.Seat.SeatId;}}> Cancel </Button>
+                                             theObject.SeatId=ticket.Seat.SeatId;
+                                             theObject.Price=ticket.Price
+                                             theObject.TicketName= ticket.Name}}> Cancel </Button>
          </CardSubtitle>
          </CardBody>
          </Card> 
