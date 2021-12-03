@@ -10,6 +10,36 @@ import { CardBody, Card, CardColumns,CardImg,CardSubtitle,CardText,CardGroup,
           Button,CardTitle } from 'reactstrap';
       
 function ViewFlight(props){
+  const Summary={
+    Cabin:'',
+    Adults:0,
+    Children:0,
+    //departure flight 
+    Departurefrom:'',
+    Departureto:'',
+    DepDate:'',
+    DepTime:'',
+    DepArrivalDate:'',
+    DepArrivalTime:'',
+    DepFlightNumber:'',
+    DepPriceAdult:0,
+    DepPriceChild:0,
+    DepTotalPrice:0,
+    //Depseat:
+    //DepDuration:
+
+    //ReturnFlight
+    ReturnDate:'',
+    ReturnTime:'',
+    ReturnArrivalDate:'',
+    ReturnArrivalTime:'',
+    ReturnFlightNumber:'',
+    ReturnPriceAdult:0,
+    ReturnPriceChild:0,
+    ReturnTotalPrice:0
+    //ReturnSeat:
+    //ReturnDuration:
+};
 
     const initialstate=
     {From:{
@@ -55,22 +85,15 @@ Arrival:{
     const [Returnflight, setReturnFlights] = useState([initialstate]);
     const [displayed, setDisplayed] = useState([initialstate]);
 
-<<<<<<< Updated upstream
-    const [View,setView] = useState(true);
-    const [firstView ,setFirstView ]=useState(true);
-    const [BusinessView ,setBusinessView ]=useState(true);
-    const [EconomyView ,setEconomyView ]=useState(true);
-    const [first ,setFirst ]=useState(false);
-    const [Business,setBusiness ]=useState(false);
-    const [Economy,setEconomy ]=useState(false);
-=======
     const [viewSummary,setView] = useState(false);
->>>>>>> Stashed changes
+    const[mysummary,setSummary]=useState(Summary);
+
 
     const { id } = useParams();
     const childTicketsno=parseInt(search.get('Children')) ;
     const adultTicketsno=parseInt(search.get('Adults')) ;
     const cabin=search.get('Cabin');
+    const returnDate =search.get('ReturnDate');
     const adultTicket= (cabin=="First")?flight.First.Price:(cabin=="Business")?flight.Business.Price:(cabin=="Economy")?flight.Economy.Price:0;
     const childTicket= (cabin=="First")?flight.First.ChildPrice:(cabin=="Business")?flight.Business.ChildPrice:(cabin=="Economy")?flight.Economy.ChildPrice:0;
     const totalPrice= childTicketsno*childTicket+adultTicketsno*adultTicket;
@@ -79,9 +102,10 @@ Arrival:{
       Adults:adultTicketsno,
       Children:childTicketsno,
       DepartureFrom:flight.From.Airport,
-      DepartureTo:flight.To.Airport
+      DepartureTo:flight.To.Airport,
       
     }
+    console.log("Return",search.get('ReturnDate'));
     
 
     useEffect(() => {
@@ -98,27 +122,49 @@ Arrival:{
     }, [props]);
     console.log("children : ",mysearch.Children);
     console.log("adults : ",mysearch.Adults);
-    const total =mysearch.Children+mysearch.Children;
+    const total =mysearch.Adults+mysearch.Children;
     console.log("total : ", total);
 
-<<<<<<< Updated upstream
-=======
-      function handleSummary() {
-        setView(true);
+      function handleSummary() {  
+        setSummary({
 
-        // alert(`hello, ${name}`);
-        
+          Cabin:cabin,
+          Adults:adultTicketsno,
+          Children:childTicket,
+          //departure flight 
+          Departurefrom:flight.From.Airport,
+          Departureto:flight.To.Airport,
+          DepDate:flight.Departure.Date.slice(0, 10),
+          DepTime:flight.Departure.Time,
+          DepArrivalDate:flight.Arrival.Date.slice(0, 10),
+          DepArrivalTime:flight.Arrival.Time,
+          DepFlightNumber:flight.FlightNumber,
+          DepPriceAdult:adultTicket,
+          DepPriceChild:childTicket,
+          DepTotalPrice:totalPrice,
+          //Depseat:
+          //DepDuration:
+      
+          //ReturnFlight
+          ReturnDate:'',
+          ReturnTime:'',
+          ReturnArrivalDate:'',
+          ReturnArrivalTime:'',
+          ReturnFlightNumber:'',
+          ReturnPriceAdult:0,
+          ReturnPriceChild:0,
+          ReturnTotalPrice:0
+          //ReturnSeat:
+          //ReturnDuration:
+
+        })
+
       }
->>>>>>> Stashed changes
 
 
 
 
 
-<<<<<<< Updated upstream
-    
-=======
->>>>>>> Stashed changes
 
       return(
         <div>
@@ -163,20 +209,63 @@ Arrival:{
 <div className="">
     <div className="content">
     <CardGroup>
-  {Returnflight.filter((f) => (f.To.Airport ==flight.From.Airport && f.From.Airport ==flight.To.Airport && (mysearch.Adults+mysearch.Children)<f.First.SeatId.length))
+  {Returnflight.filter((f) => {
+    let flag1 =false ;
+    let flag2=false ;
+    let flag3 =false ;
+    let flag4 =false ;
+    console.log("depart ",f.Departure.Date);
+
+    if(f.To.Airport ==flight.From.Airport && f.From.Airport ==flight.To.Airport && f.Departure.Date.slice(0,10)==returnDate){
+      flag4 = true ;
+    }
+    if (cabin =="first"){
+      let len = f.First.SeatId.length;
+      let countseats=0;
+      console.log("length of First ", len)
+      for(let i =0 ;i<len ;i++){
+        if(f.First.SeatId[i].IsBooked == false){
+          countseats++;
+       }
+       }
+       flag1 = (total<= countseats)
+  }
+  else { flag1 = true }
+
+  if (cabin =="Economy"){
+    let len = f.Economy.SeatId.length;
+    let countseats=0;
+    console.log("length of Economy ", len)
+    for(let i =0 ;i<len ;i++){
+      if(f.Economy.SeatId[i].IsBooked == false){
+        countseats++;
+     }
+     }
+     flag2 = (total<= countseats)
+}
+else { flag2 = true }
+if (cabin =="Business"){
+  let len = f.Business.SeatId.length;
+  let countseats=0;
+  console.log("length of Business ", len)
+  for(let i =0 ;i<len ;i++){
+    if(f.Business.SeatId[i].IsBooked == false){
+      countseats++;
+   }
+   }
+   flag3 = (total<= countseats)
+}
+else { flag3 = true }
+
+ 
+return flag1 & flag2 & flag3 & flag4 ;  
+})
   .map(x => (
-<<<<<<< Updated upstream
-    <Card>
-                        <CardBody>
-                          <CardTitle tag="h5">
-                            Flight summary :
-=======
 
     <Card>
                         <CardBody>
                           <CardTitle tag="h5">
                             Return Flight summary :
->>>>>>> Stashed changes
                           </CardTitle>
                           <CardSubtitle
                             className="mb-2 text-muted"
@@ -186,28 +275,27 @@ Arrival:{
                             To :{x.To.Airport}
                           </CardSubtitle>
                           <CardText>
-<<<<<<< Updated upstream
-                          {firstView ? <label>price of First class : {x.First.Price}</label> :<label></label>}
-                          {BusinessView?<label> price of Business class : {x.Business.Price}</label>:<label></label>}
-                          {EconomyView?<label> price of Economy class : {x.Economy.Price}</label>:<label></label>}
-                          Arrival time:{x.Arrival.Time} 
-                          Departure time: {x.Departure.Time}</CardText>
-                        </CardBody>
-                      </Card>
-=======
-                          {(cabin =="first")? <label>price of First class : {x.First.Price}</label> :<label></label>}
-                          {(cabin =="Business")?<label> price of Business class : {x.Business.Price}</label>:<label></label>}
-                          {(cabin =="Economy")?<label> price of Economy class : {x.Economy.Price}</label>:<label></label>}
+                          {(mysearch.Cabin =="First")&& (adultTicketsno >0)? <label>price of First class Adult Ticket : {x.First.Price} </label> :
+                          (cabin =="Business") && (adultTicketsno >0)?<label> price of Business class Adult Ticket: {x.Business.Price}</label>:
+                          (cabin =="Economy")&& (adultTicketsno>0)?<label> price of Economy class Adult Ticket : {x.Economy.Price}</label>:<label></label>}<br/>
+                          {(cabin =="First")&& (childTicketsno >0)? <label>price of First class Children Ticket : {x.First.ChildPrice}</label> :
+                          (cabin =="Business") && (childTicketsno>0)?<label> price of Business class Children Ticket: {x.Business.ChildPrice}</label>:
+                          (cabin =="Economy")&& (childTicketsno >0)?<label> price of Economy class Children Ticket : {x.Economy.ChildPrice}</label>:<label></label>}<br/>
+                          Departure Date: {x.Departure.Date.slice(0, 10)}
+                          <br></br>
+                          Departure time: {x.Departure.Time}
+                          <br></br>
+                          Arrival Date: {x.Arrival.Date.slice(0, 10)}
                           <br></br>
                           Arrival time:{x.Arrival.Time} 
                           <br></br>
-                          Departure time: {x.Departure.Time}</CardText>
+                          </CardText>
                           <br></br>
                         </CardBody>
-                        <button onClick={() => handleSummary(x.From.Airport,x.To.Airport,x.First.Price,x.Business.Price,x.Economy.Price,x.Arrival.Time,x.Departure.Time)}>Show Summary</button>
+                        <Button> Book </Button>
+                        <Button onClick={() => handleSummary(x.From.Airport,x.To.Airport,x.First.Price,x.Business.Price,x.Economy.Price,x.Arrival.Time,x.Departure.Time)}>Show Summary</Button>
                       </Card>
                       
->>>>>>> Stashed changes
 
   ))}
 
@@ -216,8 +304,6 @@ Arrival:{
 
     </div>
 </div>
-<<<<<<< Updated upstream
-=======
 {viewSummary? <div><Card>
         <CardBody>
                   <CardTitle tag="h5">
@@ -249,7 +335,6 @@ Arrival:{
       </Card>
       </div>:<label></label>}
 
->>>>>>> Stashed changes
 
 </div>
       

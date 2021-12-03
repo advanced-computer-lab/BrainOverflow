@@ -1,5 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Flight  = require('./Flight');
+const Ticket  = require('./Ticket');
+
+
 const userSchema = new Schema({
     email: {
         type: String,
@@ -8,13 +12,13 @@ const userSchema = new Schema({
         unique: true,
         required: 'Email address is required',
         validate: [validateEmail, 'Please fill a valid email address'],
-        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
+        match: [/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/, 'Please fill a valid email address']
     },
-    passport:{
+    Passport:{
         type: String,
         required: true
       },
-  firstName:{
+  FirstName:{
         type: String,
         required: true
       },
@@ -26,36 +30,30 @@ const userSchema = new Schema({
         type: String,
         required: true
       },
-      phoneNumber:{
-        type: Number,
-        required: true
-      },
-      lastName:{
+      LastName:{
         type: String,
         required: true
       },
-    password:{
+    Password:{
         type:String,
         required:true
     },
-     visaNumber:{
+     VisaNumber:{
         type:String,
         required:true
     }
-    ,
-    flights: [{
-        id: mongoose.Schema.Types.ObjectId,
-        economySeats:Number,
-        firstSeats:Number,
-        BusinessSeats:Number
-    }],
-    isAdmin:{
+,
+    TicketsId: [{
+      type: mongoose.Schema.Types.ObjectId,required:true,
+        ref:"Ticket"},
+          ],
+    IsAdmin:{
         type: Boolean,
         required: true
       },
 });
-var validateEmail = function(email) {
-    var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+function validateEmail(email) {
+    var re = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;
     return re.test(email)
 };
 const User = mongoose.model('User', userSchema);

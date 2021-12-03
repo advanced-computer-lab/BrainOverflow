@@ -1,49 +1,68 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Seat = require('./Seat');
 const flightSchema = new Schema({
   FlightNumber : {
     type: String,
-    required: true,
+    required: true
   },
     From : {
-        airport: String,
-        terminal: Number,
-        required: true,
+        Airport: {type:String,
+        required:true},
+
+        Terminal: {type:Number,
+        required: true}
       },
-      To:{
-        type: String,
-        terminal: Number,
-        required: true,
+      To: {
+        Airport: {type:String,
+        required:true},
+
+        Terminal: {type:Number,
+        required: true}
       },
-      FlightDate:{
-        type: Date,
-        required:true,
-      },
+      
       Economy:{
-        seats: Number,
-        price:Number,
-        baggage:Number,
-        required:true,
+        SeatId: [{type: mongoose.Schema.Types.ObjectId,required:true,
+            ref:"Seat"}],
+
+        Price:Number,
+        ChildPrice:Number,
+        Baggage:Number,
+        //required:true
       },
       Business:{
-        seats: Number,
-        price:Number,
-        baggage:Number,
-        required: true,
+        SeatId: [{type: mongoose.Schema.Types.ObjectId,required:true,
+          ref:"Seat"}],
+        Price:Number,
+        ChildPrice:Number,
+        Baggage:Number,
+        //required: true
       },
       First:{
-        seats: Number,
-        price:Number,
-        baggage:Number,
-        required: true
+        SeatId: [{type: mongoose.Schema.Types.ObjectId,required:true,
+          ref:"Seat"}],
+        Price:Number,
+        ChildPrice:Number,
+        Baggage:Number,
+       // required: true
       },
       Departure:{
-        type: String,
+        Date:{
+        type: Date,
         required: true
       },
+      Time:{
+        type:String,
+          required:true }
+    },
       Arrival:{
-        type: String,
-        required: true
+        Date:{
+          type: Date,
+          required: true
+        },
+        Time:{type:String,
+            required:true
+        }
       }
     }, { timestamps: true });
 

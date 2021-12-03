@@ -9,11 +9,20 @@ const catchAsync=func=>{
       func(req,res,next).catch(next);
   }
 }
+//View all flights 
+router.get('/viewFlights' ,(req, res) => {                                               ``
+    Flight.find({})
+      .then(result => {
+        res.send(result);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    });
 
 
 //Creating new flight
 router.post('/createFlight',catchAsync(async(req,res,next)=>{
-  console.log(req.body);
     const details=req.body;
     console.log(req.body);
     const flight = new Flight(details);
@@ -49,7 +58,7 @@ if(err) res.json(err);
 
 
  
-    router.put("/UpdateFlight/:id", (req, res) => {
+    router.put("/updateFlight/:id", (req, res) => {
       console.log("req.body", req.body);
       var _id = req.body._id;
       
