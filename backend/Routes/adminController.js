@@ -73,7 +73,7 @@ router.post('/createFlight', catchAsync(async (req, res, next) => {
 
 }));
 router.get('/viewFlights', (req, res) => {
-  ``
+ 
   Flight.find({})
     .then(result => {
       res.send(result);

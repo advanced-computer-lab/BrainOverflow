@@ -43,11 +43,7 @@ app.use('/user', userRoutes);
 
 
 
-// app.use((err, req, res, next) => {
-//   const { statusCode = 500 } = err;
-//   if (!err.message) err.message = 'Oh No, Something Went Wrong!'
-//   res.status(statusCode).send('error', { err })
-// })
+ 
 
 // Starting server
 app.listen(port, () => {

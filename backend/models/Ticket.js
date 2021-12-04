@@ -32,9 +32,9 @@ const ticketSchema = new Schema({
         enum : ['Economy','Business','First'],
         
     required:true},
-    Seat:{ SeatId:{type: mongoose.Schema.Types.ObjectId,required:true,
+    Seat:{ SeatId:{type: mongoose.Schema.Types.ObjectId,
              ref:"Seat"},
-           SeatNumber:{type:String,required:true} } ,
+           SeatNumber:{type:String } } ,
     Price:{type:Number,
     required:true}
 })
