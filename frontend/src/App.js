@@ -23,6 +23,7 @@ import ViewSeats from './components/ViewSeats';
 
 import { Container } from 'reactstrap';
 function App() {
+ 
   return (
     
     <BrowserRouter>
@@ -36,7 +37,7 @@ function App() {
       <Route path="/user/viewFlight/:id" element={<ViewFlight />} />
       <Route path="/user/viewSeats/:FlightId/:Cabin/:TicketId" element={<ViewSeats/>}/>  
       <Route path="/user/updateProfile/:id" element={<UpdateProfile/>}/>
-      <Route path="/user/:id" element={<UserProfile/>}/> 
+      <Route path="/user/userProfile/:id" element={<UserProfile/>}/> 
       <Route element={Page404} />
 
     </Routes>
@@ -44,6 +45,5 @@ function App() {
   );
  
 }
-
 
 export default App;

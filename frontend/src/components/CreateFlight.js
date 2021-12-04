@@ -92,6 +92,7 @@ function CreateFlight() {
       name="FlightNumber"
       placeholder="Flight Number airport"
       type="text"
+      required
       onChange={(e)=>{
         setFlightNumber(e.target.value);
       }}
@@ -106,6 +107,7 @@ function CreateFlight() {
       name="From"
       placeholder="Departure airport"
       type="text"
+      required
       onChange={(e)=>{
         setFromAirport(e.target.value);
       }}
@@ -118,6 +120,7 @@ function CreateFlight() {
       name="DepartTerminal"
       placeholder="Departure Teminal"
       type="number"
+      required
       onChange={(e)=>{
         setFromTerminal(e.target.value);
       }}
@@ -130,6 +133,7 @@ function CreateFlight() {
       name="date"
       placeholder="datetime-local"
       type="datetime-local"
+      required
       onChange={(e)=>{
         setDepartureDate(e.target.value);
       }}
@@ -142,6 +146,7 @@ function CreateFlight() {
       name="Departure Time"
       placeholder="time placeholder"
       type="time"
+      required
       onChange={(e)=>{
         setDepartureTime(e.target.value);
       }}
@@ -157,6 +162,7 @@ function CreateFlight() {
       name="To"
       placeholder="Arrival airport"
       type="text"
+      required
       onChange={(e)=>{
         setToAirport(e.target.value);
       }}
@@ -169,6 +175,7 @@ function CreateFlight() {
       name="Arrival Termina"
       placeholder="Arrival Terminal"
       type="number"
+      required
       onChange={(e)=>{
         setToTerminal(e.target.value);
       }}
@@ -181,6 +188,7 @@ function CreateFlight() {
       name="Arrivaldate"
       placeholder="datetime-local"
       type="datetime-local"
+      required
       onChange={(e)=>{
         setArrivalDate(e.target.value);
       }}
@@ -193,6 +201,7 @@ function CreateFlight() {
       name="Arrival Time"
       placeholder="time placeholder"
       type="time"
+      required
       onChange={(e)=>{
         setArrivalTime(e.target.value);
       }}
@@ -208,6 +217,7 @@ function CreateFlight() {
       name="Economy"
       placeholder=""
       type="number"
+      required
       onChange={(e)=>{
         setEconomySeats(e.target.value);
       }}
@@ -220,6 +230,7 @@ function CreateFlight() {
       name="EconomyPrice"
       placeholder=""
       type="number"
+      required
       onChange={(e)=>{
         setEconomyPrice(e.target.value);
       }}
@@ -232,6 +243,7 @@ function CreateFlight() {
       name="EconomyPriceChild"
       placeholder=""
       type="number"
+      required
       onChange={(e)=>{
         setEconomyChildPrice(e.target.value);
       }}
@@ -244,6 +256,7 @@ function CreateFlight() {
       name="EconomyBaggege"
       placeholder=""
       type="number"
+      required
       onChange={(e)=>{
         setEconomyBaggage(e.target.value);
       }}
@@ -259,6 +272,7 @@ function CreateFlight() {
       name="BusinessSeats"
       placeholder=""
       type="number"
+      required
       onChange={(e)=>{
         setBusinessSeats(e.target.value);
       }}
@@ -271,6 +285,7 @@ function CreateFlight() {
       name="BusinessPrice"
       placeholder=""
       type="number"
+      required
       onChange={(e)=>{
         setBusinessPrice(e.target.value);
       }}
@@ -283,6 +298,7 @@ function CreateFlight() {
       name="BusinessChildPrice"
       placeholder=""
       type="number"
+      required
       onChange={(e)=>{
         setBusinessChildPrice(e.target.value);
       }}
@@ -307,6 +323,7 @@ function CreateFlight() {
     </Label>
     <Input
       id="first"
+      required
       name="first"
       placeholder=""
       type="number"
@@ -322,6 +339,7 @@ function CreateFlight() {
       name="FirstPrice"
       placeholder=""
       type="number"
+      required
       onChange={(e)=>{
         setFirstPrice(e.target.value);
       }}
@@ -333,6 +351,7 @@ function CreateFlight() {
       id="FirstPriceChild"
       name="FirstPriceChild"
       placeholder=""
+      required
       type="number"
       onChange={(e)=>{
         setFirstChildPrice(e.target.value);
@@ -345,6 +364,7 @@ function CreateFlight() {
       id="FirstBaggege"
       name="FirstBaggege"
       placeholder=""
+      required
       type="number"
       onChange={(e)=>{
         setFirstBaggage(e.target.value);
