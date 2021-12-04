@@ -6,21 +6,114 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
 import {Modal,ModalHeader,ModalBody,ModalFooter,CardBody, Card, CardHeader, Form, Input, FormGroup,
         Label, Button, Container, Row, Col, Table} from 'reactstrap';
+import {useParams,useLocation} from "react-router-dom";
 function ReserveFlight(){
-    const [departureNumber,setdeparureNumber]=React.useState("");
-    const [returnNumber,returnNumber]=React.useState(0);
-    const [departureDate,departureDate]=React.useState(new Date());
-    const [ArrivalDate,ArrivalDate]=React.useState(new Date());
-    const [ departureDTime,departureDTime]=React.useState("");
-    const [departureATime,departureATime]=React.useState("");
-    const [returnDTime,returnDTime]=React.useState("");
-    const [returnATime,returnATime]=React.useState("");
-    const [departureDuration,departureDuration]=React.useState(0);
-    const [returnDuration,returnDuration]=React.useState(0);
-    const [departurePrice,departurePrice]=React.useState(0);
-    const [returnPrice,returnPrice]=React.useState(0);
-    const [departurCabin,departurCabin]=React.useState("");
-    const [returnCabin,returnCabin]=React.useState("");
-    const [departureSeats,departureSeats]=React.useState("");
-    const [returnSeats,returnSeats]=React.useState("");
-}
+
+    let location = useLocation();
+    let search=new URLSearchParams(location.search);
+    const Summary={
+        Names:[],
+        Cabin:search.get('Cabin'),
+        Adults:search.get('Adults'),
+        Children:search.get('Children'),
+        DepartureId:search.get('DepartureId'),
+        ReturnFlightId:search.get('ReturnFlightId'),
+        DeparturePriceAdult:search.get('DeparturePriceAdult'),
+        DeparturePriceChild:search.get('DeparturePriceChild'),
+        DepatureTotalPrice:search.get('DepatureTotalPrice'),
+        ReturnPriceAdult:search.get('ReturnPriceAdult'),
+        ReturnPriceChild:search.get('ReturnPriceChild'),
+        ReturnTotalPrice:search.get('ReturnTotalPrice')
+                       
+    };
+   
+    const{id}=useParams();
+    console.log(id);
+     
+    const [show, setShow] = useState(false);
+     
+    async function handleSubmit() {
+       console.log(Summary);
+        try {
+
+    
+          await axios.post(`http://localhost:8000/user/confirmReserve/${id}`,Summary) 
+          } catch (error) {
+          console.error(error);
+        }
+      }  
+
+      for(let i =0;i<(parseInt(Summary.Children)+parseInt(Summary.Adults));i++ ){
+        Summary.Names.push("placeHolder");
+
+      }
+  
+     
+
+    return (
+      <Container>   
+         <Modal isOpen={show}  >
+         <ModalHeader
+          charCode="Y"
+
+        >
+          Tickets Reserved Successfully
+        </ModalHeader>
+        <ModalBody>
+          You have Successfully reserved your tickets
+        </ModalBody>
+        <ModalFooter>
+          <Button>
+          <Link to={`/user/viewReserved/${id}`}> View My Tickets </Link>
+          </Button>
+          
+         
+        </ModalFooter>
+      </Modal>
+         
+          
+             <Form>
+                   {    
+                  Summary.Names.map((thename)=>(
+                    <FormGroup>
+                    <Label for="exampleEmail">
+                      Enter The Name for the Passenger:
+                    </Label>
+                    <Input
+                      name="Name"
+                      placeholder="FirstName LastName"
+                      type="text"
+                      onChange={(e)=>{
+                        thename=e.target.value;
+                        Summary.Names.pop();
+                        Summary.Names.push(thename);
+                      }}
+                    />
+                     </FormGroup>
+                  )
+                    
+                  )
+                   
+                  
+                  }
+                   
+             
+                  <Button color="danger" onClick={() =>{ handleSubmit();
+                                            setShow(true);}}> Confirm and Submit </Button>
+                  </Form>
+                   
+        
+ 
+                </Container>  
+                 
+
+             
+          
+       
+
+                                                         
+
+
+  );
+  }
+  export default ReserveFlight;

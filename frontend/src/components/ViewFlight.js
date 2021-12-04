@@ -10,25 +10,8 @@ import { CardBody, Card, CardColumns,CardImg,CardSubtitle,CardText,CardGroup,
           Button,CardTitle } from 'reactstrap';
       
 function ViewFlight(props){
-  const Summary={
-    Cabin:'',
-    Adults:0,
-    Children:0,
-    //ReturnFlight
-    From:'',
-    To:'',
-    ReturnDate:'',
-    ReturnTime:'',
-    ReturnArrivalDate:'',
-    ReturnArrivalTime:'',
-    ReturnFlightNumber:'',
-    ReturnPriceAdult:0,
-    ReturnPriceChild:0,
-    ReturnTotalPrice:0,
-    ReturnBaggage:0
-    //ReturnSeat:
-    //ReturnDuration:
-};
+
+     
 
     const initialstate=
     {From:{
@@ -78,8 +61,7 @@ Arrival:{
     const [viewReturn,setReturnView] = useState(true);
     const [ViewOutBound,setViewOutBound] = useState(true);
 
-
-    const[mysummary,setSummary]=useState(Summary);
+    
 
 
 
@@ -97,8 +79,44 @@ Arrival:{
       Children:childTicketsno,
       DepartureFrom:flight.From.Airport,
       DepartureTo:flight.To.Airport,
+
       
+    }  
+    const Summary={
+   
+      Cabin:cabin,
+      Adults:adultTicketsno,
+      Children:childTicketsno,
+      //ReturnFlight
+      From: '',
+      To:"",
+      ReturnDate:"",
+      ReturnTime:"",
+      ReturnArrivalDate: "",
+      ReturnArrivalTime:"",
+      ReturnFlightId:"",
+      ReturnFlightNumber:"",
+      ReturnPriceAdult:0,
+      ReturnPriceChild:0,
+      ReturnTotalPrice:0,
+      ReturnBaggage: 0 }
+    const Data={
+      Cabin:cabin,
+      Adults:adultTicketsno,
+      Children:childTicketsno,
+      DepartureId:"",
+      ReturnFlightId:"",
+      DeparturePriceAdult:0,
+      DeparturePriceChild:0,
+      DepatureTotalPrice:0,
+      ReturnPriceAdult:0,
+      ReturnPriceChild:0,
+      ReturnTotalPrice:0
+
     }
+    const[mysummary,setSummary]=useState(Summary);
+    const[myData,setData]=useState(Data);
+    
     console.log("Return",search.get('ReturnDate'));
     
 
@@ -119,7 +137,9 @@ Arrival:{
     const total =mysearch.Adults+mysearch.Children;
     console.log("total : ", total);
 
-      function handleSummary(FromAirport,ToAirport,FirstPrice,BusinessPrice,EconomyPrice,ArrivalTime,DepartureTime,DepartureDate,ArrivalDate,FlightNumber,FirstChildPrice,BusinessChildPrice,EconomyChildPrice,FirstBaggage,BusinessBaggage,EconomyBaggage) {  
+      function handleSummary(FromAirport,ToAirport,FirstPrice,BusinessPrice,EconomyPrice,
+        ArrivalTime,DepartureTime,DepartureDate,ArrivalDate,FlightId,FlightNumber,FirstChildPrice,
+        BusinessChildPrice,EconomyChildPrice,FirstBaggage,BusinessBaggage,EconomyBaggage) {  
         setReturnView(false);
         const ReturnadultTicket= (cabin=="First")?FirstPrice:(cabin=="Business")?BusinessPrice:(cabin=="Economy")?EconomyPrice:0;
         const ReturnchildTicket= (cabin=="First")?FirstChildPrice:(cabin=="Business")?BusinessChildPrice:(cabin=="Economy")?EconomyChildPrice:0;
@@ -138,21 +158,35 @@ Arrival:{
           ReturnTime:DepartureTime,
           ReturnArrivalDate: ArrivalDate,
           ReturnArrivalTime:ArrivalTime,
+          ReturnFlightId:FlightId,
           ReturnFlightNumber:FlightNumber,
           ReturnPriceAdult:ReturnadultTicket,
           ReturnPriceChild:ReturnchildTicket,
           ReturnTotalPrice:ReturntotalPrice,
-          ReturnBaggage: Baggage
-        })
+          ReturnBaggage: Baggage,
+         
+      })
         setViewSummary(true);
         setViewOutBound(false);
+        setData( {
+          Cabin:cabin,
+          Adults:adultTicketsno,
+          Children:childTicketsno,
+          DepartureId:flight._id,
+          ReturnFlightId:FlightId,
+          DeparturePriceAdult: adultTicket,
+          DeparturePriceChild:childTicket,
+          DepatureTotalPrice: totalPrice,
+          ReturnPriceAdult:ReturnadultTicket,
+          ReturnPriceChild:ReturnchildTicket,
+          ReturnTotalPrice:ReturntotalPrice,
+    
+        })
 
       }
       console.log(mysummary);
       
-      function handleConfirm(){
-
-      }
+    
 
 
       return(
@@ -278,7 +312,10 @@ return flag1 & flag2 & flag3 & flag4 ;
                           </CardText>
                           <br></br>
                         </CardBody>
-                        <Button onClick={() => handleSummary(x.From.Airport,x.To.Airport,x.First.Price,x.Business.Price,x.Economy.Price,x.Arrival.Time,x.Departure.Time,x.Departure.Date.slice(0, 10),x.Arrival.Date.slice(0, 10),x.FlightNumber,x.First.ChildPrice,x.Business.ChildPrice,x.Economy.ChildPrice,x.First.Baggage,x.Business.Baggage,x.Economy.Baggage)}>Show Summary</Button>
+                        <Button onClick={() => handleSummary(x.From.Airport,x.To.Airport,x.First.Price,x.Business.Price,
+                          x.Economy.Price,x.Arrival.Time,x.Departure.Time,x.Departure.Date.slice(0, 10),
+                          x.Arrival.Date.slice(0, 10),x._id,x.FlightNumber,x.First.ChildPrice,x.Business.ChildPrice,
+                          x.Economy.ChildPrice,x.First.Baggage,x.Business.Baggage,x.Economy.Baggage)}>Show Summary</Button>
                         
                       </Card>
                       
@@ -367,18 +404,14 @@ return flag1 & flag2 & flag3 & flag4 ;
                     TotalPrice {mysummary.ReturnTotalPrice + totalPrice} <br/> 
                     </CardText>
                     <Button >
-                    <Link to={{ pathname:`/user/confirmFlight/${flight._id}` 
-                         , search:'?'+new URLSearchParams(mysummary).toString()
-                           }}className="btn btn-primary">Confirm</Link> 
+                    <Link to={{ pathname:`/user/confirmFlight/61ab6ae821511440623d1f7b` 
+                         , search:'?'+new URLSearchParams(myData).toString()
+                           }}className="btn btn-primary">Confirm and book</Link> 
                       </Button>
 
 
       </CardBody>
-                         <Button>
-                          <Link to={{ pathname:`/user/viewFlight/${flight._id}` 
-                         , search:'?'+new URLSearchParams(mysearch).toString()
-                           }}className="btn btn-primary">Choose Flight</Link>
-                          </Button>
+                         
       </Card>
       </CardColumns>
       </div>:<label></label>}
