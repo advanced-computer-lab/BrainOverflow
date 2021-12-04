@@ -127,89 +127,89 @@ function AllFlights() {
         </ModalFooter>
       </Modal>
       <Row xs="1">
-      <Form onSubmit={addtoList}>
+        <Form onSubmit={addtoList}>
 
 
           <FormGroup row>
             <Col>
-            <Label for="exampleDate">
-              Date:
-            </Label>
-            <Input
-              id="Date"
-              name="date"
-              placeholder="date placeholder"
-              type="date"
+              <Label for="exampleDate">
+                Date:
+              </Label>
+              <Input
+                id="Date"
+                name="date"
+                placeholder="date placeholder"
+                type="date"
 
-            />
+              />
             </Col>
             <Col>
-            <Label for="terminal">
-              terminal:
-            </Label>
-            <Input
-              id="terminal"
-              name="terminal"
-              placeholder="search..."
-              type="text"
+              <Label for="terminal">
+                terminal:
+              </Label>
+              <Input
+                id="terminal"
+                name="terminal"
+                placeholder="search..."
+                type="text"
 
-            />
+              />
             </Col>
             <Col>
-            <Label for="flight number">
-              flight number:
-            </Label>
-            <Input
-              id="flight number"
-              name="flight number"
-              placeholder="search by flight number..."
-              type="text"
+              <Label for="flight number">
+                flight number:
+              </Label>
+              <Input
+                id="flight number"
+                name="flight number"
+                placeholder="search by flight number..."
+                type="text"
 
 
-            />
+              />
             </Col>
             <Col>
-            <Label for="departure time">
-              departure time:
-            </Label>
-            <Input
-              id="departure time"
-              name="departure time"
-              placeholder="search..."
-              type="time"
+              <Label for="departure time">
+                departure time:
+              </Label>
+              <Input
+                id="departure time"
+                name="departure time"
+                placeholder="search..."
+                type="time"
 
-            />
+              />
             </Col>
             <Col>
-            <Label for="arrival time">
-              arrival time:
-            </Label>
-            <Input
-              id="arrival time"
-              name="arrival time"
-              placeholder="search..."
-              type="time"
+              <Label for="arrival time">
+                arrival time:
+              </Label>
+              <Input
+                id="arrival time"
+                name="arrival time"
+                placeholder="search..."
+                type="time"
 
 
-            />
+              />
             </Col>
           </FormGroup>
-        <div className="search">
-          <Button
-            color="info"
-            size="lg"
-            type="submit"
-          >
-            Search</Button>
-        </div>
-      </Form>
-</Row>
+          <div className="search">
+            <Button
+              color="info"
+              size="lg"
+              type="submit"
+            >
+              Search</Button>
+          </div>
+        </Form>
+      </Row>
       <div className="">
         <div className="content">
 
           <br />
           <Container>
-          <h1>Flights available : </h1>
+            <h1>Flights available : </h1>
 
             <Table>
               <thead><tr>
@@ -229,35 +229,35 @@ function AllFlights() {
               <tbody>
 
 
-          {
-          displayed.map((flight) => (
+                {
+                  displayed.map((flight) => (
 
-                  <tr key ={flight._id}>
-                    <td>{flight.FlightNumber}</td>
-                    <td>{flight.From.Airport}</td>
-                    <td>{flight.From.Terminal}</td>
-                    <td>{flight.To.Airport}</td>
-                    <td>{flight.To.Terminal}</td>
-                    <td>{flight.Departure.Date}</td>
-                    <td>{flight.Departure.Time}</td>
-                    <td>{flight.Arrival.Date}</td>
-                    <td>{flight.Arrival.Time}</td>
-                    <td><Link to={`/admin/updateFlight/${flight._id}`} className="btn btn-primary">Edit</Link>
+                    <tr key={flight._id}>
+                      <td>{flight.FlightNumber}</td>
+                      <td>{flight.From.Airport}</td>
+                      <td>{flight.From.Terminal}</td>
+                      <td>{flight.To.Airport}</td>
+                      <td>{flight.To.Terminal}</td>
+                      <td>{flight.Departure.Date}</td>
+                      <td>{flight.Departure.Time}</td>
+                      <td>{flight.Arrival.Date}</td>
+                      <td>{flight.Arrival.Time}</td>
+                      <td><Link to={`/admin/updateFlight/${flight._id}`} className="btn btn-primary">Edit</Link>
 
-                      <Button color="danger" onClick={() => handleShow(flight._id)}> Delete </Button>
+                        <Button color="danger" onClick={() => handleShow(flight._id)}> Delete </Button>
 
-                    </td>
-                  </tr>
-                   ))
-                  }
-                </tbody>
-              </Table>
+                      </td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </Table>
 
-            </Container>
+          </Container>
 
         </div>
       </div>
-      
+
     </Container>
 
   );

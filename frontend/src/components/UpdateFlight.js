@@ -90,6 +90,7 @@ function UpdateFlight(props) {
       name="From"
       placeholder="Departure airport"
       type="text"
+      required
       value={flight.From.Airport}
       onChange={handleChange}
     />
@@ -102,6 +103,7 @@ function UpdateFlight(props) {
       placeholder="Departure Terminal"
       type="number"
       value={flight.From.Terminal}
+      required
       onChange={handleChange}
     />
   </FormGroup>
@@ -115,6 +117,7 @@ function UpdateFlight(props) {
       placeholder="Arrival airport"
       type="text"
       value={flight.To.Airport}
+      required
       onChange={handleChange}
     />
   </FormGroup>
@@ -128,6 +131,7 @@ function UpdateFlight(props) {
       name="ToTerminal"
       placeholder="Arrival Terminal"
       type="number"
+      required
       value={flight.To.Terminal}
       onChange={handleChange}
     />
@@ -143,7 +147,7 @@ function UpdateFlight(props) {
       name="DepartureDate"
       placeholder="date placeholder"
       type="datetime-local"
-      //value={flight.Departure.Date}
+      required      //value={flight.Departure.Date}
       onChange={handleChange}
     />
   </FormGroup>
@@ -155,6 +159,7 @@ Departure Time    </Label>
       name="DepartureTime"
       placeholder="date placeholder"
       type="time"
+      required
       //value={flight.Departure.Time}
       onChange={handleChange}
        
@@ -169,6 +174,7 @@ Departure Time    </Label>
       name="ArrivalDate"
       placeholder="date placeholder"
       type="datetime-local"
+      required
       //value={flight.Arrival.Date}
       onChange={handleChange}
     />
@@ -181,6 +187,7 @@ Departure Time    </Label>
       id="Arrival"
       name="Arrival"
       placeholder=""
+      required
       type="time"
       //v/alue={flight.Arrival.Time}
       onChange={handleChange}
@@ -195,6 +202,7 @@ Departure Time    </Label>
       name="Economy"
       placeholder=""
       type="number"
+      required
       value={flight.Economy.SeatId.length}
       onChange={handleChange}
     />
@@ -208,6 +216,7 @@ Departure Time    </Label>
       name="EconomyPrice"
       placeholder=""
       type="number"
+      required
       value={flight.Economy.Price}
       onChange={handleChange}
     />
@@ -221,6 +230,7 @@ Departure Time    </Label>
       id="EconomyChildPrice"
       name="EconomyChildPrice"
       placeholder=""
+      required
       type="number"
       value= {flight.Economy.Price}
       onChange={handleChange}
@@ -234,6 +244,7 @@ Departure Time    </Label>
     <Input
       id="First"
       name="First"
+      required
       placeholder=""
       type="number"
       value= {flight.First.SeatId.length}
@@ -248,6 +259,7 @@ Departure Time    </Label>
       id="FirstPrice"
       name="FirstPrice"
       placeholder=""
+      required
       type="number"
       value={flight.First.Price}
       onChange={handleChange}
@@ -262,6 +274,7 @@ Departure Time    </Label>
       id="FirstChildPrice"
       name="FirstChildPrice"
       placeholder=""
+      required
       type="FirstChildPrice"
       value= {flight.First.ChildPrice}
       onChange={handleChange}

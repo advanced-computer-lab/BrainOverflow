@@ -156,6 +156,7 @@ function UpdateProfile(props) {
       name="LastName"
       placeholder="Last Name"
       type="text"
+      required
       value={user.LastName}
       onChange={handleChange}
     />
@@ -178,6 +179,7 @@ function UpdateProfile(props) {
       placeholder="something@idk.cool"
       type="email"
       value={user.Email}
+      required
       onChange={handleChange}
     />
      {/* <FormFeedback valid style={!(EmailErr)?{display: 'block'}:{display: 'none'}}>
@@ -196,6 +198,7 @@ function UpdateProfile(props) {
       placeholder=""
       type="password"
       value={user.Password}
+      required
       onChange={handleChange}
        
     />
@@ -228,6 +231,7 @@ Visa card number    </Label>
       placeholder=""
       type="tel"
       value={user.PhoneNumber}
+      required
       onChange={handleChange}
     />
      {/* <FormFeedback valid style={!(user.formErrors.PhoneNumber)?{display: 'block'}:{display: 'none'}}>
@@ -260,7 +264,7 @@ Visa card number    </Label>
       type="text"
       value={user.Country}
       onChange={handleChange}
-      
+      required
     />
      {/* <FormFeedback valid style={!(user.formErrors.Country)?{display: 'block'}:{display: 'none'}}>
      valid input

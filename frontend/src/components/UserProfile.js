@@ -31,25 +31,31 @@ function UserProfile(props) {
 
     const [user, setUser] = useState(initialstate);
     useEffect(() => {
-        async function getUser() {
-           
-                const response = await get(`http://localhost:8000/user/${id}`);
-                if(!response.data.FirstName){
-                    //console.log(response.data);
-                    setHasError(true);
-                    setError("This user doesn't exist on the system !");}
-                setUser(response.data);
-            
-        }
-        getUser();
-    }, [props]);
+        const response =axios.get(`http://localhost:8000/user/userProfile/${id}`).then(res => {
+           if(!(res.data.FirstName)|| res.status==404){
+               console.log("Iam null")
+               setHasError(true);
+               setError("No user Exists with this id")
+           }
+          setUser(res.data);
+        
+        }).catch((err)=> {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+             if (err.response) {
+                setHasError(true);
+                setError("You entered non valid id")
+             }
+           })
+      }, []);      
 
 
 
     return (
+
         <Container className='m-3'>
             <div>
-            {!hasError && <Card
+            {!(hasError) && <Card
                     body
                     color="light"
                 >

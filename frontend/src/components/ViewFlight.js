@@ -69,6 +69,8 @@ Arrival:{
     const childTicketsno=parseInt(search.get('Children')) ;
     const adultTicketsno=parseInt(search.get('Adults')) ;
     const cabin=search.get('Cabin');
+    const [HasError, setHasError] = useState(false);
+  const [Error, setError] = useState('');
     const returnDate =search.get('ReturnDate');
     const adultTicket= (cabin=="First")?flight.First.Price:(cabin=="Business")?flight.Business.Price:(cabin=="Economy")?flight.Economy.Price:0;
     const childTicket= (cabin=="First")?flight.First.ChildPrice:(cabin=="Business")?flight.Business.ChildPrice:(cabin=="Economy")?flight.Economy.ChildPrice:0;
@@ -127,7 +129,18 @@ Arrival:{
           setFlight(res.data.aFlight);
           setReturnFlights(res.data.allFlight);
           setDisplayed(res.data.allFlight);
-          console.log(res.data.allFlight);
+          if(!res.data.allFlight){
+            setHasError(true);
+            setError("No flight with this id exists")
+          }
+          console.log("Iam the res.data.allFlight",res.data.allFlight);
+           }).catch((err)=> {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+             if (err.response) {
+                setHasError(true);
+                setError("This flight doesn't exist")
+             }
            })
         
 
@@ -340,6 +353,7 @@ return flag1 & flag2 & flag3 & flag4 ;
                   > OutBound {flight.Departure.Date.slice(0, 10)} at {flight.Departure.Time}<br/>
                     </CardSubtitle>
                     <CardText>
+
                     Flight From  {flight.From.Airport} to {flight.To.Airport}
                     Duration :
                     </CardText>

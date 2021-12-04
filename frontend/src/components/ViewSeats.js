@@ -8,11 +8,13 @@ import { useNavigate } from 'react-router-dom'
 import { useParams, useLocation } from "react-router-dom";
 import {
     Container, Table, CardBody, Card, CardColumns, CardImg, CardSubtitle, CardText,
-    Button, CardTitle , Modal ,ModalHeader,ModalBody,ModalFooter
+    Button, CardTitle , Modal ,ModalHeader,ModalBody,ModalFooter,Col,Alert
 } from 'reactstrap';
 
 function ViewSeats() {
   const [show, setShow] = useState(false);
+  const [HasError, setHasError] = useState(false);
+  const [Error, setError] = useState('');
   const [chosenSeatId, setchosenSeatId] = useState(0);
   const [chosenSeatNum, setchosenSeatNum] = useState(0);
   const handleClose = () => setShow(false);
@@ -26,28 +28,37 @@ function ViewSeats() {
   async function handleReserve(chosenSeatId) {
     try {
         console.log(chosenSeatId)
-      await axios.post(`http://localhost:8000/user/viewSeats/${chosenSeatId}/${TicketId}`).then(
+      await axios.post(`http://localhost:8000/user/viewSeats/${id}/${chosenSeatId}/${TicketId}`).then(
         handleClose()
       )
 
     } catch (error) {
-      console.error(error);
+      setHasError(true);
+      setError('Sorry , An error occured');
     }
   }
 
     const [seats, setSeats] = useState([]);
+    const {id} = useParams();
     const { FlightId } = useParams();
     const { Cabin } = useParams();
     const { TicketId } = useParams();
     useEffect(() => {
-        axios.get(`http://localhost:8000/user/viewSeats/${FlightId}/${Cabin}/${TicketId}`).then(res => {
+        axios.get(`http://localhost:8000/user/viewSeats/${id}/${FlightId}/${Cabin}/${TicketId}`).then(res => {
             console.log(res.data);
             setSeats(res.data);
-        })
+        }).catch((err)=> {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+           if (err.response) {
+              setHasError(true);
+              setError("You entered non valid id")
+           }
+         })
     }, []);
     return (
-        //<h1>HI</h1>
-        <Container className='mt-5 mb-5'>
+        
+        <Container className='mt-5 mb-5' >
             <Modal isOpen={show}  >
         <ModalHeader
           charCode="Y"
@@ -72,7 +83,7 @@ function ViewSeats() {
         </ModalFooter>
       </Modal>
         
-            <Card>
+      {!(HasError) &&  <Card>
               <CardImg  
                 alt="Card image cap"
                 src="https://picsum.photos/256/186"
@@ -114,7 +125,10 @@ function ViewSeats() {
 
                 </Container>
               </CardBody>
-            </Card>
+            </Card>}
+            {HasError &&  <Col className="bg-light "> <Alert align="center" color="danger" Row > 
+<a align="center" style={(Error)?{display: 'block',color:'red',fontSize:'20px'}:{display: 'none'}}><CardTitle>{Error}</CardTitle></a></Alert></Col> 
+}
             </Container>
      )
 }
