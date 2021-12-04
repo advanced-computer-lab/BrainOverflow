@@ -1,3 +1,4 @@
+const { Timestamp } = require('bson');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const Seat = require('./Seat');
@@ -24,10 +25,10 @@ const flightSchema = new Schema({
       Economy:{
         SeatId: [{type: mongoose.Schema.Types.ObjectId,required:true,
             ref:"Seat"}],
-
         Price:Number,
         ChildPrice:Number,
         Baggage:Number,
+        SeatsLeft:Number
         //required:true
       },
       Business:{
@@ -36,6 +37,8 @@ const flightSchema = new Schema({
         Price:Number,
         ChildPrice:Number,
         Baggage:Number,
+        SeatsLeft:Number
+
         //required: true
       },
       First:{
@@ -44,6 +47,8 @@ const flightSchema = new Schema({
         Price:Number,
         ChildPrice:Number,
         Baggage:Number,
+        SeatsLeft:Number
+
        // required: true
       },
       Departure:{

@@ -16,14 +16,14 @@ import ViewFlight from './components/ViewFlight';
  
 import UpdateProfile from './components/UpdateProfile';
 import UserProfile from './components/UserProfile';
+import Page404 from './components/Page404';
+import ViewSeats from './components/ViewSeats';
+import ReserveFlight from './components/ReserveFlight';
+
 
 import { Container } from 'reactstrap';
-
- 
-
-
-  
 function App() {
+ 
   return (
     
     <BrowserRouter>
@@ -35,19 +35,20 @@ function App() {
       <Route path="/home" element={<Home/>}/>
       
       <Route path="user/viewReserved/:id" element={<ViewReserved/>}/>
-
       <Route path="/user/viewFlights" element={<SearchFlight />} />
       <Route path="/user/viewFlight/:id" element={<ViewFlight />} />
- 
-       
-     
-      <Route path="/user/updateProfile/:id" element={<UpdateProfile/>}/> 
-      <Route path="/user/:id" element={<UserProfile/>}/> 
+      <Route path="/user/viewSeats/:id/:FlightId/:Cabin/:TicketId" element={<ViewSeats/>}/>  
+      <Route path="/user/updateProfile/:id" element={<UpdateProfile/>}/>
+      <Route path="/user/userProfile/:id" element={<UserProfile/>}/> 
+
+      <Route path="/user/confirmFlight/:id" element={<ReserveFlight/>}/> 
+      <Route element={Page404} />
+      <Route path="/user/ " element={<UserProfile/>}/> 
+
     </Routes>
   </BrowserRouter>
   );
  
 }
-
 
 export default App;

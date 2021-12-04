@@ -79,7 +79,7 @@ function AllFlights() {
       if (event.target[0].value !== '') {
 
         let d1 = event.target[0].value
-        let d2 = f.FlightDate.slice(0, 10)
+        let d2 = f.FlightDate
         console.log(event.target[0].value)
         console.log(d2)
         flag1 = (d1 == d2)
@@ -104,7 +104,7 @@ function AllFlights() {
   }
 
   return (
-    <div>
+    <Container>
       <Modal isOpen={show}  >
         <ModalHeader
           charCode="Y"
@@ -128,143 +128,139 @@ function AllFlights() {
           </Button>
         </ModalFooter>
       </Modal>
-      <Form onSubmit={addtoList}>
-
-        <Col md={3}>
-
-          <FormGroup>
-            <Label for="exampleDate">
-              Date:
-            </Label>
-            <Input
-              id="Date"
-              name="date"
-              placeholder="date placeholder"
-              type="date"
-              required
-
-            />
-            <Label for="terminal">
-              terminal:
-            </Label>
-            <Input
-              id="terminal"
-              name="terminal"
-              placeholder="search..."
-              type="text"
-              required
-
-            />
-            <Label for="flight number">
-              flight number:
-            </Label>
-            <Input
-              id="flight number"
-              name="flight number"
-              placeholder="search by flight number..."
-              type="text"
-              required
+      <Row xs="1">
+        <Form onSubmit={addtoList}>
 
 
-            />
-            <Label for="departure time">
-              departure time:
-            </Label>
-            <Input
-              id="departure time"
-              name="departure time"
-              placeholder="search..."
-              type="time"
-              required
+          <FormGroup row>
+            <Col>
+              <Label for="exampleDate">
+                Date:
+              </Label>
+              <Input
+                id="Date"
+                name="date"
+                placeholder="date placeholder"
+                type="date"
 
-            />
-            <Label for="arrival time">
-              arrival time:
-            </Label>
-            <Input
-              id="arrival time"
-              name="arrival time"
-              placeholder="search..."
-              type="time"
-              required
+              />
+            </Col>
+            <Col>
+              <Label for="terminal">
+                terminal:
+              </Label>
+              <Input
+                id="terminal"
+                name="terminal"
+                placeholder="search..."
+                type="text"
+
+              />
+            </Col>
+            <Col>
+              <Label for="flight number">
+                flight number:
+              </Label>
+              <Input
+                id="flight number"
+                name="flight number"
+                placeholder="search by flight number..."
+                type="text"
 
 
-            />
+              />
+            </Col>
+            <Col>
+              <Label for="departure time">
+                departure time:
+              </Label>
+              <Input
+                id="departure time"
+                name="departure time"
+                placeholder="search..."
+                type="time"
+
+              />
+            </Col>
+            <Col>
+              <Label for="arrival time">
+                arrival time:
+              </Label>
+              <Input
+                id="arrival time"
+                name="arrival time"
+                placeholder="search..."
+                type="time"
+
+
+              />
+            </Col>
           </FormGroup>
-        </Col>
-        <div className="search">
-          <Button
-            color="info"
-            size="lg"
-            type="submit"
-          >
-            Search</Button>
-        </div>
-      </Form>
-
+          <div className="search">
+            <Button
+              color="info"
+              size="lg"
+              type="submit"
+            >
+              Search</Button>
+          </div>
+        </Form>
+      </Row>
       <div className="">
         <div className="content">
-          <h1>Flights available : </h1>
 
           <br />
           <Container>
+            <h1>Flights available : </h1>
 
             <Table>
               <thead><tr>
                 <th>FlightNo</th>
                 <th>From</th>
-                <th>Terminal</th>
+                <th>Deaprture Terminal</th>
                 <th>To</th>
-                <th>Terminal</th>
-                <th> Flight Date</th>
+                <th>Arrival Terminal</th>
+                <th> Departure Date</th>
+                <th> Departure Time</th>
                 <th>Arrival Date </th>
-                <th>Economy </th>
-                <th>Business</th>
-                <th>First class</th>
+                <th>Arrival Time </th>
                 <th>        </th>
               </tr>
               </thead>
+
+              <tbody>
+
+
+                {
+                  displayed.map((flight) => (
+
+                    <tr key={flight._id}>
+                      <td>{flight.FlightNumber}</td>
+                      <td>{flight.From.Airport}</td>
+                      <td>{flight.From.Terminal}</td>
+                      <td>{flight.To.Airport}</td>
+                      <td>{flight.To.Terminal}</td>
+                      <td>{flight.Departure.Date}</td>
+                      <td>{flight.Departure.Time}</td>
+                      <td>{flight.Arrival.Date}</td>
+                      <td>{flight.Arrival.Time}</td>
+                      <td><Link to={`/admin/updateFlight/${flight._id}`} className="btn btn-primary">Edit</Link>
+
+                        <Button color="danger" onClick={() => handleShow(flight._id)}> Delete </Button>
+
+                      </td>
+                    </tr>
+                  ))
+                }
+              </tbody>
             </Table>
+
           </Container>
-
-
-
-          {displayed.map((flight) => (
-            <Container>
-              <Table bordered>
-                <tbody>
-
-                  <tr>
-                    <td>{flight.FlightNumber}</td>
-                    <td>{flight.From.Airport}</td>
-                    <td>{flight.From.Terminal}</td>
-                    <td>{flight.To.Airport}</td>
-                    <td>{flight.To.Terminal}</td>
-                    <td>{flight.Departure.Date.slice(0, 10)} at {flight.Departure.Time}</td>
-                    <td>{flight.Arrival.Date.slice(0, 10)} at {flight.Arrival.Time}</td>
-                    <td>{flight.Economy.SeatId.length}</td>
-                    <td>{flight.Business.SeatId.length}</td>
-                    <td>{flight.First.SeatId.length}</td>
-                    <td><Link to={`/admin/updateFlight/${flight._id}`} className="btn btn-primary">Edit</Link>
-
-                      <Button color="danger" onClick={() => handleShow(flight._id)}> Delete </Button>
-
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
-
-            </Container>
-
-
-
-
-          ))}
 
         </div>
       </div>
-      
-    </div>
+
+    </Container>
 
   );
 }

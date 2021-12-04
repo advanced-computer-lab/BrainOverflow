@@ -6,11 +6,10 @@ const seatSchema = new Schema({
     SeatNumber:{
         type:String,
         required:true,
-        unique: true
-
     },
     FlightId:{type: mongoose.Schema.Types.ObjectId,required:true,
         ref:"Flight"},
+    Cabin:{type:String,required:true},
     IsBooked:{
         type:Boolean,
         required:true

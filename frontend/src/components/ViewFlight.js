@@ -10,25 +10,8 @@ import { CardBody, Card, CardColumns,CardImg,CardSubtitle,CardText,CardGroup,Toa
           Button,CardTitle,Col,Row} from 'reactstrap';
 import "/Users/ok/Documents/GitHub/BrainOverflow/frontend/src/Style/summay.css";
 function ViewFlight(props){
-  const Summary={
-    Cabin:'',
-    Adults:0,
-    Children:0,
-    //ReturnFlight
-    From:'',
-    To:'',
-    ReturnDate:'',
-    ReturnTime:'',
-    ReturnArrivalDate:'',
-    ReturnArrivalTime:'',
-    ReturnFlightNumber:'',
-    ReturnPriceAdult:0,
-    ReturnPriceChild:0,
-    ReturnTotalPrice:0,
-    ReturnBaggage:0
-    //ReturnSeat:
-    //ReturnDuration:
-};
+
+     
 
     const initialstate=
     {From:{
@@ -79,14 +62,16 @@ Arrival:{
     const [viewReturn,setReturnView] = useState(true);
     const [ViewOutBound,setViewOutBound] = useState(true);
 
+    
 
-    const[mysummary,setSummary]=useState(Summary);
 
 
     const { id } = useParams();
     const childTicketsno=parseInt(search.get('Children')) ;
     const adultTicketsno=parseInt(search.get('Adults')) ;
     const cabin=search.get('Cabin');
+    const [HasError, setHasError] = useState(false);
+  const [Error, setError] = useState('');
     const returnDate =search.get('ReturnDate');
     const adultTicket= (cabin=="First")?flight.First.Price:(cabin=="Business")?flight.Business.Price:(cabin=="Economy")?flight.Economy.Price:0;
     const childTicket= (cabin=="First")?flight.First.ChildPrice:(cabin=="Business")?flight.Business.ChildPrice:(cabin=="Economy")?flight.Economy.ChildPrice:0;
@@ -97,8 +82,44 @@ Arrival:{
       Children:childTicketsno,
       DepartureFrom:flight.From.Airport,
       DepartureTo:flight.To.Airport,
+
       
+    }  
+    const Summary={
+   
+      Cabin:cabin,
+      Adults:adultTicketsno,
+      Children:childTicketsno,
+      //ReturnFlight
+      From: '',
+      To:"",
+      ReturnDate:"",
+      ReturnTime:"",
+      ReturnArrivalDate: "",
+      ReturnArrivalTime:"",
+      ReturnFlightId:"",
+      ReturnFlightNumber:"",
+      ReturnPriceAdult:0,
+      ReturnPriceChild:0,
+      ReturnTotalPrice:0,
+      ReturnBaggage: 0 }
+    const Data={
+      Cabin:cabin,
+      Adults:adultTicketsno,
+      Children:childTicketsno,
+      DepartureId:"",
+      ReturnFlightId:"",
+      DeparturePriceAdult:0,
+      DeparturePriceChild:0,
+      DepatureTotalPrice:0,
+      ReturnPriceAdult:0,
+      ReturnPriceChild:0,
+      ReturnTotalPrice:0
+
     }
+    const[mysummary,setSummary]=useState(Summary);
+    const[myData,setData]=useState(Data);
+    
     console.log("Return",search.get('ReturnDate'));
     
 
@@ -109,7 +130,18 @@ Arrival:{
           setFlight(res.data.aFlight);
           setReturnFlights(res.data.allFlight);
           setDisplayed(res.data.allFlight);
-          console.log(res.data.allFlight);
+          if(!res.data.allFlight){
+            setHasError(true);
+            setError("No flight with this id exists")
+          }
+          console.log("Iam the res.data.allFlight",res.data.allFlight);
+           }).catch((err)=> {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+             if (err.response) {
+                setHasError(true);
+                setError("This flight doesn't exist")
+             }
            })
         
 
@@ -119,7 +151,9 @@ Arrival:{
     const total =mysearch.Adults+mysearch.Children;
     console.log("total : ", total);
 
-      function handleSummary(FromAirport,ToAirport,FirstPrice,BusinessPrice,EconomyPrice,ArrivalTime,DepartureTime,DepartureDate,ArrivalDate,FlightNumber,FirstChildPrice,BusinessChildPrice,EconomyChildPrice,FirstBaggage,BusinessBaggage,EconomyBaggage) {  
+      function handleSummary(FromAirport,ToAirport,FirstPrice,BusinessPrice,EconomyPrice,
+        ArrivalTime,DepartureTime,DepartureDate,ArrivalDate,FlightId,FlightNumber,FirstChildPrice,
+        BusinessChildPrice,EconomyChildPrice,FirstBaggage,BusinessBaggage,EconomyBaggage) {  
         setReturnView(false);
         const ReturnadultTicket= (cabin=="First")?FirstPrice:(cabin=="Business")?BusinessPrice:(cabin=="Economy")?EconomyPrice:0;
         const ReturnchildTicket= (cabin=="First")?FirstChildPrice:(cabin=="Business")?BusinessChildPrice:(cabin=="Economy")?EconomyChildPrice:0;
@@ -138,21 +172,35 @@ Arrival:{
           ReturnTime:DepartureTime,
           ReturnArrivalDate: ArrivalDate,
           ReturnArrivalTime:ArrivalTime,
+          ReturnFlightId:FlightId,
           ReturnFlightNumber:FlightNumber,
           ReturnPriceAdult:ReturnadultTicket,
           ReturnPriceChild:ReturnchildTicket,
           ReturnTotalPrice:ReturntotalPrice,
-          ReturnBaggage: Baggage
-        })
+          ReturnBaggage: Baggage,
+         
+      })
         setViewSummary(true);
         setViewOutBound(false);
+        setData( {
+          Cabin:cabin,
+          Adults:adultTicketsno,
+          Children:childTicketsno,
+          DepartureId:flight._id,
+          ReturnFlightId:FlightId,
+          DeparturePriceAdult: adultTicket,
+          DeparturePriceChild:childTicket,
+          DepatureTotalPrice: totalPrice,
+          ReturnPriceAdult:ReturnadultTicket,
+          ReturnPriceChild:ReturnchildTicket,
+          ReturnTotalPrice:ReturntotalPrice,
+    
+        })
 
       }
       console.log(mysummary);
-
-      function handleConfirm(){
-
-      }
+      
+    
 
 
       return(
@@ -264,11 +312,14 @@ return flag1 & flag2 & flag3 & flag4 ;
                           <br></br>
                           Arrival time:{x.Arrival.Time} 
                           <br></br>
+                          <Button onClick={() => handleSummary(x.From.Airport,x.To.Airport,x.First.Price,x.Business.Price,
+                          x.Economy.Price,x.Arrival.Time,x.Departure.Time,x.Departure.Date.slice(0, 10),
+                          x.Arrival.Date.slice(0, 10),x._id,x.FlightNumber,x.First.ChildPrice,x.Business.ChildPrice,
+                          x.Economy.ChildPrice,x.First.Baggage,x.Business.Baggage,x.Economy.Baggage)}>Show Summary</Button>
                           </ToastBody>
                           <br></br>
-                          <Button onClick={() => handleSummary(x.From.Airport,x.To.Airport,x.First.Price,x.Business.Price,x.Economy.Price,x.Arrival.Time,x.Departure.Time,x.Departure.Date.slice(0, 10),x.Arrival.Date.slice(0, 10),x.FlightNumber,x.First.ChildPrice,x.Business.ChildPrice,x.Economy.ChildPrice,x.First.Baggage,x.Business.Baggage,x.Economy.Baggage)}>Show Summary
-                        </Button>
-                        </Toast>
+                          </Toast>
+
                         
 
                       
@@ -276,9 +327,8 @@ return flag1 & flag2 & flag3 & flag4 ;
 
   ))}
 
-    
-        </CardGroup>
 
+</CardGroup>
     </div>
 </div>
 :<label></label>}
@@ -349,13 +399,14 @@ return flag1 & flag2 & flag3 & flag4 ;
                     <label className="info">TotalPrice {mysummary.ReturnTotalPrice + totalPrice} </label>
                     </CardText>
                     <Button >
-                    <Link to={{ pathname:`/user/confirmFlight/${flight._id}` 
-                         , search:'?'+new URLSearchParams(mysummary).toString()
-                           }}className="btn btn-primary">Confirm</Link> 
+                    <Link to={{ pathname:`/user/confirmFlight/61ab6ae821511440623d1f7b` 
+                         , search:'?'+new URLSearchParams(myData).toString()
+                           }}className="btn btn-primary">Confirm and book</Link> 
                       </Button>
 
 
       </CardBody>
+                         
       </Card>
       </div>:<label></label>}
 
