@@ -21,7 +21,7 @@ function ViewReserved(props){
   })
  const initialState={_id:"",
  FirstName:"",
- LastName:"shreef",
+ LastName:"",
  Email:"",
   TicketsId:[{Flight:
     {
@@ -143,7 +143,9 @@ return (
             >
           Passenger Name: {ticket.Name} &nbsp;&nbsp;FlightNumber: {ticket.Flight.Number}&nbsp;&nbsp;Ticket Number: {ticket._id} <br/>
           From: {ticket.Departure.Airport }&nbsp;&nbsp;To: {ticket.Arrival.Airport} <br/>
-          Class: {ticket.Cabin}&nbsp;&nbsp;Seat:{ticket.Seat.SeatNumber} &nbsp;&nbsp; Date:{ticket.Departure.Date}&nbsp;&nbsp;Departs At:{ticket.Departure.Time} &nbsp;&nbsp;  Arrives At:{ticket.Arrival.Time} <br/>
+          Class: {ticket.Cabin}&nbsp;&nbsp;
+          Seat: {(ticket.Seat.SeatId== null)?(<Button> <Link to={`/user/viewSeats/${id}/${ticket.Flight.FlightId}/${ticket.Cabin}/${ticket._id}`}> Reserve The Seat</Link></Button>):ticket.Seat.SeatNumber }
+          &nbsp;&nbsp; Date:{ticket.Departure.Date}&nbsp;&nbsp;Departs At:{ticket.Departure.Time} &nbsp;&nbsp;  Arrives At:{ticket.Arrival.Time} <br/>
           Departure Terminal: {ticket.Departure.Terminal}&nbsp;&nbsp;Arrival Terminal:{ticket.Arrival.Terminal} <br/>
          <Button color="danger"onClick={()=>{handleShow(ticket._id);
                                              theObject.SeatId=ticket.Seat.SeatId;

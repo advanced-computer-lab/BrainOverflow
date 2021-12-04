@@ -58,6 +58,7 @@ console.log(theEmail);
             console.log("Updated User : ", docs);
         }
     });
+    if(theSeat!==null){
       Seat.findByIdAndUpdate({_id: theSeat},{IsBooked:false}, function (err, docs) {
         if (err){
             console.log(err)
@@ -66,7 +67,7 @@ console.log(theEmail);
             console.log("Updated Seat : ", docs);
         }
     });
-    
+  }
     Ticket.findByIdAndDelete({_id:theTicket} , function (err, docs) {
       if (err){
           console.log(err)
@@ -188,13 +189,13 @@ router.post('/confirmReserve/:id', catchAsync(async (req, res, next) => {
     'Flight':{'FlightId':details.DepartureId  ,'Number':goingflight.FlightNumber},'Departure':
     {'Airport':goingflight.From.Airport ,'Terminal':goingflight.From.Terminal ,'Date':goingflight.Departure.Date ,'Time':goingflight.Departure.Time},
       'Arrival':{'Airport':goingflight.To.Airport,'Terminal':goingflight.To.Terminal,'Date':goingflight.Arrival.Date ,'Time':goingflight.Arrival.Time }
-      ,'Cabin':details.Cabin,'Price':details.DeparturePriceChild});
+      ,'Cabin':details.Cabin,'Price':details.DeparturePriceChild,'Seat':{'SeatId':null,'SeatNumber':''}});
       
       const ticketreturn = new Ticket( {'Name':details.Names[i] ,'UserId':req.params.id , 
       'Flight':{'FlightId':details.ReturnFlightId  ,'Number':returnflight.FlightNumber},'Departure':
       {'Airport':returnflight.From.Airport ,'Terminal':returnflight.From.Terminal ,'Date':returnflight.Departure.Date ,'Time':returnflight.Departure.Time},
         'Arrival':{'Airport':returnflight.To.Airport,'Terminal':returnflight.To.Terminal,'Date':returnflight.Arrival.Date ,'Time':returnflight.Arrival.Time }
-        ,'Cabin':details.Cabin,'Price':details.ReturnPriceChild});
+        ,'Cabin':details.Cabin,'Price':details.ReturnPriceChild,'Seat':{'SeatId':null,'SeatNumber':''}});
     user.TicketsId.push(ticketgoing._id);
     user.TicketsId.push(ticketreturn._id);
     await user.save();
@@ -206,12 +207,12 @@ router.post('/confirmReserve/:id', catchAsync(async (req, res, next) => {
     'Flight':{'FlightId':details.DepartureId  ,'Number':goingflight.FlightNumber},'Departure':
     {'Airport':goingflight.From.Airport ,'Terminal':goingflight.From.Terminal ,'Date':goingflight.Departure.Date ,'Time':goingflight.Departure.Time},
       'Arrival':{'Airport':goingflight.To.Airport,'Terminal':goingflight.To.Terminal,'Date':goingflight.Arrival.Date ,'Time':goingflight.Arrival.Time }
-      ,'Cabin':details.Cabin,'Price':details.DeparturePriceAdult});
+      ,'Cabin':details.Cabin,'Price':details.DeparturePriceAdult,'Seat':{'SeatId':null,'SeatNumber':''}});
       const ticketreturn = new Ticket( {'Name':details.Names[i] ,'UserId':req.params.id , 
       'Flight':{'FlightId':details.ReturnFlightId  ,'Number':returnflight.FlightNumber},'Departure':
       {'Airport':returnflight.From.Airport ,'Terminal':returnflight.From.Terminal ,'Date':returnflight.Departure.Date ,'Time':returnflight.Departure.Time},
         'Arrival':{'Airport':returnflight.To.Airport,'Terminal':returnflight.To.Terminal,'Date':returnflight.Arrival.Date ,'Time':returnflight.Arrival.Time }
-        ,'Cabin':details.Cabin,'Price':details.ReturnPriceAdult});
+        ,'Cabin':details.Cabin,'Price':details.ReturnPriceAdult,'Seat':{'SeatId':null,'SeatNumber':''}});
     user.TicketsId.push(ticketgoing);
     user.TicketsId.push(ticketreturn);
     await user.save();
