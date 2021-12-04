@@ -28,6 +28,7 @@ const flightSchema = new Schema({
         Price:Number,
         ChildPrice:Number,
         Baggage:Number,
+        SeatsLeft:Number
         //required:true
       },
       Business:{
@@ -36,6 +37,8 @@ const flightSchema = new Schema({
         Price:Number,
         ChildPrice:Number,
         Baggage:Number,
+        SeatsLeft:Number
+
         //required: true
       },
       First:{
@@ -44,6 +47,8 @@ const flightSchema = new Schema({
         Price:Number,
         ChildPrice:Number,
         Baggage:Number,
+        SeatsLeft:Number
+
        // required: true
       },
       Departure:{
