@@ -6,10 +6,9 @@ import axios from 'axios'
 import CreateFlight from './components/CreateFlight';
 import AllFlights from './components/AllFlights';
 import UpdateFlight from './components/UpdateFlight';
- 
- 
+import Home from './components/Home'; 
 import MyNavBar from './components/MyNavbar';
- 
+import NavBarUser from './components/MyNavbarUser';
 import ViewReserved from'./components/ViewReserved';
 import SearchFlight from'./components/SearchFlight';
 import ViewFlight from './components/ViewFlight';
@@ -33,6 +32,7 @@ function App() {
       <Route path="/admin/createFlight" element={<CreateFlight />} />
       <Route path="/admin" element={<AllFlights />} />
       <Route path="/admin/UpdateFlight/:id" element={<UpdateFlight/>}/> 
+      <Route path="/home" element={<Home/>}/>
       
       <Route path="user/viewReserved/:id" element={<ViewReserved/>}/>
 

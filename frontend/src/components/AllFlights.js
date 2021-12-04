@@ -3,6 +3,8 @@ import { Switch, Route, Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Component, useState, useEffect } from 'react';
 import axios from 'axios';
+import '/Users/ok/Documents/GitHub/BrainOverflow/frontend/src/Style/Navbar.css';
+
 
 import { useNavigate } from 'react-router-dom'
 //import 'bootstrap/dist/css/bootstrap.min.css';
@@ -84,13 +86,13 @@ function AllFlights() {
 
       } else { flag1 = true }
 
-      if (event.target[1].value !== '') { flag2 = (event.target[1].value == f.Terminal) }
+      if (event.target[1].value !== '') { flag2 = (event.target[1].value == f.From.Terminal) }
       else { flag2 = true }
-      if (event.target[2].value !== '') { flag3 = (event.target[2].value == f._id) }
+      if (event.target[2].value !== '') { flag3 = (event.target[2].value == f.FlightNumber) }
       else { flag3 = true }
-      if (event.target[3].value !== '') { flag4 = (event.target[3].value == f.Departure) }
+      if (event.target[3].value !== '') { flag4 = (event.target[3].value == f.Departure.Time) }
       else { flag4 = true }
-      if (event.target[4].value !== '') { flag5 = (event.target[4].value == f.Arrival) }
+      if (event.target[4].value !== '') { flag5 = (event.target[4].value == f.Arrival.Time) }
       else { flag5 = true }
 
       return flag1 & flag2 & flag3 & flag4 & flag5;
@@ -139,6 +141,7 @@ function AllFlights() {
               name="date"
               placeholder="date placeholder"
               type="date"
+              required
 
             />
             <Label for="terminal">
@@ -149,6 +152,7 @@ function AllFlights() {
               name="terminal"
               placeholder="search..."
               type="text"
+              required
 
             />
             <Label for="flight number">
@@ -159,6 +163,7 @@ function AllFlights() {
               name="flight number"
               placeholder="search by flight number..."
               type="text"
+              required
 
 
             />
@@ -170,6 +175,7 @@ function AllFlights() {
               name="departure time"
               placeholder="search..."
               type="time"
+              required
 
             />
             <Label for="arrival time">
@@ -180,6 +186,7 @@ function AllFlights() {
               name="arrival time"
               placeholder="search..."
               type="time"
+              required
 
 
             />
@@ -206,14 +213,14 @@ function AllFlights() {
               <thead><tr>
                 <th>FlightNo</th>
                 <th>From</th>
+                <th>Terminal</th>
                 <th>To</th>
+                <th>Terminal</th>
                 <th> Flight Date</th>
-                <th> Economy </th>
+                <th>Arrival Date </th>
+                <th>Economy </th>
                 <th>Business</th>
                 <th>First class</th>
-                <th>Arrival time </th>
-                <th>Departure time</th>
-                <th>Terminal</th>
                 <th>        </th>
               </tr>
               </thead>
@@ -228,16 +235,16 @@ function AllFlights() {
                 <tbody>
 
                   <tr>
-                    <td>{flight._id}</td>
-                    <td>{flight.From}</td>
-                    <td>{flight.To}</td>
-                    <td>{flight.FlightDate.slice(0, 10)}</td>
-                    <td>{flight.Economy}</td>
-                    <td>{flight.Business}</td>
-                    <td>{flight.First}</td>
-                    <td>{flight.Arrival}</td>
-                    <td>{flight.Departure}</td>
-                    <td>{flight.Terminal}</td>
+                    <td>{flight.FlightNumber}</td>
+                    <td>{flight.From.Airport}</td>
+                    <td>{flight.From.Terminal}</td>
+                    <td>{flight.To.Airport}</td>
+                    <td>{flight.To.Terminal}</td>
+                    <td>{flight.Departure.Date.slice(0, 10)} at {flight.Departure.Time}</td>
+                    <td>{flight.Arrival.Date.slice(0, 10)} at {flight.Arrival.Time}</td>
+                    <td>{flight.Economy.SeatId.length}</td>
+                    <td>{flight.Business.SeatId.length}</td>
+                    <td>{flight.First.SeatId.length}</td>
                     <td><Link to={`/admin/updateFlight/${flight._id}`} className="btn btn-primary">Edit</Link>
 
                       <Button color="danger" onClick={() => handleShow(flight._id)}> Delete </Button>

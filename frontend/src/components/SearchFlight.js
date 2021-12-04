@@ -382,7 +382,8 @@ const addtoList = (event) => {
                         size="lg"
                         type="submit"
                     >
-                        Search</Button>
+                        Search
+                        </Button>
                 </div>
             </Form>
 
@@ -423,6 +424,7 @@ const addtoList = (event) => {
                           <Link to={{ pathname:`/user/viewFlight/${flight._id}` 
                          , search:'?'+new URLSearchParams(mysearch).toString()
                            }}className="btn btn-primary">Show Details</Link>
+                           
                           </Button>
                         </CardBody>
                       </Card>
@@ -432,6 +434,7 @@ const addtoList = (event) => {
                 </div>
             </div>
             :<label></label>}   
+            
 
         </div>
 

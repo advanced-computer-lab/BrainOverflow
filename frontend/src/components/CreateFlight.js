@@ -43,8 +43,8 @@ function CreateFlight() {
     </CardHeader>
     <CardBody>
 
-    <Form>
-    <FormGroup>
+    <Form >
+    <FormGroup >
     <Label for="From">
       From
     </Label>

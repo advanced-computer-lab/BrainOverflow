@@ -114,7 +114,7 @@ router.get('/viewReserved/:id', catchAsync(async (req, res, next) => {
      
  
 router.get('/:id', catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.params.id).populate("Tickets.Id");
+  const user = await User.findById(req.params.id).populate("TicketsId");
   res.send(user);
 }));
 
