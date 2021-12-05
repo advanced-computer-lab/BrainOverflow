@@ -1,23 +1,26 @@
 # BrainOverflow
- **Salma* 
- (3) The system should have an already existing user called Administrator.
- (4) The system should allow the Administrator to create flights including all flight details such as flight number, departure and arrival times, dates, number of Economy seats, number of Business class seats, and airport. 
-   
-**HaidyTasks** 
+ **Salma** 
+ (19)The system should allow any Existing User to view the available seats in the chosen cabin of the chosen departure flight.
+ (20)The system should allow any Existing User to select one or more of the available seats in the chosen cabin of the chosen departure flight (based on the the number of passengers the booking is for).
+ (21)The system should allow any Existing User to view the available seats in the chosen cabin of the chosen return flight.
+ (22)The system should allow any Existing User to select one or more of the available seats in the chosen cabin of the chosen return flight (based on the the number of passengers the booking is for).
+ (29)The system should allow any Existing User to edit their information including first name, last name, passport number and email.
+ (29.1)The system should reflect any changes made to the Existing User's information on any current reservations/ itinerarys 
+ 
+ **Veronika** 
+ (11)The system should allow any Guest User/ Existing  User to search for available flights based on number of passengers (children and adults), departure airport and arrival airport terminals, departure and arrival dates and cabin class. 
+ (12)The system should allow any Guest User/ Existing  User to select one of the departure flights from the list of available departure flights.
+ (14)The system should allow any Guest User/ Existing  User to view a list of all available return flights based on the search criteria.  The list should include flight number, departure time and arrival time, trip duration and price.
+ (15)The system should allow any Guest User/ Existing  User to select one of the return flights from the list of available return flights.
+ (16)The system should allow any Guest User/ Existing  User to see all the details of the selected return flight. The details should include flight number, departure and arrival times, trip duration, cabin class and baggage allowance.
+ (17)The system should allow any Guest User/ Existing  User to see a summary of the chosen departure and return flights, including the dates and times of the departure and return flights, the price of each flight, the chosen cabin (Economy/ Business Class), the chosen seat and the total price of the entire ticket.
 
-(7) The system should allow the Administrator to update (edit) any selected flight and its details including flight number, departure and arrival times, number of available Economy seats, number of Business Class seats, dates and airports.
- Depends on  6  **Veronika**
-
- **Abdallah** 
- (8) The system should allow the Administrator to delete any selected flights and all their details upon confirmation.
- Depends on  6  **Veronika** 
- (9) The system should promt the Administrator if they are sure they want to delete the flight and all its details (to confirm the deletion).
-
- **Veronica** 
-
-(6) The system should show the Administrator a list of all the available flights without any search criteria. 
- Depends on  6   **Alia** 
+  
 
 **Alia** 
-
-(5) The system should allow the Administrator  to search through all existing flights using search criteria including flight number, departure and arrival times, dates and airport terminals.
+(13)The system should allow any Guest User/ Existing  User to see all the details of a particular departure flight. The details should include flight number, departure and arrival times, trip duration, cabin class and baggage allowance.
+(18)The system should allow any Existing User to confirm reserving the chosen flight.
+(26)The system should allow any Existing User to view all their current reserved flights.
+(27)The system should allow any Existing User to cancel a reservation
+(27.1)The system should allow any Existing User to confirm canceling a reservation
+(28)The system should automatically email any Existing User with their cancelled reservation and the amount to be refunded.
