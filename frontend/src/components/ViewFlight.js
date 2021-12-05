@@ -125,10 +125,7 @@ Arrival:{
           setFlight(res.data.aFlight);
           setReturnFlights(res.data.allFlight);
           setDisplayed(res.data.allFlight);
-          if(!(id)){
-            setHasError(true);
-            setError("The user doesn't exist , you have to create an account first")
-          }
+          
           if(!res.data.allFlight){
             setHasError(true);
             setError("No flight with this id exists")
@@ -293,7 +290,7 @@ return flag1 & flag2 & flag3 & flag4 ;
  
                         <Toast>
                           <ToastHeader  icon="secondary">
-                            Return Flight summary :
+                            Available Return Flight:
                           </ToastHeader>
                           <ToastBody>
                             From :{x.From.Airport} To :{x.To.Airport}
@@ -316,7 +313,7 @@ return flag1 & flag2 & flag3 & flag4 ;
                           <Button onClick={() => handleSummary(x.From.Airport,x.To.Airport,x.First.Price,x.Business.Price,
                           x.Economy.Price,x.Arrival.Time,x.Departure.Time,x.Departure.Date.slice(0, 10),
                           x.Arrival.Date.slice(0, 10),x._id,x.FlightNumber,x.First.ChildPrice,x.Business.ChildPrice,
-                          x.Economy.ChildPrice,x.First.Baggage,x.Business.Baggage,x.Economy.Baggage)}>Show Summary</Button>
+                          x.Economy.ChildPrice,x.First.Baggage,x.Business.Baggage,x.Economy.Baggage)}>Choose Flight</Button>
                           </ToastBody>
                           <br></br>
                           </Toast>
@@ -399,14 +396,9 @@ return flag1 & flag2 & flag3 & flag4 ;
                     <label className="data">Total price For Return Flight: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{mysummary.ReturnTotalPrice}</label> <br/> <br/>
                     <label className="info">TotalPrice {mysummary.ReturnTotalPrice + totalPrice} </label>
                     </CardText>
-                    {(!id)&& <Button >
-                    {/* <Link to={{ pathname:`/user/confirmFlight/${id}` 
-                         , search:'?'+new URLSearchParams(myData).toString()
-                           }}className="btn btn-primary"></Link>  */}
-                           You have to sign up to be able to reserve
-                      </Button>}
-                   {(id)&& <Button >
-                    <Link to={{ pathname:`/user/confirmFlight/${id}` 
+                    
+                   { <Button >
+                    <Link to={{ pathname:`/user/confirmFlight/61ac855c96f456e24744b466` 
                          , search:'?'+new URLSearchParams(myData).toString()
                            }}className="btn btn-primary">Confirm and book</Link> 
                       </Button>}

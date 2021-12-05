@@ -27,12 +27,12 @@ function App() {
   return (
     
     <BrowserRouter>
-    <MyNavBar></MyNavBar>
+    <NavBarUser></NavBarUser>
     <Routes>
       <Route path="/admin/createFlight" element={<CreateFlight />} />
       <Route path="/admin" element={<AllFlights />} />
       <Route path="/admin/UpdateFlight/:id" element={<UpdateFlight/>}/> 
-      <Route path="/home" element={<Home/>}/>
+      <Route path="/" element={<Home/>}/>
       
       <Route path="user/viewReserved/:id" element={<ViewReserved/>}/>
       <Route path="/user/viewFlights" element={<SearchFlight />} />

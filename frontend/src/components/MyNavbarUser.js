@@ -11,7 +11,8 @@ import {
 } from 'reactstrap';
 
 const links = [
-  { href: '/user/viewFlights', text: 'Find a flight Flight' },
+  { href: '/user/viewFlights', text: 'Book a Flight' },
+   
 
  
 ];
@@ -44,8 +45,8 @@ export default class MyNavbar extends Component {
 
       <div>
         <Navbar color="light" light expand="md">
-          <NavbarBrand href="/home"> <img class='logo' src="https://i.pinimg.com/564x/1b/63/98/1b6398ec7c18f9e3adf043304e875246.jpg" ></img></NavbarBrand>
-          <NavbarBrand href="/home"><b>SkyOverFlow</b></NavbarBrand>
+          <NavbarBrand href="/"> <img class='logo' src="https://i.pinimg.com/564x/1b/63/98/1b6398ec7c18f9e3adf043304e875246.jpg" ></img></NavbarBrand>
+          <NavbarBrand href="/"><b>SkyOverFlow</b></NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>

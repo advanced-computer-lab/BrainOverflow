@@ -33,6 +33,7 @@ const catchAsync=func=>{
     let Price=req.body.Price;
     let Name= req.body.TicketName;
     let userName= req.body.UserName;
+    
     console.log(theSeat);
      tickets.forEach((f) =>{console.log(f)});
    
@@ -168,7 +169,7 @@ router.post('/viewSeats/:id/:SeatId/:TicketId',catchAsync(async(req,res,next)=>{
   const seat =await Seat.findById(req.params.SeatId);
   console.log(seat);
   const ticket =await Ticket.findById(req.params.TicketId);
-  user.TicketsId.push(ticket);
+ 
 //   if(ticket.Flight.FlightId!=seat.FlightId)
 //   {console.log("ticket flight error in post",ticket.Flight.FlightId);
 //     console.log("seat flight error in post",seat.FlightId)
@@ -215,13 +216,13 @@ router.post('/confirmReserve/:id', catchAsync(async (req, res, next) => {
  
   
   for (i = 0; i < parseInt(details.Children); i++) {
-    const ticketgoing = new Ticket( {'Name':details.Names[i] ,'UserId':req.params.id , 
+    const ticketgoing = new Ticket( {'Name':details.ChildrenNames[i] ,'UserId':req.params.id , 
     'Flight':{'FlightId':details.DepartureId  ,'Number':goingflight.FlightNumber},'Departure':
     {'Airport':goingflight.From.Airport ,'Terminal':goingflight.From.Terminal ,'Date':goingflight.Departure.Date ,'Time':goingflight.Departure.Time},
       'Arrival':{'Airport':goingflight.To.Airport,'Terminal':goingflight.To.Terminal,'Date':goingflight.Arrival.Date ,'Time':goingflight.Arrival.Time }
       ,'Cabin':details.Cabin,'Price':details.DeparturePriceChild,'Seat':{'SeatId':null,'SeatNumber':''}});
       
-      const ticketreturn = new Ticket( {'Name':details.Names[i] ,'UserId':req.params.id , 
+      const ticketreturn = new Ticket( {'Name':details.ChildrenNames[i] ,'UserId':req.params.id , 
       'Flight':{'FlightId':details.ReturnFlightId  ,'Number':returnflight.FlightNumber},'Departure':
       {'Airport':returnflight.From.Airport ,'Terminal':returnflight.From.Terminal ,'Date':returnflight.Departure.Date ,'Time':returnflight.Departure.Time},
         'Arrival':{'Airport':returnflight.To.Airport,'Terminal':returnflight.To.Terminal,'Date':returnflight.Arrival.Date ,'Time':returnflight.Arrival.Time }
@@ -234,12 +235,12 @@ router.post('/confirmReserve/:id', catchAsync(async (req, res, next) => {
     await ticketreturn.save();
   }
   for (i = 0; i < parseInt(details.Adults); i++) {
-    const ticketgoing = new Ticket( {'Name':details.Names[i] ,'UserId':req.params.id , 
+    const ticketgoing = new Ticket( {'Name':details.AdultNames[i] ,'UserId':req.params.id , 
     'Flight':{'FlightId':details.DepartureId  ,'Number':goingflight.FlightNumber},'Departure':
     {'Airport':goingflight.From.Airport ,'Terminal':goingflight.From.Terminal ,'Date':goingflight.Departure.Date ,'Time':goingflight.Departure.Time},
       'Arrival':{'Airport':goingflight.To.Airport,'Terminal':goingflight.To.Terminal,'Date':goingflight.Arrival.Date ,'Time':goingflight.Arrival.Time }
       ,'Cabin':details.Cabin,'Price':details.DeparturePriceAdult,'Seat':{'SeatId':null,'SeatNumber':''}});
-      const ticketreturn = new Ticket( {'Name':details.Names[i] ,'UserId':req.params.id , 
+      const ticketreturn = new Ticket( {'Name':details.AdultNames[i] ,'UserId':req.params.id , 
       'Flight':{'FlightId':details.ReturnFlightId  ,'Number':returnflight.FlightNumber},'Departure':
       {'Airport':returnflight.From.Airport ,'Terminal':returnflight.From.Terminal ,'Date':returnflight.Departure.Date ,'Time':returnflight.Departure.Time},
         'Arrival':{'Airport':returnflight.To.Airport,'Terminal':returnflight.To.Terminal,'Date':returnflight.Arrival.Date ,'Time':returnflight.Arrival.Time }

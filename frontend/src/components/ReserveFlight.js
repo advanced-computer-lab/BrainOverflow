@@ -12,7 +12,8 @@ function ReserveFlight(){
     let location = useLocation();
     let search=new URLSearchParams(location.search);
     const Summary={
-        Names:[],
+        AdultNames:[],
+        ChildrenNames:[],
         Cabin:search.get('Cabin'),
         Adults:search.get('Adults'),
         Children:search.get('Children'),
@@ -43,10 +44,14 @@ function ReserveFlight(){
         }
       }  
 
-      for(let i =0;i<(parseInt(Summary.Children)+parseInt(Summary.Adults));i++ ){
-        Summary.Names.push("placeHolder");
+      for(let i =0;i<(parseInt(Summary.Children));i++ ){
+        Summary.ChildrenNames.push("placeHolder");
 
       }
+      for(let i =0;i<(parseInt(Summary.Adults));i++ ){
+        Summary.AdultNames.push("placeHolder");
+
+      }  
   
      
 
@@ -74,10 +79,10 @@ function ReserveFlight(){
           
              <Form>
                    {    
-                  Summary.Names.map((thename)=>(
+                  Summary.AdultNames.map((thename)=>(
                     <FormGroup>
                     <Label for="exampleEmail">
-                      Enter The Name for the Passenger:
+                      Enter The Name for the adult Passenger:
                     </Label>
                     <Input
                       name="Name"
@@ -85,17 +90,39 @@ function ReserveFlight(){
                       type="text"
                       onChange={(e)=>{
                         thename=e.target.value;
-                        Summary.Names.pop();
-                        Summary.Names.push(thename);
+                        console.log(thename);
+                        Summary.AdultNames.shift();
+                        Summary.AdultNames.push(thename);
                       }}
                     />
                      </FormGroup>
                   )
                     
                   )
+                 
                    
                   
                   }
+                  { Summary.ChildrenNames.map((thename)=>(
+                    <FormGroup>
+                    <Label for="exampleEmail">
+                      Enter The Name for the adult Passenger:
+                    </Label>
+                    <Input
+                      name="Name"
+                      placeholder="FirstName LastName"
+                      type="text"
+                      onChange={(e)=>{
+                        thename=e.target.value;
+                        console.log(thename);
+                        Summary.ChildrenNames.shift();
+                        Summary.ChildrenNames.push(thename);
+                      }}
+                    />
+                     </FormGroup>
+                  )
+                    
+                  )}
                    
              
                   <Button color="danger" onClick={() =>{ handleSubmit();
