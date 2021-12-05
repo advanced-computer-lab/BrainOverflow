@@ -1,6 +1,5 @@
-import '/Users/ok/Documents/GitHub/BrainOverflow/frontend/src/Style/Navbar.css';
 import React, { Component } from 'react';
-
+import '../Style/Navbar.css'
 import {
   Collapse,
   Navbar,

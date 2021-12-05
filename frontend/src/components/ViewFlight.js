@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import {useParams,useLocation} from "react-router-dom";
 import { CardBody, Card, CardColumns,CardImg,CardSubtitle,CardText,CardGroup,Toast,ToastBody,ToastHeader,
           Button,CardTitle,Col,Row} from 'reactstrap';
-import "/Users/ok/Documents/GitHub/BrainOverflow/frontend/src/Style/summay.css";
+import "../Style/summay.css";
 function ViewFlight(props){
 
      
@@ -61,11 +61,6 @@ Arrival:{
     const [viewSummary,setViewSummary] = useState(false);
     const [viewReturn,setReturnView] = useState(true);
     const [ViewOutBound,setViewOutBound] = useState(true);
-
-    
-
-
-
     const { id } = useParams();
     const childTicketsno=parseInt(search.get('Children')) ;
     const adultTicketsno=parseInt(search.get('Adults')) ;
@@ -130,6 +125,10 @@ Arrival:{
           setFlight(res.data.aFlight);
           setReturnFlights(res.data.allFlight);
           setDisplayed(res.data.allFlight);
+          if(!(id)){
+            setHasError(true);
+            setError("The user doesn't exist , you have to create an account first")
+          }
           if(!res.data.allFlight){
             setHasError(true);
             setError("No flight with this id exists")
@@ -400,11 +399,17 @@ return flag1 & flag2 & flag3 & flag4 ;
                     <label className="data">Total price For Return Flight: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{mysummary.ReturnTotalPrice}</label> <br/> <br/>
                     <label className="info">TotalPrice {mysummary.ReturnTotalPrice + totalPrice} </label>
                     </CardText>
-                    <Button >
-                    <Link to={{ pathname:`/user/confirmFlight/61ab6ae821511440623d1f7b` 
+                    {(!id)&& <Button >
+                    {/* <Link to={{ pathname:`/user/confirmFlight/${id}` 
+                         , search:'?'+new URLSearchParams(myData).toString()
+                           }}className="btn btn-primary"></Link>  */}
+                           You have to sign up to be able to reserve
+                      </Button>}
+                   {(id)&& <Button >
+                    <Link to={{ pathname:`/user/confirmFlight/${id}` 
                          , search:'?'+new URLSearchParams(myData).toString()
                            }}className="btn btn-primary">Confirm and book</Link> 
-                      </Button>
+                      </Button>}
 
 
       </CardBody>

@@ -3,7 +3,7 @@ import { Switch, Route, Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Component, useState, useEffect } from 'react';
 import axios from 'axios';
-import '/Users/ok/Documents/GitHub/BrainOverflow/frontend/src/Style/Navbar.css';
+import '../Style/Navbar.css'
 
 
 import { useNavigate } from 'react-router-dom'
