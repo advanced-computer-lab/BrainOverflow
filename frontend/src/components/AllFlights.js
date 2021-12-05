@@ -3,6 +3,8 @@ import { Switch, Route, Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Component, useState, useEffect } from 'react';
 import axios from 'axios';
+import '../Style/Navbar.css'
+
 
 import { useNavigate } from 'react-router-dom'
 //import 'bootstrap/dist/css/bootstrap.min.css';
@@ -84,13 +86,13 @@ function AllFlights() {
 
       } else { flag1 = true }
 
-      if (event.target[1].value !== '') { flag2 = (event.target[1].value == f.Terminal) }
+      if (event.target[1].value !== '') { flag2 = (event.target[1].value == f.From.Terminal) }
       else { flag2 = true }
-      if (event.target[2].value !== '') { flag3 = (event.target[2].value == f._id) }
+      if (event.target[2].value !== '') { flag3 = (event.target[2].value == f.FlightNumber) }
       else { flag3 = true }
-      if (event.target[3].value !== '') { flag4 = (event.target[3].value == f.Departure) }
+      if (event.target[3].value !== '') { flag4 = (event.target[3].value == f.Departure.Time) }
       else { flag4 = true }
-      if (event.target[4].value !== '') { flag5 = (event.target[4].value == f.Arrival) }
+      if (event.target[4].value !== '') { flag5 = (event.target[4].value == f.Arrival.Time) }
       else { flag5 = true }
 
       return flag1 & flag2 & flag3 & flag4 & flag5;

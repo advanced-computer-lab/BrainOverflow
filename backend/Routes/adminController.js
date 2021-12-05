@@ -50,8 +50,10 @@ router.post('/createFlight', catchAsync(async (req, res, next) => {
   // if(From.Airport==To.Airport)
   //     throw new ExpressError("Arrival and Departure Cities Must be different", 400)    
   // //const { error } = flightSchema.validate(flight);
+  flight.Economy.SeatsLeft=details.EconomySeats;
+  flight.Business.SeatsLeft=details.BusinessSeats;
+  flight.First.SeatsLeft=details.FirstSeats;
 
-  await flight.save();
   for (i = 1; i <= details.EconomySeats; i++) {
     const seat = new Seat({ 'SeatNumber': `E${i}`, 'IsBooked': false, 'FlightId': flight._id, 'Cabin': 'Economy' });
     flight.Economy.SeatId.push(seat);
