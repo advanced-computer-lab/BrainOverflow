@@ -46,11 +46,10 @@ const userSchema = new Schema({
         required:true
     }
 ,
-Tickets:{
-  Id: [{type: mongoose.Schema.Types.ObjectId,required:true,
+TicketsId: [{type: mongoose.Schema.Types.ObjectId,required:true,
       ref:"Ticket"}]
   
-},
+,
     IsAdmin:{
         type: Boolean,
         required: true
