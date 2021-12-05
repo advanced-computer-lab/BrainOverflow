@@ -12,8 +12,6 @@ import {
     Modal, ModalHeader, ModalBody, ModalFooter,
     CardBody, Card, CardImg, CardGroup, CardTitle, CardSubtitle, CardText, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, CardHeader, Form, Input, FormGroup, Label, Button, Container, Row, Col, Table
 ,Alert} from 'reactstrap';
-
-
 function AllFlights() {
     const searchObject = {
         Cabin: '',
@@ -21,7 +19,6 @@ function AllFlights() {
         Children: 0,
         ReturnDate: ''
     };
-
 
     const initialstate =
     {
@@ -172,17 +169,17 @@ function AllFlights() {
                     }
                 }
                 if (event.target[1].value == '') {
-                    flag1 = (((0 + parseInt(event.target[2].value)) <= countseats) && (countseats != 0))
+                    flag1 = (((0 + parseInt(event.target[2].value)) <= countseats) && (countseats != 0)&& (((0 + parseInt(event.target[2].value)) <= f.First.SeatsLeft)))
                 }
                 else if (event.target[2].value == '') {
-                    flag1 = ((parseInt(event.target[1].value) + 0) <= countseats)
+                    flag1 = ((parseInt(event.target[1].value) + 0) <= countseats && (((0 + parseInt(event.target[1].value)) <= f.First.SeatsLeft)))
 
                 }
                 else if (event.target[1].value == '' && event.target[2].First == '') {
                     flag1 = ((0 <= countseats) && (countseats != 0))
                 }
                 else {
-                    flag1 = (((parseInt(event.target[1].value) + parseInt(event.target[2].value)) <= countseats) && (countseats != 0))
+                    flag1 = (((parseInt(event.target[1].value) + parseInt(event.target[2].value)) <= countseats) && (countseats != 0) &&(parseInt(event.target[1].value) + parseInt(event.target[2].value)) <= f.First.SeatsLeft)
 
                 }
 
@@ -200,17 +197,17 @@ function AllFlights() {
                 }
                 //console.log("total is",parseInt(event.target[1].value)+ parseInt(event.target[2].value));
                 if (event.target[1].value == '') {
-                    flag2 = (((0 + parseInt(event.target[2].value)) <= countseats) && (countseats != 0))
+                    flag2 = (((0 + parseInt(event.target[2].value)) <= countseats) && (countseats != 0) && (((0 + parseInt(event.target[2].value)) <= f.Business.SeatsLeft)))
                 }
                 else if (event.target[2].value == '') {
-                    flag2 = (((parseInt(event.target[1].value) + 0) <= countseats) && (countseats != 0))
+                    flag2 = (((parseInt(event.target[1].value) + 0) <= countseats) && (countseats != 0) && (((0 + parseInt(event.target[1].value)) <= f.Business.SeatsLeft)))
 
                 }
                 else if (event.target[1].value == '' && event.target[2].value == '') {
                     flag2 = ((0 <= countseats) && (countseats != 0))
                 }
                 else {
-                    flag2 = (((parseInt(event.target[1].value) + parseInt(event.target[2].value)) <= countseats) && (countseats != 0))
+                    flag2 = (((parseInt(event.target[1].value) + parseInt(event.target[2].value)) <= countseats) && (countseats != 0)&& (((parseInt(event.target[1].value)+ parseInt(event.target[2].value)) <= f.Business.SeatsLeft)))
 
                 }
 
@@ -228,17 +225,17 @@ function AllFlights() {
                 }
                 //console.log("total is",parseInt(event.target[1].value)+ parseInt(event.target[2].value));
                 if (event.target[1].value == '') {
-                    flag3 = (((0 + parseInt(event.target[2].value)) <= countseats) && (countseats != 0))
+                    flag3 = (((0 + parseInt(event.target[2].value)) <= countseats) && (countseats != 0)&& (((0 + parseInt(event.target[2].value)) <= f.Economy.SeatsLeft)))
                 }
                 else if (event.target[2].value == '') {
-                    flag3 = (((parseInt(event.target[1].value) + 0) <= countseats) && (countseats != 0))
+                    flag3 = (((parseInt(event.target[1].value) + 0) <= countseats) && (countseats != 0&& (((0 + parseInt(event.target[1].value)) <= f.Economy.SeatsLeft))))
 
                 }
                 else if (event.target[1].value == '' && event.target[2].value == '') {
                     flag3 = ((0 <= countseats) && (countseats != 0))
                 }
                 else {
-                    flag3 = (((parseInt(event.target[1].value) + parseInt(event.target[2].value)) <= countseats) && (countseats != 0))
+                    flag3 = (((parseInt(event.target[1].value) + parseInt(event.target[2].value)) <= countseats) && (countseats != 0) &&((parseInt(event.target[1].value) + parseInt(event.target[2].value)) <= f.Economy.SeatsLeft))
 
                 }
 

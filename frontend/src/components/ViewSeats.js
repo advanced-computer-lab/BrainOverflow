@@ -12,6 +12,8 @@ import {
 } from 'reactstrap';
 
 function ViewSeats() {
+  const navigate = useNavigate();
+
   const [show, setShow] = useState(false);
   const [HasError, setHasError] = useState(false);
   const [Error, setError] = useState('');
@@ -28,9 +30,8 @@ function ViewSeats() {
   async function handleReserve(chosenSeatId) {
     try {
         console.log(chosenSeatId)
-      await axios.post(`http://localhost:8000/user/viewSeats/${id}/${chosenSeatId}/${TicketId}`).then(
-        handleClose()
-      )
+      await axios.post(`http://localhost:8000/user/viewSeats/${id}/${chosenSeatId}/${TicketId}`)
+      .then(navigate(`/user/viewReserved/${id}`, { replace: true }));
 
     } catch (error) {
       setHasError(true);
@@ -52,7 +53,7 @@ function ViewSeats() {
           // that falls out of the range of 2xx
            if (err.response) {
               setHasError(true);
-              setError("You entered non valid id")
+              setError(err.message)
            }
          })
     }, []);
