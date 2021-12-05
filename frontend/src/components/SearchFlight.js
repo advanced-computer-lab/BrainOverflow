@@ -183,7 +183,7 @@ function AllFlights() {
                     }
                 }
                 flag1 = (((parseInt(event.target[1].value) + parseInt(event.target[2].value)) <= countseats) && (countseats != 0)
-                //&&((parseInt(event.target[1].value) + parseInt(event.target[2].value)) <= f.First.SeatsLeft)
+                &&((parseInt(event.target[1].value) + parseInt(event.target[2].value)) <= f.First.SeatsLeft)
                 )
                 }else { flag1 = true }
 
@@ -198,7 +198,7 @@ function AllFlights() {
                 }
               
              flag2 = (((parseInt(event.target[1].value) + parseInt(event.target[2].value)) <= countseats) && (countseats != 0)
-             //&& ((parseInt(event.target[1].value)+ parseInt(event.target[2].value)) <= f.Business.SeatsLeft)
+             &&((parseInt(event.target[1].value)+ parseInt(event.target[2].value)) <= f.Business.SeatsLeft)
              )
             }
             else { flag2 = true }
@@ -214,7 +214,7 @@ function AllFlights() {
                 }
 
             flag3 = (((parseInt(event.target[1].value) + parseInt(event.target[2].value)) <= countseats) && (countseats != 0) 
-            //&&((parseInt(event.target[1].value) + parseInt(event.target[2].value)) <= f.Economy.SeatsLeft)
+            &&((parseInt(event.target[1].value) + parseInt(event.target[2].value)) <= f.Economy.SeatsLeft)
             )
 
             }
