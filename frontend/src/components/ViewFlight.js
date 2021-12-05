@@ -240,7 +240,7 @@ Arrival:{
     <CardGroup>
   {Returnflight.filter((f) => {
     let flag1 =false ;
-    let flag2=false ;
+    let flag2 =false ;
     let flag3 =false ;
     let flag4 =false ;
     console.log("depart ",f.Departure.Date);
@@ -285,6 +285,8 @@ if (cabin =="Business"){
    flag3 = (total<= countseats)
 }
 else { flag3 = true }
+//return check 
+
 return flag1 & flag2 & flag3 & flag4 ;  
 })
   .map(x => (
@@ -373,9 +375,9 @@ return flag1 & flag2 & flag3 & flag4 ;
                     {/* Trip Duration:{(diffDays==0)?<label>{ }hours and   </label> :}<br/> */}
                     <label className="data">Cabin Class &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{cabin} </label><br/><br/>
                     <label className="data">Baggage Allowance &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                     {(cabin=="First")?<label>{flight.First.Baggage}</label>:(cabin=="Business")?<label>{flight.Business.Baggage}</label>:(cabin=="Economy")?<label>{flight.Economy.Baggage}</label>:
-                   (adultTicketsno>0)?(<label> price / Adult ticket: {adultTicket} </label>):
-                   (childTicketsno>0)?(<label> price / Child ticket: {childTicket}</label>):<label></label>} </label><br/><br/>
+                     {(cabin=="First")?<label>{flight.First.Baggage}</label>:(cabin=="Business")?<label>{flight.Business.Baggage}</label>:(cabin=="Economy")?<label>{flight.Economy.Baggage}<br/><br/></label>:
+                   (adultTicketsno>0)?(<label> price / Adult ticket: {adultTicket} <br/><br/></label>):
+                   (childTicketsno>0)?(<label> price / Child ticket: {childTicket}<br/><br/></label>):<label></label>} </label>
                     <label className="data">Total price for OutBound Flight  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{totalPrice}</label><br/> 
                    </CardText> 
                    <CardSubtitle

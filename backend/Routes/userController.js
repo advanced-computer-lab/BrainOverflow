@@ -253,4 +253,25 @@ router.post('/confirmReserve/:id', catchAsync(async (req, res, next) => {
   }
   
 }));
+router.post('/SearchFlight', catchAsync(async (req, res, next) => {
+  const details = req.body;
+  console.log(details.ReturnDate);
+  const retFrom=details.From;
+  const retTo =details.To;
+  const Cabin=details.cabin;
+  const Adults=details.Adults;
+  const Children=details.Children;
+  const ReturnDate=details.ReturnDate;
+
+  await Flight.find({'From.Airport' :'alex'})
+  .then(result => {
+    res.send(result);
+    console.log("res : ",result);
+  })
+  .catch(err => {
+    console.log(err);
+  });
+
+ }));
+
 module.exports = router;

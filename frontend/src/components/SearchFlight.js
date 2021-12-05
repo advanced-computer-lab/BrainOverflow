@@ -17,8 +17,9 @@ function AllFlights() {
         Cabin: '',
         Adults: 0,
         Children: 0,
-        ReturnDate: ''
+        ReturnDate: new Date()
     };
+
 
     const initialstate =
     {
@@ -61,13 +62,15 @@ function AllFlights() {
     const [show, setShow] = useState(false);
     const [View, setView] = useState(false);
     const [HasError, setHasError] = useState(false);
-  const [Error, setError] = useState('');
+    const [Error, setError] = useState('');
     const [firstView, setFirst] = useState(false);
     const [BusinessView, setBusiness] = useState(false);
     const [EconomyView, setEconomy] = useState(false);
     const navigate = useNavigate();
     const [flights, setFlights] = useState([initialstate]);
     const [mysearch, setSearch] = useState(searchObject);
+
+
     //const[searchItem,setSearchItem]=useState([]);
     const [displayed, setDisplayed] = useState([initialstate]);
 
@@ -108,7 +111,7 @@ function AllFlights() {
 
 
     //console.log("length" ,flights[3]);
-
+    //setView(false)
 
     const addtoList = (event) => {
         event.preventDefault()
@@ -119,9 +122,23 @@ function AllFlights() {
             Adults: event.target[1].value,
             Children: event.target[2].value,
             ReturnDate: event.target[6].value
-        }
-        );
-        console.log(mysearch);
+        });
+        /*
+        setReturnSearch({
+            From:event.target[3].value.toLocaleLowerCase(),
+            To:event.target[4].value.toLocaleLowerCase(),
+            Cabin: event.target[0].value,
+            Adults: event.target[1].value,
+            Children: event.target[2].value,
+            ReturnDate: event.target[6].value.slice(0,10)
+        }) ;
+        
+        const Returnresult = search(myReturnsearch);
+        if(Returnresult == null){
+            console.log("No Return Flights");
+        }*/
+
+        //console.log(mysearch);
         setDisplayed(flights.filter((f) => {
             let flag1 = false
             let flag2 = false
@@ -132,13 +149,24 @@ function AllFlights() {
             let flagFirst = false
             let flagBusiness = false
             let flagEconomy = false
+            let total = parseInt(event.target[1].value) + parseInt(event.target[2].value)
+            let cabin = event.target[0].value == 'Business'
+            let returnfrom =event.target[4].value.toLocaleLowerCase()
+            let returnto =event.target[3].value.toLocaleLowerCase()
+            let ReturnDate = event.target[6].value
+            console.log("returnto : " , returnto);
+            console.log("returnfrom : " , returnfrom);
+
+
+            
 
             if (event.target[0].value !== '' && event.target[0].value == 'First') {
                 //console.log("class is" ,event.target[0].value);
                 setBusiness(false);
                 setFirst(true);
                 setEconomy(false);
-                flagFirst = true
+                flagFirst = true;
+                cabin ='First'
             }
 
             if (event.target[0].value !== '' && event.target[0].value == 'Business') {
@@ -146,7 +174,8 @@ function AllFlights() {
                 setBusiness(true);
                 setFirst(false);
                 setEconomy(false);
-                flagBusiness = true
+                flagBusiness = true;
+                cabin ='Bussiness'
             }
 
             if (event.target[0].value !== '' && event.target[0].value == 'Economy') {
@@ -154,7 +183,8 @@ function AllFlights() {
                 setBusiness(false);
                 setFirst(false);
                 setEconomy(true);
-                flagEconomy = true
+                flagEconomy = true;
+                cabin ='Economy'
             }
 
             if (flagFirst) {
@@ -168,23 +198,10 @@ function AllFlights() {
                         countseats++;
                     }
                 }
-                if (event.target[1].value == '') {
-                    flag1 = (((0 + parseInt(event.target[2].value)) <= countseats) && (countseats != 0)&& (((0 + parseInt(event.target[2].value)) <= f.First.SeatsLeft)))
-                }
-                else if (event.target[2].value == '') {
-                    flag1 = ((parseInt(event.target[1].value) + 0) <= countseats && (((0 + parseInt(event.target[1].value)) <= f.First.SeatsLeft)))
-
-                }
-                else if (event.target[1].value == '' && event.target[2].First == '') {
-                    flag1 = ((0 <= countseats) && (countseats != 0))
-                }
-                else {
-                    flag1 = (((parseInt(event.target[1].value) + parseInt(event.target[2].value)) <= countseats) && (countseats != 0) &&(parseInt(event.target[1].value) + parseInt(event.target[2].value)) <= f.First.SeatsLeft)
-
-                }
-
-            }
-            else { flag1 = true }
+                flag1 = (((parseInt(event.target[1].value) + parseInt(event.target[2].value)) <= countseats) && (countseats != 0)
+                //&&((parseInt(event.target[1].value) + parseInt(event.target[2].value)) <= f.First.SeatsLeft)
+                )
+                }else { flag1 = true }
 
             if (flagBusiness) {
                 let len = f.Business.SeatId.length;
@@ -195,22 +212,10 @@ function AllFlights() {
                         countseats++;
                     }
                 }
-                //console.log("total is",parseInt(event.target[1].value)+ parseInt(event.target[2].value));
-                if (event.target[1].value == '') {
-                    flag2 = (((0 + parseInt(event.target[2].value)) <= countseats) && (countseats != 0) && (((0 + parseInt(event.target[2].value)) <= f.Business.SeatsLeft)))
-                }
-                else if (event.target[2].value == '') {
-                    flag2 = (((parseInt(event.target[1].value) + 0) <= countseats) && (countseats != 0) && (((0 + parseInt(event.target[1].value)) <= f.Business.SeatsLeft)))
-
-                }
-                else if (event.target[1].value == '' && event.target[2].value == '') {
-                    flag2 = ((0 <= countseats) && (countseats != 0))
-                }
-                else {
-                    flag2 = (((parseInt(event.target[1].value) + parseInt(event.target[2].value)) <= countseats) && (countseats != 0)&& (((parseInt(event.target[1].value)+ parseInt(event.target[2].value)) <= f.Business.SeatsLeft)))
-
-                }
-
+              
+             flag2 = (((parseInt(event.target[1].value) + parseInt(event.target[2].value)) <= countseats) && (countseats != 0)
+             //&& ((parseInt(event.target[1].value)+ parseInt(event.target[2].value)) <= f.Business.SeatsLeft)
+             )
             }
             else { flag2 = true }
 
@@ -223,21 +228,10 @@ function AllFlights() {
                         countseats++;
                     }
                 }
-                //console.log("total is",parseInt(event.target[1].value)+ parseInt(event.target[2].value));
-                if (event.target[1].value == '') {
-                    flag3 = (((0 + parseInt(event.target[2].value)) <= countseats) && (countseats != 0)&& (((0 + parseInt(event.target[2].value)) <= f.Economy.SeatsLeft)))
-                }
-                else if (event.target[2].value == '') {
-                    flag3 = (((parseInt(event.target[1].value) + 0) <= countseats) && (countseats != 0&& (((0 + parseInt(event.target[1].value)) <= f.Economy.SeatsLeft))))
 
-                }
-                else if (event.target[1].value == '' && event.target[2].value == '') {
-                    flag3 = ((0 <= countseats) && (countseats != 0))
-                }
-                else {
-                    flag3 = (((parseInt(event.target[1].value) + parseInt(event.target[2].value)) <= countseats) && (countseats != 0) &&((parseInt(event.target[1].value) + parseInt(event.target[2].value)) <= f.Economy.SeatsLeft))
-
-                }
+            flag3 = (((parseInt(event.target[1].value) + parseInt(event.target[2].value)) <= countseats) && (countseats != 0) 
+            //&&((parseInt(event.target[1].value) + parseInt(event.target[2].value)) <= f.Economy.SeatsLeft)
+            )
 
             }
             else { flag3 = true }
@@ -263,17 +257,52 @@ function AllFlights() {
                 flag6 = (d1 == d2);
 
             } else { flag6 = true }
+            
+             const result =  flights.filter(rflight=> {
+                let rflag1 =false;
+                let rflag2 =false;
+                let rflag3 =false;
+                let rflag4 = false;
+                rflag1 =((rflight.To.Airport.toLocaleLowerCase() == returnto) && (rflight.From.Airport.toLocaleLowerCase() ==returnfrom) && (rflight.Departure.Date.slice(0,10) == ReturnDate))
 
-            return flag1 & flag2 & flag3 & flag4 & flag5 & flag6;
+                if(cabin =='First'){
+                    //change later to 
+                    //rflag2=(total<=rflight.First.SeatsLeft)
+                    rflag2=(total<=rflight.First.SeatId.length)
+                }else{rflag2 = true }
+
+                if(cabin =='Business'){
+                    //change later to 
+                    //rflag3=(total<=rflight.Business.SeatsLeft)
+                    rflag3=(total<=rflight.Business.SeatId.length)
+                }else{rflag3 = true }
+                if(cabin =='Economy'){
+                    //change later to *****
+                    //rflag4=(total<=rflight.Economy.SeatsLeft)
+                    rflag4=(total<=rflight.Economy.SeatId.length)
+                }else{rflag4 = true }
+                return rflag1 & rflag2 & rflag3 &rflag4 ;
+            }
+              )
+            
+        console.log("looop : ", result);
+        console.log("looop : ", result.length);
+        let returnflag = false;
+        if(result.length>0){
+            returnflag = true ;
+        }else{
+            returnflag = false ;
+        }
+        
+        return flag1 & flag2 & flag3 & flag4 & flag5 & flag6 & returnflag;
+            
+
         }
 
         ))
 
-
         console.log(displayed);
-
-
-
+        
     }
 
 
@@ -405,6 +434,7 @@ function AllFlights() {
                                 type="submit"
                             >
                                 Search</Button>
+                                <br/><br/>
                         </div>
                     </Form>
                 </Row>
@@ -417,27 +447,29 @@ function AllFlights() {
                                     <Card>
                                         <CardBody>
                                             <CardTitle tag="h5">
-                                                Flight summary :
+                                               <h2> Flight summary :</h2>
                                             </CardTitle>
                                             <CardSubtitle
                                                 className="mb-2 text-muted"
                                                 tag="h6"
                                             >
-                                                From :{flight.From.Airport}
-                                                To :{flight.To.Airport}
+                                                <label className="info">
+                                                From :  {flight.From.Airport}.............................
+                                                To :  {flight.To.Airport}</label>
                                             </CardSubtitle>
                                             <CardText>
-                                                {(firstView) && (mysearch.Adults > 0) ? <label>price of First class Adult Ticket : {flight.First.Price}</label> :
-                                                    BusinessView && (mysearch.Adults > 0) ? <label> price of Business class Adult Ticket: {flight.Business.Price}</label> :
-                                                        EconomyView && (mysearch.Adults > 0) ? <label> price of Economy class Adult Ticket : {flight.Economy.Price}</label> : <label></label>}
+                                                {(firstView) && (mysearch.Adults > 0) ? <label>Price of First class Adult Ticket : {flight.First.Price}<br></br> </label> :
+                                                    BusinessView && (mysearch.Adults > 0) ? <label> Price of Business class Adult Ticket: {flight.Business.Price}<br></br> </label> :
+                                                        EconomyView && (mysearch.Adults > 0) ? <label> Price of Economy class Adult Ticket : {flight.Economy.Price}<br></br> </label> : <label></label>}<br/><br/>
 
-                                                {(firstView) && (mysearch.Children > 0) ? <label>price of First class Children Ticket : {flight.First.ChildPrice}</label> :
-                                                    BusinessView && (mysearch.Children > 0) ? <label> price of Business class Children Ticket: {flight.Business.ChildPrice}</label> :
-                                                        EconomyView && (mysearch.Children > 0) ? <label> price of Economy class Children Ticket : {flight.Economy.ChildPrice}</label> : <label></label>}
-                                                Departure Date : {flight.Departure.Date.slice(0, 10)}
-                                                Departure time: {flight.Departure.Time}
-                                                Arrival Date : {flight.Arrival.Date.slice(0, 10)}
-                                                Arrival time:{flight.Arrival.Time}
+                                                {(firstView) && (mysearch.Children > 0) ? <label>Price of First class Children Ticket : {flight.First.ChildPrice}<br></br> </label> :
+                                                    BusinessView && (mysearch.Children > 0) ? <label> Price of Business class Children Ticket: {flight.Business.ChildPrice}<br></br> </label> :
+                                                        EconomyView && (mysearch.Children > 0) ? <label> price of Economy class Children Ticket : {flight.Economy.ChildPrice}<br></br> </label>: <label></label>}
+                                                        <br/><br/>
+                                                Departure Date : {(flight.Departure.Date.toString()).slice(0,10)}<br/><br/>
+                                                Departure time: {flight.Departure.Time}<br/><br/>
+                                                Arrival Date : {(flight.Arrival.Date.toString()).slice(0,10)}<br/><br/>
+                                                Arrival time:{flight.Arrival.Time}<br/><br/>
                                             </CardText>
                                             <Button>
                                                 <Link to={{
