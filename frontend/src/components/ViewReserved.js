@@ -70,9 +70,11 @@ function ViewReserved(props) {
   useEffect(() => {
     axios.get(`http://localhost:8000/user/viewReserved/${id}`).then(res => {
       setTheUser(res.data)
-      if(theUser.TicketsId.length==0){
+
+      if(!(theUser)){
+        console.log("i came here ");
         setHasError(true);
-        setError("You have no reserved flight !")
+        setError("You have to sign up to book a flight")
       }
     }).catch((err)=> {
       // The request was made and the server responded with a status code
@@ -152,7 +154,7 @@ function ViewReserved(props) {
         <h1 className="mb-2 mt-3"> Your reserved tickets : </h1>
         <CardColumns>
           <Row>
-              {(theUser.TicketsId.length != 0) && (theUser.TicketsId).map((ticket) => (
+              {(!HasError)&&(theUser.TicketsId).map((ticket) => (
 
                 <Card className="mb-2">
                   <CardBody>

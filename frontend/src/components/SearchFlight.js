@@ -123,22 +123,6 @@ function AllFlights() {
             Children: event.target[2].value,
             ReturnDate: event.target[6].value
         });
-        /*
-        setReturnSearch({
-            From:event.target[3].value.toLocaleLowerCase(),
-            To:event.target[4].value.toLocaleLowerCase(),
-            Cabin: event.target[0].value,
-            Adults: event.target[1].value,
-            Children: event.target[2].value,
-            ReturnDate: event.target[6].value.slice(0,10)
-        }) ;
-        
-        const Returnresult = search(myReturnsearch);
-        if(Returnresult == null){
-            console.log("No Return Flights");
-        }*/
-
-        //console.log(mysearch);
         setDisplayed(flights.filter((f) => {
             let flag1 = false
             let flag2 = false
@@ -267,19 +251,19 @@ function AllFlights() {
 
                 if(cabin =='First'){
                     //change later to 
-                    //rflag2=(total<=rflight.First.SeatsLeft)
-                    rflag2=(total<=rflight.First.SeatId.length)
+                    rflag2=(total<=rflight.First.SeatsLeft)
+                    //rflag2=(total<=rflight.First.SeatId.length)
                 }else{rflag2 = true }
 
                 if(cabin =='Business'){
                     //change later to 
-                    //rflag3=(total<=rflight.Business.SeatsLeft)
-                    rflag3=(total<=rflight.Business.SeatId.length)
+                    rflag3=(total<=rflight.Business.SeatsLeft)
+                    //rflag3=(total<=rflight.Business.SeatId.length)
                 }else{rflag3 = true }
                 if(cabin =='Economy'){
                     //change later to *****
-                    //rflag4=(total<=rflight.Economy.SeatsLeft)
-                    rflag4=(total<=rflight.Economy.SeatId.length)
+                    rflag4=(total<=rflight.Economy.SeatsLeft)
+                    //rflag4=(total<=rflight.Economy.SeatId.length)
                 }else{rflag4 = true }
                 return rflag1 & rflag2 & rflag3 &rflag4 ;
             }
@@ -460,7 +444,7 @@ function AllFlights() {
                                             <CardText>
                                                 {(firstView) && (mysearch.Adults > 0) ? <label>Price of First class Adult Ticket : {flight.First.Price}<br></br> </label> :
                                                     BusinessView && (mysearch.Adults > 0) ? <label> Price of Business class Adult Ticket: {flight.Business.Price}<br></br> </label> :
-                                                        EconomyView && (mysearch.Adults > 0) ? <label> Price of Economy class Adult Ticket : {flight.Economy.Price}<br></br> </label> : <label></label>}<br/><br/>
+                                                        EconomyView && (mysearch.Adults > 0) ? <label> Price of Economy class Adult Ticket : {flight.Economy.Price}<br></br> </label> : <label></label>}
 
                                                 {(firstView) && (mysearch.Children > 0) ? <label>Price of First class Children Ticket : {flight.First.ChildPrice}<br></br> </label> :
                                                     BusinessView && (mysearch.Children > 0) ? <label> Price of Business class Children Ticket: {flight.Business.ChildPrice}<br></br> </label> :
