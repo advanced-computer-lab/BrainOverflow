@@ -87,7 +87,7 @@ function ViewSeats() {
       {!(HasError) &&  <Card>
               <CardImg  
                 alt="Card image cap"
-                src="https://picsum.photos/256/186"
+                src="https://easbcn.com/wp-content/uploads/2020/05/Business-Class-plane-1.jpeg"
                 top
                 width="100%"
               />

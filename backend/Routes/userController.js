@@ -88,6 +88,7 @@ console.log(theEmail);
 })  
 
   router.get('/viewFlights' ,catchAsync(async (req, res,next) => {  
+    console.log(req.body,req.params);
       const f = await Flight.find({}).populate(['First.SeatId','Business.SeatId','Economy.SeatId']);
       res.send(f);
       }))

@@ -2,14 +2,14 @@
 margin-left: 40%;
 margin-top: -10%;}
 .imgDepart{
-    width: 800px; /* width of container */
+    width: 740px; /* width of container */
     height: 200px; /* height of container */
     object-fit: cover;
     object-position: 30% 30%; /* try 20px 10px */ 
 }
 .imgreturn{
 
-    width: 800px; /* width of container */
+    width: 740px; /* width of container */
     height: 200px; /* height of container */
     object-fit: cover;
     object-position: 30% 40%; /* try 20px 10px */     transform: scaleX(-1);

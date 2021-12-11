@@ -6,7 +6,7 @@ import { Component, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
 import {useParams,useLocation} from "react-router-dom";
-import { CardBody, Card, CardColumns,CardImg,CardSubtitle,CardText,CardGroup,Toast,ToastBody,ToastHeader,
+import { CardBody, Card, CardColumns,CardImg,CardSubtitle,CardText,CardGroup,Toast,ToastBody,ToastHeader,Container,
           Button,CardTitle,Col,Row} from 'reactstrap';
 import "../Style/summay.css";
 function ViewFlight(props){
@@ -219,7 +219,7 @@ Arrival:{
               Baggage Allowance: {(cabin=="First")?<label>{flight.First.Baggage}</label>:(cabin=="Business")?<label>{flight.Business.Baggage}</label>:(cabin=="Economy")?<label>{flight.Economy.Baggage}</label>:<label></label>}<br/>
              { (adultTicketsno>0)?(<label> price / Adult ticket: {adultTicket} </label>):<label></label> }<br/>
              {(childTicketsno>0)?(<label> price / Child ticket: {childTicket}</label>):<label></label>}<br/>
-             Total Tickets price:{totalPrice}<br/>                       
+             Total Tickets price: {totalPrice}<br/>                       
             </ToastBody>
           </Toast>
 
@@ -288,13 +288,16 @@ return flag1 & flag2 & flag3 & flag4 ;
   .map(x => (
 
  
-                        <Toast>
-                          <ToastHeader  icon="secondary">
-                            Available Return Flight:
+    <Toast className="center">
+    <ToastHeader  icon="secondary">
+                            Available Return Flight From {x.From.Airport} To {x.To.Airport}
                           </ToastHeader>
                           <ToastBody>
-                            From :{x.From.Airport} To :{x.To.Airport}
-                            FlightNumber:{x.FlightNumber}<br></br>
+                            FlightNumber: {x.FlightNumber}<br></br>
+                            Departure Date: {x.Departure.Date.slice(0, 10)} at {x.Departure.Time}
+                          <br></br>
+                          Arrival Date: {x.Arrival.Date.slice(0, 10)} at {x.Arrival.Time} 
+                          <br></br>
                           {(mysearch.Cabin =="First")&& (adultTicketsno >0)? <label>price of First class Adult Ticket : {x.First.Price} </label> :
                           (cabin =="Business") && (adultTicketsno >0)?<label> price of Business class Adult Ticket: {x.Business.Price}</label>:
                           (cabin =="Economy")&& (adultTicketsno>0)?<label> price of Economy class Adult Ticket : {x.Economy.Price}</label>:<label></label>}<br/>
@@ -302,14 +305,7 @@ return flag1 & flag2 & flag3 & flag4 ;
                           (cabin =="Business") && (childTicketsno>0)?<label> price of Business class Children Ticket: {x.Business.ChildPrice}</label>:
                           (cabin =="Economy")&& (childTicketsno >0)?<label> price of Economy class Children Ticket : {x.Economy.ChildPrice}</label>:<label></label>}<br/>
                           
-                          Departure Date: {x.Departure.Date.slice(0, 10)}
-                          <br></br>
-                          Departure time: {x.Departure.Time}
-                          <br></br>
-                          Arrival Date: {x.Arrival.Date.slice(0, 10)}
-                          <br></br>
-                          Arrival time:{x.Arrival.Time} 
-                          <br></br>
+                        
                           <Button onClick={() => handleSummary(x.From.Airport,x.To.Airport,x.First.Price,x.Business.Price,
                           x.Economy.Price,x.Arrival.Time,x.Departure.Time,x.Departure.Date.slice(0, 10),
                           x.Arrival.Date.slice(0, 10),x._id,x.FlightNumber,x.First.ChildPrice,x.Business.ChildPrice,
@@ -332,7 +328,7 @@ return flag1 & flag2 & flag3 & flag4 ;
 :<label></label>}
 {NoFlights? <label>No Available Return Flight</label>:<label></label>}
 
-
+<Container>
 {viewSummary? <div>
   <Toast>
     <ToastHeader icon="primary">
@@ -350,7 +346,7 @@ return flag1 & flag2 & flag3 & flag4 ;
     Flight From {mysummary.From} to {mysummary.To}
     </ToastBody>
   </Toast>
-  <Card className="summary">
+  <Card className="summary"  >
     
         <CardBody>
                   <CardTitle tag="h5">
@@ -371,9 +367,10 @@ return flag1 & flag2 & flag3 & flag4 ;
                     {/* Trip Duration:{(diffDays==0)?<label>{ }hours and   </label> :}<br/> */}
                     <label className="data">Cabin Class &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{cabin} </label><br/><br/>
                     <label className="data">Baggage Allowance &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                     {(cabin=="First")?<label>{flight.First.Baggage}</label>:(cabin=="Business")?<label>{flight.Business.Baggage}</label>:(cabin=="Economy")?<label>{flight.Economy.Baggage}<br/><br/></label>:
+                     {(cabin=="First")?<label>{flight.First.Baggage}</label>:(cabin=="Business")?<label>{flight.Business.Baggage}</label>:(cabin=="Economy")?<label>{flight.Economy.Baggage}<br/><br/>
+                     <br/></label>:
                    (adultTicketsno>0)?(<label> price / Adult ticket: {adultTicket} <br/><br/></label>):
-                   (childTicketsno>0)?(<label> price / Child ticket: {childTicket}<br/><br/></label>):<label></label>} </label>
+                   (childTicketsno>0)?(<label> price / Child ticket: {childTicket}<br/><br/></label>):<label></label>} </label> 
                     <label className="data">Total price for OutBound Flight  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{totalPrice}</label><br/> 
                    </CardText> 
                    <CardSubtitle
@@ -397,20 +394,24 @@ return flag1 & flag2 & flag3 & flag4 ;
                     <label className="info">TotalPrice {mysummary.ReturnTotalPrice + totalPrice} </label>
                     </CardText>
                     
-                   { <Button >
+                   { 
                     <Link to={{ pathname:`/user/confirmFlight/61ac855c96f456e24744b466` 
                          , search:'?'+new URLSearchParams(myData).toString()
-                           }}className="btn btn-primary">Confirm and book</Link> 
-                      </Button>}
-
+                           }}className="btn btn-primary " color="success">Confirm and book</Link> 
+                     }
 
       </CardBody>
                          
       </Card>
+
       </div>:<label></label>}
+      </Container>
+
+
 
 
 </div>
+
       
       )
 }

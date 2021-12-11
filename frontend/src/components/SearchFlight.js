@@ -268,7 +268,6 @@ function AllFlights() {
                 return rflag1 & rflag2 & rflag3 &rflag4 ;
             }
               )
-            
         console.log("looop : ", result);
         console.log("looop : ", result.length);
         let returnflag = false;
@@ -286,6 +285,8 @@ function AllFlights() {
         ))
 
         console.log(displayed);
+        if(displayed.length ==0){setHasError(true); setError('No Flights match your search criteria !')}
+
         
     }
 
@@ -455,12 +456,12 @@ function AllFlights() {
                                                 Arrival Date : {(flight.Arrival.Date.toString()).slice(0,10)}<br/><br/>
                                                 Arrival time:{flight.Arrival.Time}<br/><br/>
                                             </CardText>
-                                            <Button>
+                                            {/* <Button> */}
                                                 <Link to={{
                                                     pathname: `/user/viewFlight/${flight._id}`
                                                     , search: '?' + new URLSearchParams(mysearch).toString()
                                                 }} className="btn btn-primary">Choose Flight</Link>
-                                            </Button>
+                                            {/* </Button> */}
                                         </CardBody>
                                     </Card>
                                 ))}
