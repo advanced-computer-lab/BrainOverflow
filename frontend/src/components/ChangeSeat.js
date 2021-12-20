@@ -30,7 +30,7 @@ function ViewSeats() {
   async function handleReserve(chosenSeatId) {
     try {
         console.log(chosenSeatId)
-      await axios.post(`http://localhost:8000/user/viewSeats/${id}/${chosenSeatId}/${TicketId}`)
+      await axios.put(`http://localhost:8000/user/viewSeats/${id}/${chosenSeatId}/${TicketId}`)
       .then(navigate(`/user/viewReserved/${id}`, { replace: true }));
 
     } catch (error) {
@@ -43,9 +43,10 @@ function ViewSeats() {
     const {id} = useParams();
     const { FlightId } = useParams();
     const { Cabin } = useParams();
+    const { OldSeat } = useParams();
     const { TicketId } = useParams();
     useEffect(() => {
-        axios.get(`http://localhost:8000/user/viewSeats/${id}/${FlightId}/${Cabin}/${TicketId}`).then(res => {
+        axios.get(`http://localhost:8000/user/viewSeats/${id}/${FlightId}/${Cabin}/${TicketId}/${OldSeat}`).then(res => {
             console.log(res.data);
             setSeats(res.data);
         }).catch((err)=> {
@@ -115,7 +116,7 @@ function ViewSeats() {
                         <td>{seat.SeatNumber}</td>
                         <td>{seat.Cabin}</td>
                        
-                        <td> <Button color="success" onClick={() => handleShow(seat._id,seat.SeatNumber)}> Reserve </Button>
+                        <td> <Button color="success" onClick={() => handleShow(seat._id,seat.SeatNumber)}> Change </Button>
 
                          </td>
                       </tr>

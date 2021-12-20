@@ -149,6 +149,9 @@ function ViewReserved(props) {
             <Button onClick={handleClose}>
               Cancel
             </Button>
+
+
+
           </ModalFooter>
         </Modal>
         <h1 className="mb-2 mt-3"> Your reserved tickets : </h1>
@@ -185,6 +188,21 @@ function ViewReserved(props) {
                         theObject.Price = ticket.Price
                         theObject.TicketName = ticket.Name
                       }}> Cancel </Button>
+
+{ 
+                    <Link to={{ pathname:`/user/changeSeats/${id}/${ticket.Flight.FlightId}/${ticket.Cabin}/${ticket._id}/${ticket.Seat.SeatId}` 
+                         
+                           }}className="btn btn-primary " color="success">Change Seat</Link> 
+
+                    
+                     }
+                     { 
+                    <Link to={{ pathname:`/user/changeSeats/${id}/${ticket.Flight.FlightId}/${ticket.Cabin}/${ticket._id}/${ticket.Seat.SeatId}` 
+                         
+                           }}className="btn btn-primary " color="success">Change Flight</Link> 
+
+                    
+                     }
                     </CardSubtitle>
                   </CardBody>
                 </Card>

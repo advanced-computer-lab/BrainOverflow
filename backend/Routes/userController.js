@@ -151,7 +151,6 @@ const  user = await User.findById(req.params.id);
 }));
 
 router.get('/viewSeats/:id/:FlightId/:Cabin/:TicketId',catchAsync(async(req,res,next)=>{
-  //console.log("I CAME HEREEE")
   const FlightId = req.params.FlightId;
   const cabin = req.params.Cabin;
  const availableSeats= await Seat.find({'FlightId':FlightId,'Cabin':cabin,'IsBooked':false});
@@ -164,6 +163,23 @@ router.get('/viewSeats/:id/:FlightId/:Cabin/:TicketId',catchAsync(async(req,res,
 });}
  res.send(availableSeats);
 }));
+
+
+router.get('/changeSeats/:id/:FlightId/:Cabin/:TicketId/:OldSeat',catchAsync(async(req,res,next)=>{
+  const FlightId = req.params.FlightId;
+  const cabin = req.params.Cabin;
+ const availableSeats= await Seat.find({'FlightId':FlightId,'Cabin':cabin,'IsBooked':false});
+ console.log("FlightId in get",FlightId,cabin);
+ console.log("available seats in get req",availableSeats);
+ if(availableSeats.length==0){ 
+   console.log("error in get entered")
+    res.status(404).send({
+  message: 'No availabe seats'
+});}
+ res.send(availableSeats);
+}));
+
+
 router.post('/viewSeats/:id/:SeatId/:TicketId',catchAsync(async(req,res,next)=>{
   console.log('beginning')
   const user=await User.findById(req.params.id);
@@ -185,6 +201,36 @@ router.post('/viewSeats/:id/:SeatId/:TicketId',catchAsync(async(req,res,next)=>{
   await user.save();
   console.log('end')
 }));
+
+
+
+router.put('/changeSeats/:id/:SeatId/:TicketId/:OldSeat',catchAsync(async(req,res,next)=>{
+  console.log('beginning')
+  const user=await User.findById(req.params.id);
+  const seat =await Seat.findById(req.params.SeatId);
+  const oldSeat =await Seat.findById(req.params.OldSeat);
+  console.log(seat);
+  const ticket =await Ticket.findById(req.params.TicketId);
+ 
+//   if(ticket.Flight.FlightId!=seat.FlightId)
+//   {console.log("ticket flight error in post",ticket.Flight.FlightId);
+//     console.log("seat flight error in post",seat.FlightId)
+//     console.log('Cant book');
+//   res.send('error')
+// }
+  seat.IsBooked=true;
+  oldSeat.IsBooked=false;
+  ticket.Seat.SeatId=seat._id;
+  ticket.Seat.SeatNumber=seat.SeatNumber;
+  await ticket.save();
+  await seat.save();
+  await user.save();
+  console.log('end')
+
+}));
+
+
+
 // Cabin: '',
 // Adults: 0,
 // Children: 0,

@@ -37,7 +37,8 @@ function App() {
       <Route path="user/viewReserved/:id" element={<ViewReserved/>}/>
       <Route path="/user/viewFlights" element={<SearchFlight />} />
       <Route path="/user/viewFlight/:id" element={<ViewFlight />} />
-      <Route path="/user/viewSeats/:id/:FlightId/:Cabin/:TicketId" element={<ViewSeats/>}/>  
+      <Route path="/user/viewSeats/:id/:FlightId/:Cabin/:TicketId" element={<ViewSeats/>}/> 
+      <Route path="/user/changeSeats/:id/:FlightId/:Cabin/:TicketId/:OldSeat" element={<ViewSeats/>}/>   
       <Route path="/user/updateProfile/:id" element={<UpdateProfile/>}/>
       <Route path="/user/userProfile/:id" element={<UserProfile/>}/> 
 
