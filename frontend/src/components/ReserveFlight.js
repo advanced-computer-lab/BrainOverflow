@@ -32,16 +32,7 @@ function ReserveFlight(){
      
     const [show, setShow] = useState(false);
      
-    async function handleSubmit() {
-       console.log(Summary);
-        try {
 
-    
-          await axios.post(`http://localhost:8000/user/confirmReserve/${id}`,Summary) 
-          } catch (error) {
-          console.error(error);
-        }
-      }  
 
       for(let i =0;i<(parseInt(Summary.Children)+parseInt(Summary.Adults));i++ ){
         Summary.Names.push("placeHolder");
@@ -57,15 +48,17 @@ function ReserveFlight(){
           charCode="Y"
 
         >
-          Tickets Reserved Successfully
+          Tickets Reservation
         </ModalHeader>
         <ModalBody>
-          You have Successfully reserved your tickets
+          To confirm your tickets , please click proceed to payment
         </ModalBody>
         <ModalFooter>
-          <Button>
-          <Link to={`/user/viewReserved/${id}`}> View My Tickets </Link>
-          </Button>
+          { 
+                    <Link to={{ pathname:`/user/payment/61ac855c96f456e24744b466` 
+                         , search:'?'+new URLSearchParams(Summary).toString()
+                           }}className="btn btn-primary " color="success">Proceed to payment</Link> 
+                     }
           
          
         </ModalFooter>
@@ -97,8 +90,8 @@ function ReserveFlight(){
                   
                   }
                    
-             
-                  <Button color="danger" onClick={() =>{ handleSubmit();
+
+                  <Button color="danger" onClick={() =>{ 
                                             setShow(true);}}> Confirm and Submit </Button>
                   </Form>
                    

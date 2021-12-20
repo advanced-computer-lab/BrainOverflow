@@ -25,7 +25,7 @@ const app = express();
 const port = process.env.PORT || "8000";
 const Flight = require('./models/Flight');
 // #Importing the userController
-
+app.use(express.static("public"));
 app.use(express.json());
 // configurations
 // Mongo DB
