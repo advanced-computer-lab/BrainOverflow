@@ -34,42 +34,38 @@ router.get('/viewFlights', (req, res) => {
 
 //Creating new flight
 router.post('/createFlight', catchAsync(async (req, res, next) => {
+  console.log(req.body);
   const details = req.body;
   const From = {'Airport': details.FromAirport, 'Terminal': details.FromTerminal };
   const To = { 'Airport': details.ToAirport, 'Terminal': details.ToTerminal };
-  const Economy = { 'SeatId': [], 'Price': details.EconomyPrice, 'ChildPrice': details.EconomyChildPrice, 'Baggage': details.EconomyBaggage };
-  const Business = { 'SeatId': [], 'Price': details.BusinessPrice, 'ChildPrice': details.BusinessChildPrice, 'Baggage': details.BusinessBaggage };
-  const First = { 'SeatId': [], 'Price': details.FirstPrice, 'ChildPrice': details.FirstChildPrice, 'Baggage': details.FirstBaggage };
+  const Economy = { 'SeatId': [], 'Price': details.EconomyPrice, 'ChildPrice': details.EconomyChildPrice, 'Baggage': details.EconomyBaggage ,'SeatsLeft':details.EconomySeats};
+  const Business = { 'SeatId': [], 'Price': details.BusinessPrice, 'ChildPrice': details.BusinessChildPrice, 'Baggage': details.BusinessBaggage,'SeatsLeft':details.BusinessSeats };
+  const First = { 'SeatId': [], 'Price': details.FirstPrice, 'ChildPrice': details.FirstChildPrice, 'Baggage': details.FirstBaggage,'SeatsLeft':details.FirstSeats};
   const Departure = { 'Date': details.DepartureDate, 'Time': details.DepartureTime };
   const Arrival = { 'Date': details.ArrivalDate, 'Time': details.ArrivalTime };
   const flight = new Flight({ FlightNumber: details.FlightNumber, From: From, To: To, Economy: Economy, Business: Business, First: First, Departure: Departure, Arrival: Arrival });
-  console.log(Departure.Date > Arrival.Date)
-  console.log(Departure.Time <= Arrival.Time)
   // if(Departure.Date>Arrival.Date ||(Departure.Date==Arrival.Date && Departure.Time>=Arrival.Time))
   //       throw new ExpressError("The Arrival Must Be After Departure!", 400)
   // if(From.Airport==To.Airport)
   //     throw new ExpressError("Arrival and Departure Cities Must be different", 400)    
   // //const { error } = flightSchema.validate(flight);
 
-  await flight.save();
   for (i = 1; i <= details.EconomySeats; i++) {
     const seat = new Seat({ 'SeatNumber': `E${i}`, 'IsBooked': false, 'FlightId': flight._id, 'Cabin': 'Economy' });
     flight.Economy.SeatId.push(seat);
-    await flight.save();
     await seat.save();
   }
   for (i = 1; i <= details.BusinessSeats; i++) {
     const seat = new Seat({ 'SeatNumber': `B${i}`, 'IsBooked': false, 'FlightId': flight._id, 'Cabin': 'Business' });
     flight.Business.SeatId.push(seat);
-    await flight.save();
     await seat.save();
   }
   for (i = 1; i <= details.FirstSeats; i++) {
     const seat = new Seat({ 'SeatNumber': `F${i}`, 'IsBooked': false, 'FlightId': flight._id, 'Cabin': 'First' });
     flight.First.SeatId.push(seat);
-    await flight.save();
     await seat.save();
   }
+  await flight.save()
 
 }));
 router.get('/viewFlights', (req, res) => {

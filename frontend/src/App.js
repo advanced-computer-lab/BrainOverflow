@@ -7,10 +7,9 @@ import axios from 'axios'
 import CreateFlight from './components/CreateFlight';
 import AllFlights from './components/AllFlights';
 import UpdateFlight from './components/UpdateFlight';
- 
- 
+import Home from './components/Home'; 
 import MyNavBar from './components/MyNavbar';
- 
+import NavBarUser from './components/MyNavbarUser';
 import ViewReserved from'./components/ViewReserved';
 import SearchFlight from'./components/SearchFlight';
 import ViewFlight from './components/ViewFlight';
@@ -31,15 +30,18 @@ function App() {
   return (
     
     <BrowserRouter>
-    <MyNavBar></MyNavBar>
+    <NavBarUser></NavBarUser>
     <Routes>
       <Route path="/admin/createFlight" element={<CreateFlight />} />
       <Route path="/admin" element={<AllFlights />} />
       <Route path="/admin/UpdateFlight/:id" element={<UpdateFlight/>}/> 
+      <Route path="/" element={<Home/>}/>
+      
       <Route path="user/viewReserved/:id" element={<ViewReserved/>}/>
       <Route path="/user/viewFlights" element={<SearchFlight />} />
       <Route path="/user/viewFlight/:id" element={<ViewFlight />} />
-      <Route path="/user/viewSeats/:id/:FlightId/:Cabin/:TicketId" element={<ViewSeats/>}/>  
+      <Route path="/user/viewSeats/:id/:FlightId/:Cabin/:TicketId" element={<ViewSeats/>}/> 
+      <Route path="/user/changeSeats/:id/:FlightId/:Cabin/:TicketId/:OldSeat" element={<ViewSeats/>}/>   
       <Route path="/user/updateProfile/:id" element={<UpdateProfile/>}/>
       <Route path="/user/userProfile/:id" element={<UserProfile/>}/> 
       <Route path="/user/confirmFlight/:id" element={<ReserveFlight/>}/> 

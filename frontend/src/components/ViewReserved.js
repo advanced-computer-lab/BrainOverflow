@@ -70,9 +70,11 @@ function ViewReserved(props) {
   useEffect(() => {
     axios.get(`http://localhost:8000/user/viewReserved/${id}`).then(res => {
       setTheUser(res.data)
-      if(theUser.TicketsId.length==0){
+
+      if(!(theUser)){
+        console.log("i came here ");
         setHasError(true);
-        setError("You have no reserved flight !")
+        setError("You have to sign up to book a flight")
       }
     }).catch((err)=> {
       // The request was made and the server responded with a status code
@@ -147,12 +149,15 @@ function ViewReserved(props) {
             <Button onClick={handleClose}>
               Cancel
             </Button>
+
+
+
           </ModalFooter>
         </Modal>
         <h1 className="mb-2 mt-3"> Your reserved tickets : </h1>
         <CardColumns>
           <Row>
-              {(theUser.TicketsId.length != 0) && (theUser.TicketsId).map((ticket) => (
+              {(!HasError)&&(theUser.TicketsId).map((ticket) => (
 
                 <Card className="mb-2">
                   <CardBody>
@@ -171,7 +176,7 @@ function ViewReserved(props) {
                      <CardText className="mt-2 mb-2 mr-5 ml-5 text-dark">  From:<Badge style={{color: '#f1f1f1'}} > {ticket.Departure.Airport}</Badge></CardText>
                      <CardText className="mt-2 mb-2 mr-5 ml-5 text-dark"> To: <Badge style={{color: '#f1f1f1'}} >{ticket.Arrival.Airport} <br /></Badge></CardText>
                      <CardText className="mt-2 mb-2 mr-5 ml-5 text-dark">  Class:<Badge style={{color: '#f1f1f1'}} > {ticket.Cabin}<br/></Badge></CardText>
-                     <CardText className="mt-2 mb-2 mr-5 ml-5 text-dark">   Seat: {(ticket.Seat.SeatId== null)?(<Button> <Link to={`/user/viewSeats/${id}/${ticket.Flight.FlightId}/${ticket.Cabin}/${ticket._id}`}> Reserve The Seat</Link></Button>):ticket.Seat.SeatNumber }</CardText>
+                     <CardText className="mt-2 mb-2 mr-5 ml-5 text-dark">   Seat: {(ticket.Seat.SeatId===null)?(<Button> <Link to={`/user/viewSeats/${id}/${ticket.Flight.FlightId}/${ticket.Cabin}/${ticket._id}`}> Reserve The Seat</Link></Button>):ticket.Seat.SeatNumber }</CardText>
                      <CardText className="mt-2 mb-2 mr-5 ml-5 text-dark">    Date:<Badge style={{color: '#f1f1f1'}} > {ticket.Departure.Date}<br/></Badge></CardText>
                        <CardText className="mt-2 mb-2 mr-5 ml-5 text-dark">    Departs At:<Badge style={{color: '#f1f1f1'}} > {ticket.Departure.Time} <br/></Badge></CardText>
                        <CardText className="mt-2 mb-2 mr-5 ml-5 text-dark  ">     Arrives At: <Badge style={{color: '#f1f1f1'}} >{ticket.Arrival.Time} <br /></Badge></CardText>
@@ -183,6 +188,21 @@ function ViewReserved(props) {
                         theObject.Price = ticket.Price
                         theObject.TicketName = ticket.Name
                       }}> Cancel </Button>
+
+{ 
+                    <Link to={{ pathname:`/user/changeSeats/${id}/${ticket.Flight.FlightId}/${ticket.Cabin}/${ticket._id}/${ticket.Seat.SeatId}` 
+                         
+                           }}className="btn btn-primary " color="success">Change Seat</Link> 
+
+                    
+                     }
+                     { 
+                    <Link to={{ pathname:`/user/changeSeats/${id}/${ticket.Flight.FlightId}/${ticket.Cabin}/${ticket._id}/${ticket.Seat.SeatId}` 
+                         
+                           }}className="btn btn-primary " color="success">Change Flight</Link> 
+
+                    
+                     }
                     </CardSubtitle>
                   </CardBody>
                 </Card>

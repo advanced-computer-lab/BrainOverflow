@@ -27,7 +27,7 @@ function UserProfile(props) {
         VisaNumber: 0,
     }
     const { id } = useParams();
-    const myLink = `/user/updateProfile/${id}`;
+    const myLink = `/userProfile/updateProfile/${id}`;
 
     const [user, setUser] = useState(initialstate);
     useEffect(() => {
@@ -94,6 +94,7 @@ function UserProfile(props) {
                             </div>
                         </CardText>
                         <Link to={myLink} className="btn btn-primary">Update Profile</Link>
+                        <Link to={`/user/viewReserved/${id}`} className="btn btn-success ml-2 ">View My Reserved flights</Link>
 
                     </CardBody>
                 </Card>}
