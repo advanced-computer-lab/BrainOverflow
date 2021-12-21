@@ -79,7 +79,7 @@ function AllFlights() {
       if (event.target[0].value !== '') {
 
         let d1 = event.target[0].value
-        let d2 = f.FlightDate
+        let d2 = f.Departure.Date
         console.log(event.target[0].value)
         console.log(d2)
         flag1 = (d1 == d2)

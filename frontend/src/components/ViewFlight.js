@@ -9,6 +9,7 @@ import {useParams,useLocation} from "react-router-dom";
 import { CardBody, Card, CardColumns,CardImg,CardSubtitle,CardText,CardGroup,Toast,ToastBody,ToastHeader,
           Button,CardTitle,Col,Row} from 'reactstrap';
 import "../Style/summay.css";
+import "../Style/Navbar.css";
 function ViewFlight(props){
 
      
@@ -203,26 +204,26 @@ Arrival:{
 
 
       return(
-        <div>
+        <div style={{backgroundColor:'#FFFFFF'}}>
     {ViewOutBound ?
 
 
 
-         <Toast className="center">
+         <Toast className="center" style={{marginTop:'10%'}}>
             <ToastHeader icon="primary">
                 <label> Flight From {flight.From.Airport} to {flight.To.Airport}</label>
             </ToastHeader>
             <ToastBody>
-              Flight number: {flight.FlightNumber}<br/>
-              Departure Date: {flight.Departure.Date.slice(0, 10)} at {flight.Departure.Time}<br/>
-              Arrival Date: {flight.Arrival.Date.slice(0, 10)} at {flight.Arrival.Time}<br/>
+            { (adultTicketsno>0)?(<label> Price / Adult ticket: {adultTicket} <br/></label>):<label></label> }<br/>
+             {(childTicketsno>0)?(<label> Price / Child ticket: {childTicket} <br/></label>):<label></label>}<br/>
+              <label>Flight number: {flight.FlightNumber} </label><br/><br/>
+              <label>Departure Date: {flight.Departure.Date.slice(0, 10)} at {flight.Departure.Time}</label><br/><br/>
+              <label>Arrival Date: {flight.Arrival.Date.slice(0, 10)} at {flight.Arrival.Time}</label><br/><br/>
               {/*longest trip duration is 18 hours and 50 mins*/}
               {/* Trip Duration:{(diffDays==0)?<label>{ }hours and   </label> :}<br/> */}
-              Cabin Class: {cabin}<br/>
-              Baggage Allowance: {(cabin=="First")?<label>{flight.First.Baggage}</label>:(cabin=="Business")?<label>{flight.Business.Baggage}</label>:(cabin=="Economy")?<label>{flight.Economy.Baggage}</label>:<label></label>}<br/>
-             { (adultTicketsno>0)?(<label> price / Adult ticket: {adultTicket} </label>):<label></label> }<br/>
-             {(childTicketsno>0)?(<label> price / Child ticket: {childTicket}</label>):<label></label>}<br/>
-             Total Tickets price:{totalPrice}<br/>                       
+              <label>Cabin Class: {cabin}</label><br/><br/>
+              <label>Baggage Allowance: </label>{(cabin=="First")?<label>{flight.First.Baggage}</label>:(cabin=="Business")?<label>{flight.Business.Baggage}</label>:(cabin=="Economy")?<label>{flight.Economy.Baggage}</label>:<label></label>}<br/><br/>
+              <label>Total Tickets price: {totalPrice}</label><br/><br/>                      
             </ToastBody>
           </Toast>
 
@@ -234,7 +235,7 @@ Arrival:{
 
 
 {viewReturn?
-<div className="">
+<div className="" style={{backgroundColor:"#FFFFFF"}}>
     <div className="content">
     <CardGroup>
   {Returnflight.filter((f) => {
@@ -291,32 +292,32 @@ return flag1 & flag2 & flag3 & flag4 ;
   .map(x => (
 
  
-                        <Toast>
-                          <ToastHeader  icon="secondary">
-                            Return Flight summary :
+                        <Toast >
+                          <ToastHeader  style={{color:'#5584AC'}}>
+                            Return From {x.From.Airport} To :{x.To.Airport}
                           </ToastHeader>
                           <ToastBody>
-                            From :{x.From.Airport} To :{x.To.Airport}
-                            FlightNumber:{x.FlightNumber}<br></br>
-                          {(mysearch.Cabin =="First")&& (adultTicketsno >0)? <label>price of First class Adult Ticket : {x.First.Price} </label> :
-                          (cabin =="Business") && (adultTicketsno >0)?<label> price of Business class Adult Ticket: {x.Business.Price}</label>:
-                          (cabin =="Economy")&& (adultTicketsno>0)?<label> price of Economy class Adult Ticket : {x.Economy.Price}</label>:<label></label>}<br/>
-                          {(cabin =="First")&& (childTicketsno >0)? <label>price of First class Children Ticket : {x.First.ChildPrice}</label> :
-                          (cabin =="Business") && (childTicketsno>0)?<label> price of Business class Children Ticket: {x.Business.ChildPrice}</label>:
-                          (cabin =="Economy")&& (childTicketsno >0)?<label> price of Economy class Children Ticket : {x.Economy.ChildPrice}</label>:<label></label>}<br/>
+                            
+                          <label>FlightNumber:{x.FlightNumber}</label><br/><br/>
+                          {(mysearch.Cabin =="First")&& (adultTicketsno >0)? <label>Price of First class Adult Ticket : {x.First.Price}<br/><br/> </label> :
+                          (cabin =="Business") && (adultTicketsno >0)?<label> Price of Business class Adult Ticket: {x.Business.Price}<br/><br/></label>:
+                          (cabin =="Economy")&& (adultTicketsno>0)?<label> Price of Economy class Adult Ticket : {x.Economy.Price}<br/><br/></label>:<label></label>}
+                          {(cabin =="First")&& (childTicketsno >0)? <label>Price of First class Children Ticket : {x.First.ChildPrice}<br/><br/></label> :
+                          (cabin =="Business") && (childTicketsno>0)?<label> Price of Business class Children Ticket: {x.Business.ChildPrice}<br/><br/></label>:
+                          (cabin =="Economy")&& (childTicketsno >0)?<label> Price of Economy class Children Ticket : {x.Economy.ChildPrice}<br/><br/></label>:<label></label>}
                           
-                          Departure Date: {x.Departure.Date.slice(0, 10)}
-                          <br></br>
-                          Departure time: {x.Departure.Time}
-                          <br></br>
-                          Arrival Date: {x.Arrival.Date.slice(0, 10)}
-                          <br></br>
-                          Arrival time:{x.Arrival.Time} 
-                          <br></br>
+                          <label>Departure Date: {x.Departure.Date.slice(0, 10)}</label>
+                          <br></br><br/>
+                          <label>Departure time: {x.Departure.Time}</label>
+                          <br></br><br/>
+                          <label>Arrival Date: {x.Arrival.Date.slice(0, 10)}</label>
+                          <br></br><br/>
+                          <label>Arrival time:{x.Arrival.Time} </label>
+                          <br/><br/>
                           <Button onClick={() => handleSummary(x.From.Airport,x.To.Airport,x.First.Price,x.Business.Price,
                           x.Economy.Price,x.Arrival.Time,x.Departure.Time,x.Departure.Date.slice(0, 10),
                           x.Arrival.Date.slice(0, 10),x._id,x.FlightNumber,x.First.ChildPrice,x.Business.ChildPrice,
-                          x.Economy.ChildPrice,x.First.Baggage,x.Business.Baggage,x.Economy.Baggage)}>Show Summary</Button>
+                          x.Economy.ChildPrice,x.First.Baggage,x.Business.Baggage,x.Economy.Baggage)} style={{backgroundColor:'#5584A'}}>Select</Button>
                           </ToastBody>
                           <br></br>
                           </Toast>
@@ -336,7 +337,7 @@ return flag1 & flag2 & flag3 & flag4 ;
 {NoFlights? <label>No Available Return Flight</label>:<label></label>}
 
 
-{viewSummary? <div>
+{viewSummary? <div style={{marginTop:'10%',marginLeft:'10%',backgroundColor:'#FFFFFF'}}>
   <Toast>
     <ToastHeader icon="primary">
      OutBound {flight.Departure.Date.slice(0, 10)} at {flight.Departure.Time}<br/>
@@ -359,25 +360,26 @@ return flag1 & flag2 & flag3 & flag4 ;
                   <CardTitle tag="h5">
                     <h1>Summary of Your Round Trip </h1>
                   </CardTitle>
+                  <img style={{width:'100px',height:'60px',transform:"scale(1.2)",marginLeft:'80%',transform:"rotate(20deg)",}}src="https://cdn3.vectorstock.com/i/1000x1000/16/82/airline-tickets-flights-flat-material-design-vector-28931682.jpg"></img>
                   <CardSubtitle
                     className="mb-2 text-muted"
                     tag="h6"
                   >
-                    <label className="info">Flight From {flight.From.Airport} to {flight.To.Airport}</label>
+                    <label className="info2">Flight From {flight.From.Airport} to {flight.To.Airport}</label>
                     </CardSubtitle>
                     <img class ='imgDepart'src='https://ak.picdn.net/shutterstock/videos/1045833544/thumb/4.jpg'></img>
                     <CardText>
-                    <label className="data">Flight number &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{flight.FlightNumber}</label>  <br/><br/>
-                    <label className="data"> Departure Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;  {flight.Departure.Date.slice(0, 10)}  at  {flight.Departure.Time}</label><br/><br/>
-                    <label className="data"> Arrival Date  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {flight.Arrival.Date.slice(0, 10)} at {flight.Arrival.Time}</label> <br/><br/>
+                    <label className="data">Flight number &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{flight.FlightNumber}</label>  <br/><br/>
+                    <label className="data"> Departure Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {flight.Departure.Date.slice(0, 10)}  at  {flight.Departure.Time}</label><br/><br/>
+                    <label className="data"> Arrival Date  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {flight.Arrival.Date.slice(0, 10)} at {flight.Arrival.Time}</label> <br/><br/>
+
                     {/*longest trip duration is 18 hours and 50 mins*/}
                     {/* Trip Duration:{(diffDays==0)?<label>{ }hours and   </label> :}<br/> */}
-                    <label className="data">Cabin Class &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{cabin} </label><br/><br/>
-                    <label className="data">Baggage Allowance &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                     {(cabin=="First")?<label>{flight.First.Baggage}</label>:(cabin=="Business")?<label>{flight.Business.Baggage}</label>:(cabin=="Economy")?<label>{flight.Economy.Baggage}<br/><br/></label>:
-                   (adultTicketsno>0)?(<label> price / Adult ticket: {adultTicket} <br/><br/></label>):
-                   (childTicketsno>0)?(<label> price / Child ticket: {childTicket}<br/><br/></label>):<label></label>} </label>
-                    <label className="data">Total price for OutBound Flight  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{totalPrice}</label><br/> 
+                    <label className="data">Cabin Class &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{cabin} </label><br/><br/>
+                    
+                    <label className="data">Baggage Allowance &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     {(cabin=="First")?<label style={{color:'#FFFFFF'}}>{flight.First.Baggage}</label>:(cabin=="Business")?<label style={{color:'#FFFFFF'}}>{flight.Business.Baggage}</label>:(cabin=="Economy")?<label style={{color:'#FFFFFF'}}>{flight.Economy.Baggage}</label>:<label></label>} </label><br/><br/>
+                    <label className="data">Total price for OutBound Flight  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{totalPrice}</label><br/> 
                    </CardText> 
                    <CardSubtitle
                     className="mb-2 text-muted"
@@ -389,15 +391,15 @@ return flag1 & flag2 & flag3 & flag4 ;
                     <img class='imgreturn' src='https://ak.picdn.net/shutterstock/videos/1045833544/thumb/4.jpg'></img>
 
                     <CardText>
-                    <label className="data">Flight number &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{mysummary.ReturnFlightNumber}</label>  <br/><br/>
-                    <label className="data"> Departure Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;  {mysummary.ReturnDate}  at  {mysummary.ReturnTime}</label><br/><br/>
-                    <label className="data"> Arrival Date  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {mysummary.ReturnArrivalDate} at {mysummary.ReturnArrivalTime}</label> <br/><br/>
+                    <label className="data">Flight number &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{mysummary.ReturnFlightNumber}</label>  <br/><br/>
+                    <label className="data"> Departure Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {mysummary.ReturnDate}  at  {mysummary.ReturnTime}</label><br/><br/>
+                    <label className="data"> Arrival Date  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {mysummary.ReturnArrivalDate} at {mysummary.ReturnArrivalTime}</label> <br/><br/>
                     {/*longest trip duration is 18 hours and 50 mins*/}
                     {/* Trip Duration:{(diffDays==0)?<label>{ }hours and   </label> :}<br/> */}
-                    <label className="data">Cabin Class &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{cabin} </label><br/><br/>
-                    <label className="data">Baggage Allowance &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{mysummary.ReturnBaggage}</label> <br/><br/>
-                    <label className="data">Total price For Return Flight: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{mysummary.ReturnTotalPrice}</label> <br/> <br/>
-                    <label className="info">TotalPrice {mysummary.ReturnTotalPrice + totalPrice} </label>
+                    <label className="data">Cabin Class &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{cabin} </label><br/><br/>
+                    <label className="data">Baggage Allowance &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{mysummary.ReturnBaggage}</label> <br/><br/>
+                    <label className="data">Total price For Return Flight: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{mysummary.ReturnTotalPrice}</label> <br/> <br/>
+                    <label className="orange">TotalPrice &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{mysummary.ReturnTotalPrice + totalPrice} </label>
                     </CardText>
                     {(!id)&& <Button >
                     {/* <Link to={{ pathname:`/user/confirmFlight/${id}` 
@@ -405,8 +407,8 @@ return flag1 & flag2 & flag3 & flag4 ;
                            }}className="btn btn-primary"></Link>  */}
                            You have to sign up to be able to reserve
                       </Button>}
-                   {(id)&& <Button >
-                    <Link to={{ pathname:`/user/confirmFlight/${id}` 
+                   {(id)&& <Button style={{backgroundColor: '#96C7C1',marginLeft:'30%'}}>
+                    <Link style={{backgroundColor: '#96C7C1'}}to={{ pathname:`/user/confirmFlight/${id}` 
                          , search:'?'+new URLSearchParams(myData).toString()
                            }}className="btn btn-primary">Confirm and book</Link> 
                       </Button>}
@@ -416,6 +418,11 @@ return flag1 & flag2 & flag3 & flag4 ;
                          
       </Card>
       </div>:<label></label>}
+      {/* <button>Back</button>
+      <button type="button" class="btn btn-default btn-arrow-left">Default</button> */}
+      <button href="#" class="previous round">&#8249;</button>
+      
+
 
 
 </div>
