@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require('mongoose');
 const cors = require('cors');
-
+const cookieParser= require('cookie-parser');
 
 const { MongoClient } = require('mongodb');
 const MongoURI = "mongodb+srv://admin:12345@cluster0.zvvff.mongodb.net/Cluster0?retryWrites=true&w=majority";
@@ -19,14 +19,16 @@ const User= require('./models/User')
 //Routes
 const adminRoutes = require('./Routes/adminController');
 const userRoutes= require('./Routes/userController');
-
+const authorization= require('./Routes/authController')
 //App variables
 const app = express();
 const port = process.env.PORT || "8000";
 const Flight = require('./models/Flight');
+ 
 // #Importing the userController
 
 app.use(express.json());
+app.use (cookieParser());
 // configurations
 // Mongo DB
 mongoose.connect(MongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -40,6 +42,7 @@ app.use(cors({ origin: true, credentials: true }));
 //ROutes
 app.use('/admin', adminRoutes);
 app.use('/user', userRoutes);
+app.use('/authorize', authorization);
 
 
 

@@ -5,6 +5,7 @@ const Flight = require('../models/Flight');
 const Seat =require('../models/Seat');
 const Ticket =require('../models/Ticket');
 const nodemailer = require('nodemailer');
+const auth = require ('../middleware/auth');
 
 
 const transporter = nodemailer.createTransport({
@@ -25,7 +26,7 @@ const catchAsync=func=>{
  
 
 
-   router.put("/updateReserved/:id", (req, res) => {
+   router.put("/updateReserved",auth ,(req, res) => {
     let theSeat= req.body.SeatId;
     let tickets= req.body.Ticket;
     let theTicket= req.body.theTicket;
@@ -50,7 +51,7 @@ console.log(theEmail);
     
 
     User.findByIdAndUpdate( {
-        _id: req.params.id
+        _id: req.user
       },{TicketsId:tickets}, function (err, docs) {
         if (err){
             console.log(err)
@@ -91,7 +92,10 @@ console.log(theEmail);
       const f = await Flight.find({}).populate(['First.SeatId','Business.SeatId','Economy.SeatId']);
       res.send(f);
       }))
-   router.get('/viewFlight/:id' ,async (req, res)=> {   
+
+
+      
+   router.get('/viewFlight/:id',auth ,async (req, res)=> {   
         const f = await Flight.find({}).populate(['First.SeatId','Business.SeatId','Economy.SeatId']);
                                                   
        await Flight.findById(req.params.id).then(result => {
@@ -103,20 +107,20 @@ console.log(theEmail);
         });
       });
 
-router.get('/updateProfile/:id', (req, res) => {
-  User.findById(req.params.id).then(result => {
+router.get('/updateProfile',auth ,(req, res) => {
+  User.findById(req.user).then(result => {
     res.send(result);
   })
     .catch(err => {
       res.send(err);
     });
 });
-router.put("/updateProfile/:id", (req, res) => {
+router.put("/updateProfile",auth ,(req, res) => {
    
   var _id = req.body._id;
   var user = req.body;
   User.findByIdAndUpdate({
-    _id: req.params.id
+    _id: req.user
   }, user).then(
     () => {
       res.status(201).json({
@@ -133,15 +137,15 @@ router.put("/updateProfile/:id", (req, res) => {
 
 }); 
 
-router.get('/viewReserved/:id', catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.params.id).populate("TicketsId");
+router.get('/viewReserved',auth ,catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user).populate("TicketsId");
   res.send(user);
   })); 
      
  
-router.get('/userProfile/:id', catchAsync(async (req, res, next) => {
+router.get('/userProfile',auth ,catchAsync(async (req, res, next) => {
   console.log(req.params.id)
-const  user = await User.findById(req.params.id);
+const  user = await User.findById(req.user);
   console.log(user);
   if(user==''){  res.status(404).send({
     message: 'User not found!'
@@ -149,7 +153,7 @@ const  user = await User.findById(req.params.id);
   res.send(user);
 }));
 
-router.get('/viewSeats/:id/:FlightId/:Cabin/:TicketId',catchAsync(async(req,res,next)=>{
+router.get('/viewSeats/:FlightId/:Cabin/:TicketId',auth,catchAsync(async(req,res,next)=>{
   //console.log("I CAME HEREEE")
   const FlightId = req.params.FlightId;
   const cabin = req.params.Cabin;
@@ -163,9 +167,9 @@ router.get('/viewSeats/:id/:FlightId/:Cabin/:TicketId',catchAsync(async(req,res,
 });}
  res.send(availableSeats);
 }));
-router.post('/viewSeats/:id/:SeatId/:TicketId',catchAsync(async(req,res,next)=>{
+router.post('/viewSeats/:SeatId/:TicketId',auth,catchAsync(async(req,res,next)=>{
   console.log('beginning')
-  const user=await User.findById(req.params.id);
+  const user=await User.findById(req.user);
   const seat =await Seat.findById(req.params.SeatId);
   console.log(seat);
   const ticket =await Ticket.findById(req.params.TicketId);
@@ -199,15 +203,16 @@ router.post('/viewSeats/:id/:SeatId/:TicketId',catchAsync(async(req,res,next)=>{
   const Arrival = { 'Date': details.ArrivalDate, 'Time': details.ArrivalTime };
   const flight = new Flight({ FlightNumber: details.FlightNumber, From: From, To: To, Economy: Economy, Business: Business, First: First, Departure: Departure, Arrival: Arrival });
  }))
-
-router.post('/confirmReserve/:id', catchAsync(async (req, res, next) => {
+ 
+router.post('/confirmReserved',auth ,catchAsync(async (req, res, next) => {
   const details = req.body;
   console.log(details);
-  const user = await User.findById(req.params.id);
+  const user = await User.findById(req.user);
  console.log(user);
  
   const goingflight=await Flight.findById(details.DepartureId) 
     .catch(err => {
+      
       res.send(err);
     });
    const returnflight =await Flight.findById(details.ReturnFlightId).catch(err => {
@@ -216,13 +221,13 @@ router.post('/confirmReserve/:id', catchAsync(async (req, res, next) => {
  
   
   for (i = 0; i < parseInt(details.Children); i++) {
-    const ticketgoing = new Ticket( {'Name':details.ChildrenNames[i] ,'UserId':req.params.id , 
+    const ticketgoing = new Ticket( {'Name':details.ChildrenNames[i] ,'UserId':req.user , 
     'Flight':{'FlightId':details.DepartureId  ,'Number':goingflight.FlightNumber},'Departure':
     {'Airport':goingflight.From.Airport ,'Terminal':goingflight.From.Terminal ,'Date':goingflight.Departure.Date ,'Time':goingflight.Departure.Time},
       'Arrival':{'Airport':goingflight.To.Airport,'Terminal':goingflight.To.Terminal,'Date':goingflight.Arrival.Date ,'Time':goingflight.Arrival.Time }
       ,'Cabin':details.Cabin,'Price':details.DeparturePriceChild,'Seat':{'SeatId':null,'SeatNumber':''}});
       
-      const ticketreturn = new Ticket( {'Name':details.ChildrenNames[i] ,'UserId':req.params.id , 
+      const ticketreturn = new Ticket( {'Name':details.ChildrenNames[i] ,'UserId':req.user , 
       'Flight':{'FlightId':details.ReturnFlightId  ,'Number':returnflight.FlightNumber},'Departure':
       {'Airport':returnflight.From.Airport ,'Terminal':returnflight.From.Terminal ,'Date':returnflight.Departure.Date ,'Time':returnflight.Departure.Time},
         'Arrival':{'Airport':returnflight.To.Airport,'Terminal':returnflight.To.Terminal,'Date':returnflight.Arrival.Date ,'Time':returnflight.Arrival.Time }

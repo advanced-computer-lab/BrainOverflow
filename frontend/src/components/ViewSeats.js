@@ -30,8 +30,8 @@ function ViewSeats() {
   async function handleReserve(chosenSeatId) {
     try {
         console.log(chosenSeatId)
-      await axios.post(`http://localhost:8000/user/viewSeats/${id}/${chosenSeatId}/${TicketId}`)
-      .then(navigate(`/user/viewReserved/${id}`, { replace: true }));
+      await axios.post(`http://localhost:8000/user/viewSeats/${chosenSeatId}/${TicketId}`)
+      .then(navigate(`/user/viewReserved`, { replace: true }));
 
     } catch (error) {
       setHasError(true);
@@ -40,12 +40,12 @@ function ViewSeats() {
   }
 
     const [seats, setSeats] = useState([]);
-    const {id} = useParams();
+     
     const { FlightId } = useParams();
     const { Cabin } = useParams();
     const { TicketId } = useParams();
     useEffect(() => {
-        axios.get(`http://localhost:8000/user/viewSeats/${id}/${FlightId}/${Cabin}/${TicketId}`).then(res => {
+        axios.get(`http://localhost:8000/user/viewSeats/${FlightId}/${Cabin}/${TicketId}`).then(res => {
             console.log(res.data);
             setSeats(res.data);
         }).catch((err)=> {

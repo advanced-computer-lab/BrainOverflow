@@ -1,9 +1,10 @@
-import React, { Children } from "react";
+import React, { Children,useContext } from "react";
 import { Switch, Route, Link, useSearchParams } from "react-router-dom";
 import { get, patch,put } from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Component, useState, useEffect } from 'react';
 import axios from 'axios';
+import AuthContext from './AuthContext';
 import { useNavigate } from 'react-router-dom'
 import {useParams,useLocation} from "react-router-dom";
 import { CardBody, Card, CardColumns,CardImg,CardSubtitle,CardText,CardGroup,Toast,ToastBody,ToastHeader,
@@ -50,7 +51,7 @@ Arrival:{
 } 
 
 };
- 
+    const {loggedIn} = useContext(AuthContext);
     let location = useLocation();
     let search=new URLSearchParams(location.search)
     const [flight, setFlight] = useState(initialstate);
@@ -397,8 +398,8 @@ return flag1 & flag2 & flag3 & flag4 ;
                     <label className="info">TotalPrice {mysummary.ReturnTotalPrice + totalPrice} </label>
                     </CardText>
                     
-                   { <Button >
-                    <Link to={{ pathname:`/user/confirmFlight/61ac855c96f456e24744b466` 
+                   {loggedIn && <Button >
+                    <Link to={{ pathname:`/user/confirmFlight` 
                          , search:'?'+new URLSearchParams(myData).toString()
                            }}className="btn btn-primary">Confirm and book</Link> 
                       </Button>}

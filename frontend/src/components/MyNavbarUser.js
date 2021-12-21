@@ -1,4 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component ,useContext} from 'react';
+ 
+import { Link } from "react-router-dom";
+import AuthContext from './AuthContext';
+ 
 import '../Style/Navbar.css'
 import {
   Collapse,
@@ -39,7 +43,7 @@ export default class MyNavbar extends Component {
       isOpen: !this.state.isOpen
     });
   }
-  
+
   render() {
     return (
 
@@ -49,9 +53,13 @@ export default class MyNavbar extends Component {
           <NavbarBrand href="/"><b>SkyOverFlow</b></NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              {links.map(createNavItem)}
+         
+           <  Nav className="ml-auto" navbar>
+          
+              { links.map(createNavItem)}
+             
             </Nav>
+           
           </Collapse>
         </Navbar>
       </div>
