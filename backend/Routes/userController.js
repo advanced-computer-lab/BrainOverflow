@@ -148,6 +148,37 @@ const  user = await User.findById(req.params.id);
   res.send(user);
 }));
 
+
+router.get('/search/:Cabin:/Adults/:Kids/:DepartureAirport',catchAsync(async(req,res,next)=>{
+  //console.log("I CAME HEREEE")
+  const cabin = req.params.Cabin;
+  const departure = req.params.DepartureAirport;
+  //const departureDate = req.params.DepartureDate;
+  //const arrivalAirport = req.params.ArrivalAirport;
+  //const returndate = req.params.Returndate;
+  const adults = req.params.Adults;
+  const kids = req.params.Kids;
+
+
+  if (cabin=='First'){
+    const availableFlights= await Flight.find({'First.SeatsLeft':{$gt:adults+kids},'From.Airport':departure});
+  }
+  else if(cabin=='Bussiness'){
+    const availableFlights= await Flight.find({'Business.SeatsLeft':{$gt:adults+kids},'From.Airport':departure});
+
+  }else if(Economy){
+    const availableFlights= await Flight.find({'Economy.SeatsLeft':{$gt:adults+kids},'From.Airport':departure});
+  }
+ console.log("available seats in get req",availableFlights);
+
+ if(availableFlights.length==0){ 
+   console.log("error in get entered")
+    res.status(404).send({
+  message: 'No availabe flights'
+});}
+ res.send(availableFlights);
+}));
+
 router.get('/viewSeats/:id/:FlightId/:Cabin/:TicketId',catchAsync(async(req,res,next)=>{
   //console.log("I CAME HEREEE")
   const FlightId = req.params.FlightId;

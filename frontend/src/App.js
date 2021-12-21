@@ -23,16 +23,59 @@ import ReserveFlight from './components/ReserveFlight';
 
 import { Container } from 'reactstrap';
 function App() {
+  const DynamicLayoutRoute = props => {
+    const { component: RoutedComponent, layout, ...rest } = props;
+  
+    // render actual Route from react-router
+    const actualRouteComponent = (
+      <Route
+        {...rest}
+        render={props => (
+           <RoutedComponent {...props} />
+        )}
+      />
+    );
+  
+    // depends on the layout, you can wrap Route component in different layouts
+    switch ('user') {
+      case 'user': {
+        return (
+          <NavBarUser>
+            {actualRouteComponent}
+          </NavBarUser>
+        )
+      }
+      case 'admin': {
+        return (
+          <MyNavBar>
+            {actualRouteComponent}
+          </MyNavBar>
+        )
+      }
+      default: {
+        return (
+          <MyNavBar>
+            {actualRouteComponent}
+          </MyNavBar>
+        )
+      }
+    }
+  };
+
+
  
-  return (
-    
+  return ( 
+
+
     <BrowserRouter>
-    <MyNavBar></MyNavBar>
+    <NavBarUser></NavBarUser>
+    
     <Routes>
+
       <Route path="/admin/createFlight" element={<CreateFlight />} />
       <Route path="/admin" element={<AllFlights />} />
       <Route path="/admin/UpdateFlight/:id" element={<UpdateFlight/>}/> 
-      <Route path="/home" element={<Home/>}/>
+      <Route path="/" element={<Home/>}/>
       
       <Route path="user/viewReserved/:id" element={<ViewReserved/>}/>
       <Route path="/user/viewFlights" element={<SearchFlight />} />
@@ -40,7 +83,6 @@ function App() {
       <Route path="/user/viewSeats/:id/:FlightId/:Cabin/:TicketId" element={<ViewSeats/>}/>  
       <Route path="/user/updateProfile/:id" element={<UpdateProfile/>}/>
       <Route path="/user/userProfile/:id" element={<UserProfile/>}/> 
-
       <Route path="/user/confirmFlight/:id" element={<ReserveFlight/>}/> 
       <Route element={Page404} />
       <Route path="/user/ " element={<UserProfile/>}/> 
