@@ -398,7 +398,7 @@ return flag1 & flag2 & flag3 & flag4 ;
                    {loggedIn && <Button >
                     <Link to={{ pathname:`/user/confirmFlight` 
                          , search:'?'+new URLSearchParams(myData).toString()
-                           }}className="btn btn-primary " color="success">Confirm and book</Link> 
+                           }}className="btn btn-primary " color="success">Confirm and book</Link> </Button>
                      }
 
       </CardBody>

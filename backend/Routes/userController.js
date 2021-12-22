@@ -110,15 +110,8 @@ console.log(theEmail);
         console.log("Updated Seat : ", docs);
       }
     });
-  }
-  Ticket.findByIdAndDelete({ _id: theTicket }, function (err, docs) {
-    if (err) {
-      console.log(err)
-    }
-    else {
-      console.log("Tickets : ", docs);
-    }
-  });
+  
+  
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
