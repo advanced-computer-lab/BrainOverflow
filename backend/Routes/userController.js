@@ -6,7 +6,7 @@ const Seat =require('../models/Seat');
 const Ticket =require('../models/Ticket');
 const nodemailer = require('nodemailer');
 const auth = require ('../middleware/auth');
-
+ 
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -212,7 +212,7 @@ router.post('/confirmReserved',auth ,catchAsync(async (req, res, next) => {
  
   const goingflight=await Flight.findById(details.DepartureId) 
     .catch(err => {
-      
+
       res.send(err);
     });
    const returnflight =await Flight.findById(details.ReturnFlightId).catch(err => {
@@ -259,6 +259,8 @@ router.post('/confirmReserved',auth ,catchAsync(async (req, res, next) => {
   }
   
 }));
+
+
 router.post('/SearchFlight', catchAsync(async (req, res, next) => {
   const details = req.body;
   console.log(details.ReturnDate);

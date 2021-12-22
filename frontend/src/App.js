@@ -20,6 +20,7 @@ import UserProfile from './components/UserProfile';
 import Page404 from './components/Page404';
 import ViewSeats from './components/ViewSeats';
 import ReserveFlight from './components/ReserveFlight';
+import ChangePass from './components/ChangePass';
 import { AuthContextProvider } from "./components/AuthContext";
 import AuthContext from "./components/AuthContext";
 
@@ -45,7 +46,7 @@ function App() {
       <Route path="/user/viewSeats/:FlightId/:Cabin/:TicketId" element={<ViewSeats/>}/>  
       <Route path="/user/updateProfile" element={<UpdateProfile/>}/>
       <Route path="/user/userProfile" element={<UserProfile/>}/> 
-
+      <Route path="/authorize/changepass" element={<ChangePass/>}/> 
       <Route path="/user/confirmFlight" element={<ReserveFlight/>}/> 
       <Route path="/authorize/signup" element={<Registeration/>}/> 
       <Route path="/authorize/login" element={<SignIn/>}/> 
