@@ -20,8 +20,7 @@ import UserProfile from './components/UserProfile';
 import Page404 from './components/Page404';
 import ViewSeats from './components/ViewSeats';
 import ReserveFlight from './components/ReserveFlight';
-
-
+import ChangeFlight from './components/ChangeFlight'
 
 import { Container } from 'reactstrap';
 import StripeContainer from './components/StripeContainer';
@@ -46,6 +45,7 @@ function App() {
       <Route path="/user/userProfile/:id" element={<UserProfile/>}/> 
       <Route path="/user/confirmFlight/:id" element={<ReserveFlight/>}/> 
       <Route path="/user/payment/:id" element={<StripeContainer/>}/> 
+      <Route path="/user/changeFlight/:id/:TicketId" element={<ChangeFlight/>}/> 
       <Route element={Page404} />
       <Route path="/user/" element={<UserProfile/>}/> 
 

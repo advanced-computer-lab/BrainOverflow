@@ -71,10 +71,10 @@ function ViewReserved(props) {
     axios.get(`http://localhost:8000/user/viewReserved/${id}`).then(res => {
       setTheUser(res.data)
 
-      if(!(theUser)){
+      if((theUser.TicketsId.length==0)){
         console.log("i came here ");
         setHasError(true);
-        setError("You have to sign up to book a flight")
+        setError("You haven't reserved any flight yet!")
       }
     }).catch((err)=> {
       // The request was made and the server responded with a status code
@@ -196,13 +196,16 @@ function ViewReserved(props) {
 
                     
                      }
-                     { 
-                    <Link to={{ pathname:`/user/changeSeats/${id}/${ticket.Flight.FlightId}/${ticket.Cabin}/${ticket._id}/${ticket.Seat.SeatId}` 
+                     
+{ 
+                    <Link to={{pathname:`/user/changeFlight/${id}/${ticket._id}` 
                          
                            }}className="btn btn-primary " color="success">Change Flight</Link> 
 
                     
                      }
+                     
+
                     </CardSubtitle>
                   </CardBody>
                 </Card>

@@ -136,7 +136,7 @@ router.get('/viewFlight/:id', async (req, res) => {
       console.log(err);
     });
 });
-})  
+ 
 
   router.get('/viewFlights' ,catchAsync(async (req, res,next) => {  
     console.log(req.body,req.params);
@@ -194,7 +194,7 @@ router.get('/viewReserved/:id', catchAsync(async (req, res, next) => {
 router.get('/userProfile/:id', catchAsync(async (req, res, next) => {
   console.log(req.params.id)
   const user = await User.findById(req.params.id);
-  console.log(user);
+ // console.log(user);
   if (user == '') {
     res.status(404).send({
       message: 'User not found!'
@@ -207,8 +207,8 @@ router.get('/viewSeats/:id/:FlightId/:Cabin/:TicketId',catchAsync(async(req,res,
   const FlightId = req.params.FlightId;
   const cabin = req.params.Cabin;
   const availableSeats = await Seat.find({ 'FlightId': FlightId, 'Cabin': cabin, 'IsBooked': false });
-  console.log("FlightId in get", FlightId, cabin);
-  console.log("available seats in get req", availableSeats);
+ // console.log("FlightId in get", FlightId, cabin);
+ // console.log("available seats in get req", availableSeats);
   if (availableSeats.length == 0) {
     console.log("error in get entered")
     res.status(404).send({
@@ -321,13 +321,13 @@ router.post('/confirmReserve/:id', catchAsync(async (req, res, next) => {
     'Flight':{'FlightId':details.DepartureId  ,'Number':goingflight.FlightNumber},'Departure':
     {'Airport':goingflight.From.Airport ,'Terminal':goingflight.From.Terminal ,'Date':goingflight.Departure.Date ,'Time':goingflight.Departure.Time},
       'Arrival':{'Airport':goingflight.To.Airport,'Terminal':goingflight.To.Terminal,'Date':goingflight.Arrival.Date ,'Time':goingflight.Arrival.Time }
-      ,'Cabin':details.Cabin,'Price':details.DeparturePriceChild,'Seat':{'SeatId':null,'SeatNumber':''}});
+      ,'Cabin':details.Cabin,'Price':details.DeparturePriceChild,'Seat':{'SeatId':null,'SeatNumber':'',IsChild:'true'}});
       
       const ticketreturn = new Ticket( {'Name':details.ChildrenNames[i] ,'UserId':req.params.id , 
       'Flight':{'FlightId':details.ReturnFlightId  ,'Number':returnflight.FlightNumber},'Departure':
       {'Airport':returnflight.From.Airport ,'Terminal':returnflight.From.Terminal ,'Date':returnflight.Departure.Date ,'Time':returnflight.Departure.Time},
         'Arrival':{'Airport':returnflight.To.Airport,'Terminal':returnflight.To.Terminal,'Date':returnflight.Arrival.Date ,'Time':returnflight.Arrival.Time }
-        ,'Cabin':details.Cabin,'Price':details.ReturnPriceChild,'Seat':{'SeatId':null,'SeatNumber':''}});
+        ,'Cabin':details.Cabin,'Price':details.ReturnPriceChild,'Seat':{'SeatId':null,'SeatNumber':'',IsChild:'true'}});
     user.TicketsId.push(ticketgoing._id);
     user.TicketsId.push(ticketreturn._id);
     (details.Cabin == 'Economy') ? goingflight.Economy.SeatsLeft-- : (details.Cabin == 'First') ? goingflight.First.SeatsLeft-- : goingflight.Business.SeatsLeft--;
@@ -340,12 +340,12 @@ router.post('/confirmReserve/:id', catchAsync(async (req, res, next) => {
     'Flight':{'FlightId':details.DepartureId  ,'Number':goingflight.FlightNumber},'Departure':
     {'Airport':goingflight.From.Airport ,'Terminal':goingflight.From.Terminal ,'Date':goingflight.Departure.Date ,'Time':goingflight.Departure.Time},
       'Arrival':{'Airport':goingflight.To.Airport,'Terminal':goingflight.To.Terminal,'Date':goingflight.Arrival.Date ,'Time':goingflight.Arrival.Time }
-      ,'Cabin':details.Cabin,'Price':details.DeparturePriceAdult,'Seat':{'SeatId':null,'SeatNumber':''}});
+      ,'Cabin':details.Cabin,'Price':details.DeparturePriceAdult,'Seat':{'SeatId':null,'SeatNumber':'',IsChild:'false'}});
       const ticketreturn = new Ticket( {'Name':details.AdultNames[i] ,'UserId':req.params.id , 
       'Flight':{'FlightId':details.ReturnFlightId  ,'Number':returnflight.FlightNumber},'Departure':
       {'Airport':returnflight.From.Airport ,'Terminal':returnflight.From.Terminal ,'Date':returnflight.Departure.Date ,'Time':returnflight.Departure.Time},
         'Arrival':{'Airport':returnflight.To.Airport,'Terminal':returnflight.To.Terminal,'Date':returnflight.Arrival.Date ,'Time':returnflight.Arrival.Time }
-        ,'Cabin':details.Cabin,'Price':details.ReturnPriceAdult,'Seat':{'SeatId':null,'SeatNumber':''}});
+        ,'Cabin':details.Cabin,'Price':details.ReturnPriceAdult,'Seat':{'SeatId':null,'SeatNumber':'',IsChild:'false'}});
         (details.Cabin=='Economy')?goingflight.Economy.SeatsLeft--:(details.Cabin=='First')?goingflight.First.SeatsLeft--:goingflight.Business.SeatsLeft--;
     user.TicketsId.push(ticketgoing);
     user.TicketsId.push(ticketreturn);
@@ -395,5 +395,63 @@ router.post('/SearchFlight', catchAsync(async (req, res, next) => {
   });
 
  }));
+router.get('/changeFlight/:id/:TicketId',async(req,res,next)=>{
+      console.log("ANA GEET HENA");
+  try{
+    const ticket = await Ticket.findById(req.params.TicketId);
+ // const user = await User.findById(req.params.id);
+ const Cabin = ticket.Cabin;
 
+ var flights=null;
+if(Cabin =="Economy"){
+  console.log('d5lt economy')
+   flights = await Flight.find({'From.Airport':ticket.Departure.Airport,'To.Airport':ticket.Arrival.Airport,'Economy.SeatsLeft':{$gt:0}});
+}else if(Cabin =="First"){
+ flights = await Flight.find({'From.Airport':ticket.Departure.Airport,'To.Airport':ticket.Arrival.Airport,'First.SeatsLeft':{$gt:0}});
+}else 
+ flights = await Flight.find({'From.Airport':ticket.Departure.Airport,'To.Airport':ticket.Arrival.Airport,'Business.SeatsLeft':{$gt:0}});
+  if(flights.length==0) { res.status(400).json({
+    message: "No flights available with similar criteria"
+  })}
+  else{
+    res.send({flights:flights,ticket:ticket});
+  }
+  }
+  catch{
+    (error) => {
+      res.status(400).json({
+        message: "No flights available with similar criteria"
+      })};
+}
+})
+router.put('/changeFlight/:id/:TicketId/:ChosenFlightId',async(req,res,next)=>{
+  const ticket = await Ticket.findById(req.params.TicketId);
+  const seat = await Seat.findById(ticket.Seat.SeatId);
+  seat.IsBooked=false;
+  await seat.save();
+ const oldFlight = await Flight.find({'_id':ticket.FlightId});
+ticket.Cabin=="Economy"?oldFlight.Economy.SeatsLeft++:ticket.Cabin=="First"?oldFlight.First.SeatsLeft++:oldFlight.Business.SeatsLeft++;
+await oldFlight.save();
+const newFlight = await Flight.findById(req.params.ChosenFlightId);
+ticket.Cabin=="Economy"?newFlight.Economy.SeatsLeft--:ticket.Cabin=="First"?newFlight.First.SeatsLeft--:newFlight.Business.SeatsLeft--;
+ticket.Flight.FlightId=newFlight._id;
+ticket.Flight.FlightNumber=newFlight.FlightNumber;
+ticket.Flight.Departure.Date = newFlight.Departure.Date;
+ticket.Flight.Departure.Time = newFlight.Departure.Time;
+ticket.Flight.Arrival.Time = newFlight.Arrival.Time;
+ticket.Flight.Arrival.Time = newFlight.Arrival.Time;
+ticket.Flight.Arrival.Terminal = newFlight.Arrival.Terminal;
+ticket.Flight.Departure.Terminal = newFlight.Departure.Terminal;
+
+ticket.Seat.SeatId=null;
+ticket.Seat.SeatNumber='';
+if(ticked.IsChild==false)
+ticket.Cabin=="Economy"?ticket.price=newFlight.Economy.Price:ticket.Cabin=="First"?ticket.price=newFlight.First.Price:ticket.price=newFlight.BusinessBaggage.Price;
+else 
+ticket.Cabin=="Economy"?ticket.price=newFlight.Economy.ChildPrice:ticket.Cabin=="First"?ticket.price=newFlight.First.ChildPrice:ticket.price=newFlight.BusinessBaggage.ChildPrice;
+await user.save();
+await newFlight.save();
+
+await ticke.save();
+})
 module.exports = router;
