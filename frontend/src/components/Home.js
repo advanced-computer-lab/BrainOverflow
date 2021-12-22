@@ -5,7 +5,7 @@ import { Component, useState, useEffect } from 'react';
 import axios from 'axios';
 import '../Style/Navbar.css';
 import '../Style/summay.css';
-import "../css/style.css";
+//import "../css/style.css";
 
 
 

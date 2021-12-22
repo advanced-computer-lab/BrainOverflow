@@ -1,7 +1,6 @@
 import React, { Component} from 'react';
 import { BrowserRouter , Routes, Route } from 'react-router-dom';
 import './App.css';
-
 import axios from 'axios'
 
 import CreateFlight from './components/CreateFlight';
@@ -22,9 +21,7 @@ import ViewSeats from './components/ViewSeats';
 import ReserveFlight from './components/ReserveFlight';
 
 
-
 import { Container } from 'reactstrap';
-import StripeContainer from './components/StripeContainer';
 function App() {
   const DynamicLayoutRoute = props => {
     const { component: RoutedComponent, layout, ...rest } = props;
@@ -72,7 +69,6 @@ function App() {
 
     <BrowserRouter>
     <NavBarUser></NavBarUser>
-    
     <Routes>
 
       <Route path="/admin/createFlight" element={<CreateFlight />} />
@@ -83,14 +79,12 @@ function App() {
       <Route path="user/viewReserved/:id" element={<ViewReserved/>}/>
       <Route path="/user/viewFlights" element={<SearchFlight />} />
       <Route path="/user/viewFlight/:id" element={<ViewFlight />} />
-      <Route path="/user/viewSeats/:id/:FlightId/:Cabin/:TicketId" element={<ViewSeats/>}/> 
-      <Route path="/user/changeSeats/:id/:FlightId/:Cabin/:TicketId/:OldSeat" element={<ViewSeats/>}/>   
+      <Route path="/user/viewSeats/:id/:FlightId/:Cabin/:TicketId" element={<ViewSeats/>}/>  
       <Route path="/user/updateProfile/:id" element={<UpdateProfile/>}/>
       <Route path="/user/userProfile/:id" element={<UserProfile/>}/> 
       <Route path="/user/confirmFlight/:id" element={<ReserveFlight/>}/> 
-      <Route path="/user/payment/:id" element={<StripeContainer/>}/> 
       <Route element={Page404} />
-      <Route path="/user/" element={<UserProfile/>}/> 
+      <Route path="/user/ " element={<UserProfile/>}/> 
 
     </Routes>
   </BrowserRouter>

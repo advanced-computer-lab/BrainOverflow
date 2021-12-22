@@ -10,14 +10,7 @@ import {
   NavItem,
   NavLink,
 } from 'reactstrap';
-// import "../css/bootstrap.min.css";
-// import "../css/font-awesome.css";
-// import "../js/owl-carousel/owl.carousel.css" ;
-// import "../js/owl-carousel/owl.theme.css" ;
-// import "../js/owl-carousel/owl.transitions.css";
-// import "../css/magnific-popup.css";
-// import "../css/animate.css";
-import "../css/style.css";
+
 
 const links = [
     { href: '/user/viewFlights', text: 'Book a Flight' },

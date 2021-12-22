@@ -98,24 +98,25 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
 /*-----------------------------------------------------------------*/
 
 ::-webkit-input-placeholder {
- color:rgb(66, 72, 116)!important;
+ color:#FFF !important;
+ font-weight: 600;
  letter-spacing:1px;
 }
 
 :-moz-placeholder {
- color:rgb(66, 72, 116) !important;
-
+ color:#FFF !important;
+ font-weight: 600;
  letter-spacing:1px;
 }
 
 ::-moz-placeholder {
- color:rgb(66, 72, 116) !important;
-
+ color:#FFF !important;
+ font-weight: 600;
  letter-spacing:1px;
 }
 
 :-ms-input-placeholder {
- color:rgb(66, 72, 116)!important;
+ color:#FFF !important;
  font-weight: 600;
  letter-spacing:1px;
 }
@@ -233,7 +234,7 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
 	text-align:center;
 }
 
-.overlay {
+/* .overlay {
 	background:rgba(0, 0, 0, 0.4) url("../images/pattern.png") repeat;
 	position: absolute;
 	display: block;
@@ -241,7 +242,7 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
 	height: 100%;
 	top: 0px;
 	left: 0px;
-}
+} */
 
 section {
 	position:relative;
@@ -325,17 +326,6 @@ section {
 .btn-gray-border:hover, .btn-gray-border:focus {
 	color: #FFF;
 	background:#7EC13F;
-	border-color:#7EC13F;
-}
-.btn-white {
-	background:#FFF;
-	border-color: FFFF;
-	color:#5F5A5A;
-}
-
-.btn-white:hover, .btn-white:focus {
-	color: #FFF;
-	background: #7EC13F;
 	border-color:#7EC13F;
 }
 
@@ -672,7 +662,6 @@ section {
 	display: block;
 	width: 100%;
 	text-align: center;
-	background: #22577E;
 }
 
 #main-menu ul li {
@@ -684,7 +673,7 @@ section {
 	display: inline-block;
 	padding:6px 10px;
 	line-height: 60px;
-	color:#ffffff;
+	color: #FFF;
 	font-weight: 600;
 	font-size: 15px;
 	text-transform: uppercase;
@@ -692,15 +681,15 @@ section {
 }
 
 #main-menu ul li a:hover {
-	color: #00AAB3;
+	color:#FFF;
 }
 
 #main-menu ul.nav>li>a:hover, #main-menu ul.nav>li>a:focus {
-	background:blanchedalmond
+	background: none;
 }
 
 #main-menu ul li.active > a, #main-menu ul li.active.has-child > a {
-	color: #00AAB3;
+	color: #FFF;
 	box-shadow: inset 0 -2px 0 #FFF;
 }
 
@@ -721,13 +710,11 @@ section {
 }
 
 .logo {
-	width: 100px;
-	height: 100px ;
+	width: 100% !important;
+	height: 100% !important;
 }
 
 .logo-nav {
-	width: 20%;
-	height: 20% ;
 	float: left;
 	line-height: 60px;
 }
@@ -1010,10 +997,10 @@ html[xmlns] .slides {
 /* Fun Facs
 /*-----------------------------------------------------------------*/
 
-#facts {
+/* #facts {
 	background:url(../images/parallax/facts.jpg) no-repeat;
 	padding: 150px 0px 100px;
-}
+} */
 
 .facts-box {
 	text-align:center;
@@ -1307,11 +1294,11 @@ html[xmlns] .slides {
 /*-----------------------------------------------------------------*/
 
 
-#history {
+/* #history {
 	background:url(../images/parallax/timeline.jpg);
-}
+} */
 
-ul.timeline {
+/* ul.timeline {
 	margin: 40px auto 0;
 	width: 100%;
 	background: url(../images/timeline-bg.jpg) center center repeat-y;
@@ -1319,7 +1306,7 @@ ul.timeline {
 	position: relative;
 	padding: 0 0 80px;
 	z-index:200;
-}
+} */
 
 .timeline .year {
 	background: #FFFFFF;
@@ -1595,10 +1582,10 @@ ul.timeline {
 /* Call To Action
 /*-----------------------------------------------------------------*/
 
-#cta {
+/* #cta {
 	background:url(../images/parallax/cta.jpg) no-repeat;
 	padding:130px 0px 130px;
-}
+} */
 
 #cta h2 {
     color: #FFF;
@@ -1740,11 +1727,11 @@ ul.timeline {
 /* Skills
 /*-----------------------------------------------------------------*/
 
-#skills {
+/* #skills {
 	text-align:center;
 	padding:100px 0px 0px;
 	background:url(../images/parallax/skills.jpg) no-repeat;
-}
+} */
 
 .pie-chart-main {
 	margin-bottom:100px;
@@ -1931,9 +1918,9 @@ ul.timeline {
 /*-----------------------------------------------------------------*/
 
 
-#video {
+/* #video {
 	background:url(../images/parallax/cta.jpg) no-repeat;
-}
+} */
 
 .video-caption-main {
 	margin-bottom:30px;
@@ -2042,9 +2029,9 @@ ul.timeline {
 /*-----------------------------------------------------------------*/
 
 
-#testimonials {
+/* #testimonials {
 	background:url(../images/parallax/testimonials.jpg) no-repeat;
-}
+} */
 
 #testimonials {
 	color:#fff;
@@ -2244,12 +2231,12 @@ ul.timeline {
 /*-----------------------------------------------------------------*/
 /*   Single Work Page
 /*-----------------------------------------------------------------*/
-
+/* 
 #page-header {
 	background:url('../images/page-header.jpg');
 	padding: 130px 0px 80px;
 	text-align: center;
-}
+} */
 
 #page-header:after {
 	background:rgba(0, 0, 0, .5);
@@ -2388,11 +2375,11 @@ ul.timeline {
 	height: auto;
 }
 
-#related-project {
+/* #related-project {
 	background:url('../images/pattern.png') repeat;
 	padding:100px 0 80px;
 	position:relative;
-}
+} */
 
 #related-project .image-wrapper {
 	margin-bottom:20px;
@@ -2803,9 +2790,9 @@ li.comment ol.comment-sub {
 /*  Contact
 /*-----------------------------------------------------------------*/
 
-#contact {
+/* #contact {
 	background:url(../images/parallax/contact.jpg) no-repeat;
-}
+} */
 
 .contact-form {
 	display: block;

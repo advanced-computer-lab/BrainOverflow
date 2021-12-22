@@ -120,23 +120,23 @@ console.log(theEmail);
   });
 })
 
-router.get('/viewFlights', catchAsync(async (req, res, next) => {
-  console.log(req.body, req.params);
-  const f = await Flight.find({}).populate(['First.SeatId', 'Business.SeatId', 'Economy.SeatId']);
-  res.send(f);
-}))
-router.get('/viewFlight/:id', async (req, res) => {
-  const f = await Flight.find({}).populate(['First.SeatId', 'Business.SeatId', 'Economy.SeatId']);
+// router.get('/viewFlights', catchAsync(async (req, res, next) => {
+//   console.log(req.body, req.params);
+//   const f = await Flight.find({}).populate(['First.SeatId', 'Business.SeatId', 'Economy.SeatId']);
+//   res.send(f);
+// }))
+// router.get('/viewFlight/:id', async (req, res) => {
+//   const f = await Flight.find({}).populate(['First.SeatId', 'Business.SeatId', 'Economy.SeatId']);
 
-  await Flight.findById(req.params.id).then(result => {
+//   await Flight.findById(req.params.id).then(result => {
 
-    res.send({ aFlight: result, allFlight: f });
-  })
-    .catch(err => {
-      console.log(err);
-    });
-});
-})  
+//     res.send({ aFlight: result, allFlight: f });
+//   })
+//     .catch(err => {
+//       console.log(err);
+//     });
+// });
+// })  
 
   router.get('/viewFlights' ,catchAsync(async (req, res,next) => {  
     console.log(req.body,req.params);
