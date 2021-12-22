@@ -3,6 +3,7 @@ import { Switch, Route, Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Component, useState, useEffect } from 'react';
 import axios from 'axios';
+import AuthContext from './AuthContext';
 import { useNavigate } from 'react-router-dom'
 import {Modal,ModalHeader,ModalBody,ModalFooter,CardBody, Card, CardHeader, Form, Input, FormGroup,
         Label, Button, Container, Row, Col, Table} from 'reactstrap';
@@ -34,6 +35,12 @@ function ReserveFlight(){
     const [show, setShow] = useState(false);
      
 
+    
+          await axios.post(`http://localhost:8000/user/confirmReserved`,Summary) 
+          } catch (error) {
+          console.error(error);
+        }
+      }  
 
       for(let i =0;i<(parseInt(Summary.Children));i++ ){
         Summary.ChildrenNames.push("placeHolder");
@@ -60,7 +67,7 @@ function ReserveFlight(){
         </ModalBody>
         <ModalFooter>
           { 
-                    <Link to={{ pathname:`/user/payment/61ac855c96f456e24744b466` 
+                    <Link to={{ pathname:`/user/payment` 
                          , search:'?'+new URLSearchParams(Summary).toString()
                            }}className="btn btn-primary " color="success">Proceed to payment</Link> 
                      }
@@ -88,10 +95,7 @@ function ReserveFlight(){
                         Summary.AdultNames.push(thename);
                       }}
                     />
-                     </FormGroup>
-                  )
-                    
-                  )
+                     </FormGroup>))
                  
                    
                   
