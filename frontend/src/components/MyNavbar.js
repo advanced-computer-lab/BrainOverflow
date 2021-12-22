@@ -79,7 +79,7 @@ const links = [
 									<li> <a href="/login">Login</a> </li>
                                     
                                    
-								  <li> <a href="#services">Services</a> </li>
+								  <li> <a href="/admin/createFlight">Create A Flight</a> </li>
 																		
 									<li> <a href="#blog">Blog</a></li>
                                     

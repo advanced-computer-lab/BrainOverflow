@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
 import '../Style/Navbar.css'
+import React, { Component } from 'react';
+
 import {
   Collapse,
   Navbar,
@@ -9,51 +10,91 @@ import {
   NavItem,
   NavLink,
 } from 'reactstrap';
+// import "../css/bootstrap.min.css";
+// import "../css/font-awesome.css";
+// import "../js/owl-carousel/owl.carousel.css" ;
+// import "../js/owl-carousel/owl.theme.css" ;
+// import "../js/owl-carousel/owl.transitions.css";
+// import "../css/magnific-popup.css";
+// import "../css/animate.css";
+import "../css/style.css";
 
 const links = [
-  { href: '/user/viewFlights', text: 'Find a flight Flight' },
-
- 
-];
-
-const createNavItem = ({ href, text, className }) => (
-  <NavItem>
-    <NavLink href={href} className={className}>{text}</NavLink>
-  </NavItem>
-);
-
-export default class MyNavbar extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isOpen: false
-    };
-
-    this.toggle = this.toggle.bind(this);
-  }
-
-  toggle() {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
-  }
+    { href: '/user/viewFlights', text: 'Book a Flight' },
+    { href: '/user/Login', text: 'Login | Sign up' },
+     
   
-  render() {
-    return (
-
-      <div>
-        <Navbar color="light" light expand="md">
-          <NavbarBrand href="/home"> <img class='logo' src="https://i.pinimg.com/564x/1b/63/98/1b6398ec7c18f9e3adf043304e875246.jpg" ></img></NavbarBrand>
-          <NavbarBrand href="/home"><b>SkyOverFlow</b></NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              {links.map(createNavItem)}
-            </Nav>
-          </Collapse>
-        </Navbar>
-      </div>
-    );
+   
+  ];
+  
+  const createNavItem = ({ href, text, className }) => (
+    <NavItem>
+      <NavLink href={href} className={className}>{text}</NavLink>
+    </NavItem>
+  );
+  
+  export default class MyNavbar extends Component {
+    constructor(props) {
+      super(props);
+  
+      this.state = {
+        isOpen: false
+      };
+  
+      this.toggle = this.toggle.bind(this);
+    }
+  
+    toggle() {
+      this.setState({
+        isOpen: !this.state.isOpen
+      });
+    }
+    
+    render() {
+      return (
+      
+        <header id="header">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-12">
+							{/* <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="fa fa-bars"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button> */}
+                           
+							<div class="logo-nav">
+								<a href="index.html">
+									<img class="logoN" src="https://i.pinimg.com/564x/66/fa/7f/66fa7fc53033d53ed3e9497cedb0ce0d.jpg" alt="Sky OverFlow" />
+								</a>
+							</div>
+                           
+							<div class="clear-toggle"></div>
+							<div id="main-menu" class="collapse scroll navbar-right">
+								<ul class="nav">
+                                
+									<li class="active"> <a href="/home">Home</a> </li>
+									
+									<li> <a href="/login">Login</a> </li>
+                                    
+                                   
+								  <li> <a href="#services">Services</a> </li>
+																		
+									<li> <a href="#blog">Blog</a></li>
+                                    
+                  <li> <a href="#testimonials">Testimonials</a></li>
+                                     
+									<li> <a href="#contact">Contact</a> </li>
+										
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</header>
+  
+       
+      );
+    }
   }
-}
