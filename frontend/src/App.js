@@ -27,8 +27,6 @@ import StripeContainer from './components/StripeContainer';
 import { AuthContextProvider } from "./components/AuthContext";
 import AuthContext from "./components/AuthContext";
 
-
-import { Container } from 'reactstrap';
 axios.defaults.withCredentials = true;
 function App() {
   const DynamicLayoutRoute = props => {
@@ -85,6 +83,7 @@ function App() {
       <Route path="/admin/UpdateFlight/:id" element={<UpdateFlight/>}/> 
       {/* <Route path="/" element={<Home/>}/> */}
       <Route path="/home" element={<Home/>}/>
+      <Route path="/user" element={<Home/>}/>
       
       <Route path="user/viewReserved" element={<ViewReserved/>}/>
       <Route path="/user/viewFlights" element={<SearchFlight />} />

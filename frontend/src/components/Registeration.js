@@ -21,6 +21,7 @@ const [phone, setPhone] = useState("");
 const [passport, setPassport] = useState("");
 const [HasError, setHasError] = useState(false);
 const [Error, setError] = useState('');
+const [success,setSuccess]=useState('');
  
 async function register(e){
     e.preventDefault();
@@ -53,6 +54,7 @@ async function register(e){
        }
        else{
         setHasError(false);
+        setSuccess(true);
 
        }
 
@@ -189,6 +191,8 @@ return(
         {HasError &&  <Col className="bg-light "> <Alert align="center" color="danger" Row > 
 <a align="center" style={(Error)?{display: 'block',color:'red',fontSize:'20px'}:{display: 'none'}}><CardTitle>{Error}</CardTitle></a></Alert></Col> 
 }
+{(success) &&<Alert color="info"><a align="center">Registered Successfully</a></Alert>}
+
 
       </Form>
 

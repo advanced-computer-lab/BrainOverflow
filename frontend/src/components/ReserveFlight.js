@@ -34,7 +34,8 @@ function ReserveFlight(){
      
     const [show, setShow] = useState(false);
     try{
-          await axios.post(`http://localhost:8000/user/confirmReserved`,Summary) 
+      //await     
+      axios.post(`http://localhost:8000/user/confirmReserved`,Summary) 
           } catch (error) {
           console.error(error);
         }

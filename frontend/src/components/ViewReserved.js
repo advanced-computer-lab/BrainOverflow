@@ -190,7 +190,7 @@ function ViewReserved(props) {
                         theObject.TicketName = ticket.Name
                       }}> Cancel </Button>
 
-{ 
+                      {/* { 
                     <Link to={{ pathname:`/user/changeSeats/${id}/${ticket.Flight.FlightId}/${ticket.Cabin}/${ticket._id}/${ticket.Seat.SeatId}` 
                          
                            }}className="btn btn-primary " color="success">Change Seat</Link> 
@@ -198,13 +198,13 @@ function ViewReserved(props) {
                     
                      }
                      
-{ 
+                     { 
                     <Link to={{pathname:`/user/changeFlight/${id}/${ticket._id}` 
                          
                            }}className="btn btn-primary " color="success">Change Flight</Link> 
 
                     
-                     }
+                     } */}
                      
 
                     </CardSubtitle>
