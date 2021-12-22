@@ -1,21 +1,55 @@
-div.background {
-    border: 2px solid black;
-  }
+
+  .orange{
+    display: block;
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color:#dba452;
+    color: white;
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    word-spacing: 10px;
+
+}
+.orange:hover{
+  display: block;
+  /* margin-left: auto; */
+  /* margin-right: auto; */
+  width: 90%;
+  background-color:	#d4902a;
+  color: white;
+  margin-left: auto;
+  margin-right: auto;
+
+  font-size: 20px;
+  padding: 10px;
+  border-radius: 10px;
+  word-spacing: 10px;
   
-  div.transbox {
-    margin: 30px;
-    background-color: #ffffff;
-    border: 1px solid black;
-    opacity: 0.6;
-  }
-  
-  div.transbox Label {
-    margin: 5%;
-    font-weight: bold;
-    color: #000000;
-  }
-  div.transbox input {
-    margin: 5%;
-    font-weight: bold;
-    color: #000000;
-  }
+}
+html{
+  background-color: white;
+}
+label{
+  font-size: 20px;
+  padding-left: 10px;
+}
+select, textarea,input,input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .form-control {
+	margin-bottom: 20px;
+	font-size: 15px;
+	line-height: 25px;
+	color: #484444;
+	height: 46px;
+	width: 90%;
+	box-shadow: none;
+	border-radius: 0px;
+	transition: all 200ms ease-in 0s;
+	background: rgba(255, 255, 255, 0) none repeat scroll 0% 0%;
+	border: 2px solid rgba(236, 240, 241, 0.58);
+  background-color: white;
+  margin-left: 5%;
+  margin-right: 5%;
+}

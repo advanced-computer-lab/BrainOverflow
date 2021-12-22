@@ -12,7 +12,8 @@ margin-top: -10%;}
     width: 740px; /* width of container */
     height: 200px; /* height of container */
     object-fit: cover;
-    object-position: 30% 40%; /* try 20px 10px */     transform: scaleX(-1);
+    object-position: 30% 40%; /* try 20px 10px */ 
+    transform: scaleX(-1);
 }
 .info {background-color:rgb(34, 87, 126);
     color: rgb(244, 238, 255);
@@ -25,7 +26,16 @@ margin-top: -10%;}
     color: white;
     padding: 10px;
     border-radius: 25px;
-}  
+}
+.infofrom{
+    background-color:rgb(34, 87, 126);
+    color: rgb(244, 238, 255);
+    /* padding: 2% 10%; */
+    border-radius: 5px;
+    size:30px;
+    padding-left: 5%;
+
+} 
 
 .data {background-color:#5584AC;
     color: white;

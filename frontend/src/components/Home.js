@@ -84,6 +84,8 @@ function Home() {
   const [flights, setFlights] = useState([initialstate]);
   const [mysearch, setSearch] = useState(searchObject);
   const [wrongDate,setWrongDate]=useState(false);
+  const [wrongPass,setPassengers]=useState(false);
+
   const [noResult,setnoResult]=useState(false);
 
 
@@ -303,9 +305,17 @@ function Home() {
     }else{
         setWrongDate(false);
     }
-    if(event.target[0].value==null ||event.target[1].value==null||event.target[2].value==null||event.target[3].value==null||event.target[4].value==null){
+    if(event.target[0].value==null ||event.target[1].value==null||event.target[2].value==null||event.target[3].value==null||event.target[4].value==null||event.target[5].value==null||event.target[6].value==null){
         returnflag=false;
     }
+    if(parseInt(event.target[1].value) + parseInt(event.target[2].value)==0){
+        returnflag=false;
+        setPassengers(true);
+    }
+    else{
+        setPassengers(false);
+    }
+
     setnoResult(!(flag1 & flag2 & flag3 & flag4 & flag5 & flag6 & returnflag))
 
       
@@ -327,7 +337,7 @@ function Home() {
 
   return (
       <div>
-      <img src ="https://i.pinimg.com/originals/b8/ed/f5/b8edf596c38bc4a68fd9470da6258ae1.gif"></img>
+      <img src ="https://i.pinimg.com/originals/f7/ef/fc/f7effc7dd95bfcf8b3a41a0a54910a9c.gif"></img>
     <div style={{backgroundColor: 'rgb(255, 255, 255)'}}>
 
       <section class ="search" >
@@ -339,7 +349,7 @@ function Home() {
                   <Form onSubmit={addtoList} >
                       <FormGroup row>
                       <Col>
-                          <Label for="Class"> Choose Cabin Class :</Label>
+                          <Label for="Class">Cabin Class :</Label>
                         
                               <input list="class" placeholder="class" required name ="Class" id ="Class"></input>
                               <datalist id="class" >
@@ -476,10 +486,10 @@ function Home() {
                                   <Card style={{padding:"0% 2%",backgroundColor: '#B2DADB',borderRadius:'5px',width:'70%',marginLeft:'auto',marginRight:'auto'}}>
                                       <CardBody>
                                           <CardTitle tag="h5">
-                                          <label className="info" style={{width:'80%',marginLeft:'10%',marginRight:'auto'}}> <b>
-                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; From :  {flight.From.Airport} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                              <img style={{width:'150px',height:'60px',transform:"scale(3)"}} src='https://starpng.com/public/uploads/preview/divider-line-png-line-with-circle-end-51575252914xxvixllcy9.png'></img>
-                                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; To :  {flight.To.Airport} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; </b></label>
+                                          <label className="infofrom" style={{width:'80%',marginLeft:'10%',marginRight:'auto'}}> <b>
+                                          From :  {flight.From.Airport} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                              <img style={{width:'100px',height:'60px',transform:"scale(3)"}} src='https://starpng.com/public/uploads/preview/divider-line-png-line-with-circle-end-51575252914xxvixllcy9.png'></img>
+                                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To :  {flight.To.Airport} </b></label>
                                           </CardTitle>
                                           <CardText style={{color:'rgb(0, 0, 0)'}}>
                                               {(firstView) && (mysearch.Adults > 0) ? <label>Price of First class Adult Ticket : {flight.First.Price}<br></br> </label> :
@@ -511,10 +521,12 @@ function Home() {
                   </div>
                   
                   : <label></label>}
-{!(View) &&<Alert color="danger"><a align="center">Enter search parameters to view flights</a></Alert>
-}
+{!(View) &&<Alert color="danger"><a align="center">Enter search parameters to view flights</a></Alert>}
+
 {console.log(displayed.length)}
 {(wrongDate) &&<Alert color="info"><a align="center">Please Enter a valid Date</a></Alert>}
+
+{(wrongPass) &&<Alert color="info"><a align="center">Please Enter Number of Seats </a></Alert>}
 {(noResult) &&(displayed.length==0)&&<Alert color="danger"><a align="center">Sorry, No Flights are Available for these requirements</a></Alert>
 }
 {HasError &&  <Col className="bg-light "> <Alert align="center" color="danger" Row > 

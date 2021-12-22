@@ -4,7 +4,11 @@ import { Link } from "react-router-dom";
 import AuthContext from './AuthContext';
  
 import '../Style/Navbar.css'
-
+import "../css/style.css";
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
+import ContactPhoneOutlinedIcon from '@mui/icons-material/ContactPhoneOutlined';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import {
   Collapse,
   Navbar,
@@ -21,7 +25,7 @@ import {
 // import "../js/owl-carousel/owl.transitions.css";
 // import "../css/magnific-popup.css";
 // import "../css/animate.css";
-import "../css/style.css";
+
 
 const links = [
     { href: '/user/viewFlights', text: 'Book a Flight' },
@@ -69,27 +73,25 @@ const links = [
 							</button> */}
                            
 							<div class="logo-nav">
-								<a href="index.html">
+								<a href="/home">
 									<img class="logoN" src="https://i.pinimg.com/564x/66/fa/7f/66fa7fc53033d53ed3e9497cedb0ce0d.jpg" alt="Sky OverFlow" />
 								</a>
 							</div>
-                           
+                       
 							<div class="clear-toggle"></div>
 							<div id="main-menu" class="collapse scroll navbar-right">
 								<ul class="nav">
+                <a> <label style={{color:'#FFFFFF',fontSize:'30px',marginLeft:'20%'}}></label></a>
+
                                 
-									<li class="active"> <a href="/home">Home</a> </li>
+									<li class="active"> <a href="/home"> <HomeOutlinedIcon></HomeOutlinedIcon> Home</a> </li>
 									
-									<li> <a href="/login">Login</a> </li>
+									<li> <a href="/authorize/login"><AccountCircleOutlinedIcon></AccountCircleOutlinedIcon> Login</a> </li>
                                     
                                    
-								  <li> <a href="#services">Services</a> </li>
-																		
-									<li> <a href="#blog">Blog</a></li>
-                                    
-                  <li> <a href="#testimonials">Testimonials</a></li>
-                                     
-									<li> <a href="#contact">Contact</a> </li>
+								  <li> <a href="/authorize/signup"><BorderColorOutlinedIcon></BorderColorOutlinedIcon> Sign Up</a> </li>
+																		                                    
+									<li> <a href="#contact"><ContactPhoneOutlinedIcon></ContactPhoneOutlinedIcon> Contact Us</a> </li>
 										
 								</ul>
 							</div>

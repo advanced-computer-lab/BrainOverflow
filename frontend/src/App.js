@@ -79,7 +79,8 @@ function App() {
       <Route path="/admin/createFlight" element={<CreateFlight />} />
       <Route path="/admin" element={<AllFlights />} />
       <Route path="/admin/UpdateFlight/:id" element={<UpdateFlight/>}/> 
-      <Route path="/" element={<Home/>}/>
+      {/* <Route path="/" element={<Home/>}/> */}
+      <Route path="/home" element={<Home/>}/>
       
       <Route path="user/viewReserved" element={<ViewReserved/>}/>
       <Route path="/user/viewFlights" element={<SearchFlight />} />
