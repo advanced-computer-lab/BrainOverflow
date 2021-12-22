@@ -33,17 +33,12 @@ function ReserveFlight(){
     console.log(id);
      
     const [show, setShow] = useState(false);
-     
-
-    //await 
-          axios.post(`http://localhost:8000/user/confirmReserved`,Summary) 
-          try{
-            
-          }
-           catch (error) {
+    try{
+          await axios.post(`http://localhost:8000/user/confirmReserved`,Summary) 
+          } catch (error) {
           console.error(error);
         }
-        
+      
 
       for(let i =0;i<(parseInt(Summary.Children));i++ ){
         Summary.ChildrenNames.push("placeHolder");
@@ -69,9 +64,11 @@ function ReserveFlight(){
           To confirm your tickets , please click proceed to payment
         </ModalBody>
         <ModalFooter>
-          <Button>
-          <Link to={`/user/viewReserved`}> View My Tickets </Link>
-          </Button>
+          { 
+                    <Link to={{ pathname:`/user/payment` 
+                         , search:'?'+new URLSearchParams(Summary).toString()
+                           }}className="btn btn-primary " color="success">Proceed to payment</Link> 
+                     }
           
          
         </ModalFooter>

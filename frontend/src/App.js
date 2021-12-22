@@ -20,6 +20,10 @@ import UserProfile from './components/UserProfile';
 import Page404 from './components/Page404';
 import ViewSeats from './components/ViewSeats';
 import ReserveFlight from './components/ReserveFlight';
+import ChangeFlight from './components/ChangeFlight'
+
+import { Container } from 'reactstrap';
+import StripeContainer from './components/StripeContainer';
 import { AuthContextProvider } from "./components/AuthContext";
 import AuthContext from "./components/AuthContext";
 

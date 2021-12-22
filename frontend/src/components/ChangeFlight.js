@@ -11,26 +11,22 @@ import {
     Button, CardTitle , Modal ,ModalHeader,ModalBody,ModalFooter,Col,Alert
 } from 'reactstrap';
 
-function ChangeSeat() {
+function ChangeFlight() {
   const navigate = useNavigate();
-
   const [show, setShow] = useState(false);
   const [HasError, setHasError] = useState(false);
   const [Error, setError] = useState('');
-  const [chosenSeatId, setchosenSeatId] = useState(0);
-  const [chosenSeatNum, setchosenSeatNum] = useState(0);
   const handleClose = () => setShow(false);
-  const handleShow = (seatId,seatNum) => {
+  const [ChosenFlightId, setchosenFlightId] = useState(false);
+
+  const handleShow = (flightId) => {
     setShow(true);
-    setchosenSeatId(seatId);
-    console.log(chosenSeatId)
-    setchosenSeatNum(seatNum);
-    console.log(chosenSeatNum)
+    setchosenFlightId(flightId);
   }
-  async function handleReserve(chosenSeatId) {
+  async function handleReserve(ChosenFlightId) {
     try {
-        console.log(chosenSeatId)
-      await axios.put(`http://localhost:8000/user/viewSeats/${id}/${chosenSeatId}/${TicketId}`)
+        //console.log(chosenSeatId)
+      await axios.put(`http://localhost:8000/user/changeFlight/${id}/${TicketId}/${ChosenFlightId}`)
       .then(navigate(`/user/viewReserved/${id}`, { replace: true }));
 
     } catch (error) {
@@ -39,22 +35,30 @@ function ChangeSeat() {
     }
   }
 
-    const [seats, setSeats] = useState([]);
+    const [flights, setFlights] = useState([]);
+    const [ticket, setTicket] = useState([]);
+
     const {id} = useParams();
-    const { FlightId } = useParams();
-    const { Cabin } = useParams();
-    const { OldSeat } = useParams();
     const { TicketId } = useParams();
+
     useEffect(() => {
-        axios.get(`http://localhost:8000/user/viewSeats/${id}/${FlightId}/${Cabin}/${TicketId}/${OldSeat}`).then(res => {
+           axios.get(`http://localhost:8000/user/changeFlight/${id}/${TicketId}`).then(res => {
+             console.log("ANA geet change flight")
             console.log(res.data);
-            setSeats(res.data);
+            setFlights(res.data.flights);
+            console.log(res.data);
+            setTicket(res.data.ticket);
+            if(res.data.flights.length==0){
+                setHasError(true);
+                setError("No Flights available with similar Departure and Arrival")
+            }
         }).catch((err)=> {
           // The request was made and the server responded with a status code
           // that falls out of the range of 2xx
            if (err.response) {
               setHasError(true);
-              setError("No Seats Available")
+              setError("There's no other flights available")
+              setError(err.message)
            }
          })
     }, []);
@@ -69,12 +73,12 @@ function ChangeSeat() {
           Confirmation
         </ModalHeader>
         <ModalBody>
-          Are you Sure you want to reserve seat no: {chosenSeatNum}?
+          Are you Sure you want to reserve This Flight ?
         </ModalBody>
         <ModalFooter>
           <Button
             color="success"
-            onClick={() => handleReserve(chosenSeatId)}
+            onClick={() => handleReserve(ChosenFlightId)}
           >
             Yes
           </Button>
@@ -86,37 +90,38 @@ function ChangeSeat() {
       </Modal>
         
       {!(HasError) &&  <Card>
-              <CardImg  
-                alt="Card image cap"
-                src="https://easbcn.com/wp-content/uploads/2020/05/Business-Class-plane-1.jpeg"
-                top
-                width="100%"
-              />
+              
               <CardBody>
                 <CardTitle tag="h5">
-                  Available Seats in {Cabin} Cabin 
+                  Available Flights from {ticket.From} To{ticket.To}  
                 </CardTitle>
                 <Container>
 
                 <Table>
                   <thead><tr>
-                    <th>Seat Number</th>
-                    <th>Cabin</th>
-
+                    <th>Flight Number</th>
+                    <th>Departure Date</th>
+                    <th>Departure Time</th>
+                    <th>Arrival Date</th>
+                    <th>Arrival Time</th>
+                    <th>Cost</th>
                   </tr>
                   </thead>
 
                   <tbody>
 
-
               {
-              seats.map((seat) => (
+              flights.map((flight) => (
 
-                      <tr key ={seat.SeatNumber}>
-                        <td>{seat.SeatNumber}</td>
-                        <td>{seat.Cabin}</td>
+                      <tr key ={flight._id}>
+                        <td>{flight.FlightNumber}</td>
+                        <td>{flight.Departure.Date}</td>
+                        <td>{flight.Departure.Time}</td>
+                        <td>{flight.Arrival.Date}</td>
+                        <td>{flight.Arrival.Time}</td>
+                       {ticket.Cabin =="Economy"? <td>{flight.Economy.Price}</td>:ticket.Cabin=="Business"?<td>{flight.Business.Price}</td>:<td>{flight.First.Price}</td>}
                        
-                        <td> <Button color="success" onClick={() => handleShow(seat._id,seat.SeatNumber)}> Change </Button>
+                        <td> <Button color="success" onClick={() => handleShow(flight._id)}> Change </Button>
 
                          </td>
                       </tr>
@@ -134,4 +139,4 @@ function ChangeSeat() {
             </Container>
      )
 }
-export default ChangeSeat;
+export default ChangeFlight;
