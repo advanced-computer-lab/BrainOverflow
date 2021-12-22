@@ -43,7 +43,7 @@ const userSchema = new Schema({
     },
      VisaNumber:{
         type:String,
-        required:true
+       
     }
 ,
 TicketsId:[{type: mongoose.Schema.Types.ObjectId,required:true,

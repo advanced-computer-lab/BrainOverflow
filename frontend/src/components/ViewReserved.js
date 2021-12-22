@@ -2,6 +2,7 @@ import React from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import { get, patch, put } from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import AuthContext from './AuthContext';
 import { Component, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
@@ -11,7 +12,7 @@ import {
   Label, Button, Container, Row, Col, Table, Alert , CardText,Badge
 } from 'reactstrap';
 import '../App.css'
-
+ 
 function ViewReserved(props) {
   const [theObject, setTheObject] = useState({
     SeatId: "",
@@ -64,11 +65,11 @@ function ViewReserved(props) {
     setId(theid);
   }
 
-  const { id } = useParams();
+   
   var theIds = [];
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/user/viewReserved/${id}`).then(res => {
+    axios.get(`http://localhost:8000/user/viewReserved`).then(res => {
       setTheUser(res.data)
 
       if(!(theUser)){
@@ -114,7 +115,7 @@ function ViewReserved(props) {
     try {
 
 
-      await axios.put(`http://localhost:8000/user/updateReserved/${id}`, theObject).then(
+      await axios.put(`http://localhost:8000/user/updateReserved`, theObject).then(
 
         theUser.TicketsId = (theUser.TicketsId).filter(function (s) {
           return s._id !== closeId;
@@ -176,7 +177,7 @@ function ViewReserved(props) {
                      <CardText className="mt-2 mb-2 mr-5 ml-5 text-dark">  From:<Badge style={{color: '#f1f1f1'}} > {ticket.Departure.Airport}</Badge></CardText>
                      <CardText className="mt-2 mb-2 mr-5 ml-5 text-dark"> To: <Badge style={{color: '#f1f1f1'}} >{ticket.Arrival.Airport} <br /></Badge></CardText>
                      <CardText className="mt-2 mb-2 mr-5 ml-5 text-dark">  Class:<Badge style={{color: '#f1f1f1'}} > {ticket.Cabin}<br/></Badge></CardText>
-                     <CardText className="mt-2 mb-2 mr-5 ml-5 text-dark">   Seat: {(ticket.Seat.SeatId===null)?(<Button> <Link to={`/user/viewSeats/${id}/${ticket.Flight.FlightId}/${ticket.Cabin}/${ticket._id}`}> Reserve The Seat</Link></Button>):ticket.Seat.SeatNumber }</CardText>
+                     <CardText className="mt-2 mb-2 mr-5 ml-5 text-dark">   Seat: {(ticket.Seat.SeatId===null)?(<Button> <Link to={`/user/viewSeats/${ticket.Flight.FlightId}/${ticket.Cabin}/${ticket._id}`}> Reserve The Seat</Link></Button>):ticket.Seat.SeatNumber }</CardText>
                      <CardText className="mt-2 mb-2 mr-5 ml-5 text-dark">    Date:<Badge style={{color: '#f1f1f1'}} > {ticket.Departure.Date}<br/></Badge></CardText>
                        <CardText className="mt-2 mb-2 mr-5 ml-5 text-dark">    Departs At:<Badge style={{color: '#f1f1f1'}} > {ticket.Departure.Time} <br/></Badge></CardText>
                        <CardText className="mt-2 mb-2 mr-5 ml-5 text-dark  ">     Arrives At: <Badge style={{color: '#f1f1f1'}} >{ticket.Arrival.Time} <br /></Badge></CardText>
