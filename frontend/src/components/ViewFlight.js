@@ -6,7 +6,7 @@ import { Component, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
 import {useParams,useLocation} from "react-router-dom";
-import { CardBody, Card, CardColumns,CardImg,CardSubtitle,CardText,CardGroup,Toast,ToastBody,ToastHeader,
+import { CardBody, Card, CardColumns,CardImg,CardSubtitle,CardText,CardGroup,Toast,ToastBody,ToastHeader,Container,
           Button,CardTitle,Col,Row} from 'reactstrap';
 import "../Style/summay.css";
 import "../Style/Navbar.css";
@@ -126,10 +126,7 @@ Arrival:{
           setFlight(res.data.aFlight);
           setReturnFlights(res.data.allFlight);
           setDisplayed(res.data.allFlight);
-          if(!(id)){
-            setHasError(true);
-            setError("The user doesn't exist , you have to create an account first")
-          }
+          
           if(!res.data.allFlight){
             setHasError(true);
             setError("No flight with this id exists")
@@ -354,7 +351,7 @@ return flag1 & flag2 & flag3 & flag4 ;
     Flight From {mysummary.From} to {mysummary.To}
     </ToastBody>
   </Toast>
-  <Card className="summary">
+  <Card className="summary"  >
     
         <CardBody>
                   <CardTitle tag="h5">
@@ -401,12 +398,12 @@ return flag1 & flag2 & flag3 & flag4 ;
                     <label className="data">Total price For Return Flight: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{mysummary.ReturnTotalPrice}</label> <br/> <br/>
                     <label className="orange">TotalPrice &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{mysummary.ReturnTotalPrice + totalPrice} </label>
                     </CardText>
-                    {(!id)&& <Button >
-                    {/* <Link to={{ pathname:`/user/confirmFlight/${id}` 
+                    
+                   <Button>{ 
+                    <Link to={{ pathname:`/user/confirmFlight/61ac855c96f456e24744b466` 
                          , search:'?'+new URLSearchParams(myData).toString()
-                           }}className="btn btn-primary"></Link>  */}
-                           You have to sign up to be able to reserve
-                      </Button>}
+                           }}className="btn btn-primary">You have to sign up to be able to reserve</Link>  }    
+                      </Button>
                    {(id)&& <Button style={{backgroundColor: '#96C7C1',marginLeft:'30%'}}>
                     <Link style={{backgroundColor: '#96C7C1'}}to={{ pathname:`/user/confirmFlight/${id}` 
                          , search:'?'+new URLSearchParams(myData).toString()
@@ -417,6 +414,7 @@ return flag1 & flag2 & flag3 & flag4 ;
       </CardBody>
                          
       </Card>
+
       </div>:<label></label>}
       {/* <button>Back</button>
       <button type="button" class="btn btn-default btn-arrow-left">Default</button> */}
@@ -426,6 +424,7 @@ return flag1 & flag2 & flag3 & flag4 ;
 
 
 </div>
+
       
       )
 }

@@ -12,7 +12,8 @@ function ReserveFlight(){
     let location = useLocation();
     let search=new URLSearchParams(location.search);
     const Summary={
-        Names:[],
+        AdultNames:[],
+        ChildrenNames:[],
         Cabin:search.get('Cabin'),
         Adults:search.get('Adults'),
         Children:search.get('Children'),
@@ -32,21 +33,16 @@ function ReserveFlight(){
      
     const [show, setShow] = useState(false);
      
-    async function handleSubmit() {
-       console.log(Summary);
-        try {
 
-    
-          await axios.post(`http://localhost:8000/user/confirmReserve/${id}`,Summary) 
-          } catch (error) {
-          console.error(error);
-        }
-      }  
 
-      for(let i =0;i<(parseInt(Summary.Children)+parseInt(Summary.Adults));i++ ){
-        Summary.Names.push("placeHolder");
+      for(let i =0;i<(parseInt(Summary.Children));i++ ){
+        Summary.ChildrenNames.push("placeHolder");
 
       }
+      for(let i =0;i<(parseInt(Summary.Adults));i++ ){
+        Summary.AdultNames.push("placeHolder");
+
+      }  
   
      
 
@@ -57,15 +53,17 @@ function ReserveFlight(){
           charCode="Y"
 
         >
-          Tickets Reserved Successfully
+          Tickets Reservation
         </ModalHeader>
         <ModalBody>
-          You have Successfully reserved your tickets
+          To confirm your tickets , please click proceed to payment
         </ModalBody>
         <ModalFooter>
-          <Button>
-          <Link to={`/user/viewReserved/${id}`}> View My Tickets </Link>
-          </Button>
+          { 
+                    <Link to={{ pathname:`/user/payment/61ac855c96f456e24744b466` 
+                         , search:'?'+new URLSearchParams(Summary).toString()
+                           }}className="btn btn-primary " color="success">Proceed to payment</Link> 
+                     }
           
          
         </ModalFooter>
@@ -74,10 +72,10 @@ function ReserveFlight(){
           
              <Form>
                    {    
-                  Summary.Names.map((thename)=>(
+                  Summary.AdultNames.map((thename)=>(
                     <FormGroup>
                     <Label for="exampleEmail">
-                      Enter The Name for the Passenger:
+                      Enter The Name for the adult Passenger:
                     </Label>
                     <Input
                       name="Name"
@@ -85,20 +83,42 @@ function ReserveFlight(){
                       type="text"
                       onChange={(e)=>{
                         thename=e.target.value;
-                        Summary.Names.pop();
-                        Summary.Names.push(thename);
+                        console.log(thename);
+                        Summary.AdultNames.shift();
+                        Summary.AdultNames.push(thename);
                       }}
                     />
                      </FormGroup>
                   )
                     
                   )
+                 
                    
                   
                   }
+                  { Summary.ChildrenNames.map((thename)=>(
+                    <FormGroup>
+                    <Label for="exampleEmail">
+                      Enter The Name for the adult Passenger:
+                    </Label>
+                    <Input
+                      name="Name"
+                      placeholder="FirstName LastName"
+                      type="text"
+                      onChange={(e)=>{
+                        thename=e.target.value;
+                        console.log(thename);
+                        Summary.ChildrenNames.shift();
+                        Summary.ChildrenNames.push(thename);
+                      }}
+                    />
+                     </FormGroup>
+                  )
+                    
+                  )}
                    
-             
-                  <Button color="danger" onClick={() =>{ handleSubmit();
+
+                  <Button color="danger" onClick={() =>{ 
                                             setShow(true);}}> Confirm and Submit </Button>
                   </Form>
                    
