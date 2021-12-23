@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
-import { useNavigate } from 'react-router-dom'
-import Axios from 'axios'
+import React, {useState,useContext} from 'react';
+import { useNavigate} from 'react-router-dom'
+import Axios from 'axios';
+import AuthContext from "./AuthContext";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import{
    CardBody,Card , CardHeader , Form,Input , FormGroup , Label , Button, Container, Row , Col ,Alert,CardTitle
@@ -22,6 +23,8 @@ const [passport, setPassport] = useState("");
 const [HasError, setHasError] = useState(false);
 const [Error, setError] = useState('');
 const [success,setSuccess]=useState('');
+const navigate = useNavigate();
+const { getLoggedIn } = useContext(AuthContext);
  
 async function register(e){
     e.preventDefault();
@@ -44,6 +47,8 @@ async function register(e){
             registerData
         
           );
+        await getLoggedIn();
+        navigate('/user', { replace: true });
 
     }
     catch(err){
