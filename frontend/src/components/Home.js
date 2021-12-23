@@ -91,6 +91,7 @@ function Home() {
   const [wrongPass,setPassengers]=useState(false);
 
   const [noResult,setnoResult]=useState(false);
+  
 
   const itemData = [
     {
@@ -390,7 +391,7 @@ function Home() {
 
       <section class ="search" >
       <Container style={{padding:"5% 2%",backgroundColor: '#F6F2D',borderRadius:'5px'}}>
-      <h1>Search For A Flight</h1>
+      <h1>Search For A Flight</h1><br/><br/>
 
               <Row xs="1" className=''>
 
@@ -607,6 +608,7 @@ function Home() {
     <br/>
           
       </div>
+
       <div style={{background:'#95D1CC',marginTop:'10%',borderRadius:'25px',padding:'5%',width:'90%',marginLeft:'5%'}}>
           <h1> Learn How to book a Flight</h1>
 
@@ -614,12 +616,122 @@ function Home() {
   <source src="https://mdbootstrap.com/img/video/Sail-Away.mp4" type="video/mp4" />
     </video>
       </div>
+      <div style={{marginLeft:'20%'}}>
+      <div>
+      <section class="section">
+      <div class="container">
+          <div class="row" > 
+                <div class="col-md-12">
+					<div class="content-tab-1">
+						<ul class="nav">
+							<li>
+								<a aria-expanded="true" href="#tab-content-1" data-toggle="tab">
+								<i class="fa fa-desktop" ></i>
+								<h4 >Where We Fly</h4>
+								</a>
+								<div class="tab-arrow">
+								</div>
+							</li>
+                            
+							  <li>
+								<a aria-expanded="true" href="#tab-content-2" data-toggle="tab">
+								<i class="fa fa-cubes"></i>
+								<h4>Vision</h4>
+								</a>
+								<div class="tab-arrow">
+								</div>
+							</li>
+                            
+							<li>
+								<a aria-expanded="true" href="#tab-content-3" data-toggle="tab">
+								<i class="fa fa-institution"></i>
+								<h4>Mission</h4>
+								</a>
+								<div class="tab-arrow">
+								</div>
+							</li>
+                            
+							  <li>
+								<a aria-expanded="true" href="#tab-content-4" data-toggle="tab">
+								<i class="fa fa-pagelines"></i>
+								<h4>Luxury</h4>
+								</a>
+								<div class="tab-arrow">
+								</div>
+							</li>
+                            
+							  <li>
+								<a aria-expanded="true" href="#tab-content-5" data-toggle="tab">
+								<i class="fa fa-pie-chart"></i>
+								<h4>Customer Satisfaction</h4>
+								</a>
+								<div class="tab-arrow">
+								</div>
+							</li>
+                            
+						</ul></div></div></div>
+                        <div>
+     <div class="tab-content-main">
+								<div class="container">
+									<div class="tab-content">
+										<div class="tab-pane active in" id="tab-content-1">
+											
+                                         	
+                                            <div class="col-md-6 margin-bottom-30">
+                                                <div class="tab1-features">
+                                                    <div class="icon"style={{backgroundColor:"#22577E" }}> 1 <i class="fa fa-star-o"></i> </div>
+                                                    <div class="info" style={{background:'#95D1CC',marginTop:'10%',borderRadius:'25px',padding:'5%',width:'100%',marginLeft:'5%'}}>
+                                                  
+                                                        <h4 > Where We Fly</h4>
+                                                        <p >Asia, Africa, North America, South America, Antarctica, Europe, and Australia</p>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="tab1-features">
+                                                    <div class="icon" style={{backgroundColor:"#22577E"}}> 2 <i class="fa fa-codepen"></i> </div>
+                                                    <div class="info"  style={{background:'#95D1CC',marginTop:'10%',borderRadius:'25px',padding:'5%',width:'100%',marginLeft:'5%'}}>
+                                                        <h4>Our Vision</h4>
+                                                        <p>Moved by people, SkyOverFlow Airways will be the world's number one air provider, based on customer preference, value, reliability, and scale. We strive to be a vital link in the global economy, delivering to the world for a better future.</p>
+                                                    </div>
+                                                </div>
+                                              
+                                                <div class="tab1-features">
+                                                    <div class="icon"  style={{backgroundColor:"#22577E"}}> 3 <i class="fa fa-heart-o"></i></div>
+                                                    <div class="info" style={{background:'#95D1CC',marginTop:'10%',borderRadius:'25px',padding:'5%',width:'100%',marginLeft:'5%'}}>
+                                                        <h4>Our Mission</h4>
+                                                        <p>our collective mission is to achieve ‘Excellence in everything we do’ at all levels across our SkyOverFlow Airways family of highly-skilled and committed professionals, from across the globe. </p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="tab1-features">
+                                                    <div class="icon"  style={{backgroundColor:"#22577E"}}> 4 <i class="fa fa-heart-o"></i></div>
+                                                    <div class="info" style={{background:'#95D1CC',marginTop:'10%',borderRadius:'25px',padding:'5%',width:'100%',marginLeft:'5%'}}>
+                                                        <h4>Luxury</h4>
+                                                        <p>SkyOverFlow Airways is regarded as one of the most luxurious airlines in the world, and has received numerous awards for their onboard service.</p>
+                                                    </div>
+                                                </div>
 
 
+                                                <div class="tab1-features">
+                                                    <div class="icon"  style={{backgroundColor:"#22577E"}}> 5<i class="fa fa-heart-o"></i></div>
+                                                    <div class="info" style={{background:'#95D1CC',marginTop:'10%',borderRadius:'25px',padding:'5%',width:'90%',marginLeft:'5%'}}>
+                                                        <h4>Customer Satisfaction</h4>
+                                                        <p>SkyOverFlow Airways strives to maintain the highest standards in customer service and we are committed to providing safe, dependable, and convenient world-class service to our customers.</p>
+                                                    </div>
+                                                </div>
 
 
-
-      
+                                                
+                                                
+                                            </div></div></div></div></div>
+                                            
+     </div>
+                        
+                        
+                        
+                        
+                        </div></section></div>
+      </div>
       
       </div>
       

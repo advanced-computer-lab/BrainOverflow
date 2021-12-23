@@ -1,5 +1,6 @@
 import React, { Children,useContext } from "react";
-import { Switch, Route, Link, useSearchParams } from "react-router-dom";
+import { Switch, Route, Link, useSearchParams} from "react-router-dom";
+
 import { get, patch,put } from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Component, useState, useEffect } from 'react';
@@ -69,6 +70,12 @@ Arrival:{
     const adultTicketsno=parseInt(search.get('Adults')) ;
     const cabin=search.get('Cabin');
     const [HasError, setHasError] = useState(false);
+    //  let history = useHistory();
+
+    // function handleClick() {
+    //   history.push("/home");
+    // }
+  
 
   const [Error, setError] = useState('');
     const returnDate =search.get('ReturnDate');
@@ -421,10 +428,11 @@ return flag1 & flag2 & flag3 & flag4 ;
       </Card>
 
       </div>:<label></label>}
-      {/* <button>Back</button>
-      <button type="button" class="btn btn-default btn-arrow-left">Default</button> */}
-      <button href="#" class="previous round">&#8249;</button>
-      
+      <div>
+
+      <Button > <Link to={{pathname:'/'}}></Link>Back</Button>
+      </div>
+   
 
 
 
