@@ -6,6 +6,7 @@ import{
    CardBody,Card , CardHeader , Form,Input , FormGroup , Label , Button, Container, Row , Col
 } from 'reactstrap';
 import MyNavBar from './MyNavbar';
+<<<<<<< Updated upstream
 function UpdateFlight() {
   const[_id,setID]=React.useState("");
   const [From,setFrom]=React.useState("");
@@ -17,6 +18,41 @@ function UpdateFlight() {
   const [Economy,setEconomy]=React.useState(0);
   const [Business,setBusiness]=React.useState(0);
   const [First,setFirst]=React.useState(0);
+=======
+import logo from './Plane Loop.gif';
+
+function UpdateFlight(props) {
+  let navigateBack = useNavigate();
+  const navigate= useNavigate;
+  const initialstate= {
+    FlightNumber:'',
+    From:{Airport:'',Terminal:0},
+    To:{Airport:'',Terminal:0},
+    Economy:{SeatId:[],Price:0,ChildPrice:0,Baggage:0},
+    Business:{SeatId:[],Price:0,ChildPrice:0,Baggage:0},
+    First:{SeatId:[],Price:0,ChildPrice:0,Baggage:0},
+    Departure:{Date:new Date(),Time:''},
+    Arrival:{Date:new Date(),Time:''}
+  }
+  const { id } = useParams()
+  const [flight, setFlight] = useState(initialstate);
+  useEffect(() => {
+    async function getFlight() {
+      try {
+        const response = await get(`http://localhost:8000/admin/updateFlight/${id}`);
+        console.log(id);
+        setFlight(response.data);        
+      } catch(error) {
+        console.log(error);
+      }
+    }
+    getFlight(); 
+  }, [props]);
+ 
+ 
+  function handleSubmit(event) {
+    event.preventDefault();
+>>>>>>> Stashed changes
  
 
   const UpdateList=()=>{
@@ -54,8 +90,20 @@ function UpdateFlight() {
     })
   }, []);
   
+<<<<<<< Updated upstream
+=======
+  function handleClick() {
+    navigateBack(-1)
+  }
+  
+   
+>>>>>>> Stashed changes
   return (
+    <div style={{padding:"10%" , backgroundColor:"#22577E" ,color:"#22577E" , fontWeight: "bold" }}>
+       <div > <img style={{width:"100%" , height:"400px"}} src= {logo}></img></div> 
+       <h1 style={{color:"#ECDBBA" , padding:"2%"}} >Update Flight {flight.FlightNumber}</h1>
       <Container className='m-3'>
+<<<<<<< Updated upstream
         <Card className='p-3'>
     <CardHeader className='mb-2'  >
       Update the flight
@@ -65,6 +113,29 @@ function UpdateFlight() {
     <Form>
     <FormGroup>
     <Label for="From">
+=======
+        <Card className='p-3' style={{backgroundColor:"rgb(85, 132, 172)"}}>
+    {/* <CardHeader className='mb-2'  >
+      Update The Flight {flight.FlightNumber}
+    </CardHeader> */}
+    <CardBody>
+    
+    <Form >
+    
+    <FormGroup>
+    <Label for="FlightNumber" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+     Flight Number
+    </Label>
+    <Input
+      id="FlightNumber"
+      name="FlightNumber"
+      placeholder="Flight Number"
+      type="text"
+      value={flight.FlightNumber}
+      onChange={handleChange}
+    />
+    <Label for="From" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+>>>>>>> Stashed changes
       From
     </Label>
     <Input
@@ -72,13 +143,31 @@ function UpdateFlight() {
       name="From"
       placeholder="Departure airport"
       type="text"
+<<<<<<< Updated upstream
       onChange={(e)=>{
         setFrom(e.target.value);
       }}
+=======
+      required
+      value={flight.From.Airport}
+      onChange={handleChange}
+    />
+    <Label for="FromTerminal" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+    Departure Terminal
+    </Label>
+    <Input
+      id="FromTerminal"
+      name="FromTerminal"
+      placeholder="Departure Terminal"
+      type="number"
+      value={flight.From.Terminal}
+      required
+      onChange={handleChange}
+>>>>>>> Stashed changes
     />
   </FormGroup>
   <FormGroup>
-    <Label for="To">
+    <Label for="To" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
       To
     </Label>
     <Input
@@ -86,16 +175,42 @@ function UpdateFlight() {
       name="To"
       placeholder="Arrival airport"
       type="text"
+<<<<<<< Updated upstream
       onChange={(e)=>{
         setTo(e.target.value);
       }}
+=======
+      value={flight.To.Airport}
+      required
+      onChange={handleChange}
+    />
+  </FormGroup>
+
+  <FormGroup>
+    <Label for="ToTerminal" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+      Arrival Terminal
+    </Label>
+    <Input
+      id="ToTerminal"
+      name="ToTerminal"
+      placeholder="Arrival Terminal"
+      type="number"
+      required
+      value={flight.To.Terminal}
+      onChange={handleChange}
+>>>>>>> Stashed changes
     />
   </FormGroup>
 
 
   <FormGroup>
+<<<<<<< Updated upstream
     <Label for="exampleDate">
       Flight Date
+=======
+    <Label for="exampleDate" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+      Departure Date
+>>>>>>> Stashed changes
     </Label>
     <Input
       id="date"
@@ -108,9 +223,10 @@ function UpdateFlight() {
     />
   </FormGroup>
   <FormGroup>
-    <Label for="Departure">
+    <Label for="Departure" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
 Departure Time    </Label>
     <Input
+<<<<<<< Updated upstream
       id="Departure"
       name="Departure"
       placeholder=""
@@ -118,10 +234,34 @@ Departure Time    </Label>
       onChange={(e)=>{
         setDeparture(e.target.value);
       }}
+=======
+      id="DepartureTime"
+      name="DepartureTime"
+      placeholder="date placeholder"
+      type="time"
+      required
+      //value={flight.Departure.Time}
+      onChange={handleChange}
+       
     />
   </FormGroup>
   <FormGroup>
-    <Label for="Arrival">
+    <Label for="exampleDate" style={{color:"#ECDBBA", fontWeight: "bold"}}>
+      Arrival Date
+    </Label>
+    <Input
+      id="ArrivalDate"
+      name="ArrivalDate"
+      placeholder="date placeholder"
+      type="datetime-local"
+      required
+      //value={flight.Arrival.Date}
+      onChange={handleChange}
+>>>>>>> Stashed changes
+    />
+  </FormGroup>
+  <FormGroup>
+    <Label for="Arrival" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
       Arrival Time
     </Label>
     <Input
@@ -135,8 +275,14 @@ Departure Time    </Label>
     />
   </FormGroup>
   <FormGroup>
+<<<<<<< Updated upstream
     <Label for="Terminal">
 Terminal    </Label>
+=======
+    <Label for="Economy" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+     Number of Economy Class Seats
+    </Label>
+>>>>>>> Stashed changes
     <Input
       id="Terminal"
       name="Terminal"
@@ -149,8 +295,13 @@ Terminal    </Label>
   </FormGroup>
   
   <FormGroup>
+<<<<<<< Updated upstream
     <Label for="Economy">
      Number of Economy class seats
+=======
+    <Label for="EconomyPrice" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+      Price of Economy Seat for Adults
+>>>>>>> Stashed changes
     </Label>
     <Input
       id="Economy"
@@ -164,8 +315,13 @@ Terminal    </Label>
   </FormGroup>
   
   <FormGroup>
+<<<<<<< Updated upstream
     <Label for="Business">
      Number of Business class seats
+=======
+    <Label for="EconomyChildPrice" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+    Price of Economy Seat for Children
+>>>>>>> Stashed changes
     </Label>
     <Input
       id="Business"
@@ -179,31 +335,81 @@ Terminal    </Label>
   </FormGroup>
   
   <FormGroup>
-    <Label for="First">
-     Number of first class seats
+    <Label for="First" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+     Number of First Class Seats
     </Label>
     <Input
       id="First"
       name="First"
+<<<<<<< Updated upstream
+=======
+      required
       placeholder=""
       type="number"
+      value= {flight.First.SeatId.length}
+      onChange={handleChange}
+    />
+  </FormGroup>
+  <FormGroup>
+    <Label for="FirstPrice" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+      Price of First Class Seat for Adults
+    </Label>
+    <Input
+      id="FirstPrice"
+      name="FirstPrice"
+>>>>>>> Stashed changes
+      placeholder=""
+      type="number"
+<<<<<<< Updated upstream
       onChange={(e)=>{
         setFirst(e.target.value);
       }}
+=======
+      value={flight.First.Price}
+      onChange={handleChange}
     />
   </FormGroup>
+  
+  <FormGroup>
+    <Label for="FirstChildPrice" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+    Price of First Class Seat for Children
+    </Label>
+    <Input
+      id="FirstChildPrice"
+      name="FirstChildPrice"
+      placeholder=""
+      required
+      type="FirstChildPrice"
+      value= {flight.First.ChildPrice}
+      onChange={handleChange}
+>>>>>>> Stashed changes
+    />
+  </FormGroup>
+
   <div className="float-right">
+<<<<<<< Updated upstream
   <Button 
     color="success"
     size="lg"
     onClick={UpdateList}>
 Update Flight  </Button>
+=======
+   <Button 
+   onClick={handleSubmit}
+   style={{backgroundColor:"#22577E",color:"white" , width:"300px",fontWeight: "bold"}}
+   color="success"
+   size="lg"
+     >
+Update Flight  </Button> 
+
+<button onClick={handleClick}>go back</button> 
+>>>>>>> Stashed changes
 </div>
  
 </Form>
 </CardBody>
 </Card>
-</Container>
+</Container></div>
     
   );
 }
