@@ -6,6 +6,10 @@ import axios from 'axios';
 import '../Style/Navbar.css';
 import '../Style/summay.css';
 //import "../css/style.css";
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
+
 
 
 
@@ -87,6 +91,50 @@ function Home() {
   const [wrongPass,setPassengers]=useState(false);
 
   const [noResult,setnoResult]=useState(false);
+
+  const itemData = [
+    {
+        img: 'https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/0006/7923/brand.gif?itok=eP_eGDs8',
+        title: 'Star Alliance',
+      },
+    {
+      img: 'https://mir-s3-cdn-cf.behance.net/project_modules/disp/9634cf4370615.560c988391020.png',
+      title: 'Booking',
+    },
+    {
+      img: 'https://i.pinimg.com/originals/de/f7/b6/def7b694904830d5804ee5975b69e9ed.png',
+      title: 'Hotel',
+    },
+    {
+      img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkfxv65nxgDStYa4OhFH4fpNtJaNf0yI0w0kMB764oUDcQNA0F2e0CCEiLJUPybgXVyFA&usqp=CAU',
+      title: 'Magazine',
+    },
+    {
+      img: 'https://i.pinimg.com/564x/cd/57/d1/cd57d12a9440dadbf544022d4c4804cc.jpg',
+      title: 'Tour',
+    },
+    {
+      img: 'https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/0022/4681/brand.gif?itok=sYYrRRuI',
+      title: 'Drinks',
+    },
+    {
+      img: 'https://farm6.staticflickr.com/5314/14232620011_972aae2885_z.jpg',
+      title: 'Nestle',
+    },
+    {
+      img: 'https://i.pinimg.com/564x/5a/f2/c0/5af2c059dac5a8d9a8227b09ad1ffb4c.jpg',
+      title: 'Coffee',
+    },
+    {
+      img: 'https://i.pinimg.com/564x/5e/8f/02/5e8f02bc0c9fea1e82b10a829d0accc6.jpg',
+      title: 'dessert',
+    },
+    {
+      img: 'https://i.pinimg.com/564x/08/68/dc/0868dcacc7c50ca2c7d35b27be81e5a9.jpg',
+      title: 'Entirtenment',
+    },
+  ];
+
 
 
   //const[searchItem,setSearchItem]=useState([]);
@@ -388,7 +436,7 @@ function Home() {
                           </Col>
                           <Col>
                               <Label for=" departure City ">
-                                  Departure City :
+                                Departure City:
                               </Label>
                               <Input
                                   id="DepartureCity "
@@ -467,13 +515,13 @@ function Home() {
                       </FormGroup>
 
                       <div className="search" class="center">
-                          <Button  style={{backgroundColor: 'rgb(34, 87, 126)',width:'500px'}}
+                          <Button  style={{backgroundColor: 'rgb(34, 87, 126)',width:'500px',color:'#FFFFFF',backgroundColor:'#d4902a'}}
                               color="info"
                               size="lg"
                               type="submit"
                               class="btn-search"
                           >
-                              Search For A Flight <span class= "glyphicon glyphicon-send"></span></Button>
+                              <FlightTakeoffIcon></FlightTakeoffIcon> Search For A Flight</Button>
                               <br/><br/>
                       </div>
                   </Form>
@@ -493,11 +541,11 @@ function Home() {
                                           </CardTitle>
                                           <CardText style={{color:'rgb(0, 0, 0)'}}>
                                               {(firstView) && (mysearch.Adults > 0) ? <label>Price of First class Adult Ticket : {flight.First.Price}<br></br> </label> :
-                                                  BusinessView && (mysearch.Adults > 0) ? <label> Price of Business class Adult Ticket: {flight.Business.Price}<br></br> </label> :
-                                                      EconomyView && (mysearch.Adults > 0) ? <label> Price of Economy class Adult Ticket : {flight.Economy.Price}<br></br> </label> : <label></label>}
+                                                  BusinessView && (mysearch.Adults > 0) ? <label>Price of Business class Adult Ticket: {flight.Business.Price}<br></br> </label> :
+                                                      EconomyView && (mysearch.Adults > 0) ? <label>Price of Economy class Adult Ticket : {flight.Economy.Price}<br></br> </label> : <label></label>}
 
                                               {(firstView) && (mysearch.Children > 0) ? <label>Price of First class Children Ticket : {flight.First.ChildPrice}<br></br> </label> :
-                                                  BusinessView && (mysearch.Children > 0) ? <label> Price of Business class Children Ticket: {flight.Business.ChildPrice}<br></br> </label> :
+                                                  BusinessView && (mysearch.Children > 0) ? <label>Price of Business class Children Ticket: {flight.Business.ChildPrice}<br></br> </label> :
                                                       EconomyView && (mysearch.Children > 0) ? <label> price of Economy class Children Ticket : {flight.Economy.ChildPrice}<br></br> </label>: <label></label>}
                                                       <br/>
                                               Departure Date : {(flight.Departure.Date.toString()).slice(0,10)}<br/>
@@ -509,7 +557,7 @@ function Home() {
                                               <Link  style={{backgroundColor: '#22577E'}}to={{
                                                   pathname: `/user/viewFlight/${flight._id}`
                                                   , search: '?' + new URLSearchParams(mysearch).toString()
-                                              }} className="btn btn-primary">Choose This Flight</Link>
+                                              }} className="btn btn-primary"> <FlightTakeoffIcon></FlightTakeoffIcon>Choose This Flight</Link>
                                           </Button>
                                       </CardBody>
                                   </Card>
@@ -539,6 +587,38 @@ function Home() {
 
       
       </div>
+      {/* Partners  */}
+      <div style={{marginLeft:'auto',marginRight:'auto',width:'80%'}}>
+      <h1>Parteners</h1>
+
+      <ImageList sx={{ width: 1100, height: 300 }} cols={5} rowHeight={164}>
+      {itemData.map((item) => (
+        <ImageListItem key={item.img}>
+          <img
+            src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
+            srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+            alt={item.title}
+            loading="lazy"
+          />
+        </ImageListItem>
+      ))}
+    </ImageList>
+    <br/>
+    <br/>
+          
+      </div>
+      <div style={{background:'#95D1CC',marginTop:'10%',borderRadius:'25px',padding:'5%',width:'90%',marginLeft:'5%'}}>
+          <h1> Learn How to book a Flight</h1>
+
+      <video class="video-fluid z-depth-1" autoplay loop controls muted>
+  <source src="https://mdbootstrap.com/img/video/Sail-Away.mp4" type="video/mp4" />
+    </video>
+      </div>
+
+
+
+
+
       
       
       </div>
@@ -548,3 +628,8 @@ function Home() {
 
 
 export default Home;
+
+
+
+
+

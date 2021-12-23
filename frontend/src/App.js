@@ -20,7 +20,8 @@ import UserProfile from './components/UserProfile';
 import Page404 from './components/Page404';
 import ViewSeats from './components/ViewSeats';
 import ReserveFlight from './components/ReserveFlight';
-import ChangeFlight from './components/ChangeFlight'
+import ChangeFlight from './components/ChangeFlight';
+import Rseat from './components/ReserveSeats.js';
 
 import { Container } from 'reactstrap';
 import StripeContainer from './components/StripeContainer';
@@ -84,7 +85,8 @@ function App() {
       {/* <Route path="/" element={<Home/>}/> */}
       <Route path="/home" element={<Home/>}/>
       <Route path="/user" element={<Home/>}/>
-      
+      <Route path="/plane" element={<Rseat/>}/>
+
       <Route path="user/viewReserved" element={<ViewReserved/>}/>
       <Route path="/user/viewFlights" element={<SearchFlight />} />
       <Route path="/user/viewFlight/:id" element={<ViewFlight />} />

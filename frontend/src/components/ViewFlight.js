@@ -11,6 +11,7 @@ import { CardBody, Card, CardColumns,CardImg,CardSubtitle,CardText,CardGroup,Toa
           Button,CardTitle,Col,Row} from 'reactstrap';
 import "../Style/summay.css";
 import "../Style/Navbar.css";
+
 function ViewFlight(props){
 
      
@@ -68,6 +69,7 @@ Arrival:{
     const adultTicketsno=parseInt(search.get('Adults')) ;
     const cabin=search.get('Cabin');
     const [HasError, setHasError] = useState(false);
+
   const [Error, setError] = useState('');
     const returnDate =search.get('ReturnDate');
     const adultTicket= (cabin=="First")?flight.First.Price:(cabin=="Business")?flight.Business.Price:(cabin=="Economy")?flight.Economy.Price:0;
