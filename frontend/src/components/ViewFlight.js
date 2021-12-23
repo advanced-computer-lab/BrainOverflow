@@ -6,12 +6,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Component, useState, useEffect } from 'react';
 import axios from 'axios';
 import AuthContext from './AuthContext';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import {useParams,useLocation} from "react-router-dom";
-import { CardBody, Card, CardColumns,CardImg,CardSubtitle,CardText,CardGroup,Toast,ToastBody,ToastHeader,Container,
+import { CardBody, Card, CardColumns,CardImg,CardSubtitle,CardText,CardGroup,Toast,ToastBody,ToastHeader,Container,Form,FormGroup,Label,Alert,
           Button,CardTitle,Col,Row} from 'reactstrap';
 import "../Style/summay.css";
 import "../Style/Navbar.css";
+
+ import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
+
 
 function ViewFlight(props){
 
@@ -55,6 +58,9 @@ Arrival:{
 
 };
     const {loggedIn} = useContext(AuthContext);
+    const { getLoggedIn } = useContext(AuthContext);
+
+    const navigate = useNavigate();
     let location = useLocation();
     let search=new URLSearchParams(location.search)
     const [flight, setFlight] = useState(initialstate);
@@ -70,6 +76,8 @@ Arrival:{
     const adultTicketsno=parseInt(search.get('Adults')) ;
     const cabin=search.get('Cabin');
     const [HasError, setHasError] = useState(false);
+    const [viewForm,setviewForm]=useState(false);
+
     //  let history = useHistory();
 
     // function handleClick() {
@@ -77,7 +85,7 @@ Arrival:{
     // }
   
 
-  const [Error, setError] = useState('');
+    const [Error, setError] = useState('');
     const returnDate =search.get('ReturnDate');
     const adultTicket= (cabin=="First")?flight.First.Price:(cabin=="Business")?flight.Business.Price:(cabin=="Economy")?flight.Economy.Price:0;
     const childTicket= (cabin=="First")?flight.First.ChildPrice:(cabin=="Business")?flight.Business.ChildPrice:(cabin=="Economy")?flight.Economy.ChildPrice:0;
@@ -125,17 +133,50 @@ Arrival:{
     }
     const[mysummary,setSummary]=useState(Summary);
     const[myData,setData]=useState(Data);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [notCorrect, setAvailable] = useState(false);
+
+ 
+  async function login(e) {
+    e.preventDefault();
+
+    try {
+      const loginData = {
+        email,
+        password,
+      };
+        await axios.post("http://localhost:8000/authorize/login",loginData)
+        await getLoggedIn();
+        setViewSummary(true);
+        setViewOutBound(false);
+        setviewForm(false);
+
+        setAvailable(false);
+
+      }
+      catch(err){
+        console.error(err);
+        setAvailable(true);
+
+      }}
     
     console.log("Return",search.get('ReturnDate'));
     
 
     useEffect(() => {
       console.log( parseInt(search.get('Adults')) );
+      
      
         axios.get(`http://localhost:8000/user/viewFlight/${id}`).then(res => {
           setFlight(res.data.aFlight);
           setReturnFlights(res.data.allFlight);
           setDisplayed(res.data.allFlight);
+          console.log(res.data.aFlight);
+          console.log("fliiiiight",flight);
+
+
           
           if(!res.data.allFlight){
             setHasError(true);
@@ -153,6 +194,14 @@ Arrival:{
         
 
     }, [props]);
+
+    async function handleClick(){
+        setViewSummary(false);
+        setViewOutBound(false);
+        setviewForm(true);
+        await getLoggedIn();
+    }
+
     console.log("children : ",mysearch.Children);
     console.log("adults : ",mysearch.Adults);
     const total =mysearch.Adults+mysearch.Children;
@@ -215,10 +264,10 @@ Arrival:{
     {ViewOutBound ?
 
 
-
          <Toast className="center" style={{marginTop:'10%'}}>
             <ToastHeader icon="primary">
-                <label> Flight From {flight.From.Airport} to {flight.To.Airport}</label>
+                <label> Flight From {flight.From.Airport} to {flight.To.Airport}</label>    
+
             </ToastHeader>
             <ToastBody>
             { (adultTicketsno>0)?(<label> Price / Adult ticket: {adultTicket} <br/></label>):<label></label> }<br/>
@@ -409,15 +458,13 @@ return flag1 & flag2 & flag3 & flag4 ;
                     <label className="orange">TotalPrice &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{mysummary.ReturnTotalPrice + totalPrice} </label>
                     </CardText>
                     
-                   {loggedIn && <Button >
-                    <Link to={{ pathname:`/user/confirmFlight` 
-                         , search:'?'+new URLSearchParams(myData).toString()
-                           }}className="btn btn-primary">You have to sign up to be able to reserve</Link>      
+                   {(!loggedIn) && <Button onClick={() => handleClick()}>
+                     Login First
                       </Button>
                     }
                     
-                   {(id)&& <Button style={{backgroundColor: '#96C7C1',marginLeft:'30%'}}>
-                    <Link style={{backgroundColor: '#96C7C1'}}to={{ pathname:`/user/confirmFlight/${id}` 
+                   {(loggedIn)&& <Button style={{backgroundColor: '#96C7C1',marginLeft:'30%'}}>
+                    <Link style={{backgroundColor: '#96C7C1'}}to={{ pathname:`/user/confirmFlight` 
                          , search:'?'+new URLSearchParams(myData).toString()
                            }}className="btn btn-primary">Confirm and book</Link> 
                       </Button>}
@@ -432,6 +479,44 @@ return flag1 & flag2 & flag3 & flag4 ;
 
       <Button > <Link to={{pathname:'/'}}></Link>Back</Button>
       </div>
+
+      {/* logging in  */}
+      {(viewForm)?
+
+      <div style={{backgroundColor:'#FFFFFF'}}>
+      <Form onSubmit={login} style={{marginTop:'10%',margin:'10%',backgroundColor:'#95D1CC',width:'80%',paddingTop:'5%' ,paddingBottom:'5%' ,borderRadius:'5px'}}>
+      <FormGroup>
+      <h1>Login to your account</h1>
+
+    <Label >
+      Email:
+    </Label>
+        <input
+          type="email"
+          placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+          required
+        />
+        </FormGroup>
+        <FormGroup>
+    <Label >
+      Password:
+    </Label>
+        <input
+          type="password"
+          placeholder="Password"
+          required
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+        />
+        </FormGroup>
+        <button class="orange" type="submit"><FlightTakeoffIcon color="white" ></FlightTakeoffIcon> Login</button>
+
+      </Form>
+      {(notCorrect) &&<Alert color="danger"><a align="center">Invalid Username Or Password Please Try Again  </a></Alert>
+}
+</div>:<label></label>}
    
 
 

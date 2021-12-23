@@ -4,7 +4,8 @@
     border-radius: 50%;
     object-fit: cover;
     object-position: 50% 30%;
-    transform:translate(-10,0)
+    transform:translate(-10,0);
+    transform: scale(1);
 
   }
 html {

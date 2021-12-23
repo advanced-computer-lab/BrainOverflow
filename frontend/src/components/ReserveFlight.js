@@ -122,7 +122,7 @@ function ReserveFlight(){
                    
 
                   <Button color="danger" onClick={() =>{ 
-                                            setShow(true);}}> Confirm and Submit </Button>
+                   setShow(true);}}> Confirm and Submit </Button>
                   </Form>
                    
         
