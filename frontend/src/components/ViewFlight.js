@@ -54,7 +54,7 @@ Arrival:{
 } 
 
 };
-    const {loggedIn} = useContext(AuthContext);
+    
     let location = useLocation();
     let search=new URLSearchParams(location.search)
     const [flight, setFlight] = useState(initialstate);
@@ -70,6 +70,7 @@ Arrival:{
     const adultTicketsno=parseInt(search.get('Adults')) ;
     const cabin=search.get('Cabin');
     const [HasError, setHasError] = useState(false);
+  
     //  let history = useHistory();
 
     // function handleClick() {
@@ -125,7 +126,7 @@ Arrival:{
     }
     const[mysummary,setSummary]=useState(Summary);
     const[myData,setData]=useState(Data);
-    
+    const {loggedIn} = useContext(AuthContext);
     console.log("Return",search.get('ReturnDate'));
     
 
@@ -409,14 +410,14 @@ return flag1 & flag2 & flag3 & flag4 ;
                     <label className="orange">TotalPrice &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{mysummary.ReturnTotalPrice + totalPrice} </label>
                     </CardText>
                     
-                   {loggedIn && <Button >
+                   {(!loggedIn)&& <Button >
                     <Link to={{ pathname:`/user/confirmFlight` 
                          , search:'?'+new URLSearchParams(myData).toString()
                            }}className="btn btn-primary">You have to sign up to be able to reserve</Link>      
-                      </Button>
+                      </Button> 
                     }
                     
-                   {(id)&& <Button style={{backgroundColor: '#96C7C1',marginLeft:'30%'}}>
+                   {(loggedIn) && <Button style={{backgroundColor: '#96C7C1',marginLeft:'30%'}}>
                     <Link style={{backgroundColor: '#96C7C1'}}to={{ pathname:`/user/confirmFlight/${id}` 
                          , search:'?'+new URLSearchParams(myData).toString()
                            }}className="btn btn-primary">Confirm and book</Link> 

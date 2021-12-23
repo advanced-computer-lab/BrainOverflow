@@ -148,7 +148,7 @@ console.log(theEmail);
 
 
       
-   router.get('/viewFlight/:id',auth ,async (req, res)=> {   
+   router.get('/viewFlight/:id',async (req, res)=> {   
         const f = await Flight.find({}).populate(['First.SeatId','Business.SeatId','Economy.SeatId']);
                                                   
        await Flight.findById(req.params.id).then(result => {
