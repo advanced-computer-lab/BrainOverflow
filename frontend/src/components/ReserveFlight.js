@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import {Modal,ModalHeader,ModalBody,ModalFooter,CardBody, Card, CardHeader, Form, Input, FormGroup,
         Label, Button, Container, Row, Col, Table} from 'reactstrap';
 import {useParams,useLocation} from "react-router-dom";
+import "../Style/summay.css"
 function ReserveFlight(){
 
     let location = useLocation();
@@ -122,7 +123,7 @@ function ReserveFlight(){
                   )}
                    
 
-                  <Button color="danger" class="orange" onClick={() =>{ 
+                  <Button style={{color:'#FFFFFF',width:'30%',backgroundColor:'#d4902a',padding:'10px',borderRadius:'6px',marginLeft:'35%',marginRight:'auto'}} onClick={() =>{ 
                    setShow(true);}}> Confirm and Submit </Button>
                   </Form>
                    
