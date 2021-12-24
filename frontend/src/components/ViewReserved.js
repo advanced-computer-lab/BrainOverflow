@@ -15,7 +15,7 @@ import FlightTakeoffOutlinedIcon from '@mui/icons-material/FlightTakeoffOutlined
 import '../App.css';
 import '../Style/Ticket.css';
 import AirlineSeatLegroomExtraOutlinedIcon from '@mui/icons-material/AirlineSeatLegroomExtraOutlined';
-
+import CloudCircleOutlinedIcon from '@mui/icons-material/CloudCircleOutlined';
 
  
 function ViewReserved(props) {
@@ -136,7 +136,7 @@ function ViewReserved(props) {
   }
 
   return (
-    <Container style={{backgroundColor: '#F0F8FF'}} >
+    <Container style={{backgroundColor:'#FFFFFF'}} >
         <Modal isOpen={show}>
           <ModalHeader
             charCode="Y">
@@ -162,7 +162,7 @@ function ViewReserved(props) {
         </div>
 
 
-        <CardColumns>
+        <CardColumns >
           <Row >
               {(!HasError)&&(theUser.TicketsId).map((ticket) => (
                 
@@ -170,6 +170,7 @@ function ViewReserved(props) {
                 <Card className="mb-2" >
                   <CardBody>
                     <label class="title">
+                      <CloudCircleOutlinedIcon fontSize="large"></CloudCircleOutlinedIcon>&nbsp;&nbsp;&nbsp;
                     SkyOverFlow &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Flight Number:{ticket.Flight.Number}
                     </label>
                      <CardText > 
