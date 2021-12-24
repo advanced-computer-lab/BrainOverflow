@@ -7,6 +7,7 @@ import{
 } from 'reactstrap';
 import MyNavBar from './MyNavbar';
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 function UpdateFlight() {
   const[_id,setID]=React.useState("");
   const [From,setFrom]=React.useState("");
@@ -19,6 +20,8 @@ function UpdateFlight() {
   const [Business,setBusiness]=React.useState(0);
   const [First,setFirst]=React.useState(0);
 =======
+=======
+>>>>>>> Stashed changes
 import logo from './Plane Loop.gif';
 
 function UpdateFlight(props) {
@@ -91,7 +94,10 @@ function UpdateFlight(props) {
   }, []);
   
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
   function handleClick() {
     navigateBack(-1)
   }
@@ -103,6 +109,7 @@ function UpdateFlight(props) {
        <div > <img style={{width:"100%" , height:"400px"}} src= {logo}></img></div> 
        <h1 style={{color:"#ECDBBA" , padding:"2%"}} >Update Flight {flight.FlightNumber}</h1>
       <Container className='m-3'>
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
         <Card className='p-3'>
     <CardHeader className='mb-2'  >
@@ -119,6 +126,13 @@ function UpdateFlight(props) {
       Update The Flight {flight.FlightNumber}
     </CardHeader> */}
     <CardBody>
+=======
+        <Card className='p-3' style={{backgroundColor:"rgb(85, 132, 172)"}}>
+    {/* <CardHeader className='mb-2'  >
+      Update The Flight {flight.FlightNumber}
+    </CardHeader> */}
+    <CardBody>
+>>>>>>> Stashed changes
     
     <Form >
     
@@ -135,6 +149,9 @@ function UpdateFlight(props) {
       onChange={handleChange}
     />
     <Label for="From" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
       From
     </Label>
@@ -205,9 +222,12 @@ function UpdateFlight(props) {
 
   <FormGroup>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <Label for="exampleDate">
       Flight Date
 =======
+=======
+>>>>>>> Stashed changes
     <Label for="exampleDate" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
       Departure Date
 >>>>>>> Stashed changes
@@ -276,9 +296,12 @@ Departure Time    </Label>
   </FormGroup>
   <FormGroup>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <Label for="Terminal">
 Terminal    </Label>
 =======
+=======
+>>>>>>> Stashed changes
     <Label for="Economy" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
      Number of Economy Class Seats
     </Label>
@@ -296,8 +319,13 @@ Terminal    </Label>
   
   <FormGroup>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <Label for="Economy">
      Number of Economy class seats
+=======
+    <Label for="EconomyPrice" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+      Price of Economy Seat for Adults
+>>>>>>> Stashed changes
 =======
     <Label for="EconomyPrice" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
       Price of Economy Seat for Adults
@@ -316,8 +344,13 @@ Terminal    </Label>
   
   <FormGroup>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <Label for="Business">
      Number of Business class seats
+=======
+    <Label for="EconomyChildPrice" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+    Price of Economy Seat for Children
+>>>>>>> Stashed changes
 =======
     <Label for="EconomyChildPrice" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
     Price of Economy Seat for Children
@@ -402,14 +435,31 @@ Update Flight  </Button>
      >
 Update Flight  </Button> 
 
+<<<<<<< Updated upstream
 <button onClick={handleClick}>go back</button> 
 >>>>>>> Stashed changes
+=======
+
+>>>>>>> Stashed changes
 </div>
+
  
 </Form>
 </CardBody>
 </Card>
+<<<<<<< Updated upstream
 </Container></div>
+=======
+</Container>
+
+<Button 
+onClick={handleClick} 
+style={{backgroundColor:"white",color:"#22577E" , width:"300px",fontWeight: "bold" }}
+// size="lg"
+>go back</Button> 
+
+</div>
+>>>>>>> Stashed changes
     
   );
 }

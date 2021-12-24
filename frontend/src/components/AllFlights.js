@@ -10,6 +10,29 @@ import {
 import logo from './Plane Loop.gif';
 
 function AllFlights() {
+<<<<<<< Updated upstream
+=======
+  let navigateBack = useNavigate(); 
+  const [closeId, setId] = useState(0);
+  const [show, setShow] = useState(false);
+  const navigate = useNavigate();
+  const [flights, setFlights] = useState([]);
+  //const[searchItem,setSearchItem]=useState([]);
+  const [displayed, setDisplayed] = useState([]);
+  //const toggle = () => setS(!show);
+  const handleClose = () => setShow(false);
+  const handleShow = (id) => {
+    setShow(true);
+    setId(id);
+  }
+
+
+
+  const updateClick = (id) => {
+    axios.get("http://localhost:8000/admin/updateFlight" + id, {
+    }).then(navigate('http://localhost:8000/admin/updateFlight"+id', { replace: true }));
+  }
+>>>>>>> Stashed changes
 
   const [flights, setFlights] = useState([]);
 
@@ -19,6 +42,7 @@ function AllFlights() {
 
     })
   }, []);
+<<<<<<< Updated upstream
 
   return (
 <<<<<<< Updated upstream
@@ -28,6 +52,72 @@ function AllFlights() {
 =======
     <div style={{padding:"5%" , backgroundColor:"rgb(34, 87, 126)"}}>
         <div > <img style={{width:"100%" , height:"400px"}} src= {logo}></img></div> 
+=======
+  async function handleDelete() {
+    console.log(closeId);
+    try {
+
+      await axios.delete(`http://localhost:8000/admin/delete/${closeId}`).then(
+
+        setFlights(flights.filter((f) => { return f._id != closeId })),
+        setDisplayed(flights.filter((f) => { return f._id != closeId })),
+        handleClose()
+      )
+
+
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  function handleClick() {
+    navigateBack(-1)
+  }
+
+  const addtoList = (event) => {
+    event.preventDefault()
+    console.log("heloooooooooo")
+
+    console.log(event.target[0].value)
+    setDisplayed(flights.filter((f) => {
+      let flag1 = false
+      let flag2 = false
+      let flag3 = false
+      let flag4 = false
+      let flag5 = false
+
+      if (event.target[0].value !== '') {
+
+        let d1 = event.target[0].value
+        let d2 = f.Departure.Date
+        console.log(event.target[0].value)
+        console.log(d2)
+        flag1 = (d1 == d2)
+
+      } else { flag1 = true }
+
+      if (event.target[1].value !== '') { flag2 = (event.target[1].value == f.From.Terminal) }
+      else { flag2 = true }
+      if (event.target[2].value !== '') { flag3 = (event.target[2].value == f.FlightNumber) }
+      else { flag3 = true }
+      if (event.target[3].value !== '') { flag4 = (event.target[3].value == f.Departure.Time) }
+      else { flag4 = true }
+      if (event.target[4].value !== '') { flag5 = (event.target[4].value == f.Arrival.Time) }
+      else { flag5 = true }
+
+      return flag1 & flag2 & flag3 & flag4 & flag5;
+    }
+
+
+    ))
+    console.log(displayed);
+  }
+
+  return (
+    <div style={{padding:"5%" , backgroundColor:"rgb(34, 87, 126)"}}>
+        <div > <img style={{width:"100%" , height:"400px"}} src= {logo}></img></div> 
+        
+>>>>>>> Stashed changes
       
     <Container>
       <Modal isOpen={show}  >
@@ -185,10 +275,13 @@ function AllFlights() {
         {flights.map((flights) => (
           <Container>
 
+<<<<<<< Updated upstream
             <Table striped>
               
               <tbody>
 =======
+=======
+>>>>>>> Stashed changes
                     <tr key={flight._id} style={{color:"#F6F2D4" , fontWeight: "bold"}}>
                       <td>{flight.FlightNumber}</td>
                       <td>{flight.From.Airport}</td>
@@ -202,6 +295,7 @@ function AllFlights() {
                       <td><Link to={`/admin/updateFlight/${flight._id}`} className="btn btn-primary" style={{backgroundColor:"#F6F2D4",color:"#22577E" , width:"100px",fontWeight: "bold"}}>Edit</Link>
 
                         <Button color="danger" onClick={() => handleShow(flight._id)} style={{color:"#F6F2D4" , width:"100px",fontWeight: "bold"}}> Delete </Button>
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes
 
                 <tr>
@@ -218,6 +312,13 @@ function AllFlights() {
                   <button>Delete</button>
                   </td>
                 </tr>
+=======
+
+                      </td>
+                    </tr>
+                  ))
+                }
+>>>>>>> Stashed changes
               </tbody>
             </Table>
 
@@ -233,6 +334,16 @@ function AllFlights() {
 =======
     </Container></div>
 >>>>>>> Stashed changes
+
+    <Button 
+onClick={handleClick} 
+style={{backgroundColor:"white",color:"#22577E" , width:"150px",fontWeight: "bold" }}
+// size="lg"
+>go back</Button> 
+    
+    
+    
+    </div>
 
   );
 }

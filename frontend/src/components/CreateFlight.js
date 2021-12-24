@@ -13,6 +13,7 @@ import logo from './Plane Loop.gif';
 
 >>>>>>> Stashed changes
 function CreateFlight() {
+<<<<<<< Updated upstream
   const [From,setFrom]=React.useState("");
   const [To,setTo]=React.useState("");
   const [FlightDate,setFlightDate]=React.useState(new Date());
@@ -49,19 +50,104 @@ function CreateFlight() {
       <div > <img style={{width:"100%" , height:"400px"}} src= {logo}></img></div> 
       <h1 style={{color:"#ECDBBA" , padding:"2%"}} >Create Flight</h1>
       <Container className='m-3'>
+=======
+  const navigate = useNavigate();
+  const [hasError, setHasError] = useState(false);
+  const [Error, setError] = useState('');
+  const [FlightNumber,setFlightNumber]=React.useState("");
+  const [FromAirport,setFromAirport]=React.useState("");
+  const [ToAirport,setToAirport]=React.useState("");
+  const [FromTerminal,setFromTerminal]=React.useState(0);
+  const [ToTerminal,setToTerminal]=React.useState(0);
+  const [DepartureDate,setDepartureDate]=React.useState(new Date());
+  const [DepartureTime,setDepartureTime]=React.useState(0);
+  const [ArrivalDate,setArrivalDate]=React.useState(new Date());
+  const [ArrivalTime,setArrivalTime]=React.useState(0);
+  const [EconomySeats,setEconomySeats]=React.useState(0);
+  const [EconomyPrice,setEconomyPrice]=React.useState(0);
+  const [EconomyChildPrice,setEconomyChildPrice]=React.useState(0);
+  const [BusinessChildPrice,setBusinessChildPrice]=React.useState(0);
+  const [FirstChildPrice,setFirstChildPrice]=React.useState(0);
+  const [EconomyBaggage,setEconomyBaggage]=React.useState(0);
+  const [BusinessSeats,setBusinessSeats]=React.useState(0);
+  const [BusinessPrice,setBusinessPrice]=React.useState(0);
+  const [BusinessBaggage,setBusinessBaggage]=React.useState(0);
+  const [FirstSeats,setFirstSeats]=React.useState(0);
+  const [FirstPrice,setFirstPrice]=React.useState(0);
+  const [FirstBaggage,setFirstBaggage]=React.useState(0);
+  let navigateBack = useNavigate();
+  const addtoList=()=>{
+    try {
+      if (ArrivalDate<DepartureDate || (ArrivalDate==DepartureDate && ArrivalTime<=DepartureTime )) {
+        setError("Arrival Must Be After Departure");
+        setHasError(true);
+        console.log(ArrivalDate ,DepartureDate , ArrivalTime ,DepartureTime );
+        throw new Error("Arrival Must Be After Departure");
+      }
+    } catch {
+      return;
+    }
+    
+    
+      //console.log(From,To,FlightDate,Economy,First,Business)
+    Axios.post("http://localhost:8000/admin/createFlight",{
+      FlightNumber:FlightNumber,
+        FromAirport:FromAirport,
+        FromTerminal:FromTerminal,
+        ToAirport:ToAirport,
+        ToTerminal:ToTerminal,
+        DepartureDate:DepartureDate,
+        DepartureTime:DepartureTime,
+        ArrivalDate:ArrivalDate,
+        ArrivalTime:ArrivalTime,
+        EconomySeats:EconomySeats,
+        EconomyPrice:EconomyPrice,
+        EconomyChildPrice:EconomyChildPrice,
+        EconomyBaggage:EconomyBaggage,
+        BusinessSeats:BusinessSeats,
+        BusinessPrice:BusinessPrice,
+        BusinessChildPrice:BusinessChildPrice,
+        BusinessBaggage:BusinessBaggage,
+        FirstSeats:FirstSeats,
+        FirstPrice:FirstPrice,
+        FirstChildPrice:FirstChildPrice,
+        FirstBaggage:FirstBaggage
+    }).then(navigate('/admin', { replace: true }));
+
+
+     
+ 
+    
+}
+
+function handleClick() {
+  navigateBack(-1)
+}
+  return (
+    <div style={{padding:"10%" , backgroundColor:"#22577E" ,color:"#22577E" , fontWeight: "bold" }}>
+      <div > <img style={{width:"100%" , height:"400px"}} src= {logo}></img></div> 
+      <h1 style={{color:"#ECDBBA" , padding:"2%"}} >Create Flight</h1>
+      <Container className='m-3'>
+>>>>>>> Stashed changes
         {!hasError &&
         <Card className='p-3' style={{backgroundColor:"rgb(85, 132, 172)"}}>
     {/* <CardHeader className='mb-2'  style={{backgroundColor:"white"}}  >
      <h3> Create New Flight</h3>
     </CardHeader> */}
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     <CardBody>
 
     <Form >
     <FormGroup>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <Label for="From">
 =======
+=======
+>>>>>>> Stashed changes
     <Label for="FlightNumber" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
       Flight Number
     </Label>
@@ -78,6 +164,9 @@ function CreateFlight() {
     </FormGroup>
     <FormGroup>
     <Label for="From" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
       From
     </Label>
@@ -207,9 +296,12 @@ function CreateFlight() {
   </FormGroup>
   <FormGroup>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <Label for="Departure">
 Departure Time    </Label>
 =======
+=======
+>>>>>>> Stashed changes
     <Label for="Economy" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
      Number of Economy Class Seats
     </Label>
@@ -224,10 +316,15 @@ Departure Time    </Label>
       }}
     />
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   </FormGroup>
   <FormGroup>
     <Label for="Arrival">
       Arrival Time
+=======
+    <Label for="EconomyPrice" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+     Price of Economy Class Seat for Adults
+>>>>>>> Stashed changes
 =======
     <Label for="EconomyPrice" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
      Price of Economy Class Seat for Adults
@@ -243,11 +340,14 @@ Departure Time    </Label>
       }}
     />
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   </FormGroup>
   <FormGroup>
     <Label for="Terminal">
 Terminal    </Label>
 =======
+=======
+>>>>>>> Stashed changes
     <Label for="EconomyChildPrice" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
      Price of Economy Class Seat for Children
     </Label>
@@ -262,11 +362,16 @@ Terminal    </Label>
       }}
     />
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   </FormGroup>
   
   <FormGroup>
     <Label for="Economy">
      Number of Economy class seats
+=======
+    <Label for="EconomyBaggege" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+     Number of Allowed Baggage in Economy Class 
+>>>>>>> Stashed changes
 =======
     <Label for="EconomyBaggege" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
      Number of Allowed Baggage in Economy Class 
@@ -285,8 +390,13 @@ Terminal    </Label>
   
   <FormGroup>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <Label for="Business">
      Number of Business class seats
+=======
+    <Label for="BusinessSeats" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+     Number of Business Class Seats
+>>>>>>> Stashed changes
 =======
     <Label for="BusinessSeats" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
      Number of Business Class Seats
@@ -412,6 +522,7 @@ Terminal    </Label>
 Create Flight  </Button>
 </div>
  
+
 </Form>
 </CardBody>
 <<<<<<< Updated upstream
@@ -420,8 +531,20 @@ Create Flight  </Button>
 =======
 </Card>}
 {hasError &&<Alert><a align="center" style={(Error)?{display: 'block'}:{display: 'none'}}>{Error}</a></Alert>
+<<<<<<< Updated upstream
 }
 </Container></div>
+>>>>>>> Stashed changes
+=======
+}  
+</Container>
+
+<Button 
+onClick={handleClick} 
+style={{backgroundColor:"white",color:"#22577E" , width:"300px",fontWeight: "bold" }}
+// size="lg"
+>go back</Button>
+</div>
 >>>>>>> Stashed changes
     
   );
