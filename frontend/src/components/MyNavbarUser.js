@@ -61,8 +61,8 @@ const links = [
     render() {
       return (
       
-        <header id="header">
-				<div class="container">
+        <header id="header" >
+				<div class="container" >
 					<div class="row">
 						<div class="col-sm-12">
 							{/* <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu">
