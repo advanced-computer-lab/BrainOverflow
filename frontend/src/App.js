@@ -21,7 +21,7 @@ import Page404 from './components/Page404';
 import ViewSeats from './components/ViewSeats';
 import ReserveFlight from './components/ReserveFlight';
 import ChangeFlight from './components/ChangeFlight';
-import Rseat from './components/ReserveSeats.js';
+import Rseat from './components/ticket.js';
 
 import { Container } from 'reactstrap';
 import StripeContainer from './components/StripeContainer';

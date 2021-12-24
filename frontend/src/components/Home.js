@@ -9,9 +9,7 @@ import '../Style/summay.css';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
-
-
-
+import AirplaneTicketOutlinedIcon from '@mui/icons-material/AirplaneTicketOutlined';
 
 import { useNavigate } from 'react-router-dom';
 import JSONDATA from './MOCK_DATA.json';
@@ -517,7 +515,7 @@ function Home() {
                       </FormGroup>
 
                       <div className="search" class="center">
-                          <Button  style={{backgroundColor: 'rgb(34, 87, 126)',width:'500px',color:'#FFFFFF',backgroundColor:'#d4902a'}}
+                          <Button  style={{width:'500px',color:'#FFFFFF',backgroundColor:'#d4902a'}}
                               color="info"
                               size="lg"
                               type="submit"
@@ -533,32 +531,34 @@ function Home() {
                       <div className="content">
 
                               {displayed.map((flight) => (
-                                  <Card style={{padding:"0% 2%",backgroundColor: '#B2DADB',borderRadius:'5px',width:'70%',marginLeft:'auto',marginRight:'auto'}}>
+                                  <Card style={{padding:"0% 2%",backgroundColor: '##FFFFFF',borderRadius:'5px',width:'70%',marginLeft:'auto',marginRight:'auto'}}>
                                       <CardBody>
                                           <CardTitle tag="h5">
-                                          <label className="infofrom" style={{width:'80%',marginLeft:'10%',marginRight:'auto'}}> <b>
-                                          From :  {flight.From.Airport} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                              <img style={{width:'100px',height:'60px',transform:"scale(3)"}} src='https://starpng.com/public/uploads/preview/divider-line-png-line-with-circle-end-51575252914xxvixllcy9.png'></img>
-                                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To :  {flight.To.Airport} </b></label>
-                                          </CardTitle>
-                                          <CardText style={{color:'rgb(0, 0, 0)'}}>
-                                              {(firstView) && (mysearch.Adults > 0) ? <label>Price of First class Adult Ticket : {flight.First.Price}<br></br> </label> :
-                                                  BusinessView && (mysearch.Adults > 0) ? <label>Price of Business class Adult Ticket: {flight.Business.Price}<br></br> </label> :
-                                                      EconomyView && (mysearch.Adults > 0) ? <label>Price of Economy class Adult Ticket : {flight.Economy.Price}<br></br> </label> : <label></label>}
+                                          <label className="infofrom" style={{width:'110%',marginLeft:'-5%',marginRight:'auto',marginTop:'-10%'}}> <b>
+                                          <AirplaneTicketOutlinedIcon fontSize="large"></AirplaneTicketOutlinedIcon>
+                                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; From :  {flight.From.Airport} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                              <img style={{width:'150px',height:'60px',transform:"scale(3)"}} src='https://starpng.com/public/uploads/preview/divider-line-png-line-with-circle-end-51575252914xxvixllcy9.png'></img>
+                                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To :  {flight.To.Airport}         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     <AirplaneTicketOutlinedIcon fontSize="large"></AirplaneTicketOutlinedIcon>
 
-                                              {(firstView) && (mysearch.Children > 0) ? <label>Price of First class Children Ticket : {flight.First.ChildPrice}<br></br> </label> :
-                                                  BusinessView && (mysearch.Children > 0) ? <label>Price of Business class Children Ticket: {flight.Business.ChildPrice}<br></br> </label> :
-                                                      EconomyView && (mysearch.Children > 0) ? <label> price of Economy class Children Ticket : {flight.Economy.ChildPrice}<br></br> </label>: <label></label>}
+                                              </b></label>
+
+                                          </CardTitle>
+                                          <CardText >
+                                              {(firstView) && (mysearch.Adults > 0) ? <Label>Price of First class Adult Ticket : {flight.First.Price}<br></br> </Label> :
+                                                  BusinessView && (mysearch.Adults > 0) ? <Label>Price of Business class Adult Ticket: {flight.Business.Price}<br></br> </Label> :
+                                                      EconomyView && (mysearch.Adults > 0) ? <Label>Price of Economy class Adult Ticket : {flight.Economy.Price}<br></br> </Label>: <label></label>}<br/>
+                                              {(firstView) && (mysearch.Children > 0) ? <Label>Price of First class Children Ticket : {flight.First.ChildPrice}<br></br> </Label> :
+                                                  BusinessView && (mysearch.Children > 0) ? <Label>Price of Business class Children Ticket: {flight.Business.ChildPrice}<br></br> </Label> :
+                                                      EconomyView && (mysearch.Children > 0) ? <Label> price of Economy class Children Ticket : {flight.Economy.ChildPrice}<br></br> </Label>: <label></label>}
                                                       <br/>
-                                              Departure Date : {(flight.Departure.Date.toString()).slice(0,10)}<br/>
-                                              Departure time: {flight.Departure.Time}<br/>
-                                              Arrival Date : {(flight.Arrival.Date.toString()).slice(0,10)}<br/>
-                                              Arrival time:{flight.Arrival.Time}<br/>
+                                       &nbsp;&nbsp;&nbsp;Departure Date : {(flight.Departure.Date.toString()).slice(0,10)}<br/>
+                                       &nbsp;&nbsp;&nbsp;Departure time: {flight.Departure.Time}<br/>
+                                       &nbsp;&nbsp;&nbsp;Arrival Date : {(flight.Arrival.Date.toString()).slice(0,10)}<br/>
+                                       &nbsp;&nbsp;&nbsp;Arrival time:{flight.Arrival.Time}<br/>
 
                                           </CardText>
-                                         
-                                          <Button class="center" style={{backgroundColor: '#96C7C1' ,marginLeft:'80%',marginTop:'-20%',padding:'10px'}}>
-                                              <Link  style={{backgroundColor: '#22577E'}}to={{
+                                          <Button class="center" style={{backgroundColor: '#5584AC' ,marginLeft:'80%',marginTop:'-25%',padding:'10px'}}>
+                                              <Link  style={{backgroundColor: '#d4902a',color:'#FFF'}}to={{
                                                   pathname: `/user/viewFlight/${flight._id}`
                                                   , search: '?' + new URLSearchParams(mysearch).toString()
                                               }} className="btn btn-primary"> <FlightTakeoffIcon></FlightTakeoffIcon>Choose This Flight</Link>

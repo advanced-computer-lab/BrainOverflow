@@ -28,7 +28,7 @@ margin-top: -10%;}
     border-radius: 25px;
 }
 .infofrom{
-    background-color:rgb(34, 87, 126);
+    background-color:#5584AC;
     color: rgb(244, 238, 255);
     /* padding: 2% 10%; */
     border-radius: 5px;
@@ -59,6 +59,18 @@ margin-top: -10%;}
     /* margin-left: auto; */
     /* margin-right: auto; */
     width: 90%;
+    background-color:#ffc267;
+    color: white;
+    padding: 6px;
+    border-radius: 10px;
+    word-spacing: 10px;
+
+}
+.orange:hover{
+    display: block;
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+    width: 90%;
     background-color:#d4902a;
     color: white;
     padding: 6px;
@@ -66,6 +78,7 @@ margin-top: -10%;}
     word-spacing: 10px;
 
 }
+
 
   
 .previous:hover {

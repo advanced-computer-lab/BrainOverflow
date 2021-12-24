@@ -11,7 +11,12 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter, CardBody, CardColumns, CardTitle, CardSubtitle, Card, CardHeader, Form, Input, FormGroup,
   Label, Button, Container, Row, Col, Table, Alert , CardText,Badge
 } from 'reactstrap';
-import '../App.css'
+import FlightTakeoffOutlinedIcon from '@mui/icons-material/FlightTakeoffOutlined';
+import '../App.css';
+import '../Style/Ticket.css';
+import AirlineSeatLegroomExtraOutlinedIcon from '@mui/icons-material/AirlineSeatLegroomExtraOutlined';
+
+
  
 function ViewReserved(props) {
   const [theObject, setTheObject] = useState({
@@ -180,39 +185,44 @@ async function handleMail(Ticket){
             <Button onClick={handleClose}>
               Cancel
             </Button>
-
-
-
-          </ModalFooter>
+          </ModalFooter>        
         </Modal>
-        <h1 className="mb-2 mt-3"> Your reserved tickets : </h1>
-        <CardColumns>
-          <Row>
-              {(!HasError)&&(theUser.TicketsId).map((ticket) => (
+        <div>
+        <h1 className="mb-2 mt-3" style={{paddingTop:'10%'}}> Your reserved tickets : </h1>
+        </div>
 
-                <Card className="mb-2">
+
+        <CardColumns>
+          <Row >
+              {(!HasError)&&(theUser.TicketsId).map((ticket) => (
+                
+
+                <Card className="mb-2" >
                   <CardBody>
-                    <CardTitle tag="h5" className="title">
-                      SkyOverFlow
-                    </CardTitle>
-                    <CardSubtitle
-                      className="mb-2 text-muted"
-                      tag="h6"
-                    >
-                     <CardText className="mt-2 mb-2 mr-5 ml-5  text-dark" >  
-                     Passenger Name: 
-  <Badge style={{color: '#f1f1f1'}} className='ml-5'> {ticket.Name}</Badge> <br/></CardText>
-                     <CardText className="mt-2 mb-2 mr-5  text-dark" >  FlightNumber:<Badge style={{backgroundColor: '#f1f1f1'}}> {ticket.Flight.Number}<br/></Badge></CardText>
-                     <CardText className="mt-2 mb-2 mr-5 ml-5 text-dark">  Ticket Number: <Badge style={{color: '#f1f1f1'}} >{ticket._id} <br /></Badge></CardText>
-                     <CardText className="mt-2 mb-2 mr-5 ml-5 text-dark">  From:<Badge style={{color: '#f1f1f1'}} > {ticket.Departure.Airport}</Badge></CardText>
-                     <CardText className="mt-2 mb-2 mr-5 ml-5 text-dark"> To: <Badge style={{color: '#f1f1f1'}} >{ticket.Arrival.Airport} <br /></Badge></CardText>
-                     <CardText className="mt-2 mb-2 mr-5 ml-5 text-dark">  Class:<Badge style={{color: '#f1f1f1'}} > {ticket.Cabin}<br/></Badge></CardText>
-                     <CardText className="mt-2 mb-2 mr-5 ml-5 text-dark">   Seat: {(ticket.Seat.SeatId===null)?(<Button> <Link to={`/user/viewSeats/${ticket.Flight.FlightId}/${ticket.Cabin}/${ticket._id}`}> Reserve The Seat</Link></Button>):ticket.Seat.SeatNumber }</CardText>
-                     <CardText className="mt-2 mb-2 mr-5 ml-5 text-dark">    Date:<Badge style={{color: '#f1f1f1'}} > {ticket.Departure.Date}<br/></Badge></CardText>
-                       <CardText className="mt-2 mb-2 mr-5 ml-5 text-dark">    Departs At:<Badge style={{color: '#f1f1f1'}} > {ticket.Departure.Time} <br/></Badge></CardText>
-                       <CardText className="mt-2 mb-2 mr-5 ml-5 text-dark  ">     Arrives At: <Badge style={{color: '#f1f1f1'}} >{ticket.Arrival.Time} <br /></Badge></CardText>
-                       <CardText className="mt-2 mb-2 mr-5 ml-5 text-dark">     Departure Terminal: <Badge style={{color: '#f1f1f1'}} >{ticket.Departure.Terminal}<br/></Badge></CardText>
-                       <CardText className="mt-2 mb-2 mr-5 ml-5 text-dark">     Arrival Terminal: <Badge style={{color: '#f1f1f1'}} >{ticket.Arrival.Terminal} <br /></Badge></CardText>
+                    <label class="title">
+                    SkyOverFlow &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Flight Number:{ticket.Flight.Number}
+                    </label>
+                     <CardText > 
+
+                     <label class='big'>{ticket.Departure.Airport} <FlightTakeoffOutlinedIcon fontSize="large" ></FlightTakeoffOutlinedIcon>{ticket.Arrival.Airport} </label><br/><br/>
+
+                     <label class="dep"> Date:  {(ticket.Departure.Date.toString()).slice(0,10)} </label><br/>
+                     <label class="dep"> Departs At:  {ticket.Departure.Time}</label><br/>
+                     <label class="dep"> Departure Terminal:  {ticket.Departure.Terminal}</label><br/>
+
+
+                    <div style={{marginTop:'-7%'}}>
+                     <label class="arr"> Date:  {(ticket.Arrival.Date.toString()).slice(0,10)} </label><br/>
+                     <label class="arr"> Arrives At:  {ticket.Arrival.Time}</label><br/>
+                     <label class="arr"> Arrival Terminal:  {ticket.Arrival.Terminal}</label><br/>
+                     </div>
+                     <div class='right' style={{marginTop:'-9%',marginLeft:'70%'}}>
+                       <label>Passenger Name: {ticket.Name} </label><br/>
+                       <label> Ticket Number: {ticket._id} </label><br/>
+                       <label>Class: {ticket.Cabin} </label><br/>
+                       <label>Seat: {(ticket.Seat.SeatId===null)?(<Button style={{backgroundColor: '#d4902a'}} > <Link  style={{backgroundColor: '#d4902a',color:'#FFF'}} to={`/user/viewSeats/${ticket.Flight.FlightId}/${ticket.Cabin}/${ticket._id}`}> <AirlineSeatLegroomExtraOutlinedIcon></AirlineSeatLegroomExtraOutlinedIcon> Reserve The Seat</Link></Button>):ticket.Seat.SeatNumber }</label><br/>
+                     </div>
+                      </CardText>
                        <Button className="float-right" color="danger"  onClick={() => {
                         handleShow(ticket._id);
                         theObject.SeatId = ticket.Seat.SeatId;
@@ -239,12 +249,13 @@ async function handleMail(Ticket){
                      } */}
                      
 
-                    </CardSubtitle>
                   </CardBody>
                 </Card>
 
 
-              ))}  
+              ))
+              
+              }  
           </Row></CardColumns>
 
           {HasError &&  <Col className="bg-light "> <Alert align="center" color="danger" Row > 
