@@ -31,7 +31,7 @@ function ViewReserved(props) {
   const initialState = {
     _id: "",
     FirstName: "",
-    LastName: "shreef",
+    LastName: "",
     Email: "",
     TicketsId: [{
       Flight:
@@ -58,13 +58,36 @@ function ViewReserved(props) {
     }],
     Country: ""
   };
-
+const initialMyState={
+  Flight:
+  {
+    FlightId: ""
+    , Number: ""
+  },
+  Departure: { Airport: "", Terminal: 0, Date: "", Time: "" },
+  Arrival: {
+    Airport: "",
+    Terminal: 0,
+    Date: "",
+    Time: ""
+  },
+  Seat: {
+    SeatNumber: "",
+    SeatId: ""
+  },
+  _id: "",
+  UserId: "",
+  Cabin: " ",
+  Price: 0,
+  Name: ""
+}
   const [theUser, setTheUser] = useState(initialState);
   const [closeId, setId] = useState();
   const [HasError, setHasError] = useState(false);
   const [Error, setError] = useState('');
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
+  const[MyTicket,setMyTicket]=useState(initialMyState);
   const handleShow = (theid) => {
     setShow(true);
     setId(theid);
@@ -93,7 +116,14 @@ function ViewReserved(props) {
   }, [props]);
   console.log(theUser);
 
-
+async function handleMail(Ticket){
+  setMyTicket( (theUser.TicketsId).filter((t)=>{
+ return  t._id == Ticket }));
+ 
+  console.log(MyTicket[0]);
+  await axios.post(`http://localhost:8000/user/mailmyTicket`, MyTicket[0]);
+  console.log(MyTicket);
+}
 
   async function handleSubmit() {
 
@@ -200,6 +230,8 @@ function ViewReserved(props) {
                         theObject.Price = ticket.Price
                         theObject.TicketName = ticket.Name
                       }}> Cancel </Button>
+                      <Button className="float-right" color="danger"  onClick={() => {
+                        handleMail(ticket._id) ;}}> mail me the ticket </Button>
 
                       {/* { 
                     <Link to={{ pathname:`/user/changeSeats/${id}/${ticket.Flight.FlightId}/${ticket.Cabin}/${ticket._id}/${ticket.Seat.SeatId}` 

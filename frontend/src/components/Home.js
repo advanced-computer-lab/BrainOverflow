@@ -300,10 +300,11 @@ function Home() {
           if (event.target[5].value !== '') {
 
               let d1 = event.target[5].value
-              let d2 = f.Departure.Date.slice(0, 10)
+             let d2 = f.Departure.Date.slice(0, 10)
               //console.log("5 is",event.target[5].value);
               //console.log(d2);
-              flag6 = (d1 == d2);
+             flag6 = (d1 == d2);
+            // flag6 = true
 
           } else { flag6 = true }
           
