@@ -13,7 +13,7 @@ function UserProfile(props) {
     const [Error, setError] = useState('');
     const navigate = useNavigate;
     const handleSubmit=()=>{
-        navigate(`user/${id}`, { replace: true });
+        navigate(`user`, { replace: true });
     }
     const initialstate = {
         Email: '',
@@ -26,12 +26,12 @@ function UserProfile(props) {
         PhoneNumber: 0,
         VisaNumber: 0,
     }
-    const { id } = useParams();
-    const myLink = `/userProfile/updateProfile/${id}`;
+   
+    const myLink = `/userProfile/updateProfile`;
 
     const [user, setUser] = useState(initialstate);
     useEffect(() => {
-        const response =axios.get(`http://localhost:8000/user/userProfile/${id}`).then(res => {
+        const response =axios.get(`http://localhost:8000/user/userProfile`).then(res => {
            if(!(res.data.FirstName)|| res.status==404){
                console.log("Iam null")
                setHasError(true);
@@ -94,7 +94,7 @@ function UserProfile(props) {
                             </div>
                         </CardText>
                         <Link to={myLink} className="btn btn-primary">Update Profile</Link>
-                        <Link to={`/user/viewReserved/${id}`} className="btn btn-success ml-2 ">View My Reserved flights</Link>
+                        <Link to={`/user/viewReserved`} className="btn btn-success ml-2 ">View My Reserved flights</Link>
 
                     </CardBody>
                 </Card>}

@@ -51,13 +51,49 @@ const transporter = nodemailer.createTransport({
 
 });
 
+
 const catchAsync = func => {
   return (req, res, next) => {
     func(req, res, next).catch(next);
   }
 }
  
+router.post("/mailmyTicket",auth,catchAsync (async(req,res)=>{
+  
+  const user = await User.findById(req.user);
+  
+  const ticket= req.body;
+  const Flight = req.body.Flight;
+  console.log(req.body.Flight);
+  const Departure= req.body.Departure;
+  const Arrival= req.body.Arrival
+  var mailOptions = {
+    from: 'sky.overflow.flight@gmail.com' ,
+    to: user.Email,
+    subject: 'Your Ticket',
+    text: 
+    `Here is your Ticket Info for Passenger ${ticket.Name}
+    FlightNumber:${Flight.Number},
+    Ticket Number: ${ticket._id},
+    From: ${Departure.Airport},
+    To: ${Arrival.Airport},
+    Class: ${ticket.Cabin},
+    Date: ${Departure.Date},
+    Departs At: ${Departure.Time},
+    Arrives At: ${Arrival.Time},
+    Departure Terminal: ${Departure.Terminal},
+    Arrival Terminal: ${Arrival.Terminal}`}
 
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+  
+ 
+}))
 
    router.put("/updateReserved",auth ,(req, res) => {
     let theSeat= req.body.SeatId;
@@ -198,7 +234,7 @@ router.get('/viewReserved',auth ,catchAsync(async (req, res, next) => {
      
  
 router.get('/userProfile',auth ,catchAsync(async (req, res, next) => {
-  console.log(req.params.id)
+ 
 const  user = await User.findById(req.user);
   console.log(user);
   if(user==''){  res.status(404).send({
