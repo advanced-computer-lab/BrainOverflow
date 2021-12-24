@@ -3,22 +3,25 @@ import axios from "axios"
 import React, { useState } from 'react'
 import {useParams,useLocation,Link} from "react-router-dom";
 import { Button, Container } from 'reactstrap';
+
 const CARD_OPTIONS = {
 	iconStyle: "solid",
 	style: {
 		base: {
 			iconColor: "#c4f0ff",
-			color: "#00008B",
+			color: "#000000",
 			fontWeight: 500,
 			fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
 			fontSize: "16px",
+            backgroundColor:"white",
+            height:"200px",
 			fontSmoothing: "antialiased",
-			":-webkit-autofill": { color: "#fce883" },
-			"::placeholder": { color: "#87bbfd" }
+			":-webkit-autofill": { color: "#95D1CC" },
+			"::placeholder": { color: "##95D1CC" }
 		},
 		invalid: {    
-			iconColor: "#ffc7ee",
-			color: "#ffc7ee"
+			iconColor: "#F6F2D4",
+			color: "rgb(223, 71, 89)"
 		}
 	}
 }
@@ -85,12 +88,13 @@ export default function PaymentForm() {
 }
 
     return (
-        <Container>
+        <div style={{backgroundColor:'#FFF'}}>
+        <Container style={{backgroundColor:'#FFF'}}>
         <>
         {!success ? 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} style={{marginTop:'20%',margin:'10%',backgroundColor:'#95D1CC',width:'80%',paddingTop:'5%' ,paddingBottom:'5%' ,borderRadius:'5px',color:'#FFF'}}>
                     <CardElement options={CARD_OPTIONS}/>
-            <button>Pay</button>
+            <button style={{color:'#FFFFFF',width:'30%',backgroundColor:'#d4902a',padding:'10px',borderRadius:'6px',marginLeft:'35%',marginRight:'auto'}}>Pay</button>
         </form>
         ://user/viewReserved/:id
        <div>
@@ -105,5 +109,6 @@ export default function PaymentForm() {
             
         </>
         </Container>
+        </div>
     )
       }
