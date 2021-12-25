@@ -129,3 +129,9 @@
 	* Request type : GET
 ***
 
+
+* #### Change Flight.
+	* Functionality : edit a selected reserved flight
+	* Route : /changeFlight
+	* Request type : GET
+***
