@@ -47,3 +47,85 @@
 	* Request type : DELETE
 	* Response : A prompt popup to confirm deletion.  
 ***
+
+### 2. Guest User Functionalities :
+
+* #### Search for a flight.
+	* Functionality : search for available flights based on number of passengers (children and adults), departure airport and arrival airport terminals, departure and arrival dates and cabin class
+	* Route : /searchFlights
+	* Request type : POST	
+***
+
+* #### View flight details.
+	* Functionality : see all details of a selected flight
+	* Route : /viewFlight/:id
+	* Request type : GET
+***
+
+
+* #### View flight details.
+	* Functionality : see all details of a selected flight
+	* Route : /viewFlight/:id
+	* Request type : GET
+***
+
+
+* #### Signup.
+	* Functionality : Signup by entering their details in a form including first name, last name, home address, country code, telephone number(s), email and passport number and creating a username and password
+	* Route : /viewFlight/:id
+	* Request type : GET
+***
+
+
+### 3. Existing User Functionalities :
+
+* #### Search for a flight.
+	* Functionality : search for available flights based on number of passengers (children and adults), departure airport and arrival airport terminals, departure and arrival dates and cabin class
+	* Route : /searchFlights
+	* Request type : POST	
+***
+
+* #### View flight details.
+	* Functionality : see all details of a selected flight
+	* Route : /viewFlight/:id
+	* Request type : GET
+***
+
+
+* #### Confirm Reserving.
+	* Functionality : confirm reserving the chosen flight
+	* Route : /confirmReserve
+	* Request type : POST
+***
+
+* #### Select Seat.
+	* Functionality : select one or more of the available seats in the chosen cabin of the chosen departure flight
+	* Route : /viewSeats/:id/:FlightId/:Cabin/:TicketId
+	* Request type : GET
+***
+
+* #### View Reserved Flights.
+	* Functionality : view all their current reserved flights
+	* Route : /viewReserved
+	* Request type : GET
+***
+
+* #### Update Their Profile.
+	* Functionality : edit their information including first name, last name, passport number and email
+	* Route : /updateProfile
+	* Request type : PUT
+***
+
+
+* #### Signin.
+	* Functionality : signin using username and password
+	* Route : 
+	* Request type : 
+***
+
+* #### Change Seat.
+	* Functionality : Change reserved seat or seats for a selected flight
+	* Route : /changeSeats
+	* Request type : GET
+***
+
