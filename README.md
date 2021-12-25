@@ -188,5 +188,25 @@ Within few seconds the project should be running
 	* Request type : GET
 ***
 
+
+
+## Screenshots
+* User profile screen shots
+![userprofile](https://user-images.githubusercontent.com/57347562/147394223-c2cda0c8-05af-4612-8d2c-a29312061392.png)
+
+***
+
+![userprofile2](https://user-images.githubusercontent.com/57347562/147394228-611f7ce5-da5e-4300-a97d-283cbfab0835.png)
+
+
+
+* Update user profile screenshots
 ![updateprofile1](https://user-images.githubusercontent.com/57347562/147394150-a876ed4b-457b-4dee-a5c8-6914a1133255.png)
+
+***
+
+
+![updateprofile](https://user-images.githubusercontent.com/57347562/147394213-65e9dd34-d9ee-47d1-a404-b924f38b7435.png)
+
+
 
