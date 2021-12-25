@@ -8,6 +8,7 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
 import ContactPhoneOutlinedIcon from '@mui/icons-material/ContactPhoneOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import LoginIcon from '@mui/icons-material/Login';
 import {
   Collapse,
   Navbar,
@@ -74,7 +75,8 @@ const links = [
                                 
 									<li class="active"> <a href="/home"> <HomeOutlinedIcon></HomeOutlinedIcon> Home</a> </li>
 									
-									<li> <a href="/authorize/login"><AccountCircleOutlinedIcon></AccountCircleOutlinedIcon> Login</a> </li>
+									<li> <a href="/authorize/login"><LoginIcon></LoginIcon> Login</a> </li>
+                  <li> <a href="/user/userProfile"><AccountCircleOutlinedIcon></AccountCircleOutlinedIcon> Profile</a> </li>
                                     
                                    
 								  <li> <a href="/authorize/signup"><BorderColorOutlinedIcon></BorderColorOutlinedIcon> Sign Up</a> </li>

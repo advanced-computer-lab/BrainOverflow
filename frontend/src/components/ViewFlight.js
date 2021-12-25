@@ -12,9 +12,25 @@ import { CardBody, Card, CardColumns,CardImg,CardSubtitle,CardText,CardGroup,Toa
           Button,CardTitle,Col,Row} from 'reactstrap';
 import "../Style/summay.css";
 import "../Style/Navbar.css";
+// import"../Style/ticketSymmary.css";
+import "../Style/Ticket.css";
+
+import JSONDATA from './MOCK_DATA.json';
+
 
  import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
+ import LogoutIcon from '@mui/icons-material/Logout';
  import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
+ import CloudCircleOutlinedIcon from '@mui/icons-material/CloudCircleOutlined';
+ import FlightTakeoffOutlinedIcon from '@mui/icons-material/FlightTakeoffOutlined';
+
+ import summary1 from "./travelThree.jpeg";
+ import summary2 from "./travelFour.jpg";
+
+ 
+
+
+
 
 
 function ViewFlight(props){
@@ -55,16 +71,16 @@ Departure:{
 Arrival:{
   Date:'',
   Time:''
-} 
+}
 
-};
+};  
     const {loggedIn} = useContext(AuthContext);
     const { getLoggedIn } = useContext(AuthContext);
-
+    let navigateBack = useNavigate();
     const navigate = useNavigate();
     let location = useLocation();
-    let navigateBack = useNavigate();
     let search=new URLSearchParams(location.search)
+    
     const [flight, setFlight] = useState(initialstate);
     const [Returnflight, setReturnFlights] = useState([initialstate]);
     const [displayed, setDisplayed] = useState([initialstate]);
@@ -85,7 +101,7 @@ Arrival:{
     // function handleClick() {
     //   history.push("/home");
     // }
-  
+    
 
     const [Error, setError] = useState('');
     const returnDate =search.get('ReturnDate');
@@ -276,16 +292,47 @@ Arrival:{
       }
       console.log(mysummary);
       
-    
+      function handleBack() {
+        navigateBack(-1)
+      }
+
+      let DeptC =flight.From.Airport;
+      let result1 = DeptC.substring(0, 3);
+
+      let ArrC=flight.To.Airport;
+      let result2=ArrC.substring(0, 3);
+
+      
 
 
       return(
-        <div style={{backgroundColor:'#FFFFFF'}}>
+        <div style={{ backgroundColor:"white" }}>
     {ViewOutBound ?
+
+    <div>
+      <Card className="mb-2" style={{marginTop:'10%',marginLeft:'5%',width:'80%'}}>
+                  <CardBody>
+                    <label class="title" >
+                      <CloudCircleOutlinedIcon fontSize="large"></CloudCircleOutlinedIcon>&nbsp;&nbsp;&nbsp;
+                    SkyOverFlow &nbsp;&nbsp;From:&nbsp;&nbsp;&nbsp;{flight.From.Airport}&nbsp;&nbsp;&nbsp;&nbsp;<FlightTakeoffOutlinedIcon fontSize="large" ></FlightTakeoffOutlinedIcon>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{flight.To.Airport} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Flight Number:{flight.FlightNumber}
+                    </label>
+                     <CardText > 
+                     { (adultTicketsno>0)?(<label> Price / Adult ticket: {adultTicket} <br/></label>):<label></label>}
+                    {(childTicketsno>0)?(<label> Price / Child ticket: {childTicket} <br/></label>):<label></label>}<br/>
+              <label>Departure Date: {flight.Departure.Date.slice(0, 10)} at {flight.Departure.Time}</label><br/>
+              <label>Arrival Date: {flight.Arrival.Date.slice(0, 10)} at {flight.Arrival.Time}</label><br/>
+              <label>Cabin Class: {cabin}</label><br/>
+              <label>Baggage Allowance: </label>{(cabin=="First")?<label>{flight.First.Baggage}</label>:(cabin=="Business")?<label>{flight.Business.Baggage}</label>:(cabin=="Economy")?<label>{flight.Economy.Baggage}</label>:<label></label>}<br/>
+              <label>Total Tickets price: {totalPrice}</label><br/>     
+
+                      </CardText>
+                      </CardBody>
+                      </Card>
+                      <br/>
 
     
 
-
+{/* 
          <Toast className="center" style={{marginTop:'10%'}}>
             <ToastHeader icon="primary">
                 <label> Flight From {flight.From.Airport} to {flight.To.Airport}</label>    
@@ -297,13 +344,13 @@ Arrival:{
               <label>Flight number: {flight.FlightNumber} </label><br/><br/>
               <label>Departure Date: {flight.Departure.Date.slice(0, 10)} at {flight.Departure.Time}</label><br/><br/>
               <label>Arrival Date: {flight.Arrival.Date.slice(0, 10)} at {flight.Arrival.Time}</label><br/><br/>
-              {/*longest trip duration is 18 hours and 50 mins*/}
-              {/* Trip Duration:{(diffDays==0)?<label>{ }hours and   </label> :}<br/> */}
+
               <label>Cabin Class: {cabin}</label><br/><br/>
               <label>Baggage Allowance: </label>{(cabin=="First")?<label>{flight.First.Baggage}</label>:(cabin=="Business")?<label>{flight.Business.Baggage}</label>:(cabin=="Economy")?<label>{flight.Economy.Baggage}</label>:<label></label>}<br/><br/>
               <label>Total Tickets price: {totalPrice}</label><br/><br/>                      
             </ToastBody>
-          </Toast>
+          </Toast> */}
+          </div>
 
 
        
@@ -315,7 +362,7 @@ Arrival:{
 {viewReturn?
 <div className="" style={{backgroundColor:"#FFFFFF"}}>
     <div className="content">
-    <CardGroup>
+    <CardGroup >
   {Returnflight.filter((f) => {
     let flag1 =false ;
     let flag2 =false ;
@@ -369,9 +416,10 @@ return flag1 & flag2 & flag3 & flag4 ;
 })
   .map(x => (
 
- 
+
+                        <div >
                         <Toast >
-                          <ToastHeader  style={{color:'#5584AC'}}>
+                          <ToastHeader  style={{color:'#5584AC' , marginRight:"100px"}}>
                             Return From {x.From.Airport} To :{x.To.Airport}
                           </ToastHeader>
                           <ToastBody>
@@ -399,6 +447,8 @@ return flag1 & flag2 & flag3 & flag4 ;
                           </ToastBody>
                           <br></br>
                           </Toast>
+                          
+                          </div>
 
                         
 
@@ -408,6 +458,9 @@ return flag1 & flag2 & flag3 & flag4 ;
   ))}
 
 
+
+
+
 </CardGroup>
     </div>
 </div>
@@ -415,8 +468,12 @@ return flag1 & flag2 & flag3 & flag4 ;
 {NoFlights? <label>No Available Return Flight</label>:<label></label>}
 
 
-{viewSummary? <div style={{marginTop:'10%',marginLeft:'10%',backgroundColor:'#FFFFFF'}}>
-  <Toast>
+{viewSummary? <div style={{marginTop:'10%',marginLeft:'10%'}}>
+  
+
+ 
+
+<Toast>
     <ToastHeader icon="primary">
      OutBound {flight.Departure.Date.slice(0, 10)} at {flight.Departure.Time}<br/>
     </ToastHeader>
@@ -432,6 +489,8 @@ return flag1 & flag2 & flag3 & flag4 ;
     Flight From {mysummary.From} to {mysummary.To}
     </ToastBody>
   </Toast>
+
+
 
 
   <Card className="summary" style={{marginTop:'-10%'}} >
@@ -468,6 +527,8 @@ return flag1 & flag2 & flag3 & flag4 ;
                      <label className="info2"> Flight Number :&nbsp;&nbsp; {flight.FlightNumber}</label><br/><br/>
                     <label className="info2">Total price for OutBound Flight :&nbsp;&nbsp; {totalPrice}</label><br/> 
                    </CardText> 
+                   {/* <img style={{width:"100%" , height:"400px"}} src= {summary2}></img>
+                   <img style={{width:'100px',height:'60px',transform:"scale(1.2)",marginLeft:'80%',transform:"rotate(20deg)",}}src="https://cdn3.vectorstock.com/i/1000x1000/16/82/airline-tickets-flights-flat-material-design-vector-28931682.jpg"></img> */}
                    <CardSubtitle
                     className="mb-2 text-muted"
                     tag="h6"
@@ -502,7 +563,7 @@ return flag1 & flag2 & flag3 & flag4 ;
                     <CardText>
                     <label className="info2">Flight number :&nbsp;&nbsp; {mysummary.ReturnFlightNumber}</label>  <br/><br/>
                     <label className="info2">Total price For Return Flight :&nbsp;&nbsp; {mysummary.ReturnTotalPrice}</label> <br/> <br/>
-                    <label style={{backgroundColor:"#d4902a",color:'white',padding: '6px',borderRadius: '10px',wordSpacing: '10px'}}>TotalPrice &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{mysummary.ReturnTotalPrice + totalPrice} </label>
+                    <label style={{backgroundColor:"#d4902a",color:'white',padding: '10px',borderRadius: '10px',wordSpacing: '10px'}}>Total Price : {mysummary.ReturnTotalPrice + totalPrice} </label>
                     </CardText>
                     
                    {(!loggedIn) && <Button onClick={() => handleClick()}>
@@ -510,10 +571,10 @@ return flag1 & flag2 & flag3 & flag4 ;
                       </Button>
                     }
                     
-                   {(loggedIn)&& <Button style={{backgroundColor: '#96C7C1',marginLeft:'30%'}}>
-                    <Link style={{backgroundColor: '#96C7C1'}}to={{ pathname:`/user/confirmFlight` 
+                   {(loggedIn)&& <Button style={{backgroundColor: '#96C7C1' , color:"#22577E",marginLeft:'30%' }}>
+                    <Link style={{backgroundColor: '#96C7C1' , color:"#22577E" , fontSize:"20",fontWeight: "bold"}}to={{ pathname:`/user/confirmFlight` 
                          , search:'?'+new URLSearchParams(myData).toString()
-                           }}className="btn btn-primary">Confirm and book</Link> 
+                           }}className="btn btn-primary">Confirm and Book</Link> 
                       </Button>}
 
 
@@ -521,14 +582,24 @@ return flag1 & flag2 & flag3 & flag4 ;
                          
       </Card>
 
-      </div>:<label></label>}
-      <div>
 
-      <Button onClick={handleBack}><ArrowCircleLeftRoundedIcon fontSize="large"></ArrowCircleLeftRoundedIcon></Button>
+
+
+
+</div>
+
+      :<label></label>}
+      <div>
+      <br/>
+      <br/>
+
+      <Button onClick={handleBack}><ArrowCircleLeftRoundedIcon fontSize="large"></ArrowCircleLeftRoundedIcon> Back </Button>
       </div>
 
-      {/* logging in  */}
-      {(viewForm)?
+
+     
+     
+  {(viewForm)?
 
       <div style={{backgroundColor:'#FFFFFF'}}>
       <Form onSubmit={login} style={{marginTop:'10%',margin:'10%',backgroundColor:'#95D1CC',width:'80%',paddingTop:'5%' ,paddingBottom:'5%' ,borderRadius:'5px'}}>
@@ -564,9 +635,12 @@ return flag1 & flag2 & flag3 & flag4 ;
       {(notCorrect) &&<Alert color="danger"><a align="center">Invalid Username Or Password Please Try Again  </a></Alert>
 }
 </div>:<label></label>}
-   
 
-{(loggedIn) &&<Button onClick={logout} color="danger" align="center">Log Out</Button>}
+<br/>
+<br/>
+
+
+{(loggedIn) &&<Button onClick={logout} color="danger" align="center"> <LogoutIcon></LogoutIcon>Log Out</Button>}
 
 
 </div>

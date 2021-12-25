@@ -7,7 +7,10 @@ import{
    CardBody,Card , CardHeader , Form,Input , FormGroup , Label , Button, Container, Row , Col
 } from 'reactstrap';
 import MyNavBar from './MyNavbar';
+import logo from './Plane Loop.gif';
+
 function UpdateFlight(props) {
+  let navigateBack = useNavigate();
   const navigate= useNavigate;
   const initialstate= {
     FlightNumber:'',
@@ -57,22 +60,27 @@ function UpdateFlight(props) {
   }
 
   
-  
+  function handleClick() {
+    navigateBack(-1)
+  }
   
    
   return (
+    <div style={{padding:"10%" , backgroundColor:"#22577E" ,color:"#22577E" , fontWeight: "bold" }}>
+       <div > <img style={{width:"100%" , height:"400px"}} src= {logo}></img></div> 
+       <h1 style={{color:"#ECDBBA" , padding:"2%"}} >Update Flight {flight.FlightNumber}</h1>
       <Container className='m-3'>
-        <Card className='p-3'>
-    <CardHeader className='mb-2'  >
-      Update the flight
-      {flight.FlightNumber}
-    </CardHeader>
+        <Card className='p-3' style={{backgroundColor:"rgb(85, 132, 172)"}}>
+    {/* <CardHeader className='mb-2'  >
+      Update The Flight {flight.FlightNumber}
+    </CardHeader> */}
     <CardBody>
-
+    
     <Form >
+    
     <FormGroup>
-    <Label for="FlightNumber">
-      From
+    <Label for="FlightNumber" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+     Flight Number
     </Label>
     <Input
       id="FlightNumber"
@@ -82,7 +90,7 @@ function UpdateFlight(props) {
       value={flight.FlightNumber}
       onChange={handleChange}
     />
-    <Label for="From">
+    <Label for="From" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
       From
     </Label>
     <Input
@@ -94,7 +102,7 @@ function UpdateFlight(props) {
       value={flight.From.Airport}
       onChange={handleChange}
     />
-    <Label for="FromTerminal">
+    <Label for="FromTerminal" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
     Departure Terminal
     </Label>
     <Input
@@ -108,7 +116,7 @@ function UpdateFlight(props) {
     />
   </FormGroup>
   <FormGroup>
-    <Label for="To">
+    <Label for="To" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
       To
     </Label>
     <Input
@@ -123,7 +131,7 @@ function UpdateFlight(props) {
   </FormGroup>
 
   <FormGroup>
-    <Label for="ToTerminal">
+    <Label for="ToTerminal" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
       Arrival Terminal
     </Label>
     <Input
@@ -139,7 +147,7 @@ function UpdateFlight(props) {
 
 
   <FormGroup>
-    <Label for="exampleDate">
+    <Label for="exampleDate" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
       Departure Date
     </Label>
     <Input
@@ -152,7 +160,7 @@ function UpdateFlight(props) {
     />
   </FormGroup>
   <FormGroup>
-    <Label for="Departure">
+    <Label for="Departure" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
 Departure Time    </Label>
     <Input
       id="DepartureTime"
@@ -166,7 +174,7 @@ Departure Time    </Label>
     />
   </FormGroup>
   <FormGroup>
-    <Label for="exampleDate">
+    <Label for="exampleDate" style={{color:"#ECDBBA", fontWeight: "bold"}}>
       Arrival Date
     </Label>
     <Input
@@ -180,7 +188,7 @@ Departure Time    </Label>
     />
   </FormGroup>
   <FormGroup>
-    <Label for="Arrival">
+    <Label for="Arrival" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
       Arrival Time
     </Label>
     <Input
@@ -194,8 +202,8 @@ Departure Time    </Label>
     />
   </FormGroup>
   <FormGroup>
-    <Label for="Economy">
-     Number of Economy class seats
+    <Label for="Economy" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+     Number of Economy Class Seats
     </Label>
     <Input
       id="Economy"
@@ -208,8 +216,8 @@ Departure Time    </Label>
     />
   </FormGroup>
   <FormGroup>
-    <Label for="EconomyPrice">
-      Price of Economy seat for Adults
+    <Label for="EconomyPrice" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+      Price of Economy Seat for Adults
     </Label>
     <Input
       id="EconomyPrice"
@@ -223,8 +231,8 @@ Departure Time    </Label>
   </FormGroup>
   
   <FormGroup>
-    <Label for="EconomyChildPrice">
-    Price of Economy seat for children
+    <Label for="EconomyChildPrice" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+    Price of Economy Seat for Children
     </Label>
     <Input
       id="EconomyChildPrice"
@@ -238,8 +246,8 @@ Departure Time    </Label>
   </FormGroup>
   
   <FormGroup>
-    <Label for="First">
-     Number of first class seats
+    <Label for="First" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+     Number of First Class Seats
     </Label>
     <Input
       id="First"
@@ -252,8 +260,8 @@ Departure Time    </Label>
     />
   </FormGroup>
   <FormGroup>
-    <Label for="FirstPrice">
-      Price of First class seat for Adults
+    <Label for="FirstPrice" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+      Price of First Class Seat for Adults
     </Label>
     <Input
       id="FirstPrice"
@@ -267,8 +275,8 @@ Departure Time    </Label>
   </FormGroup>
   
   <FormGroup>
-    <Label for="FirstChildPrice">
-    Price of First class seat for children
+    <Label for="FirstChildPrice" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+    Price of First Class Seat for Children
     </Label>
     <Input
       id="FirstChildPrice"
@@ -280,19 +288,32 @@ Departure Time    </Label>
       onChange={handleChange}
     />
   </FormGroup>
+
   <div className="float-right">
    <Button 
    onClick={handleSubmit}
+   style={{backgroundColor:"#22577E",color:"white" , width:"300px",fontWeight: "bold"}}
    color="success"
    size="lg"
      >
 Update Flight  </Button> 
+
+
 </div>
+
  
 </Form>
 </CardBody>
 </Card>
 </Container>
+
+<Button 
+onClick={handleClick} 
+style={{backgroundColor:"white",color:"#22577E" , width:"300px",fontWeight: "bold" }}
+// size="lg"
+>go back</Button> 
+
+</div>
     
   );
 }

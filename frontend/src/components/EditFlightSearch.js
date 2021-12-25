@@ -7,6 +7,9 @@ import JSONDATA from './MOCK_DATA.json';
 import { useParams, useLocation } from "react-router-dom";
 
 import ReactHTMLDatalist from "react-html-datalist";
+import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
+import CloudQueueRoundedIcon from '@mui/icons-material/CloudQueueRounded';
+
 
 import { useNavigate } from 'react-router-dom'
 import {
@@ -122,6 +125,7 @@ function EditSearchFlight() {
              })
     }
     return (
+        <div style={{backgroundColor:"#FFF",marginTop:'20%'}}>
 
         <Container>
 
@@ -165,13 +169,13 @@ function EditSearchFlight() {
                             </Col>
                         </FormGroup>
 
-<div className="search">
-    <Button
+<div className="search" class="center">
+    <Button style={{width:'500px',color:'#FFFFFF',backgroundColor:'#d4902a'}}
         color="info"
         size="lg"
         onClick={handleSubmit}
     >
-        Search</Button>
+        <FlightTakeoffIcon></FlightTakeoffIcon> Search</Button>
         <br/><br/>
 </div>
 </Form>
@@ -184,23 +188,22 @@ function EditSearchFlight() {
                                     <Card>
                                         <CardBody>
                                             <CardTitle tag="h5">
-                                               <h2> Flight summary :</h2>
+                                            <label className="info2"> <CloudQueueRoundedIcon></CloudQueueRoundedIcon> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                From :  {flight.From.Airport}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FlightTakeoffIcon></FlightTakeoffIcon>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To :  {flight.To.Airport}</label>
                                             </CardTitle>
                                             <CardSubtitle
                                                 className="mb-2 text-muted"
                                                 tag="h6"
                                             >
-                                                <label className="info">
-                                                From :  {flight.From.Airport}.............................
-                                                To :  {flight.To.Airport}</label>
+                                               
                                             </CardSubtitle>
                                             <CardText>
-                                                {(NewCabin=='Economy' &&Ticket.IsChild )?<label>differnce in price :{Ticket.Price-flight.Economy.ChildPrice}<br></br> </label> :
-                                                   (NewCabin=='Economy' &&!Ticket.IsChild ) ? <label> differnce in price : {Ticket.Price-flight.Economy.Price}<br></br> </label> :
-                                                   (NewCabin=='First' &&!Ticket.IsChild ) ?<label> differnce in price : {Ticket.Price-flight.First.Price}<br></br> </label> :
-                                                   (NewCabin=='First' &&Ticket.IsChild ) ?<label> differnce in price : {Ticket.Price-flight.First.ChildPrice}<br></br> </label> :
-                                                   (NewCabin=='Business' &&Ticket.IsChild ) ?<label> differnce in price : {Ticket.Price-flight.Business.ChildPrice}<br></br> </label> :
-                                                   <label> differnce in price : {Ticket.Price-flight.Business.Price}<br></br> </label>
+                                                {(NewCabin=='Economy' &&Ticket.IsChild )?<label>Differnce in price :{Ticket.Price-flight.Economy.ChildPrice}<br></br> </label> :
+                                                   (NewCabin=='Economy' &&!Ticket.IsChild ) ? <label> Differnce in price : {Ticket.Price-flight.Economy.Price}<br></br> </label> :
+                                                   (NewCabin=='First' &&!Ticket.IsChild ) ?<label> Differnce in price : {Ticket.Price-flight.First.Price}<br></br> </label> :
+                                                   (NewCabin=='First' &&Ticket.IsChild ) ?<label> Differnce in price : {Ticket.Price-flight.First.ChildPrice}<br></br> </label> :
+                                                   (NewCabin=='Business' &&Ticket.IsChild ) ?<label> Differnce in price : {Ticket.Price-flight.Business.ChildPrice}<br></br> </label> :
+                                                   <label> Differnce in price : {Ticket.Price-flight.Business.Price}<br></br> </label>
                                                 }
                                                                                                 <br></br>
                                                 <br></br>
@@ -226,6 +229,7 @@ function EditSearchFlight() {
 {HasError &&  <Col className="bg-light "> <Alert align="center" color="danger" Row > 
 <a align="center" style={(Error)?{display: 'block',color:'red',fontSize:'20px'}:{display: 'none'}}><CardTitle>{Error}</CardTitle></a></Alert></Col> }
 </Container>
+</div>
     );
     
 }

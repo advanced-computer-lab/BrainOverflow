@@ -65,6 +65,7 @@ return(
           type="password"
           placeholder="Password"
           required
+          minlength="6"
           onChange={(e) => setPassword(e.target.value)}
           value={password}
         />

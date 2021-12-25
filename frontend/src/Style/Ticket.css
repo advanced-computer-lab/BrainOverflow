@@ -11,6 +11,11 @@
   color :rgb(155, 155, 155);
   transform: scale(1.5) translate(60px,10px);
 }
+.big1{
+  color :rgb(255, 255, 255);
+  transform: scale(1.5) ;
+  transform: translate(10px,20px);
+}
 .arr{
   margin-left: 30%;
 }

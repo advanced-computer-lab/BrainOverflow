@@ -436,7 +436,7 @@ function Home() {
                           </Col>
                           <Col>
                               <Label for=" departure City ">
-                                Departure City:
+                                From:
                               </Label>
                               <Input
                                   id="DepartureCity "
@@ -462,7 +462,7 @@ function Home() {
                           </Col>
                           <Col>
                               <Label for=" Arrival city ">
-                                  Arrival City :
+                                  To :
                               </Label>
                               <Input
                                   id="ArrivalCity "
@@ -531,7 +531,7 @@ function Home() {
                       <div className="content">
 
                               {displayed.map((flight) => (
-                                  <Card style={{padding:"0% 2%",backgroundColor: '##FFFFFF',borderRadius:'5px',width:'70%',marginLeft:'auto',marginRight:'auto'}}>
+                                  <Card style={{padding:"0% 2%",backgroundColor: '##FFFFFF',borderRadius:'5px',width:'70%',marginLeft:'auto',marginRight:'auto',marginTop:'4%'}}>
                                       <CardBody>
                                           <CardTitle tag="h5">
                                           <label className="infofrom" style={{width:'110%',marginLeft:'-5%',marginRight:'auto',marginTop:'-10%'}}> <b>

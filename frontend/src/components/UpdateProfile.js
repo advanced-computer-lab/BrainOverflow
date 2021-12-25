@@ -94,7 +94,7 @@ function UpdateProfile(props) {
     async function updateProfile() {
       try {
          put(`http://localhost:8000/user/updateProfile/${id}`, user).then(
-          window.location.href = `/user/${id}` )
+          window.location.href = `/user/userProfile` )
         
          
       } catch(error) {
@@ -117,8 +117,8 @@ function UpdateProfile(props) {
 
   return (
     
-      <Container className='m-3'>
-        <Card className='p-3'>
+      <Container className='m-3' >
+        <Card className='p-3' style={{marginTop:'30%'}}>
     <CardHeader className='mb-2'  >
       Update 
       {user.FirstName+" "+user.LastName+"'s Profile"}
