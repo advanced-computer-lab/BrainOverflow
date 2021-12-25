@@ -9,6 +9,7 @@ import MyNavBar from './MyNavbar';
 import Datetime from 'react-datetime';
 import "react-datetime/css/react-datetime.css";
 import logo from './Plane Loop.gif';
+import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
 
 function CreateFlight() {
   const navigate = useNavigate();
@@ -80,7 +81,7 @@ function CreateFlight() {
     
 }
 
-function handleClick() {
+function handleBack() {
   navigateBack(-1)
 }
   return (
@@ -401,11 +402,7 @@ Create Flight  </Button>
 }  
 </Container>
 
-<Button 
-onClick={handleClick} 
-style={{backgroundColor:"white",color:"#22577E" , width:"300px",fontWeight: "bold" }}
-// size="lg"
->go back</Button>
+<Button onClick={handleBack}><ArrowCircleLeftRoundedIcon fontSize="large"></ArrowCircleLeftRoundedIcon> Back </Button>
 </div>
     
     );

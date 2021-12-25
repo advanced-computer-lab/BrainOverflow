@@ -9,13 +9,19 @@ import{
 } from 'reactstrap';
 import MyNavBar from './MyNavbar';
 import profile from './Profile.jpg'
+<<<<<<< Updated upstream
+=======
+import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
+
+>>>>>>> Stashed changes
 function UpdateProfile(props) {
   // const navigate= useNavigate;
   // const [EmailErr, setEmailErr] = React.useState('');
   // const [FirstNameErr, setFirstNameErr] = React.useState('');
   // const [LastNameErr,setLastNameErr]=React.useState("");
   // const [PasswordErr,setPasswordErr]=React.useState("");
-
+  let navigateBack = useNavigate();
+  const [errorMessage, setErrorMessage] = useState('');
    const initialstate= {   
     Email:'',
     FirstName:'',
@@ -33,26 +39,31 @@ function UpdateProfile(props) {
     //Student name     
     if (!(user.FirstName)) {  
         formIsValid = false;    
+        
         // setFirstNameErr("First Name is required.");    
     }    
     if (!user.LastName) {    
       formIsValid = false;    
+      
       // setLastNameErr("Last Name is required.");    
   } 
 
     //Email    
     if (!user.Email) {    
-        formIsValid = false;    
+        formIsValid = false; 
+           
         // setEmailErr("Email is required.");    
     }    
     else if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user.Email))) {    
 
-        formIsValid = false;    
+        formIsValid = false; 
+         
         // setEmailErr("Invalid email address");    
     }    
     //Password    
     if (!user.Password) {    
       formIsValid = false;    
+      
       // setPasswordErr("Password is required.");    
   }   
     
@@ -89,13 +100,45 @@ function UpdateProfile(props) {
   }, [props]);
   function handleSubmit(event) {
     event.preventDefault();
-    if (handleFormValidation()) {    
+
+    
+
+    if(user.PhoneNumber.length>15){
+      setErrorMessage('Please enter a Correct phone Number that is at least Shorter than 16 digits!');  
+    }
+    else if(user.VisaNumber.length>16){
+      setErrorMessage('Please enter a Correct Visa Card Number that is at least Shorter than 17 digits!');
+    }
+
+    else if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user.Email)) && user.Email.length>0){
+      setErrorMessage('Please enter a Correct email!');
+    }
+    else if(user.Passport.length>9){
+      setErrorMessage('Please enter a Correct Passport Number that is at least Shorter than 10 digits!');
+    }
+    else if (user.Password.length<6  && user.Password.length>0){
+      setErrorMessage('Please enter a Correct Password Number that is at least longer than 6 digits!');
+    }
+    else if (user.PhoneNumber<0 || user.VisaNumber<0 || user.Passport<0 ){
+      setErrorMessage('Please Do not enter any Negative Numbers!');
+
+    }
+    else if (user.FirstName=='' || user.LastName==''|| user.Country==''|| user.Email==''
+     || user.Password==''||user.Passport==''|| user.Address==''||user.PhoneNumber==0||user.VisaNumber==0){
+      setErrorMessage('Please fill all the fields!');
+     }
+    else  {    
      
   
     async function updateProfile() {
       try {
+<<<<<<< Updated upstream
          put(`http://localhost:8000/user/updateProfile/${id}`, user).then(
           window.location.href = `/user/${id}` )
+=======
+         put(`http://localhost:8000/user/updateProfile/`, user).then(
+          window.location.href = `/user/userProfile` )
+>>>>>>> Stashed changes
         
          
       } catch(error) {
@@ -104,16 +147,16 @@ function UpdateProfile(props) {
     }
     updateProfile();
   }
-  else{
-    alert('You Must fill all required info')    
-
-  }
+  
 }
   
 
   function handleChange(event) {
     setUser({...user, [event.target.name]: event.target.value})
     handleFormValidation();
+  }
+  function handleBack() {
+    navigateBack(-1)
   }
 
   return (
@@ -134,10 +177,15 @@ function UpdateProfile(props) {
       First Name
     </Label>
     <Input
+<<<<<<< Updated upstream
       style={{width:"400px" }}
+=======
+    
+      style={{width:"400px"  , borderRadius:"8px"}}
+>>>>>>> Stashed changes
       id="FirstName"
       name="FirstName"
-      placeholder=""
+      placeholder="First Name"
       type="text"
       value={user.FirstName}
       onChange={handleChange}
@@ -156,7 +204,11 @@ function UpdateProfile(props) {
     </Label>
     <Input
     required
+<<<<<<< Updated upstream
     style={{width:"400px" }}
+=======
+    style={{width:"400px" , borderRadius:"8px"}}
+>>>>>>> Stashed changes
       id="LastName"
       name="LastName"
       placeholder="Last Name"
@@ -179,7 +231,11 @@ function UpdateProfile(props) {
       Email
     </Label>
     <Input
+<<<<<<< Updated upstream
       style={{width:"400px" }}
+=======
+      style={{width:"400px" , borderRadius:"8px" }}
+>>>>>>> Stashed changes
       id="Email"
       name="Email"
       placeholder="something@idk.cool"
@@ -199,10 +255,14 @@ function UpdateProfile(props) {
     <Label for="Password" style={{color:"#39251c"}}>
         Password   </Label>
     <Input
+<<<<<<< Updated upstream
       style={{width:"400px" }}
+=======
+      style={{width:"400px" , borderRadius:"8px"}}
+>>>>>>> Stashed changes
       id="Password"
       name="Password"
-      placeholder=""
+      placeholder="Password"
       type="password"
       value={user.Password}
       required
@@ -222,10 +282,14 @@ function UpdateProfile(props) {
     </Label>
     <Input
       
+<<<<<<< Updated upstream
       style={{width:"400px" }}
+=======
+      style={{width:"400px" , borderRadius:"8px"}}
+>>>>>>> Stashed changes
       id="Passport"
       name="Passport"
-      placeholder=""
+      placeholder="Passport"
       type="text"
       value={user.Passport}
       onChange={handleChange}
@@ -235,10 +299,14 @@ function UpdateProfile(props) {
     <Label for="PhoneNumber" style={{color:"#39251c"}}>
 Phone Number    </Label>
     <Input
+<<<<<<< Updated upstream
       style={{width:"400px" }}
+=======
+      style={{width:"400px" , borderRadius:"8px"}}
+>>>>>>> Stashed changes
       id="PhoneNumber"
       name="PhoneNumber"
-      placeholder=""
+      placeholder="Phone Number"
       type="tel"
       value={user.PhoneNumber}
       required
@@ -255,10 +323,14 @@ Phone Number    </Label>
     <Label for="VisaNumber" style={{color:"#39251c"}}>
 Visa Card Number    </Label>
     <Input
+<<<<<<< Updated upstream
       style={{width:"400px" }}
+=======
+      style={{width:"400px", borderRadius:"8px" }}
+>>>>>>> Stashed changes
       id="VisaNumber"
       name="VisaNumber"
-      placeholder=""
+      placeholder="Visa Card Number"
       type="number"
       value={user.VisaNumber}
       onChange={handleChange}
@@ -269,10 +341,14 @@ Visa Card Number    </Label>
     Country
     </Label>
     <Input
+<<<<<<< Updated upstream
       style={{width:"400px" }}
+=======
+      style={{width:"400px" , borderRadius:"8px"}}
+>>>>>>> Stashed changes
       id="Country"
       name="Country"
-      placeholder=""
+      placeholder="Country"
       type="text"
       value={user.Country}
       onChange={handleChange}
@@ -292,10 +368,14 @@ Visa Card Number    </Label>
     Address
     </Label>
     <Input
+<<<<<<< Updated upstream
       style={{width:"400px"}}
+=======
+      style={{width:"400px" , borderRadius:"8px"}}
+>>>>>>> Stashed changes
       id="Address"
       name="Address"
-      placeholder=""
+      placeholder="Address"
       type="text"
       value={user.Address}
       onChange={handleChange}
@@ -316,7 +396,16 @@ Update Profile  </Button>
 </Form>
 </CardBody>
 </Card>
+<<<<<<< Updated upstream
 </Container></div>
+=======
+</Container>
+{errorMessage && (
+  <p className="error" style={{color:"orange"}}> {errorMessage} </p>
+)}
+<Button onClick={handleBack}><ArrowCircleLeftRoundedIcon fontSize="large"></ArrowCircleLeftRoundedIcon> Back </Button>
+</div>
+>>>>>>> Stashed changes
     
   );
 }

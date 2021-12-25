@@ -8,6 +8,7 @@ import{
 } from 'reactstrap';
 import MyNavBar from './MyNavbar';
 import logo from './Plane Loop.gif';
+import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
 
 function UpdateFlight(props) {
   let navigateBack = useNavigate();
@@ -60,7 +61,7 @@ function UpdateFlight(props) {
   }
 
   
-  function handleClick() {
+  function handleBack() {
     navigateBack(-1)
   }
   
@@ -211,7 +212,7 @@ Departure Time    </Label>
       placeholder=""
       type="number"
       required
-      value={flight.Economy.SeatId.length}
+      // value={flight.Economy.SeatId.length}
       onChange={handleChange}
     />
   </FormGroup>
@@ -244,6 +245,51 @@ Departure Time    </Label>
       onChange={handleChange}
     />
   </FormGroup>
+
+
+  <FormGroup>
+    <Label for="Business" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+     Number of Business Class Seats
+    </Label>
+    <Input
+      id="Business"
+      name="Business"
+      placeholder=""
+      type="number"
+      
+      value={flight.Economy.SeatId.length}
+      onChange={handleChange}
+    />
+  </FormGroup>
+  <FormGroup>
+    <Label for="BusinessPrice" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+      Price of Business Seat for Adults
+    </Label>
+    <Input
+      id="BusinessPrice"
+      name="BusinessPrice"
+      placeholder=""
+      type="number"
+      required
+      value={flight.Economy.Price}
+      onChange={handleChange}
+    />
+  </FormGroup>
+  
+  <FormGroup>
+    <Label for="BusinessChildPrice" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+    Price of Business Seat for Children
+    </Label>
+    <Input
+      id="BusinessChildPrice"
+      name="BusinessChildPrice"
+      placeholder=""
+      required
+      type="number"
+      value= {flight.Economy.Price}
+      onChange={handleChange}
+    />
+  </FormGroup>
   
   <FormGroup>
     <Label for="First" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
@@ -255,7 +301,7 @@ Departure Time    </Label>
       required
       placeholder=""
       type="number"
-      value= {flight.First.SeatId.length}
+      // value= {flight.First.SeatId.length}
       onChange={handleChange}
     />
   </FormGroup>
@@ -307,12 +353,7 @@ Update Flight  </Button>
 </Card>
 </Container>
 
-<Button 
-onClick={handleClick} 
-style={{backgroundColor:"white",color:"#22577E" , width:"300px",fontWeight: "bold" }}
-// size="lg"
->go back</Button> 
-
+<Button onClick={handleBack}><ArrowCircleLeftRoundedIcon fontSize="large"></ArrowCircleLeftRoundedIcon> Back </Button>
 </div>
     
   );

@@ -13,6 +13,7 @@ import {
   CardBody, Card, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, CardHeader, Form, Input, FormGroup, Label, Button, Container, Row, Col, Table
 } from 'reactstrap';
 import logo from './Plane Loop.gif';
+import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
 
 function AllFlights() {
   let navigateBack = useNavigate(); 
@@ -105,6 +106,9 @@ function AllFlights() {
 
     ))
     console.log(displayed);
+  }
+  function handleBack() {
+    navigateBack(-1)
   }
 
   return (
@@ -275,11 +279,7 @@ function AllFlights() {
 
     </Container>
 
-    <Button 
-onClick={handleClick} 
-style={{backgroundColor:"white",color:"#22577E" , width:"150px",fontWeight: "bold" }}
-// size="lg"
->go back</Button> 
+    <Button onClick={handleBack}><ArrowCircleLeftRoundedIcon fontSize="large"></ArrowCircleLeftRoundedIcon> Back </Button>
     
     
     
