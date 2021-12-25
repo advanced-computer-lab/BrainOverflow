@@ -26,7 +26,7 @@ function ChangeFlight() {
   async function handleReserve(ChosenFlightId) {
     try {
         //console.log(chosenSeatId)
-      await axios.put(`http://localhost:8000/user/changeFlight/${id}/${TicketId}/${ChosenFlightId}`)
+      await axios.put(`http://localhost:8000/user/changeFlight/${ticketId}/${ChosenFlightId}`)
       .then(navigate(`/user/viewReserved/${id}`, { replace: true }));
 
     } catch (error) {
@@ -39,11 +39,11 @@ function ChangeFlight() {
     const [ticket, setTicket] = useState([]);
 
     const {id} = useParams();
-    const { TicketId } = useParams();
+    const { ticketId } = useParams();
 
     useEffect(() => {
-           axios.get(`http://localhost:8000/user/changeFlight/${id}/${TicketId}`).then(res => {
-             console.log("ANA geet change flight")
+           axios.get(`http://localhost:8000/user/changeFlight/${ticketId}`).then(res => {
+            // console.log("ANA geet change flight")
             console.log(res.data);
             setFlights(res.data.flights);
             console.log(res.data);
@@ -104,7 +104,7 @@ function ChangeFlight() {
                     <th>Departure Time</th>
                     <th>Arrival Date</th>
                     <th>Arrival Time</th>
-                    <th>Cost</th>
+                    <th>Difference in Cost</th>
                   </tr>
                   </thead>
 
@@ -119,9 +119,9 @@ function ChangeFlight() {
                         <td>{flight.Departure.Time}</td>
                         <td>{flight.Arrival.Date}</td>
                         <td>{flight.Arrival.Time}</td>
-                       {ticket.Cabin =="Economy"? <td>{flight.Economy.Price}</td>:ticket.Cabin=="Business"?<td>{flight.Business.Price}</td>:<td>{flight.First.Price}</td>}
+                       {ticket.Cabin =="Economy"? <td>{ticket.Price-flight.Economy.Price}</td>:ticket.Cabin=="Business"?<td>{ticket.Price-flight.Business.Price}</td>:<td>{ticket.Price-flight.First.Price}</td>}
                        
-                        <td> <Button color="success" onClick={() => handleShow(flight._id)}> Change </Button>
+                        <td> <Button color="success" onClick={() => handleShow(flight._id)}> Choose </Button>
 
                          </td>
                       </tr>

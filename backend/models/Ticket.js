@@ -7,6 +7,8 @@ const User = require('./User');
 const ticketSchema = new Schema({
     Name:{type:String,
     required:true},
+    PaymentId:{type:String,
+        required:true},
     IsChild:{type:Boolean,
         required:true},
     UserId :{type: mongoose.Schema.Types.ObjectId,required:true,

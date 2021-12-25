@@ -8,31 +8,38 @@ const nodemailer = require('nodemailer');
 const bodyParser = require("body-parser");
 const auth = require ('../middleware/auth');
 
-const cors = require("cors")
-
-
 router.use(bodyParser.json())
 const Stripe = require('stripe');
+const { error } = require('console');
 const stripe = Stripe('sk_test_51K8UnBGmD9zb7igMlNQnyWl8REycCu9x2zgLsIcLodnv2rTucM4NUalCuSztqQsL3fMUjIAoUxH35BM1VSlf246E00oaWXnrh3');
 
 
 router.use(bodyParser.urlencoded({ extended: true }))
-router.post("/payment", cors(), async (req, res) => {
+router.post("/refund",async(req,res)=>{
+  console.log("ana neela")
+const amount = req.body.amount;
+const paymentId = req.body.paymentId;
+const refund = await stripe.refunds.create({
+  payment_intent: paymentId,
+  amount: amount,
+});
+})
+router.post("/payment", async (req, res) => {
 	let { amount, id } = req.body;
-  
+  console.log("ana metnayel fel payment")
 	try {
 		const payment = await stripe.paymentIntents.create({
 			amount,
 			currency: "USD",
-			description: "Spatula company",
+			description: "flight payment",
 			payment_method: id,
 			confirm: true
 		})
-		console.log("Payment", payment)
-		res.json({
-			message: "Payment successful",
-			success: true
-		})
+    const paymentId= payment.id;
+		console.log("Payment",paymentId)
+
+	res.send({paymentId:paymentId}
+    )
 	} catch (error) {
 		console.log("Error", error)
 		res.json({
@@ -40,7 +47,8 @@ router.post("/payment", cors(), async (req, res) => {
 			success: false
 		})
 	}
-})
+}
+)
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -48,7 +56,6 @@ const transporter = nodemailer.createTransport({
     pass: '1_2_3_4_5'
 
   }
-
 });
 
 const catchAsync = func => {
@@ -222,22 +229,15 @@ router.get('/viewSeats/:FlightId/:Cabin/:TicketId',auth,catchAsync(async(req,res
 }));
 router.post('/viewSeats/:SeatId/:TicketId',auth,catchAsync(async(req,res,next)=>{
   console.log('beginning')
+  console.log(req.params.SeatId);
   const user=await User.findById(req.user);
   const seat =await Seat.findById(req.params.SeatId);
   const oldSeat =await Seat.findById(req.params.OldSeat);
   console.log(seat);
   const ticket =await Ticket.findById(req.params.TicketId);
- 
-//   if(ticket.Flight.FlightId!=seat.FlightId)
-//   {console.log("ticket flight error in post",ticket.Flight.FlightId);
-//     console.log("seat flight error in post",seat.FlightId)
-//     console.log('Cant book');
-//   res.send('error')
-// }
-  seat.IsBooked=true;
-  oldSeat.IsBooked=false;
   ticket.Seat.SeatId=seat._id;
   ticket.Seat.SeatNumber=seat.SeatNumber;
+  seat.IsBooked=true;
   await ticket.save();
   await seat.save();
   await user.save();
@@ -263,15 +263,14 @@ router.post('searchFlights', catchAsync(async (req, res, next) => {
   const flight = new Flight({ FlightNumber: details.FlightNumber, From: From, To: To, Economy: Economy, Business: Business, First: First, Departure: Departure, Arrival: Arrival });
  }))
  
-router.post('/confirmReserved',auth ,catchAsync(async (req, res, next) => {
-  const details = req.body;
-  console.log(details);
+ router.post('/confirmReserved',auth, catchAsync(async (req, res, next) => {
+  const details = req.body.Summary;
+  const paymentId=req.body.paymentId;
   const user = await User.findById(req.user);
- console.log(user);
- 
-  const goingflight=await Flight.findById(details.DepartureId) 
+  console.log("payment fel confirm",paymentId);
+
+  const goingflight = await Flight.findById(details.DepartureId)
     .catch(err => {
-      
       res.send(err);
     });
   const returnflight = await Flight.findById(details.ReturnFlightId).catch(err => {
@@ -280,17 +279,17 @@ router.post('/confirmReserved',auth ,catchAsync(async (req, res, next) => {
 
 
   for (i = 0; i < parseInt(details.Children); i++) {
-    const ticketgoing = new Ticket( {'Name':details.ChildrenNames[i] ,'UserId':req.user , 
+    const ticketgoing = new Ticket( {'PaymentId':paymentId,'Name':details.ChildrenNames[i] ,'UserId':req.user , 
     'Flight':{'FlightId':details.DepartureId  ,'Number':goingflight.FlightNumber},'Departure':
     {'Airport':goingflight.From.Airport ,'Terminal':goingflight.From.Terminal ,'Date':goingflight.Departure.Date ,'Time':goingflight.Departure.Time},
       'Arrival':{'Airport':goingflight.To.Airport,'Terminal':goingflight.To.Terminal,'Date':goingflight.Arrival.Date ,'Time':goingflight.Arrival.Time }
-      ,'Cabin':details.Cabin,'Price':details.DeparturePriceChild,'Seat':{'SeatId':null,'SeatNumber':'',IsChild:'true'}});
+      ,'Cabin':details.Cabin,'Price':details.DeparturePriceChild,'Seat':{'SeatId':null,'SeatNumber':''},'IsChild':true});
       
-      const ticketreturn = new Ticket( {'Name':details.ChildrenNames[i] ,'UserId':req.user , 
+      const ticketreturn = new Ticket( {'PaymentId':paymentId,'Name':details.ChildrenNames[i],'UserId':req.user  , 
       'Flight':{'FlightId':details.ReturnFlightId  ,'Number':returnflight.FlightNumber},'Departure':
       {'Airport':returnflight.From.Airport ,'Terminal':returnflight.From.Terminal ,'Date':returnflight.Departure.Date ,'Time':returnflight.Departure.Time},
         'Arrival':{'Airport':returnflight.To.Airport,'Terminal':returnflight.To.Terminal,'Date':returnflight.Arrival.Date ,'Time':returnflight.Arrival.Time }
-        ,'Cabin':details.Cabin,'Price':details.ReturnPriceChild,'Seat':{'SeatId':null,'SeatNumber':'',IsChild:'true'}});
+        ,'Cabin':details.Cabin,'Price':details.ReturnPriceChild,'Seat':{'SeatId':null,'SeatNumber':''},'IsChild':true});
     user.TicketsId.push(ticketgoing._id);
     user.TicketsId.push(ticketreturn._id);
     (details.Cabin == 'Economy') ? goingflight.Economy.SeatsLeft-- : (details.Cabin == 'First') ? goingflight.First.SeatsLeft-- : goingflight.Business.SeatsLeft--;
@@ -299,16 +298,16 @@ router.post('/confirmReserved',auth ,catchAsync(async (req, res, next) => {
     await ticketreturn.save();
   }
   for (i = 0; i < parseInt(details.Adults); i++) {
-    const ticketgoing = new Ticket( {'Name':details.AdultNames[i] ,'UserId':req.params.id , 
+    const ticketgoing = new Ticket( {'PaymentId':paymentId,'Name':details.AdultNames[i] ,'UserId':req.user , 
     'Flight':{'FlightId':details.DepartureId  ,'Number':goingflight.FlightNumber},'Departure':
     {'Airport':goingflight.From.Airport ,'Terminal':goingflight.From.Terminal ,'Date':goingflight.Departure.Date ,'Time':goingflight.Departure.Time},
       'Arrival':{'Airport':goingflight.To.Airport,'Terminal':goingflight.To.Terminal,'Date':goingflight.Arrival.Date ,'Time':goingflight.Arrival.Time }
-      ,'Cabin':details.Cabin,'Price':details.DeparturePriceAdult,'Seat':{'SeatId':null,'SeatNumber':'',IsChild:'false'}});
-      const ticketreturn = new Ticket( {'Name':details.AdultNames[i] ,'UserId':req.params.id , 
+      ,'Cabin':details.Cabin,'Price':details.DeparturePriceAdult,'Seat':{'SeatId':null,'SeatNumber':''},'IsChild':false});
+      const ticketreturn = new Ticket( {'PaymentId':paymentId,'Name':details.AdultNames[i] ,'UserId':req.user  , 
       'Flight':{'FlightId':details.ReturnFlightId  ,'Number':returnflight.FlightNumber},'Departure':
       {'Airport':returnflight.From.Airport ,'Terminal':returnflight.From.Terminal ,'Date':returnflight.Departure.Date ,'Time':returnflight.Departure.Time},
         'Arrival':{'Airport':returnflight.To.Airport,'Terminal':returnflight.To.Terminal,'Date':returnflight.Arrival.Date ,'Time':returnflight.Arrival.Time }
-        ,'Cabin':details.Cabin,'Price':details.ReturnPriceAdult,'Seat':{'SeatId':null,'SeatNumber':'',IsChild:'false'}});
+        ,'Cabin':details.Cabin,'Price':details.ReturnPriceAdult,'Seat':{'SeatId':null,'SeatNumber':''},'IsChild':false});
         (details.Cabin=='Economy')?goingflight.Economy.SeatsLeft--:(details.Cabin=='First')?goingflight.First.SeatsLeft--:goingflight.Business.SeatsLeft--;
     user.TicketsId.push(ticketgoing);
     user.TicketsId.push(ticketreturn);
@@ -316,7 +315,10 @@ router.post('/confirmReserved',auth ,catchAsync(async (req, res, next) => {
     await ticketgoing.save();
     await ticketreturn.save();
   }
-
+	res.json({
+    message: "Reservation successful",
+    success: true
+  })
 }));
 router.post('/SearchFlight', catchAsync(async (req, res, next) => {
   const details = req.body;
@@ -358,7 +360,7 @@ router.post('/SearchFlight', catchAsync(async (req, res, next) => {
   });
 
  }));
-router.get('/changeFlight/:id/:TicketId',async(req,res,next)=>{
+router.get('/changeFlight/:TicketId',auth,async(req,res,next)=>{
       console.log("ANA GEET HENA");
   try{
     const ticket = await Ticket.findById(req.params.TicketId);
@@ -387,7 +389,7 @@ if(Cabin =="Economy"){
       })};
 }
 })
-router.put('/changeFlight/:id/:TicketId/:ChosenFlightId',async(req,res,next)=>{
+router.put('/changeFlight/:TicketId/:ChosenFlightId',auth,async(req,res,next)=>{
   const ticket = await Ticket.findById(req.params.TicketId);
   const seat = await Seat.findById(ticket.Seat.SeatId);
   seat.IsBooked=false;
@@ -417,4 +419,70 @@ await newFlight.save();
 
 await ticke.save();
 })
+router.post('/editFlightSearch/:ticketId',auth,async(req,res,next)=>{
+  console.log("Iam the request body",req.body)
+  const ticket = await Ticket.findById(req.params.ticketId).catch(error=>{
+    console.log(error);
+  });
+const departure = req.body.Departure;
+  const Cabin = req.body.Cabin;
+  var flights = null;
+console.log(ticket.Departure.Airport,ticket.Arrival.Airport,departure)
+  if(Cabin =="Economy"){
+     flights = await Flight.find({'From.Airport':ticket.Departure.Airport,'To.Airport':ticket.Arrival.Airport,'Economy.SeatsLeft':{$gt:0}}).catch(
+    (error) => {
+      res.status(400).json({
+        message: "No flights"
+      });
+    }
+  );
+  }else if(Cabin =="First"){
+   flights = await Flight.find({'From.Airport':ticket.Departure.Airport,'To.Airport':ticket.Arrival.Airport,'First.SeatsLeft':{$gt:0}}).catch(
+    (error) => {
+      res.status(400).json({
+        message: "No flights"
+      });
+    }
+  );
+  }else 
+   flights = await Flight.find({'From.Airport':ticket.Departure.Airport,'To.Airport':ticket.Arrival.Airport,'Business.SeatsLeft':{$gt:0}}).catch(
+    (error) => {
+      res.status(400).json({
+        message: "No flights"
+      });
+    }
+  );
+
+    if(flights==null) { 
+      console.log("HEHEHE"),
+
+      res.status(400).json({
+      message: "No flights available with similar criteria"
+    })}
+    else{
+      const x = new Date(departure);
+      console.log(x.getFullYear())
+      console.log(x.getMonth())
+      console.log(x.getDate())
+      const myFlights =[];
+flights.forEach(flight => {
+  if((flight.Departure.Date.getFullYear()==x.getFullYear())&&(flight.Departure.Date.getMonth()==x.getMonth())&&(flight.Departure.Date.getDate()==x.getDate())){
+    console.log("hasal")
+    myFlights.push(flight);
+  }
+});
+
+  //     const myFlights = flights.filter((flight)=>
+  //     {console.log(flight.Departure.Date.getFullYear()==x.getFullYear())&&
+  //      console.log( flight.Departure.Date.getMonth()==x.getMonth() )&&
+  //  console.log( (flight.Departure.Date.getDate()==x.getDate()))
+  // })
+      console.log(myFlights)
+      res.send({flights:myFlights,ticket:ticket});
+    }
+  
+
+  })
+
+
 module.exports = router;

@@ -33,12 +33,7 @@ function ReserveFlight(){
     console.log(id);
      
     const [show, setShow] = useState(false);
-    try{
-          await axios.post(`http://localhost:8000/user/confirmReserved`,Summary) 
-          } catch (error) {
-          console.error(error);
-        }
-      
+    
 
       for(let i =0;i<(parseInt(Summary.Children));i++ ){
         Summary.ChildrenNames.push("placeHolder");
@@ -91,6 +86,7 @@ function ReserveFlight(){
                         console.log(thename);
                         Summary.AdultNames.shift();
                         Summary.AdultNames.push(thename);
+                        console.log(Summary)
                       }}
                     />
                      </FormGroup>))
