@@ -22,7 +22,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Installing
 
-run the command bellow in a new terminal to install the required packages
+run the commands bellow in a new terminal to install the required packages
 
 ```
 npm install
