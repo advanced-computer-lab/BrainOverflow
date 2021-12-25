@@ -28,6 +28,7 @@ const { getLoggedIn } = useContext(AuthContext);
  
 async function register(e){
     e.preventDefault();
+
     try{
         const registerData = {
             email,
@@ -55,7 +56,12 @@ async function register(e){
         console.error(err);
         if (err.response) {
           setHasError(true);
-          setError(err.message);
+          if(password!=passwordverify){
+            setError("Passwords Don't Match");
+          }
+          else{
+          setError("Account Already Exist");
+        }
        }
        else{
         setHasError(false);

@@ -274,7 +274,13 @@ function handleBack() {
                         seterrShow(true);
                         handleMail(ticket._id) ;}}> mail me the ticket </Button>
 
-                      {/* { 
+                        
+                        <Button> <Link to={{ pathname:`/user/changeSeats/${ticket.Flight.FlightId}/${ticket.Cabin}/${ticket._id}/${ticket.Seat.SeatId}`}}> Change Seat </Link></Button>
+                        <Button> <Link to={{pathname:`/user/EditFlightSearch/${ticket._id}` }}>Change Flight</Link></Button>
+
+
+                      {
+                      /* { 
                     <Link to={{ pathname:`/user/changeSeats/${id}/${ticket.Flight.FlightId}/${ticket.Cabin}/${ticket._id}/${ticket.Seat.SeatId}` 
 { 
                     <Link to={{ pathname:`/user/changeSeats/${ticket.Flight.FlightId}/${ticket.Cabin}/${ticket._id}/${ticket.Seat.SeatId}` 
@@ -305,7 +311,9 @@ function handleBack() {
 
  {HasError && <Alert>{Error}</Alert>}
 
- <Button onClick={handleBack}><ArrowCircleLeftRoundedIcon fontSize="large"></ArrowCircleLeftRoundedIcon></Button>
+ <div>
+      <Button onClick={handleBack}><ArrowCircleLeftRoundedIcon fontSize="large"></ArrowCircleLeftRoundedIcon> Back </Button>
+      </div>
 
 
 

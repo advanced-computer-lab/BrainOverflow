@@ -8,8 +8,14 @@ import { useNavigate } from 'react-router-dom'
 import {Modal,ModalHeader,ModalBody,ModalFooter,CardBody, Card, CardHeader, Form, Input, FormGroup,
         Label, Button, Container, Row, Col, Table} from 'reactstrap';
 import {useParams,useLocation} from "react-router-dom";
-function ReserveFlight(){
+import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
+import CreditCardIcon from '@mui/icons-material/CreditCard';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
+
+function ReserveFlight(){
+  
+    let navigateBack = useNavigate();
     let location = useLocation();
     let search=new URLSearchParams(location.search);
     const Summary={
@@ -43,15 +49,18 @@ function ReserveFlight(){
         Summary.AdultNames.push("placeHolder");
 
       }  
+      function handleBack() {
+        navigateBack(-1)
+      }
   
      
 
     return (
-      <Container>   
-         <Modal isOpen={show} style={{marginTop:'30%'}} >
+      <div style={{background:"#FFF"}}>
+      <Container style={{background:"#FFF"}}>   
+         <Modal isOpen={show} style={{marginTop:'20%'}} >
          <ModalHeader
           charCode="Y"
-
         >
           Tickets Reservation
         </ModalHeader>
@@ -62,7 +71,7 @@ function ReserveFlight(){
           { 
                     <Link to={{ pathname:`/user/payment` 
                          , search:'?'+new URLSearchParams(Summary).toString()
-                           }}className="btn btn-primary " color="success">Proceed to payment</Link> 
+                           }}className="btn btn-primary " style={{backgroundColor:'#d4902a'}}> <CreditCardIcon></CreditCardIcon>Proceed to payment</Link> 
                      }
           
          
@@ -70,7 +79,7 @@ function ReserveFlight(){
       </Modal>
          
           
-             <Form style={{marginTop:'30%'}}>
+             <Form  style={{marginTop:'30%',margin:'10%',backgroundColor:'#95D1CC',width:'80%',paddingTop:'5%' ,paddingBottom:'5%' ,borderRadius:'5px'}}>
                    {    
                   Summary.AdultNames.map((thename)=>(
                     <FormGroup>
@@ -81,6 +90,7 @@ function ReserveFlight(){
                       name="Name"
                       placeholder="FirstName LastName"
                       type="text"
+                      required
                       onChange={(e)=>{
                         thename=e.target.value;
                         console.log(thename);
@@ -103,6 +113,7 @@ function ReserveFlight(){
                       name="Name"
                       placeholder="FirstName LastName"
                       type="text"
+                      required
                       onChange={(e)=>{
                         thename=e.target.value;
                         console.log(thename);
@@ -116,9 +127,13 @@ function ReserveFlight(){
                   )}
                    
 
-                  <Button color="danger" onClick={() =>{ 
-                                            setShow(true);}}> Confirm and Submit </Button>
+                  <Button style={{backgroundColor:'#d4902a',marginLeft:'40%'}}onClick={() =>{ 
+                  setShow(true);}}> <CheckCircleOutlineIcon></CheckCircleOutlineIcon> Confirm and Submit </Button>
                   </Form>
+                  <br/><br/><br/>
+                  <div>
+      <Button onClick={handleBack}><ArrowCircleLeftRoundedIcon fontSize="large"></ArrowCircleLeftRoundedIcon> Back </Button>
+      </div>
                    
         
  
@@ -127,7 +142,7 @@ function ReserveFlight(){
 
              
           
-       
+       </div>
 
                                                          
 

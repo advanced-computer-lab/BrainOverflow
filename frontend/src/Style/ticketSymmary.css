@@ -12,7 +12,6 @@
   
    .body1 {
     background-color:"white";
-    font-family: Oswald, sans-serif;
     line-height: 1.4;
   } 
   
@@ -21,7 +20,6 @@
     margin-bottom: 10px;
     font-size: 38px;
     line-height: 44px;
-    font-weight: 400;
   }
   
   h2 {
@@ -29,7 +27,6 @@
     margin-bottom: 0px;
     font-size: 32px;
     line-height: 36px;
-    font-weight: 400;
   }
   
   h3 {
@@ -37,7 +34,6 @@
     margin-bottom: 10px;
     font-size: 24px;
     line-height: 30px;
-    font-weight: 400;
   }
   
   h4 {
@@ -45,7 +41,6 @@
     margin-bottom: 10px;
     font-size: 18px;
     line-height: 24px;
-    font-weight: 400;
   }
   
   h5 {
@@ -53,7 +48,6 @@
     margin-bottom: 10px;
     font-size: 14px;
     line-height: 20px;
-    font-weight: 400;
   }
   
   h6 {
@@ -61,7 +55,6 @@
     margin-bottom: 10px;
     font-size: 12px;
     line-height: 18px;
-    font-weight: 400;
   }
   
   a {
@@ -452,9 +445,6 @@
   }
   
   @font-face {
-    font-family: 'Baskervville';
-    /* src: url('../fonts/Baskervville-Regular.ttf') format('truetype'); */
-    font-weight: 400;
     font-style: normal;
     font-display: swap;
   }

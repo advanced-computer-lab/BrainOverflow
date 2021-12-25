@@ -12,6 +12,8 @@ import {
 } from 'reactstrap';
 import '../Style/plane.css';
 import AirlineSeatReclineExtraOutlinedIcon from '@mui/icons-material/AirlineSeatReclineExtraOutlined';
+import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
+
 
 
 function ViewSeats() {
@@ -42,6 +44,12 @@ function ViewSeats() {
       setError('Sorry , An error occured');
     }
   }
+  let navigateBack = useNavigate();
+
+  function handleBack() {
+    navigateBack(-1)
+  }
+  
 
     const [seats, setSeats] = useState([]);
      
@@ -425,7 +433,10 @@ function ViewSeats() {
             
 
 
-            
+<div>
+      <Button onClick={handleBack}><ArrowCircleLeftRoundedIcon fontSize="large"></ArrowCircleLeftRoundedIcon> Back </Button>
+      </div>
+
 {HasError &&  <Col className="bg-light "> <Alert align="center" color="danger" Row > 
 <a align="center" style={(Error)?{display: 'block',color:'red',fontSize:'20px'}:{display: 'none'}}><CardTitle>{Error}</CardTitle></a></Alert></Col> 
 }

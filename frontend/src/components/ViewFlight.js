@@ -12,12 +12,18 @@ import { CardBody, Card, CardColumns,CardImg,CardSubtitle,CardText,CardGroup,Toa
           Button,CardTitle,Col,Row} from 'reactstrap';
 import "../Style/summay.css";
 import "../Style/Navbar.css";
-import"../Style/ticketSymmary.css";
+// import"../Style/ticketSymmary.css";
+import "../Style/Ticket.css";
+
 import JSONDATA from './MOCK_DATA.json';
 
 
  import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
+ import LogoutIcon from '@mui/icons-material/Logout';
  import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
+ import CloudCircleOutlinedIcon from '@mui/icons-material/CloudCircleOutlined';
+ import FlightTakeoffOutlinedIcon from '@mui/icons-material/FlightTakeoffOutlined';
+
  import summary1 from "./travelThree.jpeg";
  import summary2 from "./travelFour.jpg";
 
@@ -303,9 +309,30 @@ Arrival:{
         <div style={{ backgroundColor:"white" }}>
     {ViewOutBound ?
 
+    <div>
+      <Card className="mb-2" style={{marginTop:'10%',marginLeft:'5%',width:'80%'}}>
+                  <CardBody>
+                    <label class="title" >
+                      <CloudCircleOutlinedIcon fontSize="large"></CloudCircleOutlinedIcon>&nbsp;&nbsp;&nbsp;
+                    SkyOverFlow &nbsp;&nbsp;From:&nbsp;&nbsp;&nbsp;{flight.From.Airport}&nbsp;&nbsp;&nbsp;&nbsp;<FlightTakeoffOutlinedIcon fontSize="large" ></FlightTakeoffOutlinedIcon>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{flight.To.Airport} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Flight Number:{flight.FlightNumber}
+                    </label>
+                     <CardText > 
+                     { (adultTicketsno>0)?(<label> Price / Adult ticket: {adultTicket} <br/></label>):<label></label>}
+                    {(childTicketsno>0)?(<label> Price / Child ticket: {childTicket} <br/></label>):<label></label>}<br/>
+              <label>Departure Date: {flight.Departure.Date.slice(0, 10)} at {flight.Departure.Time}</label><br/>
+              <label>Arrival Date: {flight.Arrival.Date.slice(0, 10)} at {flight.Arrival.Time}</label><br/>
+              <label>Cabin Class: {cabin}</label><br/>
+              <label>Baggage Allowance: </label>{(cabin=="First")?<label>{flight.First.Baggage}</label>:(cabin=="Business")?<label>{flight.Business.Baggage}</label>:(cabin=="Economy")?<label>{flight.Economy.Baggage}</label>:<label></label>}<br/>
+              <label>Total Tickets price: {totalPrice}</label><br/>     
+
+                      </CardText>
+                      </CardBody>
+                      </Card>
+                      <br/>
+
     
 
-
+{/* 
          <Toast className="center" style={{marginTop:'10%'}}>
             <ToastHeader icon="primary">
                 <label> Flight From {flight.From.Airport} to {flight.To.Airport}</label>    
@@ -317,13 +344,13 @@ Arrival:{
               <label>Flight number: {flight.FlightNumber} </label><br/><br/>
               <label>Departure Date: {flight.Departure.Date.slice(0, 10)} at {flight.Departure.Time}</label><br/><br/>
               <label>Arrival Date: {flight.Arrival.Date.slice(0, 10)} at {flight.Arrival.Time}</label><br/><br/>
-              {/*longest trip duration is 18 hours and 50 mins*/}
-              {/* Trip Duration:{(diffDays==0)?<label>{ }hours and   </label> :}<br/> */}
+
               <label>Cabin Class: {cabin}</label><br/><br/>
               <label>Baggage Allowance: </label>{(cabin=="First")?<label>{flight.First.Baggage}</label>:(cabin=="Business")?<label>{flight.Business.Baggage}</label>:(cabin=="Economy")?<label>{flight.Economy.Baggage}</label>:<label></label>}<br/><br/>
               <label>Total Tickets price: {totalPrice}</label><br/><br/>                      
             </ToastBody>
-          </Toast>
+          </Toast> */}
+          </div>
 
 
        
@@ -389,6 +416,7 @@ return flag1 & flag2 & flag3 & flag4 ;
 })
   .map(x => (
 
+
                         <div >
                         <Toast >
                           <ToastHeader  style={{color:'#5584AC' , marginRight:"100px"}}>
@@ -418,7 +446,9 @@ return flag1 & flag2 & flag3 & flag4 ;
                           x.Economy.ChildPrice,x.First.Baggage,x.Business.Baggage,x.Economy.Baggage)} style={{backgroundColor:'#5584A'}}>Select</Button>
                           </ToastBody>
                           <br></br>
-                          </Toast></div>
+                          </Toast>
+                          
+                          </div>
 
                         
 
@@ -460,60 +490,7 @@ return flag1 & flag2 & flag3 & flag4 ;
     </ToastBody>
   </Toast>
 
-  <div class="body1" style={{width:"700px", height:"300px", position:'absolute', top:"70%", right:"65%" ,transform:'scale(0.5)',borderRadius:'10px' }}  >
-  <div class="section1">
-    <div class="ticket__wrapper"  >
-      <div class="w-layout-grid ticket__main-grid" >
-        <div id="w-node-_4de94962-9e0c-9272-b6ee-d4681c5881b4-21b78d9a" class="ticket__left-wrapper">
-          <div id="w-node-ac4e0c7f-8087-572e-be1e-bb12f70742ab-21b78d9a" class="flex-vertical">
-            <div>{cabin}</div>
-            {/* <div class="ticket__important-info">Lucas rocha</div> */}
-          </div>
-          <div class="flex-vertical" ><img src={"https://uploads-ssl.webflow.com/60c68219dd06b60c362068f0/6116eb1714613cc5260a6f77_android-chrome-256x256.png"} loading="lazy" alt="" class="qr-code-img"></img></div>
-          <div class="flex-vertical">
-            <div>Gate</div>
-            <div class="ticket__important-info">d7</div>
-          </div>
-          <div class="flex-vertical">
-            <div>Flight</div>
-            <div class="ticket__important-info">{flight.FlightNumber}</div>
-          </div>
-          <div class="flex-vertical">
-            <div>Seat</div>
-            <div class="ticket__important-info">NA</div>
-          </div>
-          <div id="w-node-_02ddaefd-aa9d-15e5-8dcb-dc87316bed27-21b78d9a" class="ticket__hole-wrapper">
-            <div class="ticket__hole"></div>
-          </div>
-          <div class="ticket__left-bg"></div>
-        </div>
-        <div id="w-node-_424ca1ea-6be4-621b-4443-87861569ed47-21b78d9a" class="ticket__right-wrapper">
-          <div class="w-layout-grid ticket__right-content-wrapper">
-            <div class="ticket__destiny-wrapper">
-              <div>From </div>
-              <div class="ticket__country-text" style={{ textTransform: 'uppercase'}}>{result1}</div>
-              <div >{flight.From.Airport} Airport</div>
-            </div>
-            <div class="ticket__destiny-wrapper">
-              <div>To</div>
-              <div class="ticket__country-text" style={{ textTransform: 'uppercase'}}>{result2}</div>
-              <div>{flight.To.Airport} Airport</div>
-            </div>
-            <div id="w-node-f707f957-883b-d67f-5d7a-451aaafb833d-21b78d9a" class="ticket__id-info-wrapper">
-              <div class="ticket__id-label">Departure Date</div>
-              <div class="weight-600">{flight.Departure.Date.slice(0, 10)}  at  {flight.Departure.Time}</div>
-            </div>
-            <div id="w-node-a0034b52-4bd3-6271-0e5d-2b333fd4ca24-21b78d9a" class="ticket__id-info-wrapper">
-              <div class="ticket__id-label">Arrival Data</div>
-              <div class="weight-600">{flight.Arrival.Date.slice(0, 10)} at {flight.Arrival.Time}</div>
-            </div><img src={"https://uploads-ssl.webflow.com/60c68219dd06b60c362068f0/6116ad41eeed6d29728453f8_4aa534605d1afc465c5bdc5dd80f1ecb.png"} loading="lazy" id="w-node-_394c5a89-bbdd-4f0f-fd9d-dc484c91094c-21b78d9a" alt="" class="ticket__right-bg-img"></img>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
- 
-</div>
+
 
 
   <Card className="summary" style={{marginTop:'-10%'}} >
@@ -586,7 +563,7 @@ return flag1 & flag2 & flag3 & flag4 ;
                     <CardText>
                     <label className="info2">Flight number :&nbsp;&nbsp; {mysummary.ReturnFlightNumber}</label>  <br/><br/>
                     <label className="info2">Total price For Return Flight :&nbsp;&nbsp; {mysummary.ReturnTotalPrice}</label> <br/> <br/>
-                    <label style={{backgroundColor:"#d4902a",color:'white',padding: '6px',borderRadius: '10px',wordSpacing: '10px'}}>TotalPrice &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{mysummary.ReturnTotalPrice + totalPrice} </label>
+                    <label style={{backgroundColor:"#d4902a",color:'white',padding: '10px',borderRadius: '10px',wordSpacing: '10px'}}>Total Price : {mysummary.ReturnTotalPrice + totalPrice} </label>
                     </CardText>
                     
                    {(!loggedIn) && <Button onClick={() => handleClick()}>
@@ -595,7 +572,7 @@ return flag1 & flag2 & flag3 & flag4 ;
                     }
                     
                    {(loggedIn)&& <Button style={{backgroundColor: '#96C7C1' , color:"#22577E",marginLeft:'30%' }}>
-                    <Link style={{backgroundColor: '#96C7C1' , color:"#22577E" , fontSize:"200%",fontWeight: "bold"}}to={{ pathname:`/user/confirmFlight` 
+                    <Link style={{backgroundColor: '#96C7C1' , color:"#22577E" , fontSize:"20",fontWeight: "bold"}}to={{ pathname:`/user/confirmFlight` 
                          , search:'?'+new URLSearchParams(myData).toString()
                            }}className="btn btn-primary">Confirm and Book</Link> 
                       </Button>}
@@ -612,8 +589,11 @@ return flag1 & flag2 & flag3 & flag4 ;
 </div>
 
       :<label></label>}
-<div>
-      <Button onClick={handleBack}><ArrowCircleLeftRoundedIcon fontSize="large"></ArrowCircleLeftRoundedIcon></Button>
+      <div>
+      <br/>
+      <br/>
+
+      <Button onClick={handleBack}><ArrowCircleLeftRoundedIcon fontSize="large"></ArrowCircleLeftRoundedIcon> Back </Button>
       </div>
 
 
@@ -655,9 +635,12 @@ return flag1 & flag2 & flag3 & flag4 ;
       {(notCorrect) &&<Alert color="danger"><a align="center">Invalid Username Or Password Please Try Again  </a></Alert>
 }
 </div>:<label></label>}
-   
 
-{(loggedIn) &&<Button onClick={logout} color="danger" align="center">Log Out</Button>}
+<br/>
+<br/>
+
+
+{(loggedIn) &&<Button onClick={logout} color="danger" align="center"> <LogoutIcon></LogoutIcon>Log Out</Button>}
 
 
 </div>

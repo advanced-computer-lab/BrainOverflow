@@ -8,7 +8,6 @@ import{
    CardBody,Card , CardHeader , Form,Input , FormGroup , Label , Button, Container, Row , Col ,FormFeedback
 } from 'reactstrap';
 import MyNavBar from './MyNavbar';
-import profile from './Profile.jpg'
 function UpdateProfile(props) {
   // const navigate= useNavigate;
   // const [EmailErr, setEmailErr] = React.useState('');
@@ -95,7 +94,7 @@ function UpdateProfile(props) {
     async function updateProfile() {
       try {
          put(`http://localhost:8000/user/updateProfile/${id}`, user).then(
-          window.location.href = `/user/${id}` )
+          window.location.href = `/user/userProfile` )
         
          
       } catch(error) {
@@ -117,24 +116,21 @@ function UpdateProfile(props) {
   }
 
   return (
-    <div style={{padding:"10%" , backgroundColor:"#22577E" ,color:"#22577E" , fontWeight: "bold" }}>
-     <div style={{position:"absolute" , left:"50%"}}><img src={profile} style={{width:"100%" , height:"100%"}}></img></div> 
     
-      <Container className='m-3' style={{backgroundColor:"#22577E" , width:"600px" }} >
-        <Card className='p-3' style={{backgroundColor:"#C9CCD5"}} >
-    {/* <CardHeader className='mb-2'  >
+      <Container className='m-3' >
+        <Card className='p-3' style={{marginTop:'30%'}}>
+    <CardHeader className='mb-2'  >
       Update 
       {user.FirstName+" "+user.LastName+"'s Profile"}
-    </CardHeader> */}
-    <CardBody style={{backgroundColor:"#C9CCD5" ,color:"#22577E" , fontWeight: "bold" , width:"400px" }} >
+    </CardHeader>
+    <CardBody>
 
     <Form >
     <FormGroup>
-    <Label for="From" style={{color:"#39251c"}}>
+    <Label for="From">
       First Name
     </Label>
     <Input
-      style={{width:"400px" }}
       id="FirstName"
       name="FirstName"
       placeholder=""
@@ -151,12 +147,11 @@ function UpdateProfile(props) {
     </FormFeedback> */}
   </FormGroup>
   <FormGroup>
-    <Label for="LastName" style={{color:"#39251c"}}>
+    <Label for="LastName">
     Last Name
     </Label>
     <Input
     required
-    style={{width:"400px" }}
       id="LastName"
       name="LastName"
       placeholder="Last Name"
@@ -175,11 +170,10 @@ function UpdateProfile(props) {
 
 
   <FormGroup>
-    <Label for="Email" style={{color:"#39251c"}}>
+    <Label for="Email">
       Email
     </Label>
     <Input
-      style={{width:"400px" }}
       id="Email"
       name="Email"
       placeholder="something@idk.cool"
@@ -196,10 +190,9 @@ function UpdateProfile(props) {
     </FormFeedback> */}
   </FormGroup>
   <FormGroup>
-    <Label for="Password" style={{color:"#39251c"}}>
+    <Label for="Password">
         Password   </Label>
     <Input
-      style={{width:"400px" }}
       id="Password"
       name="Password"
       placeholder=""
@@ -217,12 +210,10 @@ function UpdateProfile(props) {
     </FormFeedback> */}
   </FormGroup>
   <FormGroup>
-    <Label for="Passport" style={{color:"#39251c"}}>
-    Passport Number
+    <Label for="Passport">
+    Passport number
     </Label>
     <Input
-      
-      style={{width:"400px" }}
       id="Passport"
       name="Passport"
       placeholder=""
@@ -232,10 +223,9 @@ function UpdateProfile(props) {
     />
   </FormGroup>
   <FormGroup>
-    <Label for="PhoneNumber" style={{color:"#39251c"}}>
-Phone Number    </Label>
+    <Label for="PhoneNumber">
+Visa card number    </Label>
     <Input
-      style={{width:"400px" }}
       id="PhoneNumber"
       name="PhoneNumber"
       placeholder=""
@@ -252,10 +242,9 @@ Phone Number    </Label>
     </FormFeedback> */}
   </FormGroup>
   <FormGroup>
-    <Label for="VisaNumber" style={{color:"#39251c"}}>
-Visa Card Number    </Label>
+    <Label for="VisaNumber">
+Visa card number    </Label>
     <Input
-      style={{width:"400px" }}
       id="VisaNumber"
       name="VisaNumber"
       placeholder=""
@@ -265,11 +254,10 @@ Visa Card Number    </Label>
     />
   </FormGroup>
   <FormGroup>
-    <Label for="Country" style={{color:"#39251c"}}>
+    <Label for="Country">
     Country
     </Label>
     <Input
-      style={{width:"400px" }}
       id="Country"
       name="Country"
       placeholder=""
@@ -288,11 +276,10 @@ Visa Card Number    </Label>
   
   
   <FormGroup>
-    <Label for="Address" style={{color:"#39251c"}}>
+    <Label for="Address">
     Address
     </Label>
     <Input
-      style={{width:"400px"}}
       id="Address"
       name="Address"
       placeholder=""
@@ -305,7 +292,6 @@ Visa Card Number    </Label>
  
   <div className="float-right">
    <Button 
-   style={{backgroundColor:"#22577E" ,color:"white"}}
    onClick={handleSubmit}
    color="success"
    size="lg"
@@ -316,7 +302,7 @@ Update Profile  </Button>
 </Form>
 </CardBody>
 </Card>
-</Container></div>
+</Container>
     
   );
 }
