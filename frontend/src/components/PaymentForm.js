@@ -164,7 +164,7 @@ const handlePayDifference=async (e)=>{
   }
 }
     return (
-        <div style={{backgroundColor:'#FFF'}}>
+        <div style={{backgroundColor:'#FFF',marginTop:'30%'}}>
         <Container style={{backgroundColor:'#FFF'}}>
         <>
         {!success && PriceDifference==null&& Summary!=null&&
