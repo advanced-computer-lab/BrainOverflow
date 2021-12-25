@@ -6,8 +6,10 @@ import axios from 'axios';
 import '../Style/Navbar.css';
 import '../Style/summay.css';
 //import "../css/style.css";
-
-
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
+import AirplaneTicketOutlinedIcon from '@mui/icons-material/AirplaneTicketOutlined';
 
 import { useNavigate } from 'react-router-dom';
 import JSONDATA from './MOCK_DATA.json';
@@ -84,7 +86,54 @@ function Home() {
   const [flights, setFlights] = useState([initialstate]);
   const [mysearch, setSearch] = useState(searchObject);
   const [wrongDate,setWrongDate]=useState(false);
+  const [wrongPass,setPassengers]=useState(false);
+
   const [noResult,setnoResult]=useState(false);
+  
+
+  const itemData = [
+    {
+        img: 'https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/0006/7923/brand.gif?itok=eP_eGDs8',
+        title: 'Star Alliance',
+      },
+    {
+      img: 'https://mir-s3-cdn-cf.behance.net/project_modules/disp/9634cf4370615.560c988391020.png',
+      title: 'Booking',
+    },
+    {
+      img: 'https://i.pinimg.com/originals/de/f7/b6/def7b694904830d5804ee5975b69e9ed.png',
+      title: 'Hotel',
+    },
+    {
+      img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkfxv65nxgDStYa4OhFH4fpNtJaNf0yI0w0kMB764oUDcQNA0F2e0CCEiLJUPybgXVyFA&usqp=CAU',
+      title: 'Magazine',
+    },
+    {
+      img: 'https://i.pinimg.com/564x/cd/57/d1/cd57d12a9440dadbf544022d4c4804cc.jpg',
+      title: 'Tour',
+    },
+    {
+      img: 'https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/0022/4681/brand.gif?itok=sYYrRRuI',
+      title: 'Drinks',
+    },
+    {
+      img: 'https://farm6.staticflickr.com/5314/14232620011_972aae2885_z.jpg',
+      title: 'Nestle',
+    },
+    {
+      img: 'https://i.pinimg.com/564x/5a/f2/c0/5af2c059dac5a8d9a8227b09ad1ffb4c.jpg',
+      title: 'Coffee',
+    },
+    {
+      img: 'https://i.pinimg.com/564x/5e/8f/02/5e8f02bc0c9fea1e82b10a829d0accc6.jpg',
+      title: 'dessert',
+    },
+    {
+      img: 'https://i.pinimg.com/564x/08/68/dc/0868dcacc7c50ca2c7d35b27be81e5a9.jpg',
+      title: 'Entirtenment',
+    },
+  ];
+
 
 
   //const[searchItem,setSearchItem]=useState([]);
@@ -251,10 +300,11 @@ function Home() {
           if (event.target[5].value !== '') {
 
               let d1 = event.target[5].value
-              let d2 = f.Departure.Date.slice(0, 10)
+             let d2 = f.Departure.Date.slice(0, 10)
               //console.log("5 is",event.target[5].value);
               //console.log(d2);
-              flag6 = (d1 == d2);
+             flag6 = (d1 == d2);
+            // flag6 = true
 
           } else { flag6 = true }
           
@@ -303,9 +353,17 @@ function Home() {
     }else{
         setWrongDate(false);
     }
-    if(event.target[0].value==null ||event.target[1].value==null||event.target[2].value==null||event.target[3].value==null||event.target[4].value==null){
+    if(event.target[0].value==null ||event.target[1].value==null||event.target[2].value==null||event.target[3].value==null||event.target[4].value==null||event.target[5].value==null||event.target[6].value==null){
         returnflag=false;
     }
+    if(parseInt(event.target[1].value) + parseInt(event.target[2].value)==0){
+        returnflag=false;
+        setPassengers(true);
+    }
+    else{
+        setPassengers(false);
+    }
+
     setnoResult(!(flag1 & flag2 & flag3 & flag4 & flag5 & flag6 & returnflag))
 
       
@@ -327,19 +385,19 @@ function Home() {
 
   return (
       <div>
-      <img src ="https://i.pinimg.com/originals/b8/ed/f5/b8edf596c38bc4a68fd9470da6258ae1.gif"></img>
+      <img src ="https://i.pinimg.com/originals/f7/ef/fc/f7effc7dd95bfcf8b3a41a0a54910a9c.gif"></img>
     <div style={{backgroundColor: 'rgb(255, 255, 255)'}}>
 
       <section class ="search" >
       <Container style={{padding:"5% 2%",backgroundColor: '#F6F2D',borderRadius:'5px'}}>
-      <h1 style={{ color:"rgb(85, 132, 172)"}}>Search For A Flight</h1>
+      <h1>Search For A Flight</h1><br/><br/>
 
               <Row xs="1" className=''>
 
                   <Form onSubmit={addtoList} >
                       <FormGroup row>
                       <Col>
-                          <Label for="Class"> Choose Cabin Class :</Label>
+                          <Label for="Class">Cabin Class :</Label>
                         
                               <input list="class" placeholder="class" required name ="Class" id ="Class"></input>
                               <datalist id="class" >
@@ -378,7 +436,7 @@ function Home() {
                           </Col>
                           <Col>
                               <Label for=" departure City ">
-                                  Departure City :
+                                Departure City:
                               </Label>
                               <Input
                                   id="DepartureCity "
@@ -457,14 +515,13 @@ function Home() {
                       </FormGroup>
 
                       <div className="search" class="center">
-                          <Button  style={{backgroundColor: 'rgb(34, 87, 126)',width:'500px' , color:"rgb(246, 242, 212)"}}
-                              
+                          <Button  style={{width:'500px',color:'#FFFFFF',backgroundColor:'#d4902a'}}
                               color="info"
                               size="lg"
                               type="submit"
                               class="btn-search"
                           >
-                              Search For A Flight <span class= "glyphicon glyphicon-send"></span></Button>
+                              <FlightTakeoffIcon></FlightTakeoffIcon> Search For A Flight</Button>
                               <br/><br/>
                       </div>
                   </Form>
@@ -474,36 +531,41 @@ function Home() {
                       <div className="content">
 
                               {displayed.map((flight) => (
-                                  <Card style={{padding:"0% 2%",backgroundColor: '#B2DADB',borderRadius:'5px',width:'70%',marginLeft:'auto',marginRight:'auto'}}>
+                                  <Card style={{padding:"0% 2%",backgroundColor: '##FFFFFF',borderRadius:'5px',width:'70%',marginLeft:'auto',marginRight:'auto'}}>
                                       <CardBody>
                                           <CardTitle tag="h5">
-                                          <label className="info" style={{width:'80%',marginLeft:'10%',marginRight:'auto'}}> <b>
-                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; From :  {flight.From.Airport} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                          <label className="infofrom" style={{width:'110%',marginLeft:'-5%',marginRight:'auto',marginTop:'-10%'}}> <b>
+                                          <AirplaneTicketOutlinedIcon fontSize="large"></AirplaneTicketOutlinedIcon>
+                                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; From :  {flight.From.Airport} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                               <img style={{width:'150px',height:'60px',transform:"scale(3)"}} src='https://starpng.com/public/uploads/preview/divider-line-png-line-with-circle-end-51575252914xxvixllcy9.png'></img>
-                                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; To :  {flight.To.Airport} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; </b></label>
-                                          </CardTitle>
-                                          <CardText style={{color:'rgb(0, 0, 0)'}}>
-                                              {(firstView) && (mysearch.Adults > 0) ? <label>Price of First class Adult Ticket : {flight.First.Price}<br></br> </label> :
-                                                  BusinessView && (mysearch.Adults > 0) ? <label> Price of Business class Adult Ticket: {flight.Business.Price}<br></br> </label> :
-                                                      EconomyView && (mysearch.Adults > 0) ? <label> Price of Economy class Adult Ticket : {flight.Economy.Price}<br></br> </label> : <label></label>}
+                                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To :  {flight.To.Airport}         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     <AirplaneTicketOutlinedIcon fontSize="large"></AirplaneTicketOutlinedIcon>
 
-                                              {(firstView) && (mysearch.Children > 0) ? <label>Price of First class Children Ticket : {flight.First.ChildPrice}<br></br> </label> :
-                                                  BusinessView && (mysearch.Children > 0) ? <label> Price of Business class Children Ticket: {flight.Business.ChildPrice}<br></br> </label> :
-                                                      EconomyView && (mysearch.Children > 0) ? <label> price of Economy class Children Ticket : {flight.Economy.ChildPrice}<br></br> </label>: <label></label>}
+                                              </b></label>
+
+                                          </CardTitle>
+                                          <CardText >
+                                              {(firstView) && (mysearch.Adults > 0) ? <Label>Price of First class Adult Ticket : {flight.First.Price}<br></br> </Label> :
+                                                  BusinessView && (mysearch.Adults > 0) ? <Label>Price of Business class Adult Ticket: {flight.Business.Price}<br></br> </Label> :
+                                                      EconomyView && (mysearch.Adults > 0) ? <Label>Price of Economy class Adult Ticket : {flight.Economy.Price}<br></br> </Label>: <label></label>}<br/>
+                                              {(firstView) && (mysearch.Children > 0) ? <Label>Price of First class Children Ticket : {flight.First.ChildPrice}<br></br> </Label> :
+                                                  BusinessView && (mysearch.Children > 0) ? <Label>Price of Business class Children Ticket: {flight.Business.ChildPrice}<br></br> </Label> :
+                                                      EconomyView && (mysearch.Children > 0) ? <Label> price of Economy class Children Ticket : {flight.Economy.ChildPrice}<br></br> </Label>: <label></label>}
                                                       <br/>
-                                              Departure Date : {(flight.Departure.Date.toString()).slice(0,10)}<br/>
-                                              Departure time: {flight.Departure.Time}<br/>
-                                              Arrival Date : {(flight.Arrival.Date.toString()).slice(0,10)}<br/>
-                                              Arrival time:{flight.Arrival.Time}<br/>
+                                       &nbsp;&nbsp;&nbsp;Departure Date : {(flight.Departure.Date.toString()).slice(0,10)}<br/>
+                                       &nbsp;&nbsp;&nbsp;Departure time: {flight.Departure.Time}<br/>
+                                       &nbsp;&nbsp;&nbsp;Arrival Date : {(flight.Arrival.Date.toString()).slice(0,10)}<br/>
+                                       &nbsp;&nbsp;&nbsp;Arrival time:{flight.Arrival.Time}<br/>
+
                                           </CardText>
-                                          <Button class="center" style={{backgroundColor: '#96C7C1' ,marginLeft:'80%',marginTop:'-20%',padding:'10px'}}>
-                                              <Link  style={{backgroundColor: '#22577E'}}to={{
+                                          <Button class="center" style={{backgroundColor: '#5584AC' ,marginLeft:'80%',marginTop:'-25%',padding:'10px'}}>
+                                              <Link  style={{backgroundColor: '#d4902a',color:'#FFF'}}to={{
                                                   pathname: `/user/viewFlight/${flight._id}`
                                                   , search: '?' + new URLSearchParams(mysearch).toString()
-                                              }} className="btn btn-primary">Choose This Flight</Link>
+                                              }} className="btn btn-primary"> <FlightTakeoffIcon></FlightTakeoffIcon>Choose This Flight</Link>
                                           </Button>
                                       </CardBody>
                                   </Card>
+
                                   
                               ))}
 
@@ -512,10 +574,12 @@ function Home() {
                   </div>
                   
                   : <label></label>}
-{!(View) &&<Alert color="danger"><a align="center">Enter search parameters to view flights</a></Alert>
-}
+{!(View) &&<Alert color="danger"><a align="center">Enter search parameters to view flights</a></Alert>}
+
 {console.log(displayed.length)}
 {(wrongDate) &&<Alert color="info"><a align="center">Please Enter a valid Date</a></Alert>}
+
+{(wrongPass) &&<Alert color="info"><a align="center">Please Enter Number of Seats </a></Alert>}
 {(noResult) &&(displayed.length==0)&&<Alert color="danger"><a align="center">Sorry, No Flights are Available for these requirements</a></Alert>
 }
 {HasError &&  <Col className="bg-light "> <Alert align="center" color="danger" Row > 
@@ -525,130 +589,38 @@ function Home() {
       </Container>
       
       </section>
+
       
       </div>
+      {/* Partners  */}
+      <div style={{marginLeft:'auto',marginRight:'auto',width:'80%'}}>
+      <h1>Our Parteners</h1>
 
-      <div>
-      <section class="section">
-      <div class="container">
-          <div class="row"> 
-                <div class="col-md-12">
-					<div class="content-tab-1">
-						<ul class="nav">
-							<li>
-								<a aria-expanded="true" href="#tab-content-1" data-toggle="tab">
-								<i class="fa fa-desktop" ></i>
-								<h4 style= {{color:"rgb(85, 132, 172)"}} >Where We Fly</h4>
-								</a>
-								<div class="tab-arrow">
-								</div>
-							</li>
-                            
-							  <li>
-								<a aria-expanded="true" href="#tab-content-2" data-toggle="tab">
-								<i class="fa fa-cubes"></i>
-								<h4 style= {{color:"rgb(85, 132, 172)"}}>Vision</h4>
-								</a>
-								<div class="tab-arrow">
-								</div>
-							</li>
-                            
-							<li>
-								<a aria-expanded="true" href="#tab-content-3" data-toggle="tab">
-								<i class="fa fa-institution"></i>
-								<h4 style= {{color:"rgb(85, 132, 172)"}}>Mission</h4>
-								</a>
-								<div class="tab-arrow">
-								</div>
-							</li>
-                            
-							  <li>
-								<a aria-expanded="true" href="#tab-content-4" data-toggle="tab">
-								<i class="fa fa-pagelines"></i>
-								<h4 style= {{color:"rgb(85, 132, 172)"}}>Luxury</h4>
-								</a>
-								<div class="tab-arrow">
-								</div>
-							</li>
-                            
-							  <li>
-								<a aria-expanded="true" href="#tab-content-5" data-toggle="tab">
-								<i class="fa fa-pie-chart"></i>
-								<h4 style= {{color:"rgb(85, 132, 172)"}}>Customer Satisfaction</h4>
-								</a>
-								<div class="tab-arrow">
-								</div>
-							</li>
-                            
-						</ul></div></div></div>
-                        <div>
-     <div class="tab-content-main">
-								<div class="container">
-									<div class="tab-content">
-										<div class="tab-pane active in" id="tab-content-1">
-											
-                                         	
-                                            <div class="col-md-6 margin-bottom-30">
-                                                <div class="tab1-features">
-                                                    <div class="icon"style={{backgroundColor:"#22577E" }}> 1 <i class="fa fa-star-o"></i> </div>
-                                                    <div class="info" style={{backgroundColor:"#F6F2D4"}}>
-                                                  
-                                                        <h4 > Where We Fly</h4>
-                                                        <p >Asia, Africa, North America, South America, Antarctica, Europe, and Australia</p>
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="tab1-features">
-                                                    <div class="icon" style={{backgroundColor:"#22577E"}}> 2 <i class="fa fa-codepen"></i> </div>
-                                                    <div class="info"  style={{backgroundColor:"#F6F2D4"}}>
-                                                        <h4>Our Vision</h4>
-                                                        <p>Moved by people, SkyOverFlow Airways will be the world's number one air provider, based on customer preference, value, reliability, and scale. We strive to be a vital link in the global economy, delivering to the world for a better future.</p>
-                                                    </div>
-                                                </div>
-                                              
-                                                <div class="tab1-features">
-                                                    <div class="icon"  style={{backgroundColor:"#22577E"}}> 3 <i class="fa fa-heart-o"></i></div>
-                                                    <div class="info" style={{backgroundColor:"#F6F2D4"}}>
-                                                        <h4>Our Mission</h4>
-                                                        <p>our collective mission is to achieve ‘Excellence in everything we do’ at all levels across our SkyOverFlow Airways family of highly-skilled and committed professionals, from across the globe. </p>
-                                                    </div>
-                                                </div>
+      <ImageList sx={{ width: 1100, height: 300 }} cols={5} rowHeight={164}>
+      {itemData.map((item) => (
+        <ImageListItem key={item.img}>
+          <img
+            src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
+            srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+            alt={item.title}
+            loading="lazy"
+          />
+        </ImageListItem>
+      ))}
+    </ImageList>
+    <br/>
+    <br/>
+          
+      </div>
 
-                                                <div class="tab1-features">
-                                                    <div class="icon"  style={{backgroundColor:"#22577E"}}> 4 <i class="fa fa-heart-o"></i></div>
-                                                    <div class="info" style={{backgroundColor:"#F6F2D4"}}>
-                                                        <h4>Luxury</h4>
-                                                        <p>SkyOverFlow Airways is regarded as one of the most luxurious airlines in the world, and has received numerous awards for their onboard service.</p>
-                                                    </div>
-                                                </div>
+      <div style={{background:'#95D1CC',marginTop:'10%',borderRadius:'25px',padding:'5%',width:'90%',marginLeft:'5%'}}>
+          <h1> Learn How to book a Flight</h1>
 
-
-                                                <div class="tab1-features">
-                                                    <div class="icon"  style={{backgroundColor:"#22577E"}}> 5<i class="fa fa-heart-o"></i></div>
-                                                    <div class="info" style={{backgroundColor:"#F6F2D4"}}>
-                                                        <h4>Customer Satisfaction</h4>
-                                                        <p>Qatar Airways strives to maintain the highest standards in customer service and we are committed to providing safe, dependable, and convenient world-class service to our customers.</p>
-                                                    </div>
-                                                </div>
-
-
-
-
-
-                                                
-                                                
-                                            </div></div></div></div></div>
-                                            
-     </div>
-                        
-                        
-                        
-                        
-                        </div></section></div>
-
-     
-
-                     
+      <video class="video-fluid z-depth-1" autoplay loop controls muted>
+  <source src="https://mdbootstrap.com/img/video/Sail-Away.mp4" type="video/mp4" />
+    </video>
+      </div>
+      
       </div>
       
   );
@@ -656,3 +628,8 @@ function Home() {
 
 
 export default Home;
+
+
+
+
+

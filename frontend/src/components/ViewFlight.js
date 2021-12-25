@@ -1,18 +1,17 @@
 import React, { Children,useContext } from "react";
-import { Switch, Route, Link, useSearchParams } from "react-router-dom";
+import { Switch, Route, Link, useSearchParams} from "react-router-dom";
+
 import { get, patch,put } from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Component, useState, useEffect } from 'react';
 import axios from 'axios';
 import AuthContext from './AuthContext';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import {useParams,useLocation} from "react-router-dom";
-import { CardBody, Card, CardColumns,CardImg,CardSubtitle,CardText,CardGroup,Toast,ToastBody,ToastHeader,Container,
+import { CardBody, Card, CardColumns,CardImg,CardSubtitle,CardText,CardGroup,Toast,ToastBody,ToastHeader,Container,Form,FormGroup,Label,Alert,
           Button,CardTitle,Col,Row} from 'reactstrap';
 import "../Style/summay.css";
 import "../Style/Navbar.css";
-<<<<<<< Updated upstream
-=======
 import"../Style/ticketSymmary.css";
 import JSONDATA from './MOCK_DATA.json';
 
@@ -27,7 +26,6 @@ import JSONDATA from './MOCK_DATA.json';
 
 
 
->>>>>>> Stashed changes
 function ViewFlight(props){
 
      
@@ -70,12 +68,9 @@ Arrival:{
 
 };  
     const {loggedIn} = useContext(AuthContext);
-<<<<<<< Updated upstream
-=======
     const { getLoggedIn } = useContext(AuthContext);
     let navigateBack = useNavigate();
     const navigate = useNavigate();
->>>>>>> Stashed changes
     let location = useLocation();
     let search=new URLSearchParams(location.search)
     
@@ -92,9 +87,6 @@ Arrival:{
     const adultTicketsno=parseInt(search.get('Adults')) ;
     const cabin=search.get('Cabin');
     const [HasError, setHasError] = useState(false);
-<<<<<<< Updated upstream
-  const [Error, setError] = useState('');
-=======
     const [viewForm,setviewForm]=useState(false);
 
     //  let history = useHistory();
@@ -105,7 +97,6 @@ Arrival:{
     
 
     const [Error, setError] = useState('');
->>>>>>> Stashed changes
     const returnDate =search.get('ReturnDate');
     const adultTicket= (cabin=="First")?flight.First.Price:(cabin=="Business")?flight.Business.Price:(cabin=="Economy")?flight.Economy.Price:0;
     const childTicket= (cabin=="First")?flight.First.ChildPrice:(cabin=="Business")?flight.Business.ChildPrice:(cabin=="Economy")?flight.Economy.ChildPrice:0;
@@ -153,17 +144,50 @@ Arrival:{
     }
     const[mysummary,setSummary]=useState(Summary);
     const[myData,setData]=useState(Data);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [notCorrect, setAvailable] = useState(false);
+
+ 
+  async function login(e) {
+    e.preventDefault();
+
+    try {
+      const loginData = {
+        email,
+        password,
+      };
+        await axios.post("http://localhost:8000/authorize/login",loginData)
+        await getLoggedIn();
+        setViewSummary(true);
+        setViewOutBound(false);
+        setviewForm(false);
+
+        setAvailable(false);
+
+      }
+      catch(err){
+        console.error(err);
+        setAvailable(true);
+
+      }}
     
     console.log("Return",search.get('ReturnDate'));
     
 
     useEffect(() => {
       console.log( parseInt(search.get('Adults')) );
+      
      
         axios.get(`http://localhost:8000/user/viewFlight/${id}`).then(res => {
           setFlight(res.data.aFlight);
           setReturnFlights(res.data.allFlight);
           setDisplayed(res.data.allFlight);
+          console.log(res.data.aFlight);
+          console.log("fliiiiight",flight);
+
+
           
           if(!res.data.allFlight){
             setHasError(true);
@@ -181,8 +205,6 @@ Arrival:{
         
 
     }, [props]);
-<<<<<<< Updated upstream
-=======
 
     async function handleClick(){
         setViewSummary(false);
@@ -191,7 +213,6 @@ Arrival:{
         await getLoggedIn();
     }
    
->>>>>>> Stashed changes
     console.log("children : ",mysearch.Children);
     console.log("adults : ",mysearch.Adults);
     const total =mysearch.Adults+mysearch.Children;
@@ -260,18 +281,14 @@ Arrival:{
 
 
       return(
-<<<<<<< Updated upstream
-        <div style={{backgroundColor:'#FFFFFF' }}>
-=======
         <div style={{ backgroundColor:"white" }}>
->>>>>>> Stashed changes
     {ViewOutBound ?
-
 
 
          <Toast className="center" style={{marginTop:'10%'}}>
             <ToastHeader icon="primary">
-                <label> Flight From {flight.From.Airport} to {flight.To.Airport}</label>
+                <label> Flight From {flight.From.Airport} to {flight.To.Airport}</label>    
+
             </ToastHeader>
             <ToastBody>
             { (adultTicketsno>0)?(<label> Price / Adult ticket: {adultTicket} <br/></label>):<label></label> }<br/>
@@ -475,20 +492,13 @@ return flag1 & flag2 & flag3 & flag4 ;
                     <label className="orange" style={{backgroundColor: '#96C7C1' , color:"#22577E"}} >Total-Price: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {mysummary.ReturnTotalPrice + totalPrice} </label>
                     </CardText>
                     
-                   {loggedIn && <Button >
-                    <Link to={{ pathname:`/user/confirmFlight` 
-                         , search:'?'+new URLSearchParams(myData).toString()
-                           }}className="btn btn-primary">You have to sign up to be able to reserve</Link>      
+                   {(!loggedIn) && <Button onClick={() => handleClick()}>
+                     Login First
                       </Button>
                     }
                     
-<<<<<<< Updated upstream
-                   {(id)&& <Button style={{backgroundColor: '#96C7C1',marginLeft:'30%'}}>
-                    <Link style={{backgroundColor: '#96C7C1'}}to={{ pathname:`/user/confirmFlight/${id}` 
-=======
                    {(loggedIn)&& <Button style={{backgroundColor: '#96C7C1' , color:"#22577E",marginLeft:'30%' }}>
                     <Link style={{backgroundColor: '#96C7C1' , color:"#22577E" , fontSize:"200%",fontWeight: "bold"}}to={{ pathname:`/user/confirmFlight` 
->>>>>>> Stashed changes
                          , search:'?'+new URLSearchParams(myData).toString()
                            }}className="btn btn-primary">Confirm and Book</Link> 
                       </Button>}
@@ -498,8 +508,8 @@ return flag1 & flag2 & flag3 & flag4 ;
                          
       </Card>
 
-      <div class="body1"  >
-  <div class="section1"style={{width:"700px", height:"300px", position:'absolute', top:"70%", right:"55%"  }} >
+      <div class="body1" style={{width:"700px", height:"300px", position:'absolute', top:"70%", right:"55%"  }}  >
+  <div class="section1">
     <div class="ticket__wrapper"  >
       <div class="w-layout-grid ticket__main-grid" >
         <div id="w-node-_4de94962-9e0c-9272-b6ee-d4681c5881b4-21b78d9a" class="ticket__left-wrapper">
@@ -556,18 +566,12 @@ return flag1 & flag2 & flag3 & flag4 ;
 
 <Button 
 onClick={handleBack} 
-style={{backgroundColor: '#96C7C1' , color:"#22577E" , width:"400px" , height:"50px",fontSize:"200%",fontWeight: "bold" ,  position:'absolute', top:"201%"}}
+style={{backgroundColor: '#96C7C1' , color:"#22577E" , width:"400px" , height:"50px"}}
 // size="lg"
 >Go Back</Button>
 </div>
 
       </div>:<label></label>}
-<<<<<<< Updated upstream
-      {/* <button>Back</button>
-      <button type="button" class="btn btn-default btn-arrow-left">Default</button> */}
-      <button href="#" class="previous round">&#8249;</button>
-      
-=======
 
 
 
@@ -611,7 +615,6 @@ style={{backgroundColor: '#96C7C1' , color:"#22577E" , width:"400px" , height:"5
 }
 </div>:<label></label>}
    
->>>>>>> Stashed changes
 
 
 

@@ -1,3 +1,121 @@
+import React, { Component,useContext } from 'react';
+ 
+import { BrowserRouter , Routes, Route } from 'react-router-dom';
+import './App.css';
+import axios from 'axios'
+
+import CreateFlight from './components/CreateFlight';
+import AllFlights from './components/AllFlights';
+import UpdateFlight from './components/UpdateFlight';
+import Home from './components/Home'; 
+import MyNavBar from './components/MyNavbar';
+import NavBarUser from './components/MyNavbarUser';
+import ViewReserved from'./components/ViewReserved';
+import SearchFlight from'./components/SearchFlight';
+import ViewFlight from './components/ViewFlight';
+import Registeration from './components/Registeration';
+import SignIn from './components/SignIn';
+import UpdateProfile from './components/UpdateProfile';
+import UserProfile from './components/UserProfile';
+import Page404 from './components/Page404';
+import ViewSeats from './components/ViewSeats';
+import ReserveFlight from './components/ReserveFlight';
+import ChangeFlight from './components/ChangeFlight';
+import Rseat from './components/ticket.js';
+
+import { Container } from 'reactstrap';
+import StripeContainer from './components/StripeContainer';
+import ChangePass from './components/ChangePass';
+import { AuthContextProvider } from "./components/AuthContext";
+import AuthContext from "./components/AuthContext";
+
+axios.defaults.withCredentials = true;
+function App() {
+  const DynamicLayoutRoute = props => {
+    const { component: RoutedComponent, layout, ...rest } = props;
+  
+    // render actual Route from react-router
+    const actualRouteComponent = (
+      <Route
+        {...rest}
+        render={props => (
+           <RoutedComponent {...props} />
+        )}
+      />
+    );
+  
+    // depends on the layout, you can wrap Route component in different layouts
+    switch ('user') {
+      case 'user': {
+        return (
+          <NavBarUser>
+            {actualRouteComponent}
+          </NavBarUser>
+        )
+      }
+      case 'admin': {
+        return (
+          <MyNavBar>
+            {actualRouteComponent}
+          </MyNavBar>
+        )
+      }
+      default: {
+        return (
+          <MyNavBar>
+            {actualRouteComponent}
+          </MyNavBar>
+        )
+      }
+    }
+  };
+
+
+ 
+  return ( 
+
+
+    <BrowserRouter>
+     <AuthContextProvider>
+    <NavBarUser></NavBarUser>
+    <Routes>
+
+      <Route path="/admin/createFlight" element={<CreateFlight />} />
+      <Route path="/admin" element={<AllFlights />} />
+      <Route path="/admin/UpdateFlight/:id" element={<UpdateFlight/>}/> 
+      {/* <Route path="/" element={<Home/>}/> */}
+      <Route path="/home" element={<Home/>}/>
+      <Route path="/user" element={<Home/>}/>
+      <Route path="/plane" element={<Rseat/>}/>
+
+      <Route path="user/viewReserved" element={<ViewReserved/>}/>
+      <Route path="/user/viewFlights" element={<SearchFlight />} />
+      <Route path="/user/viewFlight/:id" element={<ViewFlight />} />
+      <Route path="/user/viewSeats/:FlightId/:Cabin/:TicketId" element={<ViewSeats/>}/>  
+      <Route path="/user/updateProfile" element={<UpdateProfile/>}/>
+      <Route path="/user/userProfile" element={<UserProfile/>}/> 
+      <Route path="/authorize/changepass" element={<ChangePass/>}/> 
+      <Route path="/user/confirmFlight" element={<ReserveFlight/>}/> 
+      <Route path="/authorize/signup" element={<Registeration/>}/> 
+      <Route path="/authorize/login" element={<SignIn/>}/> 
+      <Route path="/user/payment" element={<StripeContainer/>}></Route>
+      <Route element={Page404} />
+      <Route path="/user/ " element={<UserProfile/>}/> 
+
+    </Routes>
+    </AuthContextProvider>
+  </BrowserRouter>
+  );
+ 
+}
+
+export default App;
+
+
+
+
+userController
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const router = express.Router();
@@ -9,10 +127,6 @@ const nodemailer = require('nodemailer');
 const auth = require ('../middleware/auth');
 
 const cors = require("cors")
-
-
-
-router.use(bodyParser.json());
 
 
 router.use(bodyParser.json())
@@ -61,42 +175,7 @@ const catchAsync = func => {
   }
 }
  
-router.post("/mailmyTicket",auth,catchAsync (async(req,res)=>{
-  
-  const user = await User.findById(req.user);
-  
-  const ticket= req.body;
-  const Flight = req.body.Flight;
-  console.log(req.body.Flight);
-  const Departure= req.body.Departure;
-  const Arrival= req.body.Arrival
-  var mailOptions = {
-    from: 'sky.overflow.flight@gmail.com' ,
-    to: user.Email,
-    subject: 'Your Ticket',
-    text: 
-    `Here is your Ticket Info for Passenger ${ticket.Name}
-    FlightNumber:${Flight.Number},
-    Ticket Number: ${ticket._id},
-    From: ${Departure.Airport},
-    To: ${Arrival.Airport},
-    Class: ${ticket.Cabin},
-    Date: ${Departure.Date},
-    Departs At: ${Departure.Time},
-    Arrives At: ${Arrival.Time},
-    Departure Terminal: ${Departure.Terminal},
-    Arrival Terminal: ${Arrival.Terminal}`}
 
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent: ' + info.response);
-      }
-    });
-  
- 
-}))
 
    router.put("/updateReserved",auth ,(req, res) => {
     let theSeat= req.body.SeatId;
@@ -187,7 +266,8 @@ router.get('/viewFlight/:id', async (req, res) => {
 
 
       
- 
+  //  router.get('/viewFlight/:id',auth ,async (req, res)=> {   
+  //       const f = await Flight.find({}).populate(['First.SeatId','Business.SeatId','Economy.SeatId']);
                                                   
   //      await Flight.findById(req.params.id).then(result => {
            
@@ -237,7 +317,7 @@ router.get('/viewReserved',auth ,catchAsync(async (req, res, next) => {
      
  
 router.get('/userProfile',auth ,catchAsync(async (req, res, next) => {
- 
+  console.log(req.params.id)
 const  user = await User.findById(req.user);
   console.log(user);
   if(user==''){  res.status(404).send({
@@ -246,7 +326,50 @@ const  user = await User.findById(req.user);
   res.send(user);
 }));
 
+router.get('/viewSeats/:FlightId/:Cabin/:TicketId',auth,catchAsync(async(req,res,next)=>{
+  //console.log("I CAME HEREEE")
+  const cabin = req.params.Cabin;
+  const departure = req.params.DepartureAirport;
+  //const departureDate = req.params.DepartureDate;
+  //const arrivalAirport = req.params.ArrivalAirport;
+  //const returndate = req.params.Returndate;
+  const adults = req.params.Adults;
+  const kids = req.params.Kids;
 
+
+  if (cabin=='First'){
+    const availableFlights= await Flight.find({'First.SeatsLeft':{$gt:adults+kids},'From.Airport':departure});
+  }
+  else if(cabin=='Bussiness'){
+    const availableFlights= await Flight.find({'Business.SeatsLeft':{$gt:adults+kids},'From.Airport':departure});
+
+  }else if(Economy){
+    const availableFlights= await Flight.find({'Economy.SeatsLeft':{$gt:adults+kids},'From.Airport':departure});
+  }
+ console.log("available seats in get req",availableFlights);
+
+ if(availableFlights.length==0){ 
+   console.log("error in get entered")
+    res.status(404).send({
+  message: 'No availabe flights'
+});}
+ res.send(availableFlights);
+}));
+
+router.get('/viewSeats/:id/:FlightId/:Cabin/:TicketId',catchAsync(async(req,res,next)=>{
+  const FlightId = req.params.FlightId;
+  const cabin = req.params.Cabin;
+  const availableSeats = await Seat.find({ 'FlightId': FlightId, 'Cabin': cabin, 'IsBooked': false });
+  console.log("FlightId in get", FlightId, cabin);
+  console.log("available seats in get req", availableSeats);
+  if (availableSeats.length == 0) {
+    console.log("error in get entered")
+    res.status(404).send({
+      message: 'No availabe seats'
+    });
+  }
+  res.send(availableSeats);
+}));
 
 
 router.get('/changeSeats/:id/:FlightId/:Cabin/:TicketId/:OldSeat',catchAsync(async(req,res,next)=>{
@@ -280,20 +403,6 @@ router.post('/viewSeats/:SeatId/:TicketId',auth,catchAsync(async(req,res,next)=>
   console.log('end')
 
 }));
-router.get('/viewSeats/:FlightId/:Cabin/:TicketId',auth,catchAsync(async(req,res,next)=>{
-  //console.log("I CAME HEREEE")
-  const FlightId = req.params.FlightId;
-  const cabin = req.params.Cabin;
- const availableSeats= await Seat.find({'FlightId':FlightId,'Cabin':cabin,'IsBooked':false});
- console.log("FlightId in get",FlightId,cabin);
- console.log("available seats in get req",availableSeats);
- if(availableSeats.length==0){ 
-   console.log("error in get entered")
-    res.status(404).send({
-  message: 'No availabe seats'
-});}
- res.send(availableSeats);
-}));
 
 
 
@@ -321,6 +430,7 @@ router.post('/confirmReserved',auth ,catchAsync(async (req, res, next) => {
  
   const goingflight=await Flight.findById(details.DepartureId) 
     .catch(err => {
+
       res.send(err);
     });
   const returnflight = await Flight.findById(details.ReturnFlightId).catch(err => {
@@ -469,3 +579,4 @@ await newFlight.save();
 await ticke.save();
 })
 module.exports = router;
+

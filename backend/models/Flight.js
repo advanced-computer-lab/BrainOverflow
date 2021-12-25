@@ -1,41 +1,73 @@
+const { Timestamp } = require('bson');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Seat = require('./Seat');
 const flightSchema = new Schema({
+  FlightNumber : {
+    type: String,
+    required: true
+  },
     From : {
-        type: String,
-        required: true,
+        Airport: {type:String,
+        required:true},
+
+        Terminal: {type:Number,
+        required: true}
       },
-      To:{
-        type: String,
-        required: true,
+      To: {
+        Airport: {type:String,
+        required:true},
+
+        Terminal: {type:Number,
+        required: true}
       },
-      FlightDate:{
-        type: Date,
-        required:true,
-      },
+      
       Economy:{
-        type: Number,
-        required:true,
+        SeatId: [{type: mongoose.Schema.Types.ObjectId,required:true,
+            ref:"Seat"}],
+        Price:Number,
+        ChildPrice:Number,
+        Baggage:Number,
+        SeatsLeft:Number
+        //required:true
       },
       Business:{
-        type: Number,
-        required: true,
+        SeatId: [{type: mongoose.Schema.Types.ObjectId,required:true,
+          ref:"Seat"}],
+        Price:Number,
+        ChildPrice:Number,
+        Baggage:Number,
+        SeatsLeft:Number
+
+        //required: true
       },
       First:{
-        type: Number,
-        required: true
-      },
-      Terminal:{
-        type: Number,
-        required: true
+        SeatId: [{type: mongoose.Schema.Types.ObjectId,required:true,
+          ref:"Seat"}],
+        Price:Number,
+        ChildPrice:Number,
+        Baggage:Number,
+        SeatsLeft:Number
+
+       // required: true
       },
       Departure:{
-        type: String,
+        Date:{
+        type: Date,
         required: true
       },
+      Time:{
+        type:String,
+          required:true }
+    },
       Arrival:{
-        type: String,
-        required: true
+        Date:{
+          type: Date,
+          required: true
+        },
+        Time:{type:String,
+            required:true
+        }
       }
     }, { timestamps: true });
 

@@ -2,25 +2,26 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const Flight = require('../models/Flight');
-
-///
-const catchAsync=func=>{
-  return (req,res,next)=>{
-      func(req,res,next).catch(next);
+const Seat = require('../models/Seat');
+const { flightSchema } = require('../schemas.js');
+const ExpressError = require('../ExpressError');
+const catchAsync = func => {
+  return (req, res, next) => {
+    func(req, res, next).catch(next);
   }
 }
-
-
-//Creating new flight
-router.post('/createFlight',catchAsync(async(req,res,next)=>{
-  console.log(req.body);
-    const details=req.body;
-    console.log(req.body);
-    const flight = new Flight(details);
-    await flight.save();
-    res.redirect('/viewFlights');
-  }))
-  router.get('/viewFlights' ,(req, res) => {                                               ``
+const validateFlight = (req, res, next) => {
+  const { error } = flightSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map(el => el.message).join(',')
+    throw new ExpressError(msg, 400)
+  } else {
+    next();
+  }
+}
+//View all flights 
+router.get('/viewFlights', (req, res) => {
+  ``
   Flight.find({})
     .then(result => {
       res.send(result);
@@ -28,138 +29,80 @@ router.post('/createFlight',catchAsync(async(req,res,next)=>{
     .catch(err => {
       console.log(err);
     });
-  });
+});
 
-  router.get('/UpdateFlight/:id' ,(req, res) => {  
-    Flight.findById(req.params.id).then(result => {
+
+//Creating new flight
+router.post('/createFlight', catchAsync(async (req, res, next) => {
+  console.log(req.body);
+  const details = req.body;
+  const From = {'Airport': details.FromAirport, 'Terminal': details.FromTerminal };
+  const To = { 'Airport': details.ToAirport, 'Terminal': details.ToTerminal };
+  const Economy = { 'SeatId': [], 'Price': details.EconomyPrice, 'ChildPrice': details.EconomyChildPrice, 'Baggage': details.EconomyBaggage ,'SeatsLeft':details.EconomySeats};
+  const Business = { 'SeatId': [], 'Price': details.BusinessPrice, 'ChildPrice': details.BusinessChildPrice, 'Baggage': details.BusinessBaggage,'SeatsLeft':details.BusinessSeats };
+  const First = { 'SeatId': [], 'Price': details.FirstPrice, 'ChildPrice': details.FirstChildPrice, 'Baggage': details.FirstBaggage,'SeatsLeft':details.FirstSeats};
+  const Departure = { 'Date': details.DepartureDate, 'Time': details.DepartureTime };
+  const Arrival = { 'Date': details.ArrivalDate, 'Time': details.ArrivalTime };
+  const flight = new Flight({ FlightNumber: details.FlightNumber, From: From, To: To, Economy: Economy, Business: Business, First: First, Departure: Departure, Arrival: Arrival });
+  // if(Departure.Date>Arrival.Date ||(Departure.Date==Arrival.Date && Departure.Time>=Arrival.Time))
+  //       throw new ExpressError("The Arrival Must Be After Departure!", 400)
+  // if(From.Airport==To.Airport)
+  //     throw new ExpressError("Arrival and Departure Cities Must be different", 400)    
+  // //const { error } = flightSchema.validate(flight);
+
+  for (i = 1; i <= details.EconomySeats; i++) {
+    const seat = new Seat({ 'SeatNumber': `E${i}`, 'IsBooked': false, 'FlightId': flight._id, 'Cabin': 'Economy' });
+    flight.Economy.SeatId.push(seat);
+    await seat.save();
+  }
+  for (i = 1; i <= details.BusinessSeats; i++) {
+    const seat = new Seat({ 'SeatNumber': `B${i}`, 'IsBooked': false, 'FlightId': flight._id, 'Cabin': 'Business' });
+    flight.Business.SeatId.push(seat);
+    await seat.save();
+  }
+  for (i = 1; i <= details.FirstSeats; i++) {
+    const seat = new Seat({ 'SeatNumber': `F${i}`, 'IsBooked': false, 'FlightId': flight._id, 'Cabin': 'First' });
+    flight.First.SeatId.push(seat);
+    await seat.save();
+  }
+  await flight.save()
+
+}));
+router.get('/viewFlights', (req, res) => {
+ 
+  Flight.find({})
+    .then(result => {
       res.send(result);
     })
     .catch(err => {
       console.log(err);
     });
-  });
- //search 
- /*
- router.get('/search',async(req,res,next)=>{
-  await Flight.find(
-      { $or: [{ ID: }, { Departure: }, { Arrival:},{FlightDate:},{Terminal:}] },
-      function(err, result) {
-        if (err) {
-          res.send(err);
-        } else {
-          res.send(result);
-        }
-      }
-    );
-
-})
-*/
-router.get('/flight/:id/delete', function(req, res){
-Flight.findByIdAndRemove({_id: req.params.id}, 
-   function(err, docs){
-if(err) res.json(err);
-else    res.redirect('/view');
 });
+
+router.get('/updateFlight/:id', (req, res) => {
+  Flight.findById(req.params.id).then(result => {
+    //console.log(result);
+    res.send(result);
+  })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+router.delete('/delete/:id', function (req, res) {
+  Flight.findByIdAndRemove({ _id: req.params.id },
+    function (err, docs) {
+      if (err) res.json(err);
+
+    });
 })
 
 
-/*router.put('/UpdateFlight/:id',(req , res)=>{
-  var id=req.params.id;
-      console.log(req.params);
-       Flight.findOne({_id:id}).then((result)=>{
-           if(req.body.id)
-           {
-               result.From=req.body.From;
-           }
-           result.save().then((result)=>
-           {
-               res.send("update is done");
-          }).catch((err)=>
-           {
-               console.log(err);
-           })
-       });
-    });*/
+router.put("/updateFlight/:id", catchAsync(async (req, res) => {
+  var _id = req.body._id;
+  await Flight.findByIdAndUpdate(req.body);
 
-/* {
-        From: req.body.From,
-        To: req.body.To,
-        FlightDate: req.body.FlightDate,
-        Economy: req.body.Economy,
-        Business: req.body.Business,
-        First: req.body.First ,
-        Departure: req.body.Departure ,
-        Arrival: req.body.Arrival,
-        Terminal: req.body.Terminal ,}*/
-    router.put("/UpdateFlight/:id", (req, res) => {
-      console.log("req.body", req.body);
-      // inserting a new inventory
-      var _id = req.body._id;
-      
-      var flights =req.body;
+}));
 
 
-        Flight.findByIdAndUpdate( {
-          _id: req.params.id
-        },flights).then(
-          () => {
-             res.status(201).json({
-                message: 'Thing updated successfully!'
-             });
-          }
-        ).catch(
-          (error) => {
-             res.status(400).json({
-                error: error
-             });
-          }
-        );
-
-      });
-  
-  
-
-      
-
-
-/*userRouter.put('/newupdate/:id',(req,res)=>
-// {
-//     var id=req.params.id;
-//     console.log(req.params);
-//     User.findByIdAndUpdate({_id:id},req.body).then((result)=>{
-//         res.send("DONE");
-//     });
-// });
-
-try{
-    const flight = await Flight.findById(req.params.id);
-    Object.assign(flight , req.body);
-    flight.save();
-    res.send({data : flight});
-  } catch {
-    res.status(404).send({error : "flight not found"});
-  }
-
-*/
-
-/*first way to update data in a collection
-// userRouter.put('/update/:id',(req,res)=>
-// {
-//     var id=req.params.id;
-//     console.log(req.params);
-//     User.findOne({_id:id}).then((result)=>{
-//         if(req.body.name)
-//         {
-//             result.name=req.body.name;
-//         }
-//         result.save().then((result)=>
-//         {
-//             res.send("update is done");
-//         }).catch((err)=>
-//         {
-//             console.log(err);
-//         })
-//     });
-// });*/
-
-module.exports=router;
+module.exports = router;
