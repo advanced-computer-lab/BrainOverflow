@@ -15,14 +15,21 @@ const stripe = Stripe('sk_test_51K8UnBGmD9zb7igMlNQnyWl8REycCu9x2zgLsIcLodnv2rTu
 
 
 router.use(bodyParser.urlencoded({ extended: true }))
-router.post("/refund",async(req,res)=>{
+router.post("/refund/:TicketId",async(req,res)=>{
+
+  const ticketId = req.params.TicketId;
+  const ticket =await Ticket.findById(ticketId);
+  const paymentId = ticket.PaymentId;
   console.log("ana neela")
 const amount = req.body.amount;
-const paymentId = req.body.paymentId;
 const refund = await stripe.refunds.create({
   payment_intent: paymentId,
-  amount: amount,
+  amount: Math.abs(amount)*100,
 });
+res.json({
+  message: "Payment succeded",
+  success: true
+})
 })
 router.post("/payment", async (req, res) => {
 	let { amount, id } = req.body;
@@ -321,7 +328,7 @@ router.post('searchFlights', catchAsync(async (req, res, next) => {
   const details = req.body.Summary;
   const paymentId=req.body.paymentId;
   const user = await User.findById(req.user);
-  console.log("payment fel confirm",paymentId);
+  console.log("names",details.AdultNames);
 
   const goingflight = await Flight.findById(details.DepartureId)
     .catch(err => {
@@ -444,36 +451,43 @@ if(Cabin =="Economy"){
         message: "No flights available with similar criteria"
       })};
 }
+
 })
 router.put('/changeFlight/:TicketId/:ChosenFlightId',auth,async(req,res,next)=>{
+  console.log("ana fel change")
   const ticket = await Ticket.findById(req.params.TicketId);
   const seat = await Seat.findById(ticket.Seat.SeatId);
   seat.IsBooked=false;
   await seat.save();
- const oldFlight = await Flight.find({'_id':ticket.FlightId});
+ const oldFlight = await Flight.findById(ticket.Flight.FlightId);
 ticket.Cabin=="Economy"?oldFlight.Economy.SeatsLeft++:ticket.Cabin=="First"?oldFlight.First.SeatsLeft++:oldFlight.Business.SeatsLeft++;
 await oldFlight.save();
 const newFlight = await Flight.findById(req.params.ChosenFlightId);
 ticket.Cabin=="Economy"?newFlight.Economy.SeatsLeft--:ticket.Cabin=="First"?newFlight.First.SeatsLeft--:newFlight.Business.SeatsLeft--;
 ticket.Flight.FlightId=newFlight._id;
 ticket.Flight.FlightNumber=newFlight.FlightNumber;
-ticket.Flight.Departure.Date = newFlight.Departure.Date;
-ticket.Flight.Departure.Time = newFlight.Departure.Time;
-ticket.Flight.Arrival.Time = newFlight.Arrival.Time;
-ticket.Flight.Arrival.Time = newFlight.Arrival.Time;
-ticket.Flight.Arrival.Terminal = newFlight.Arrival.Terminal;
-ticket.Flight.Departure.Terminal = newFlight.Departure.Terminal;
+ticket.Departure.Date = newFlight.Departure.Date;
+ticket.Departure.Time = newFlight.Departure.Time;
+ticket.Arrival.Time = newFlight.Arrival.Time;
+ticket.Arrival.Time = newFlight.Arrival.Time;
+ticket.Arrival.Terminal = newFlight.To.Terminal;
+ticket.Departure.Terminal = newFlight.From.Terminal;
 
 ticket.Seat.SeatId=null;
 ticket.Seat.SeatNumber='';
-if(ticked.IsChild==false)
+if(ticket.IsChild==false)
 ticket.Cabin=="Economy"?ticket.price=newFlight.Economy.Price:ticket.Cabin=="First"?ticket.price=newFlight.First.Price:ticket.price=newFlight.BusinessBaggage.Price;
 else 
 ticket.Cabin=="Economy"?ticket.price=newFlight.Economy.ChildPrice:ticket.Cabin=="First"?ticket.price=newFlight.First.ChildPrice:ticket.price=newFlight.BusinessBaggage.ChildPrice;
-await user.save();
+console.log("abl el save")
 await newFlight.save();
 
-await ticke.save();
+await ticket.save();
+console.log("ANa 5alast el change ")
+res.json({
+  message: "Change succeeded",
+  success: true
+})
 })
 router.post('/editFlightSearch/:ticketId',auth,async(req,res,next)=>{
   console.log("Iam the request body",req.body)

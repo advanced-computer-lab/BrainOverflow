@@ -8,14 +8,9 @@ import { useNavigate } from 'react-router-dom'
 import {Modal,ModalHeader,ModalBody,ModalFooter,CardBody, Card, CardHeader, Form, Input, FormGroup,
         Label, Button, Container, Row, Col, Table} from 'reactstrap';
 import {useParams,useLocation} from "react-router-dom";
-import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
-import CreditCardIcon from '@mui/icons-material/CreditCard';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-
-
+import "../Style/summay.css"
 function ReserveFlight(){
-  
-    let navigateBack = useNavigate();
+
     let location = useLocation();
     let search=new URLSearchParams(location.search);
     const Summary={
@@ -32,56 +27,49 @@ function ReserveFlight(){
         ReturnPriceAdult:search.get('ReturnPriceAdult'),
         ReturnPriceChild:search.get('ReturnPriceChild'),
         ReturnTotalPrice:search.get('ReturnTotalPrice')
-                       
+
+                     
     };
-   
-    const{id}=useParams();
-    console.log(id);
+    const[MySummary,SetSummary]=useState(Summary);
+    var AdultNames= [];
+    var ChildrenNames=[];
      
     const [show, setShow] = useState(false);
-    
+
+   /* try{
+      //await     
+      axios.get(`http://localhost:8000/user/confirmReserved`) 
+          } catch (error) {
+          console.error(error);
+        }*/
+      
 
       for(let i =0;i<(parseInt(Summary.Children));i++ ){
-        Summary.ChildrenNames.push("placeHolder");
+       ChildrenNames.push("placeHolder");
 
       }
       for(let i =0;i<(parseInt(Summary.Adults));i++ ){
-        Summary.AdultNames.push("placeHolder");
+        AdultNames.push("placeHolder");
 
       }  
-      function handleBack() {
-        navigateBack(-1)
-      }
-  
+  function handleClick(){
+    MySummary.AdultNames=AdultNames;
+    MySummary.ChildrenNames=ChildrenNames;
+    console.log(MySummary.ChildrenNames);
+    console.log(MySummary.AdultNames);
+   setShow(true);
+  }
      
-
+    
     return (
-      <div style={{background:"#FFF"}}>
-      <Container style={{background:"#FFF"}}>   
-         <Modal isOpen={show} style={{marginTop:'20%'}} >
-         <ModalHeader
-          charCode="Y"
-        >
-          Tickets Reservation
-        </ModalHeader>
-        <ModalBody>
-          To confirm your tickets , please click proceed to payment
-        </ModalBody>
-        <ModalFooter>
-          { 
-                    <Link to={{ pathname:`/user/payment` 
-                         , search:'?'+new URLSearchParams(Summary).toString()
-                           }}className="btn btn-primary " style={{backgroundColor:'#d4902a'}}> <CreditCardIcon></CreditCardIcon>Proceed to payment</Link> 
-                     }
-          
+      <div style={{backgroundColor:'#FFF'}}>
+      <Container >   
          
-        </ModalFooter>
-      </Modal>
          
           
-             <Form  style={{marginTop:'30%',margin:'10%',backgroundColor:'#95D1CC',width:'80%',paddingTop:'5%' ,paddingBottom:'5%' ,borderRadius:'5px'}}>
+             <Form style={{marginTop:'20%',margin:'10%',backgroundColor:'#95D1CC',width:'80%',paddingTop:'5%' ,paddingBottom:'5%' ,borderRadius:'5px'}}>
                    {    
-                  Summary.AdultNames.map((thename)=>(
+                  AdultNames.map((thename)=>(
                     <FormGroup>
                     <Label for="exampleEmail">
                       Enter The Name for the adult Passenger:
@@ -90,13 +78,12 @@ function ReserveFlight(){
                       name="Name"
                       placeholder="FirstName LastName"
                       type="text"
-                      required
                       onChange={(e)=>{
                         thename=e.target.value;
                         console.log(thename);
-                        Summary.AdultNames.shift();
-                        Summary.AdultNames.push(thename);
-                        console.log(Summary)
+                        AdultNames.shift();
+                        AdultNames.push(thename);
+                      
                       }}
                     />
                      </FormGroup>))
@@ -104,7 +91,7 @@ function ReserveFlight(){
                    
                   
                   }
-                  { Summary.ChildrenNames.map((thename)=>(
+                  { ChildrenNames.map((thename)=>(
                     <FormGroup>
                     <Label for="exampleEmail">
                       Enter The Name for the adult Passenger:
@@ -113,12 +100,12 @@ function ReserveFlight(){
                       name="Name"
                       placeholder="FirstName LastName"
                       type="text"
-                      required
                       onChange={(e)=>{
                         thename=e.target.value;
                         console.log(thename);
-                        Summary.ChildrenNames.shift();
-                        Summary.ChildrenNames.push(thename);
+                        ChildrenNames.shift();
+                        ChildrenNames.push(thename);
+                        console.log(ChildrenNames);
                       }}
                     />
                      </FormGroup>
@@ -127,26 +114,50 @@ function ReserveFlight(){
                   )}
                    
 
-                  <Button style={{backgroundColor:'#d4902a',marginLeft:'40%'}}onClick={() =>{ 
-                  setShow(true);}}> <CheckCircleOutlineIcon></CheckCircleOutlineIcon> Confirm and Submit </Button>
+                  <Button style={{color:'#FFFFFF',width:'30%',backgroundColor:'#d4902a',padding:'10px',borderRadius:'6px',marginLeft:'35%',marginRight:'auto'}} onClick={() =>{ 
+                    handleClick();
+                  
+                  
+                    }}> Confirm and Submit </Button>
                   </Form>
-                  <br/><br/><br/>
-                  <div>
-      <Button onClick={handleBack}><ArrowCircleLeftRoundedIcon fontSize="large"></ArrowCircleLeftRoundedIcon> Back </Button>
-      </div>
-                   
+
+
+                  <Modal isOpen={show} style={{marginTop:'20%'}} >
+         <ModalHeader
+          charCode="Y"
+
+        >
+          Tickets Reservation
+        </ModalHeader>
+        <ModalBody>
+          To confirm your tickets , please click proceed to payment
+        </ModalBody>
+
+        <ModalFooter>
+          {console.log("ANa fel reserveflight",MySummary.AdultNames)}
+           
+          { 
+                    <Link to={{ pathname:`/user/payment` 
+                         , search:'?'+new URLSearchParams(MySummary).toString()
+                           }}className="btn btn-primary " style={{color:'#FFFFFF',backgroundColor:'#d4902a'}}>Proceed to payment</Link> 
+                     }
+          
+         
+        </ModalFooter>
+      </Modal>
         
  
                 </Container>  
+                </div>
                  
 
              
           
-       </div>
+       
 
                                                          
 
 
   );
-  }
+                  }
   export default ReserveFlight;

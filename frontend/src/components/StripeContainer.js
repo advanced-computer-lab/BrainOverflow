@@ -10,10 +10,12 @@ export default function StripeContainer() {
 	
 	let location = useLocation();
     let search=new URLSearchParams(location.search);
-	
+	const flightId = search.get('flightId');
+	const TicketId = search.get('TicketId');
+	//console.log("Ana el container el lazooz",TicketId,flightId)
 	const Summary={
-        AdultNames:search.get('AdultNames'),
-        ChildrenNames:search.get('AdultNames'),
+        AdultNames:search.get(['AdultNames']),
+        ChildrenNames:search.get(['ChildrenNames']),
         Cabin:search.get('Cabin'),
         Adults:search.get('Adults'),
         Children:search.get('Children'),

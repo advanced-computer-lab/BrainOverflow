@@ -63,6 +63,7 @@ function EditSearchFlight() {
     };
 
     const ticketInitialState= {
+        PaymentId:'',
         IsChild:false,
         Name:'',
         UserId:'',
