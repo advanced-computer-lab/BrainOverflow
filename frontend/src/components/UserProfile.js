@@ -27,6 +27,7 @@ function UserProfile(props) {
         VisaNumber: 0,
     }
    
+    const { id } = useParams();
     const myLink = `/userProfile/updateProfile`;
 
     const [user, setUser] = useState(initialstate);

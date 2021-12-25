@@ -10,6 +10,24 @@ export default function StripeContainer() {
 	
 	let location = useLocation();
     let search=new URLSearchParams(location.search);
+	
+	const Summary={
+        AdultNames:search.get('AdultNames'),
+        ChildrenNames:search.get('AdultNames'),
+        Cabin:search.get('Cabin'),
+        Adults:search.get('Adults'),
+        Children:search.get('Children'),
+        DepartureId:search.get('DepartureId'),
+        ReturnFlightId:search.get('ReturnFlightId'),
+        DeparturePriceAdult:search.get('DeparturePriceAdult'),
+        DeparturePriceChild:search.get('DeparturePriceChild'),
+        DepatureTotalPrice:search.get('DepatureTotalPrice'),
+        ReturnPriceAdult:search.get('ReturnPriceAdult'),
+        ReturnPriceChild:search.get('ReturnPriceChild'),
+        ReturnTotalPrice:search.get('ReturnTotalPrice')
+                       
+    };
+	console.log("Container",Summary)
 	return (
 		<Elements stripe={stripeTestPromise}>
 			<PaymentForm />

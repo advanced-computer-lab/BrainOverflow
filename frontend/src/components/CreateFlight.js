@@ -131,8 +131,8 @@ function CreateFlight() {
     <Input
       id="date"
       name="date"
-      placeholder="datetime-local"
-      type="datetime-local"
+      placeholder="date placeholder"
+      type="date"
       required
       onChange={(e)=>{
         setDepartureDate(e.target.value);
@@ -186,8 +186,8 @@ function CreateFlight() {
     <Input
       id="Arrivaldate"
       name="Arrivaldate"
-      placeholder="datetime-local"
-      type="datetime-local"
+      placeholder="date placeholder"
+      type="date"
       required
       onChange={(e)=>{
         setArrivalDate(e.target.value);

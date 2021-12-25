@@ -41,6 +41,7 @@ function ReserveFlight(){
           console.error(error);
         }
       
+    
 
       for(let i =0;i<(parseInt(Summary.Children));i++ ){
         Summary.ChildrenNames.push("placeHolder");
@@ -94,6 +95,7 @@ function ReserveFlight(){
                         console.log(thename);
                         Summary.AdultNames.shift();
                         Summary.AdultNames.push(thename);
+                        console.log(Summary)
                       }}
                     />
                      </FormGroup>))

@@ -98,7 +98,7 @@ Arrival:{
       Children:childTicketsno,
       DepartureFrom:flight.From.Airport,
       DepartureTo:flight.To.Airport,
-
+      
       
     }  
     const Summary={

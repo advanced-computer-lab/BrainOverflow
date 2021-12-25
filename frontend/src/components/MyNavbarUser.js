@@ -30,8 +30,8 @@ import {
 const links = [
   { href: '/user/', text: 'Home Page',className:'px-2' },
   { href: '/user/viewFlights', text: 'Book a Flight',className:'px-2' },
- { href: `/user/userProfile/61ac855c96f456e24744b466`, text: 'View My Profile',className:'px-2' },
- { href: `/user/updateProfile/61ac855c96f456e24744b466`, text: 'Update My Profile' ,className:'px-2'}
+ { href: `/user/userProfile`, text: 'View My Profile',className:'px-2' },
+ { href: `/user/updateProfile`, text: 'Update My Profile' ,className:'px-2'}
    
   ];
   

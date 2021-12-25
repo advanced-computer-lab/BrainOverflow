@@ -20,14 +20,14 @@ import UserProfile from './components/UserProfile';
 import Page404 from './components/Page404';
 import ViewSeats from './components/ViewSeats';
 import ReserveFlight from './components/ReserveFlight';
-import ChangeFlight from './components/ChangeFlight';
-import Rseat from './components/ticket.js';
-
-import { Container } from 'reactstrap';
+import ChangeFlight from './components/ChangeFlight'
+import EditFlightSearch from './components/EditFlightSearch'
 import StripeContainer from './components/StripeContainer';
+import ViewFlightEd from './components/ViewFlightEd';
 import ChangePass from './components/ChangePass';
 import { AuthContextProvider } from "./components/AuthContext";
 import AuthContext from "./components/AuthContext";
+
 
 axios.defaults.withCredentials = true;
 function App() {
@@ -86,7 +86,6 @@ function App() {
       {/* <Route path="/" element={<Home/>}/> */}
       <Route path="/home" element={<Home/>}/>
       <Route path="/user" element={<Home/>}/>
-      <Route path="/plane" element={<Rseat/>}/>
 
       <Route path="user/viewReserved" element={<ViewReserved/>}/>
       <Route path="/user/viewFlights" element={<SearchFlight />} />
@@ -99,6 +98,11 @@ function App() {
       <Route path="/authorize/signup" element={<Registeration/>}/> 
       <Route path="/authorize/login" element={<SignIn/>}/> 
       <Route path="/user/payment" element={<StripeContainer/>}></Route>
+      <Route path="/changeFlight/:ticketId" element={<ChangeFlight/>}/> 
+      <Route path="/user/payment" element={<StripeContainer/>}/> 
+    <Route path="/user/EditFlightSearch/:ticketId" element={<EditFlightSearch/>}/> 
+    <Route path="/user/viewFlightEd/:flightId" element={<ViewFlightEd/>}/> 
+
       <Route element={Page404} />
       <Route path="/user/ " element={<UserProfile/>}/> 
 

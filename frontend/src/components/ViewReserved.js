@@ -112,7 +112,7 @@ const initialMyState={
       if((theUser.TicketsId.length==0)){
         console.log("i came here ");
         setHasError(true);
-        setError("You haven't reserved any flight yet!")
+        setError("You haven't reserved any flights yet!")
       }
     }).catch((err)=> {
       // The request was made and the server responded with a status code
@@ -276,14 +276,16 @@ function handleBack() {
 
                       {/* { 
                     <Link to={{ pathname:`/user/changeSeats/${id}/${ticket.Flight.FlightId}/${ticket.Cabin}/${ticket._id}/${ticket.Seat.SeatId}` 
+{ 
+                    <Link to={{ pathname:`/user/changeSeats/${ticket.Flight.FlightId}/${ticket.Cabin}/${ticket._id}/${ticket.Seat.SeatId}` 
                          
                            }}className="btn btn-primary " color="success">Change Seat</Link> 
 
                     
                      }
                      
-                     { 
-                    <Link to={{pathname:`/user/changeFlight/${id}/${ticket._id}` 
+{ 
+                    <Link to={{pathname:`/user/EditFlightSearch/${ticket._id}` 
                          
                            }}className="btn btn-primary " color="success">Change Flight</Link> 
 

@@ -34,7 +34,8 @@ function ViewSeats() {
     try {
         console.log(chosenSeatId)
       await axios.post(`http://localhost:8000/user/viewSeats/${chosenSeatId}/${TicketId}`)
-      .then(navigate(`/user/viewReserved`, { replace: true }));
+      .then(
+        navigate(`/user/viewReserved`, { replace: true }));
 
     } catch (error) {
       setHasError(true);
