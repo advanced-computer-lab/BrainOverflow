@@ -3,7 +3,7 @@ App {
   text-align: center;
 }
 html{
-  background-color: #F0F8FF	;
+  background-color: #FFFFFF	;
 }
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
@@ -25,7 +25,7 @@ html{
   color:navy
 }
 .App-link {
-  color: #61dafb;
+  color: #ffffff;
 }
 
 @keyframes App-logo-spin {

@@ -1,582 +1,620 @@
-import React, { Component,useContext } from 'react';
- 
-import { BrowserRouter , Routes, Route } from 'react-router-dom';
-import './App.css';
-import axios from 'axios'
+import React, { Children,useContext } from "react";
+import { Switch, Route, Link, useSearchParams} from "react-router-dom";
 
-import CreateFlight from './components/CreateFlight';
-import AllFlights from './components/AllFlights';
-import UpdateFlight from './components/UpdateFlight';
-import Home from './components/Home'; 
-import MyNavBar from './components/MyNavbar';
-import NavBarUser from './components/MyNavbarUser';
-import ViewReserved from'./components/ViewReserved';
-import SearchFlight from'./components/SearchFlight';
-import ViewFlight from './components/ViewFlight';
-import Registeration from './components/Registeration';
-import SignIn from './components/SignIn';
-import UpdateProfile from './components/UpdateProfile';
-import UserProfile from './components/UserProfile';
-import Page404 from './components/Page404';
-import ViewSeats from './components/ViewSeats';
-import ReserveFlight from './components/ReserveFlight';
-import ChangeFlight from './components/ChangeFlight';
-import Rseat from './components/ticket.js';
+import { get, patch,put } from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Component, useState, useEffect } from 'react';
+import axios from 'axios';
+import AuthContext from './AuthContext';
+import { useNavigate } from 'react-router-dom';
+import {useParams,useLocation} from "react-router-dom";
+import { CardBody, Card, CardColumns,CardImg,CardSubtitle,CardText,CardGroup,Toast,ToastBody,ToastHeader,Container,Form,FormGroup,Label,Alert,
+          Button,CardTitle,Col,Row} from 'reactstrap';
+import "../Style/summay.css";
+import "../Style/Navbar.css";
+// import"../Style/ticketSummary.css";
+import JSONDATA from './MOCK_DATA.json';
 
-import { Container } from 'reactstrap';
-import StripeContainer from './components/StripeContainer';
-import ChangePass from './components/ChangePass';
-import { AuthContextProvider } from "./components/AuthContext";
-import AuthContext from "./components/AuthContext";
 
-axios.defaults.withCredentials = true;
-function App() {
-  const DynamicLayoutRoute = props => {
-    const { component: RoutedComponent, layout, ...rest } = props;
-  
-    // render actual Route from react-router
-    const actualRouteComponent = (
-      <Route
-        {...rest}
-        render={props => (
-           <RoutedComponent {...props} />
-        )}
-      />
-    );
-  
-    // depends on the layout, you can wrap Route component in different layouts
-    switch ('user') {
-      case 'user': {
-        return (
-          <NavBarUser>
-            {actualRouteComponent}
-          </NavBarUser>
-        )
-      }
-      case 'admin': {
-        return (
-          <MyNavBar>
-            {actualRouteComponent}
-          </MyNavBar>
-        )
-      }
-      default: {
-        return (
-          <MyNavBar>
-            {actualRouteComponent}
-          </MyNavBar>
-        )
-      }
-    }
-  };
-
+ import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
+//  import summary1 from "./travelThree.jpeg";
+ import summary2 from "./travelFour.jpg";
 
  
-  return ( 
-
-
-    <BrowserRouter>
-     <AuthContextProvider>
-    <NavBarUser></NavBarUser>
-    <Routes>
-
-      <Route path="/admin/createFlight" element={<CreateFlight />} />
-      <Route path="/admin" element={<AllFlights />} />
-      <Route path="/admin/UpdateFlight/:id" element={<UpdateFlight/>}/> 
-      {/* <Route path="/" element={<Home/>}/> */}
-      <Route path="/home" element={<Home/>}/>
-      <Route path="/user" element={<Home/>}/>
-      <Route path="/plane" element={<Rseat/>}/>
-
-      <Route path="user/viewReserved" element={<ViewReserved/>}/>
-      <Route path="/user/viewFlights" element={<SearchFlight />} />
-      <Route path="/user/viewFlight/:id" element={<ViewFlight />} />
-      <Route path="/user/viewSeats/:FlightId/:Cabin/:TicketId" element={<ViewSeats/>}/>  
-      <Route path="/user/updateProfile" element={<UpdateProfile/>}/>
-      <Route path="/user/userProfile" element={<UserProfile/>}/> 
-      <Route path="/authorize/changepass" element={<ChangePass/>}/> 
-      <Route path="/user/confirmFlight" element={<ReserveFlight/>}/> 
-      <Route path="/authorize/signup" element={<Registeration/>}/> 
-      <Route path="/authorize/login" element={<SignIn/>}/> 
-      <Route path="/user/payment" element={<StripeContainer/>}></Route>
-      <Route element={Page404} />
-      <Route path="/user/ " element={<UserProfile/>}/> 
-
-    </Routes>
-    </AuthContextProvider>
-  </BrowserRouter>
-  );
- 
-}
-
-export default App;
 
 
 
 
-userController
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const router = express.Router();
-const User = require('../models/User');
-const Flight = require('../models/Flight');
-const Seat = require('../models/Seat');
-const Ticket = require('../models/Ticket');
-const nodemailer = require('nodemailer');
-const auth = require ('../middleware/auth');
+function ViewFlight(props){
 
-const cors = require("cors")
-
-
-router.use(bodyParser.json())
-const Stripe = require('stripe');
-const stripe = Stripe('sk_test_51K8UnBGmD9zb7igMlNQnyWl8REycCu9x2zgLsIcLodnv2rTucM4NUalCuSztqQsL3fMUjIAoUxH35BM1VSlf246E00oaWXnrh3');
-
-
-router.use(bodyParser.urlencoded({ extended: true }))
-router.post("/payment", cors(), async (req, res) => {
-	let { amount, id } = req.body;
-  
-	try {
-		const payment = await stripe.paymentIntents.create({
-			amount,
-			currency: "USD",
-			description: "Spatula company",
-			payment_method: id,
-			confirm: true
-		})
-		console.log("Payment", payment)
-		res.json({
-			message: "Payment successful",
-			success: true
-		})
-	} catch (error) {
-		console.log("Error", error)
-		res.json({
-			message: "Payment failed",
-			success: false
-		})
-	}
-})
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'sky.overflow.flight@gmail.com',
-    pass: '1_2_3_4_5'
-
-  }
-
-});
-
-const catchAsync = func => {
-  return (req, res, next) => {
-    func(req, res, next).catch(next);
-  }
-}
- 
-
-
-   router.put("/updateReserved",auth ,(req, res) => {
-    let theSeat= req.body.SeatId;
-    let tickets= req.body.Ticket;
-    let theTicket= req.body.theTicket;
-    let theEmail= req.body.Email;
-    let Price=req.body.Price;
-    let Name= req.body.TicketName;
-    let userName= req.body.UserName;
-    
-    console.log(theSeat);
-     tickets.forEach((f) =>{console.log(f)});
-   
-    
-console.log(theEmail);
-   var mailOptions = {
-      from: 'sky.overflow.flight@gmail.com' ,
-      to: theEmail,
-      subject: 'Reservation Cancelled!!',
-      text: 
-      `Dear ${userName}, 
-      you have cancelled Ticket no: ${theTicket} of passenger ${Name} and the amount refunded is ${Price} LE`
-  };
-
-    User.findByIdAndUpdate( {
-        _id: req.user
-      },{TicketsId:tickets}, function (err, docs) {
-        if (err){
-            console.log(err)
-        }
-        else{
-            console.log("Updated User : ", docs);
-        }
-    });
-    if(theSeat!==null){
-      Seat.findByIdAndUpdate({_id: theSeat},{IsBooked:false}, function (err, docs) {
-        if (err){
-            console.log(err)
-        }
-        else{
-            console.log("Updated Seat : ", docs);
-        }
-    });
-  }
-    Ticket.findByIdAndDelete({_id:theTicket} , function (err, docs) {
-      if (err){
-          console.log(err)
-      }
-      else {
-        console.log("Updated Seat : ", docs);
-      }
-    });
-  
-  
-
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email sent: ' + info.response);
-    }
-  });
-})
-
-router.get('/viewFlights', catchAsync(async (req, res, next) => {
-  console.log(req.body, req.params);
-  const f = await Flight.find({}).populate(['First.SeatId', 'Business.SeatId', 'Economy.SeatId']);
-  res.send(f);
-}))
-router.get('/viewFlight/:id', async (req, res) => {
-  const f = await Flight.find({}).populate(['First.SeatId', 'Business.SeatId', 'Economy.SeatId']);
-
-  await Flight.findById(req.params.id).then(result => {
-
-    res.send({ aFlight: result, allFlight: f });
-  })
-    .catch(err => {
-      console.log(err);
-    });
-});
-
-
-  // router.get('/viewFlights' ,catchAsync(async (req, res,next) => {  
-  //   console.log(req.body,req.params);
-  //     const f = await Flight.find({}).populate(['First.SeatId','Business.SeatId','Economy.SeatId']);
-  //     res.send(f);
-  //     }))
-
-
-      
-  //  router.get('/viewFlight/:id',auth ,async (req, res)=> {   
-  //       const f = await Flight.find({}).populate(['First.SeatId','Business.SeatId','Economy.SeatId']);
-                                                  
-  //      await Flight.findById(req.params.id).then(result => {
-           
-  //         res.send({aFlight: result, allFlight: f});
-  //       })
-  //       .catch(err => {
-  //         console.log(err);
-  //       });
-  //     });
-
-      
-
-router.get('/updateProfile',auth ,(req, res) => {
-  User.findById(req.user).then(result => {
-    res.send(result);
-  })
-    .catch(err => {
-      res.send(err);
-    });
-});
-router.put("/updateProfile",auth ,(req, res) => {
-   
-  var _id = req.body._id;
-  var user = req.body;
-  User.findByIdAndUpdate({
-    _id: req.user
-  }, user).then(
-    () => {
-      res.status(201).json({
-        message: 'Thing updated successfully!'
-      });
-    }
-  ).catch(
-    (error) => {
-      res.status(400).json({
-        message: error
-      });
-    }
-  );
-
-});
-
-router.get('/viewReserved',auth ,catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.user).populate("TicketsId");
-  res.send(user);
-  })); 
      
- 
-router.get('/userProfile',auth ,catchAsync(async (req, res, next) => {
-  console.log(req.params.id)
-const  user = await User.findById(req.user);
-  console.log(user);
-  if(user==''){  res.status(404).send({
-    message: 'User not found!'
- });}
-  res.send(user);
-}));
 
-router.get('/viewSeats/:FlightId/:Cabin/:TicketId',auth,catchAsync(async(req,res,next)=>{
-  //console.log("I CAME HEREEE")
-  const cabin = req.params.Cabin;
-  const departure = req.params.DepartureAirport;
-  //const departureDate = req.params.DepartureDate;
-  //const arrivalAirport = req.params.ArrivalAirport;
-  //const returndate = req.params.Returndate;
-  const adults = req.params.Adults;
-  const kids = req.params.Kids;
-
-
-  if (cabin=='First'){
-    const availableFlights= await Flight.find({'First.SeatsLeft':{$gt:adults+kids},'From.Airport':departure});
-  }
-  else if(cabin=='Bussiness'){
-    const availableFlights= await Flight.find({'Business.SeatsLeft':{$gt:adults+kids},'From.Airport':departure});
-
-  }else if(Economy){
-    const availableFlights= await Flight.find({'Economy.SeatsLeft':{$gt:adults+kids},'From.Airport':departure});
-  }
- console.log("available seats in get req",availableFlights);
-
- if(availableFlights.length==0){ 
-   console.log("error in get entered")
-    res.status(404).send({
-  message: 'No availabe flights'
-});}
- res.send(availableFlights);
-}));
-
-router.get('/viewSeats/:id/:FlightId/:Cabin/:TicketId',catchAsync(async(req,res,next)=>{
-  const FlightId = req.params.FlightId;
-  const cabin = req.params.Cabin;
-  const availableSeats = await Seat.find({ 'FlightId': FlightId, 'Cabin': cabin, 'IsBooked': false });
-  console.log("FlightId in get", FlightId, cabin);
-  console.log("available seats in get req", availableSeats);
-  if (availableSeats.length == 0) {
-    console.log("error in get entered")
-    res.status(404).send({
-      message: 'No availabe seats'
-    });
-  }
-  res.send(availableSeats);
-}));
-
-
-router.get('/changeSeats/:id/:FlightId/:Cabin/:TicketId/:OldSeat',catchAsync(async(req,res,next)=>{
-  const FlightId = req.params.FlightId;
-  const cabin = req.params.Cabin;
- const availableSeats= await Seat.find({'FlightId':FlightId,'Cabin':cabin,'IsBooked':false});
- console.log("FlightId in get",FlightId,cabin);
- console.log("available seats in get req",availableSeats);
- if(availableSeats.length==0){ 
-   console.log("error in get entered")
-    res.status(404).send({
-  message: 'No availabe seats'
-});}
- res.send(availableSeats);
-}));
-
-router.post('/viewSeats/:SeatId/:TicketId',auth,catchAsync(async(req,res,next)=>{
-  console.log('beginning')
-  console.log(req.params.SeatId);
-  const user=await User.findById(req.user);
-  const seat =await Seat.findById(req.params.SeatId);
-  const oldSeat =await Seat.findById(req.params.OldSeat);
-  console.log(seat);
-  const ticket =await Ticket.findById(req.params.TicketId);
-  ticket.Seat.SeatId=seat._id;
-  ticket.Seat.SeatNumber=seat.SeatNumber;
-  seat.IsBooked=true;
-  await ticket.save();
-  await seat.save();
-  await user.save();
-  console.log('end')
-
-}));
-
-
-
-// Cabin: '',
-// Adults: 0,
-// Children: 0,
-// ReturnDate: ''
-router.post('searchFlights', catchAsync(async (req, res, next) => {
-  const searchObject = req.body;
-  const From = { 'Airport': searchObject.FromAirport, 'Terminal': details.FromTerminal };
-  const To = { 'Airport': details.ToAirport, 'Terminal': details.ToTerminal };
-  const Economy = { 'SeatId': [], 'Price': details.EconomyPrice, 'ChildPrice': details.EconomyChildPrice, 'Baggage': details.EconomyBaggage };
-  const Business = { 'SeatId': [], 'Price': details.BusinessPrice, 'ChildPrice': details.BusinessChildPrice, 'Baggage': details.BusinessBaggage };
-  const First = { 'SeatId': [], 'Price': details.FirstPrice, 'ChildPrice': details.FirstChildPrice, 'Baggage': details.FirstBaggage };
-  const Departure = { 'Date': details.DepartureDate, 'Time': details.DepartureTime };
-  const Arrival = { 'Date': details.ArrivalDate, 'Time': details.ArrivalTime };
-  const flight = new Flight({ FlightNumber: details.FlightNumber, From: From, To: To, Economy: Economy, Business: Business, First: First, Departure: Departure, Arrival: Arrival });
- }))
- 
-router.post('/confirmReserved',auth ,catchAsync(async (req, res, next) => {
-  const details = req.body;
-  console.log(details);
-  const user = await User.findById(req.user);
- console.log(user);
- 
-  const goingflight=await Flight.findById(details.DepartureId) 
-    .catch(err => {
-
-      res.send(err);
-    });
-  const returnflight = await Flight.findById(details.ReturnFlightId).catch(err => {
-    res.send(err);
-  });
-
-
-  for (i = 0; i < parseInt(details.Children); i++) {
-    const ticketgoing = new Ticket( {'Name':details.ChildrenNames[i] ,'UserId':req.user , 
-    'Flight':{'FlightId':details.DepartureId  ,'Number':goingflight.FlightNumber},'Departure':
-    {'Airport':goingflight.From.Airport ,'Terminal':goingflight.From.Terminal ,'Date':goingflight.Departure.Date ,'Time':goingflight.Departure.Time},
-      'Arrival':{'Airport':goingflight.To.Airport,'Terminal':goingflight.To.Terminal,'Date':goingflight.Arrival.Date ,'Time':goingflight.Arrival.Time }
-      ,'Cabin':details.Cabin,'Price':details.DeparturePriceChild,'Seat':{'SeatId':null,'SeatNumber':'',IsChild:'true'}});
-      
-      const ticketreturn = new Ticket( {'Name':details.ChildrenNames[i] ,'UserId':req.user , 
-      'Flight':{'FlightId':details.ReturnFlightId  ,'Number':returnflight.FlightNumber},'Departure':
-      {'Airport':returnflight.From.Airport ,'Terminal':returnflight.From.Terminal ,'Date':returnflight.Departure.Date ,'Time':returnflight.Departure.Time},
-        'Arrival':{'Airport':returnflight.To.Airport,'Terminal':returnflight.To.Terminal,'Date':returnflight.Arrival.Date ,'Time':returnflight.Arrival.Time }
-        ,'Cabin':details.Cabin,'Price':details.ReturnPriceChild,'Seat':{'SeatId':null,'SeatNumber':'',IsChild:'true'}});
-    user.TicketsId.push(ticketgoing._id);
-    user.TicketsId.push(ticketreturn._id);
-    (details.Cabin == 'Economy') ? goingflight.Economy.SeatsLeft-- : (details.Cabin == 'First') ? goingflight.First.SeatsLeft-- : goingflight.Business.SeatsLeft--;
-    await user.save();
-    await ticketgoing.save();
-    await ticketreturn.save();
-  }
-  for (i = 0; i < parseInt(details.Adults); i++) {
-    const ticketgoing = new Ticket( {'Name':details.AdultNames[i] ,'UserId':req.params.id , 
-    'Flight':{'FlightId':details.DepartureId  ,'Number':goingflight.FlightNumber},'Departure':
-    {'Airport':goingflight.From.Airport ,'Terminal':goingflight.From.Terminal ,'Date':goingflight.Departure.Date ,'Time':goingflight.Departure.Time},
-      'Arrival':{'Airport':goingflight.To.Airport,'Terminal':goingflight.To.Terminal,'Date':goingflight.Arrival.Date ,'Time':goingflight.Arrival.Time }
-      ,'Cabin':details.Cabin,'Price':details.DeparturePriceAdult,'Seat':{'SeatId':null,'SeatNumber':'',IsChild:'false'}});
-      const ticketreturn = new Ticket( {'Name':details.AdultNames[i] ,'UserId':req.params.id , 
-      'Flight':{'FlightId':details.ReturnFlightId  ,'Number':returnflight.FlightNumber},'Departure':
-      {'Airport':returnflight.From.Airport ,'Terminal':returnflight.From.Terminal ,'Date':returnflight.Departure.Date ,'Time':returnflight.Departure.Time},
-        'Arrival':{'Airport':returnflight.To.Airport,'Terminal':returnflight.To.Terminal,'Date':returnflight.Arrival.Date ,'Time':returnflight.Arrival.Time }
-        ,'Cabin':details.Cabin,'Price':details.ReturnPriceAdult,'Seat':{'SeatId':null,'SeatNumber':'',IsChild:'false'}});
-        (details.Cabin=='Economy')?goingflight.Economy.SeatsLeft--:(details.Cabin=='First')?goingflight.First.SeatsLeft--:goingflight.Business.SeatsLeft--;
-    user.TicketsId.push(ticketgoing);
-    user.TicketsId.push(ticketreturn);
-    await user.save();
-    await ticketgoing.save();
-    await ticketreturn.save();
-  }
-
-}));
-router.post('/SearchFlight', catchAsync(async (req, res, next) => {
-  const details = req.body;
-  console.log(details.ReturnDate);
-  const retFrom = details.From;
-  const retTo = details.To;
-  const Cabin = details.cabin;
-  const Adults = details.Adults;
-  const Children = details.Children;
-  const ReturnDate = details.ReturnDate;
-
-  await Flight.find({ 'From.Airport': 'alex' })
-    .then(result => {
-      res.send(result);
-      console.log("res : ", result);
-    })
-    .catch(err => {
-      console.log(err);
-    });
-
-}));
-
-
-router.post('/SearchFlight', catchAsync(async (req, res, next) => {
-  const details = req.body;
-  console.log(details.ReturnDate);
-  const retFrom=details.From;
-  const retTo =details.To;
-  const Cabin=details.cabin;
-  const Adults=details.Adults;
-  const Children=details.Children;
-  const ReturnDate=details.ReturnDate;
-
-  await Flight.find({'From.Airport' :'alex'})
-  .then(result => {
-    res.send(result);
-    console.log("res : ",result);
-  })
-  .catch(err => {
-    console.log(err);
-  });
-
- }));
-router.get('/changeFlight/:id/:TicketId',async(req,res,next)=>{
-      console.log("ANA GEET HENA");
-  try{
-    const ticket = await Ticket.findById(req.params.TicketId);
- // const user = await User.findById(req.params.id);
- const Cabin = ticket.Cabin;
-
- var flights=null;
-if(Cabin =="Economy"){
-  console.log('d5lt economy')
-   flights = await Flight.find({'From.Airport':ticket.Departure.Airport,'To.Airport':ticket.Arrival.Airport,'Economy.SeatsLeft':{$gt:0}});
-}else if(Cabin =="First"){
- flights = await Flight.find({'From.Airport':ticket.Departure.Airport,'To.Airport':ticket.Arrival.Airport,'First.SeatsLeft':{$gt:0}});
-}else 
- flights = await Flight.find({'From.Airport':ticket.Departure.Airport,'To.Airport':ticket.Arrival.Airport,'Business.SeatsLeft':{$gt:0}});
-  if(flights.length==0) { res.status(400).json({
-    message: "No flights available with similar criteria"
-  })}
-  else{
-    res.send({flights:flights,ticket:ticket});
-  }
-  }
-  catch{
-    (error) => {
-      res.status(400).json({
-        message: "No flights available with similar criteria"
-      })};
+    const initialstate=
+    {From:{
+    Airport:'',
+    Terminal:''
+},
+      To:{
+  Airport:'',
+  Terminal:''
+},
+Economy:{
+  SeatId:[],
+  Price:0,
+  ChildPrice:0,
+  Baggage:0
+},
+Business:{
+  SeatId:[],
+  Price:0,
+  ChildPrice:0,
+  Baggage:0
+},
+First:{
+  SeatId:[],
+  Price:0,
+  ChildPrice:0,
+  Baggage:0
+},
+Departure:{
+  Date:'',
+  Time:''
+},
+Arrival:{
+  Date:'',
+  Time:''
 }
+
+};  
+    const {loggedIn} = useContext(AuthContext);
+    const { getLoggedIn } = useContext(AuthContext);
+    let navigateBack = useNavigate();
+    const navigate = useNavigate();
+    let location = useLocation();
+    let search=new URLSearchParams(location.search)
+    
+    const [flight, setFlight] = useState(initialstate);
+    const [Returnflight, setReturnFlights] = useState([initialstate]);
+    const [displayed, setDisplayed] = useState([initialstate]);
+    const [NoFlights,setReturn]=useState(false);
+
+    const [viewSummary,setViewSummary] = useState(false);
+    const [viewReturn,setReturnView] = useState(true);
+    const [ViewOutBound,setViewOutBound] = useState(true);
+    const { id } = useParams();
+    const childTicketsno=parseInt(search.get('Children')) ;
+    const adultTicketsno=parseInt(search.get('Adults')) ;
+    const cabin=search.get('Cabin');
+    const [HasError, setHasError] = useState(false);
+    const [viewForm,setviewForm]=useState(false);
+
+    //  let history = useHistory();
+
+    // function handleClick() {
+    //   history.push("/home");
+    // }
+    
+
+    const [Error, setError] = useState('');
+    const returnDate =search.get('ReturnDate');
+    const adultTicket= (cabin=="First")?flight.First.Price:(cabin=="Business")?flight.Business.Price:(cabin=="Economy")?flight.Economy.Price:0;
+    const childTicket= (cabin=="First")?flight.First.ChildPrice:(cabin=="Business")?flight.Business.ChildPrice:(cabin=="Economy")?flight.Economy.ChildPrice:0;
+    const totalPrice= childTicketsno*childTicket+adultTicketsno*adultTicket;
+    const mysearch={
+      Cabin:search.get("Cabin"),
+      Adults:adultTicketsno,
+      Children:childTicketsno,
+      DepartureFrom:flight.From.Airport,
+      DepartureTo:flight.To.Airport,
+
+      
+    }  
+    const Summary={
+   
+      Cabin:cabin,
+      Adults:adultTicketsno,
+      Children:childTicketsno,
+      //ReturnFlight
+      From: '',
+      To:"",
+      ReturnDate:"",
+      ReturnTime:"",
+      ReturnArrivalDate: "",
+      ReturnArrivalTime:"",
+      ReturnFlightId:"",
+      ReturnFlightNumber:"",
+      ReturnPriceAdult:0,
+      ReturnPriceChild:0,
+      ReturnTotalPrice:0,
+      ReturnBaggage: 0 }
+    const Data={
+      Cabin:cabin,
+      Adults:adultTicketsno,
+      Children:childTicketsno,
+      DepartureId:"",
+      ReturnFlightId:"",
+      DeparturePriceAdult:0,
+      DeparturePriceChild:0,
+      DepatureTotalPrice:0,
+      ReturnPriceAdult:0,
+      ReturnPriceChild:0,
+      ReturnTotalPrice:0
+
+    }
+    const[mysummary,setSummary]=useState(Summary);
+    const[myData,setData]=useState(Data);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [notCorrect, setAvailable] = useState(false);
+
+ 
+  async function login(e) {
+    e.preventDefault();
+
+    try {
+      const loginData = {
+        email,
+        password,
+      };
+        await axios.post("http://localhost:8000/authorize/login",loginData)
+        await getLoggedIn();
+        setViewSummary(true);
+        setViewOutBound(false);
+        setviewForm(false);
+
+        setAvailable(false);
+
+      }
+      catch(err){
+        console.error(err);
+        setAvailable(true);
+
+      }}
+    
+    console.log("Return",search.get('ReturnDate'));
+    
+
+    useEffect(() => {
+      console.log( parseInt(search.get('Adults')) );
+      
+     
+        axios.get(`http://localhost:8000/user/viewFlight/${id}`).then(res => {
+          setFlight(res.data.aFlight);
+          setReturnFlights(res.data.allFlight);
+          setDisplayed(res.data.allFlight);
+          console.log(res.data.aFlight);
+          console.log("fliiiiight",flight);
+
+
+          
+          if(!res.data.allFlight){
+            setHasError(true);
+            setError("No flight with this id exists")
+          }
+          console.log("Iam the res.data.allFlight",res.data.allFlight);
+           }).catch((err)=> {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+             if (err.response) {
+                setHasError(true);
+                setError("This flight doesn't exist")
+             }
+           })
+        
+
+    }, [props]);
+
+    async function handleClick(){
+        setViewSummary(false);
+        setViewOutBound(false);
+        setviewForm(true);
+        await getLoggedIn();
+    }
+   
+    console.log("children : ",mysearch.Children);
+    console.log("adults : ",mysearch.Adults);
+    const total =mysearch.Adults+mysearch.Children;
+    console.log("total : ", total);
+
+      function handleSummary(FromAirport,ToAirport,FirstPrice,BusinessPrice,EconomyPrice,
+        ArrivalTime,DepartureTime,DepartureDate,ArrivalDate,FlightId,FlightNumber,FirstChildPrice,
+        BusinessChildPrice,EconomyChildPrice,FirstBaggage,BusinessBaggage,EconomyBaggage) {  
+        setReturnView(false);
+        const ReturnadultTicket= (cabin=="First")?FirstPrice:(cabin=="Business")?BusinessPrice:(cabin=="Economy")?EconomyPrice:0;
+        const ReturnchildTicket= (cabin=="First")?FirstChildPrice:(cabin=="Business")?BusinessChildPrice:(cabin=="Economy")?EconomyChildPrice:0;
+        const ReturntotalPrice= childTicketsno*childTicket+adultTicketsno*adultTicket;
+        const Baggage =(cabin=="First")?FirstBaggage:(cabin=="Business")?BusinessBaggage:(cabin=="Economy")?EconomyBaggage:0;
+
+
+        setSummary({
+          Cabin:cabin,
+          Adults:adultTicketsno,
+          Children:childTicketsno,
+          //ReturnFlight
+          From: FromAirport,
+          To:ToAirport,
+          ReturnDate:DepartureDate,
+          ReturnTime:DepartureTime,
+          ReturnArrivalDate: ArrivalDate,
+          ReturnArrivalTime:ArrivalTime,
+          ReturnFlightId:FlightId,
+          ReturnFlightNumber:FlightNumber,
+          ReturnPriceAdult:ReturnadultTicket,
+          ReturnPriceChild:ReturnchildTicket,
+          ReturnTotalPrice:ReturntotalPrice,
+          ReturnBaggage: Baggage,
+         
+      })
+        setViewSummary(true);
+        setViewOutBound(false);
+        setData( {
+          Cabin:cabin,
+          Adults:adultTicketsno,
+          Children:childTicketsno,
+          DepartureId:flight._id,
+          ReturnFlightId:FlightId,
+          DeparturePriceAdult: adultTicket,
+          DeparturePriceChild:childTicket,
+          DepatureTotalPrice: totalPrice,
+          ReturnPriceAdult:ReturnadultTicket,
+          ReturnPriceChild:ReturnchildTicket,
+          ReturnTotalPrice:ReturntotalPrice,
+    
+        })
+
+      }
+      console.log(mysummary);
+      
+      function handleBack() {
+        navigateBack(-1)
+      }
+
+      let DeptC =flight.From.Airport;
+      let result1 = DeptC.substring(0, 3);
+
+      let ArrC=flight.To.Airport;
+      let result2=ArrC.substring(0, 3);
+
+      
+
+
+      return(
+        <div style={{ backgroundColor:"white" }}>
+    {ViewOutBound ?
+
+
+         <Toast className="center" style={{marginTop:'10%'}}>
+            <ToastHeader icon="primary">
+                <label> Flight From {flight.From.Airport} to {flight.To.Airport}</label>    
+
+            </ToastHeader>
+            <ToastBody>
+            { (adultTicketsno>0)?(<label> Price / Adult ticket: {adultTicket} <br/></label>):<label></label> }<br/>
+             {(childTicketsno>0)?(<label> Price / Child ticket: {childTicket} <br/></label>):<label></label>}<br/>
+              <label>Flight number: {flight.FlightNumber} </label><br/><br/>
+              <label>Departure Date: {flight.Departure.Date.slice(0, 10)} at {flight.Departure.Time}</label><br/><br/>
+              <label>Arrival Date: {flight.Arrival.Date.slice(0, 10)} at {flight.Arrival.Time}</label><br/><br/>
+              {/* Trip Duration:{(diffDays==0)?<label>{ }hours and   </label> :}<br/> */}
+              <label>Cabin Class: {cabin}</label><br/><br/>
+              <label>Baggage Allowance: </label>{(cabin=="First")?<label>{flight.First.Baggage}</label>:(cabin=="Business")?<label>{flight.Business.Baggage}</label>:(cabin=="Economy")?<label>{flight.Economy.Baggage}</label>:<label></label>}<br/><br/>
+              <label>Total Tickets price: {totalPrice}</label><br/><br/>                      
+            </ToastBody>
+          </Toast>
+
+
+       
+      :<label></label>}
+
+      <br></br>
+
+
+{viewReturn?
+<div className="" style={{backgroundColor:"#FFFFFF"}}>
+    <div className="content">
+    <CardGroup >
+  {Returnflight.filter((f) => {
+    let flag1 =false ;
+    let flag2 =false ;
+    let flag3 =false ;
+    let flag4 =false ;
+    console.log("depart ",f.Departure.Date);
+
+    if(f.To.Airport ==flight.From.Airport && f.From.Airport ==flight.To.Airport && f.Departure.Date.slice(0,10)==returnDate){
+      flag4 = true ;
+    }
+    if (cabin =="first"){
+      let len = f.First.SeatId.length;
+      let countseats=0;
+      console.log("length of First ", len)
+      for(let i =0 ;i<len ;i++){
+        if(f.First.SeatId[i].IsBooked == false){
+          countseats++;
+       }
+       }
+       flag1 = (total<= countseats)
+  }
+  else { flag1 = true }
+
+  if (cabin =="Economy"){
+    let len = f.Economy.SeatId.length;
+    let countseats=0;
+    console.log("length of Economy ", len)
+    for(let i =0 ;i<len ;i++){
+      if(f.Economy.SeatId[i].IsBooked == false){
+        countseats++;
+     }
+     }
+     flag2 = (total<= countseats)
+}
+else { flag2 = true }
+if (cabin =="Business"){
+  let len = f.Business.SeatId.length;
+  let countseats=0;
+  console.log("length of Business ", len)
+  for(let i =0 ;i<len ;i++){
+    if(f.Business.SeatId[i].IsBooked == false){
+      countseats++;
+   }
+   }
+   flag3 = (total<= countseats)
+}
+else { flag3 = true }
+//return check 
+
+return flag1 & flag2 & flag3 & flag4 ;  
 })
-router.put('/changeFlight/:id/:TicketId/:ChosenFlightId',async(req,res,next)=>{
-  const ticket = await Ticket.findById(req.params.TicketId);
-  const seat = await Seat.findById(ticket.Seat.SeatId);
-  seat.IsBooked=false;
-  await seat.save();
- const oldFlight = await Flight.find({'_id':ticket.FlightId});
-ticket.Cabin=="Economy"?oldFlight.Economy.SeatsLeft++:ticket.Cabin=="First"?oldFlight.First.SeatsLeft++:oldFlight.Business.SeatsLeft++;
-await oldFlight.save();
-const newFlight = await Flight.findById(req.params.ChosenFlightId);
-ticket.Cabin=="Economy"?newFlight.Economy.SeatsLeft--:ticket.Cabin=="First"?newFlight.First.SeatsLeft--:newFlight.Business.SeatsLeft--;
-ticket.Flight.FlightId=newFlight._id;
-ticket.Flight.FlightNumber=newFlight.FlightNumber;
-ticket.Flight.Departure.Date = newFlight.Departure.Date;
-ticket.Flight.Departure.Time = newFlight.Departure.Time;
-ticket.Flight.Arrival.Time = newFlight.Arrival.Time;
-ticket.Flight.Arrival.Time = newFlight.Arrival.Time;
-ticket.Flight.Arrival.Terminal = newFlight.Arrival.Terminal;
-ticket.Flight.Departure.Terminal = newFlight.Departure.Terminal;
+  .map(x => (
 
-ticket.Seat.SeatId=null;
-ticket.Seat.SeatNumber='';
-if(ticked.IsChild==false)
-ticket.Cabin=="Economy"?ticket.price=newFlight.Economy.Price:ticket.Cabin=="First"?ticket.price=newFlight.First.Price:ticket.price=newFlight.BusinessBaggage.Price;
-else 
-ticket.Cabin=="Economy"?ticket.price=newFlight.Economy.ChildPrice:ticket.Cabin=="First"?ticket.price=newFlight.First.ChildPrice:ticket.price=newFlight.BusinessBaggage.ChildPrice;
-await user.save();
-await newFlight.save();
+                        <div >
+                        <Toast >
+                          <ToastHeader  style={{color:'#5584AC' , marginRight:"100px"}}>
+                            Return From {x.From.Airport} To :{x.To.Airport}
+                          </ToastHeader>
+                          <ToastBody>
+                            
+                          <label>FlightNumber:{x.FlightNumber}</label><br/><br/>
+                          {(mysearch.Cabin =="First")&& (adultTicketsno >0)? <label>Price of First class Adult Ticket : {x.First.Price}<br/><br/> </label> :
+                          (cabin =="Business") && (adultTicketsno >0)?<label> Price of Business class Adult Ticket: {x.Business.Price}<br/><br/></label>:
+                          (cabin =="Economy")&& (adultTicketsno>0)?<label> Price of Economy class Adult Ticket : {x.Economy.Price}<br/><br/></label>:<label></label>}
+                          {(cabin =="First")&& (childTicketsno >0)? <label>Price of First class Children Ticket : {x.First.ChildPrice}<br/><br/></label> :
+                          (cabin =="Business") && (childTicketsno>0)?<label> Price of Business class Children Ticket: {x.Business.ChildPrice}<br/><br/></label>:
+                          (cabin =="Economy")&& (childTicketsno >0)?<label> Price of Economy class Children Ticket : {x.Economy.ChildPrice}<br/><br/></label>:<label></label>}
+                          
+                          <label>Departure Date: {x.Departure.Date.slice(0, 10)}</label>
+                          <br></br><br/>
+                          <label>Departure time: {x.Departure.Time}</label>
+                          <br></br><br/>
+                          <label>Arrival Date: {x.Arrival.Date.slice(0, 10)}</label>
+                          <br></br><br/>
+                          <label>Arrival time:{x.Arrival.Time} </label>
+                          <br/><br/>
+                          <Button onClick={() => handleSummary(x.From.Airport,x.To.Airport,x.First.Price,x.Business.Price,
+                          x.Economy.Price,x.Arrival.Time,x.Departure.Time,x.Departure.Date.slice(0, 10),
+                          x.Arrival.Date.slice(0, 10),x._id,x.FlightNumber,x.First.ChildPrice,x.Business.ChildPrice,
+                          x.Economy.ChildPrice,x.First.Baggage,x.Business.Baggage,x.Economy.Baggage)} style={{backgroundColor:'#5584A'}}>Select</Button>
+                          </ToastBody>
+                          <br></br>
+                          </Toast></div>
+                  
+                      
 
-await ticke.save();
-})
-module.exports = router;
+  ))}
 
+
+
+
+
+</CardGroup>
+    </div>
+</div>
+:<label></label>}
+{NoFlights? <label>No Available Return Flight</label>:<label></label>}
+
+
+{viewSummary? <div style={{marginTop:'10%',marginLeft:'10%'}}>
+  
+
+ 
+
+<Toast>
+    <ToastHeader icon="primary">
+     OutBound {flight.Departure.Date.slice(0, 10)} at {flight.Departure.Time}<br/>
+    </ToastHeader>
+    <ToastBody>
+    Flight From  {flight.From.Airport} to {flight.To.Airport}   
+     </ToastBody>
+  </Toast>
+  <Toast>
+    <ToastHeader icon="secondary">
+    Return {mysummary.ReturnDate} at {mysummary.ReturnTime}<br/>
+    </ToastHeader>
+    <ToastBody>
+    Flight From {mysummary.From} to {mysummary.To}
+    </ToastBody>
+  </Toast>
+ 
+
+  <Card className="summary"  >
+    
+        <CardBody>
+                  <CardTitle tag="h5">
+                    <h1>Summary of Your Round Trip </h1>
+                  </CardTitle>
+                  <img style={{width:"100%" , height:"400px"}} src= {summary2}></img><br></br>
+                  {/* <img style={{width:'100px',height:'60px',transform:"scale(1.2)",marginLeft:'80%',transform:"rotate(20deg)",}}src="https://cdn3.vectorstock.com/i/1000x1000/16/82/airline-tickets-flights-flat-material-design-vector-28931682.jpg"></img> */}
+                  <CardSubtitle
+                    className="mb-2 text-muted"
+                    tag="h6"
+                  >
+                    <label className="info2">Flight From {flight.From.Airport} to {flight.To.Airport}</label>
+                    </CardSubtitle>
+                    <img class ='imgDepart'src='https://ak.picdn.net/shutterstock/videos/1045833544/thumb/4.jpg'></img>
+                    <CardText>
+                    <label className="data">Flight-Number:   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{flight.FlightNumber}</label>  
+                    <label className="data"> Departure-Data:   &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{flight.Departure.Date.slice(0, 10)}  at  {flight.Departure.Time}</label>
+                    <label className="data"> Arrival-Date:  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; {flight.Arrival.Date.slice(0, 10)} at {flight.Arrival.Time}</label> 
+
+                    {/* Trip Duration:{(diffDays==0)?<label>{ }hours and   </label> :}<br/> */}
+                    <label className="data">Cabin-Class: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{cabin} </label>
+                    
+                    
+                    <label className="data">Baggage-Allowance:&nbsp;&nbsp;&nbsp;&nbsp;{(cabin=="First")?<label style={{color:'#FFFFFF'}}>{flight.First.Baggage}</label>:(cabin=="Business")?<label style={{color:'#FFFFFF'}}>{flight.Business.Baggage}</label>:(cabin=="Economy")?<label style={{color:'#FFFFFF'}}>{flight.Economy.Baggage}</label>:<label></label>} </label>
+                    <label className="data">Total-price for OutBound-Flight: &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{totalPrice}</label><br/> 
+                   </CardText> 
+                   {/* <img style={{width:"100%" , height:"400px"}} src= {summary2}></img>
+                   <img style={{width:'100px',height:'60px',transform:"scale(1.2)",marginLeft:'80%',transform:"rotate(20deg)",}}src="https://cdn3.vectorstock.com/i/1000x1000/16/82/airline-tickets-flights-flat-material-design-vector-28931682.jpg"></img> */}
+                   <CardSubtitle
+                    className="mb-2 text-muted"
+                    tag="h6"
+                  >
+                     
+                    <label className="info2">Return Flight From {mysummary.From} to {mysummary.To}</label>
+
+                    </CardSubtitle>
+                    <img class='imgreturn' src='https://ak.picdn.net/shutterstock/videos/1045833544/thumb/4.jpg'></img>
+
+                    <CardText>
+                    <label className="data">Flight-Number:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{mysummary.ReturnFlightNumber}</label>  
+                    <label className="data"> Departure-Date:  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{mysummary.ReturnDate}  at  {mysummary.ReturnTime}</label>
+                    <label className="data"> Arrival-Date:  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;  {mysummary.ReturnArrivalDate} at {mysummary.ReturnArrivalTime}</label> 
+                    {/* Trip Duration:{(diffDays==0)?<label>{ }hours and   </label> :}<br/> */}
+                    <label className="data">Cabin-Class:  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{cabin} </label>
+                    <label className="data">Baggage-Allowance:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{mysummary.ReturnBaggage}</label> 
+                    <label className="data">Total-price For Return-Flight:  &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{mysummary.ReturnTotalPrice}</label> 
+                    <label className="orange" style={{backgroundColor: '#96C7C1' , color:"#22577E"}} >Total-Price: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {mysummary.ReturnTotalPrice + totalPrice} </label>
+                    </CardText>
+                    
+                   {(!loggedIn) && <Button onClick={() => handleClick()}>
+                     Login First
+                      </Button>
+                    }
+                    
+                   {(loggedIn)&& <Button style={{backgroundColor: '#96C7C1' , color:"#22577E",marginLeft:'30%' }}>
+                    <Link style={{backgroundColor: '#96C7C1' , color:"#22577E" , fontSize:"200%",fontWeight: "bold"}}to={{ pathname:`/user/confirmFlight` 
+                         , search:'?'+new URLSearchParams(myData).toString()
+                           }}className="btn btn-primary">Confirm and Book</Link> 
+                      </Button>}
+
+
+      </CardBody>
+                         
+      </Card>
+
+      <div class="body1"  >
+  <div class="section1"style={{width:"700px", height:"300px", position:'absolute', top:"70%", right:"55%"  }} >
+    <div class="ticket__wrapper"  style={{marginLeft:'40%'}}>
+      <div class="w-layout-grid ticket__main-grid" >
+        <div id="w-node-4de94962-9e0c-9272-b6ee-d4681c5881b4-21b78d9a" class="ticket_left-wrapper">
+          <div id="w-node-ac4e0c7f-8087-572e-be1e-bb12f70742ab-21b78d9a" class="flex-vertical">
+            <div>{cabin}</div>
+          </div>
+          <div class="flex-vertical" >
+            <img src={"https://uploads-ssl.webflow.com/60c68219dd06b60c362068f0/6116eb1714613cc5260a6f77_android-chrome-256x256.png"} loading="lazy" alt="" class="qr-code-img"></img></div>
+          <div class="flex-vertical">
+            <div>Gate</div>
+            <div class="ticket__important-info">d7</div>
+          </div>
+          <div class="flex-vertical">
+            <div>Flight</div>
+            <div class="ticket__important-info">{flight.FlightNumber}</div>
+          </div>
+          <div class="flex-vertical">
+            <div>Seat</div>
+            <div class="ticket__important-info">NA</div>
+          </div>
+          <div id="w-node-02ddaefd-aa9d-15e5-8dcb-dc87316bed27-21b78d9a" class="ticket_hole-wrapper">
+            <div class="ticket__hole"></div>
+          </div>
+          <div class="ticket__left-bg"></div>
+        </div>
+        <div id="w-node-424ca1ea-6be4-621b-4443-87861569ed47-21b78d9a" class="ticket_right-wrapper">
+          <div class="w-layout-grid ticket__right-content-wrapper">
+            <div class="ticket__destiny-wrapper">
+              <div>From </div>
+              <div class="ticket__country-text" style={{ textTransform: 'uppercase'}}>{result1}</div>
+              <div >{flight.From.Airport} Airport</div>
+            </div>
+            <div class="ticket__destiny-wrapper">
+              <div>To</div>
+              <div class="ticket__country-text" style={{ textTransform: 'uppercase'}}>{result2}</div>
+              <div>{flight.To.Airport} Airport</div>
+            </div>
+            <div id="w-node-f707f957-883b-d67f-5d7a-451aaafb833d-21b78d9a" class="ticket__id-info-wrapper">
+              <div class="ticket__id-label">Departure Date</div>
+              <div class="weight-600">{flight.Departure.Date.slice(0, 10)}  at  {flight.Departure.Time}</div>
+            </div>
+            <div id="w-node-a0034b52-4bd3-6271-0e5d-2b333fd4ca24-21b78d9a" class="ticket__id-info-wrapper">
+              <div class="ticket__id-label">Arrival Data</div>
+              <div class="weight-600">{flight.Arrival.Date.slice(0, 10)} at {flight.Arrival.Time}</div>
+            </div><img src={"https://uploads-ssl.webflow.com/60c68219dd06b60c362068f0/6116ad41eeed6d29728453f8_4aa534605d1afc465c5bdc5dd80f1ecb.png"} loading="lazy" id="w-node-394c5a89-bbdd-4f0f-fd9d-dc484c91094c-21b78d9a" alt="" class="ticket_right-bg-img"></img>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+</div>
+<div>
+
+<Button 
+onClick={handleBack} 
+style={{backgroundColor: '#96C7C1' , color:"#22577E" , width:"400px" , height:"50px",fontSize:"200%",fontWeight: "bold" ,  position:'absolute', top:"201%"}}
+// size="lg"
+>Go Back</Button>
+</div>
+
+      </div>:<label></label>}
+
+
+
+     
+     
+      {/* logging in  */}
+      {(viewForm)?
+
+      <div style={{backgroundColor:'#FFFFFF'}}>
+      <Form onSubmit={login} style={{marginTop:'10%',margin:'10%',backgroundColor:'#95D1CC',width:'80%',paddingTop:'5%' ,paddingBottom:'5%' ,borderRadius:'5px'}}>
+      <FormGroup>
+      <h1>Login to your account</h1>
+
+    <Label >
+      Email:
+    </Label>
+        <input
+          type="email"
+          placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+          required
+        />
+        </FormGroup>
+        <FormGroup>
+    <Label >
+      Password:
+    </Label>
+        <input
+          type="password"
+          placeholder="Password"
+          required
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+        />
+        </FormGroup>
+        <button class="orange" type="submit"><FlightTakeoffIcon color="white" ></FlightTakeoffIcon> Login</button>
+
+      </Form>
+      {(notCorrect) &&<Alert color="danger"><a align="center">Invalid Username Or Password Please Try Again  </a></Alert>
+}
+</div>:<label></label>}
+   
+
+
+
+</div>
+
+      
+      )
+}
+export default ViewFlight;

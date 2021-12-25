@@ -1,6 +1,7 @@
 .summary{
+position: relative;
 margin-left: 40%;
-margin-top: -10%;}
+}
 .imgDepart{
     width: 740px; /* width of container */
     height: 200px; /* height of container */
@@ -26,7 +27,9 @@ margin-top: -10%;}
     color: white;
     padding: 10px;
     border-radius: 25px;
+    width:100%;
 }
+
 .infofrom{
     background-color:#5584AC;
     color: rgb(244, 238, 255);
@@ -37,8 +40,8 @@ margin-top: -10%;}
 
 } 
 
-.data {background-color:#5584AC;
-    color: white;
+.data {
+    color: rgb(12, 12, 12);
     padding: 6px;
     width:90%;
     border-radius: 10px;
@@ -104,6 +107,8 @@ margin-top: -10%;}
   .round {
     border-radius: 50%;
   }
-
+  html{
+    background-color: #FFFFFF	;
+  }
 
 

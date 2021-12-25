@@ -246,6 +246,9 @@
     -webkit-animation-name: rubberBand;
     animation-name: rubberBand;
   }
+  html{
+    background-color: #FFFFFF	;
+  }
   /*# sourceMappingURL=styles.css.map */
 
   

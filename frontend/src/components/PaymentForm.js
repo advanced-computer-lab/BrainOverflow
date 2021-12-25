@@ -3,6 +3,7 @@ import axios from "axios"
 import React, { useState } from 'react'
 import {useParams,useLocation,Link} from "react-router-dom";
 import { Button, Container } from 'reactstrap';
+import "../Style/background.css"
 
 const CARD_OPTIONS = {
 	iconStyle: "solid",
@@ -14,7 +15,6 @@ const CARD_OPTIONS = {
 			fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
 			fontSize: "16px",
             backgroundColor:"white",
-            height:"200px",
 			fontSmoothing: "antialiased",
 			":-webkit-autofill": { color: "#95D1CC" },
 			"::placeholder": { color: "##95D1CC" }

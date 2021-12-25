@@ -16,6 +16,9 @@ import '../App.css';
 import '../Style/Ticket.css';
 import AirlineSeatLegroomExtraOutlinedIcon from '@mui/icons-material/AirlineSeatLegroomExtraOutlined';
 import CloudCircleOutlinedIcon from '@mui/icons-material/CloudCircleOutlined';
+import CheckCircleOutlineSharpIcon from '@mui/icons-material/CheckCircleOutlineSharp';
+import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
+
 
  
 function ViewReserved(props) {
@@ -86,12 +89,18 @@ const initialMyState={
   const [HasError, setHasError] = useState(false);
   const [Error, setError] = useState('');
   const [show, setShow] = useState(false);
+  const [errShow,seterrShow]=useState(false);
   const handleClose = () => setShow(false);
+  const handleErrClose = () => seterrShow(false);
+
   const[MyTicket,setMyTicket]=useState(initialMyState);
+  const [mailfailed,setmail]=useState(false);
   const handleShow = (theid) => {
     setShow(true);
     setId(theid);
   }
+  let navigateBack = useNavigate();
+
 
    
   var theIds = [];
@@ -121,8 +130,21 @@ async function handleMail(Ticket){
  return  t._id == Ticket }));
  
   console.log(MyTicket[0]);
-  await axios.post(`http://localhost:8000/user/mailmyTicket`, MyTicket[0]);
+  try{
+    await axios.post(`http://localhost:8000/user/mailmyTicket`, MyTicket[0]);
+    setmail(true);
+  }catch(err){
+    setmail(true);
+
+  }
+  // await axios.post(`http://localhost:8000/user/mailmyTicket`, MyTicket[0]);
+  
+
   console.log(MyTicket);
+
+}
+function handleBack() {
+  navigateBack(-1)
 }
 
   async function handleSubmit() {
@@ -167,7 +189,8 @@ async function handleMail(Ticket){
 
   return (
     <Container style={{backgroundColor:'#FFFFFF'}} >
-        <Modal isOpen={show}>
+
+        <Modal isOpen={show} style={{marginTop:'20%'}}>
           <ModalHeader
             charCode="Y">
             Cancel Flight Reservation
@@ -187,6 +210,22 @@ async function handleMail(Ticket){
             </Button>
           </ModalFooter>        
         </Modal>
+
+        <Modal isOpen={errShow} style={{marginTop:'20%'}}>
+          {!(mailfailed)?<ModalHeader>Problem Has Happened ,Try Again</ModalHeader>:<ModalHeader><CheckCircleOutlineSharpIcon></CheckCircleOutlineSharpIcon> Mail Sent</ModalHeader> }
+          <ModalFooter>
+            {/* <Button
+              color="danger"
+              onClick={() => handleSubmit()}
+            > Yes, Delete
+            </Button> */}
+            {' '}
+            <Button onClick={handleErrClose}>
+              Cancel
+            </Button>
+          </ModalFooter>        
+        </Modal>
+
         <div>
         <h1 className="mb-2 mt-3" style={{paddingTop:'10%'}}> Your reserved tickets : </h1>
         </div>
@@ -230,7 +269,9 @@ async function handleMail(Ticket){
                         theObject.Price = ticket.Price
                         theObject.TicketName = ticket.Name
                       }}> Cancel </Button>
-                      <Button className="float-right" color="danger"  onClick={() => {
+
+                      <Button className="float-right" style={{backgroundColor: '#5584AC'}}  onClick={() => {
+                        seterrShow(true);
                         handleMail(ticket._id) ;}}> mail me the ticket </Button>
 
                       {/* { 
@@ -248,6 +289,7 @@ async function handleMail(Ticket){
 
                     
                      } */}
+
                      
 
                   </CardBody>
@@ -259,9 +301,12 @@ async function handleMail(Ticket){
               }  
           </Row></CardColumns>
 
-          {HasError &&  <Col className="bg-light "> <Alert align="center" color="danger" Row > 
-<a align="center" style={(Error)?{display: 'block',color:'red',fontSize:'20px'}:{display: 'none'}}><CardTitle>{Error}</CardTitle></a></Alert></Col> 
-}
+ {HasError && <Alert>{Error}</Alert>}
+
+ <Button onClick={handleBack}><ArrowCircleLeftRoundedIcon fontSize="large"></ArrowCircleLeftRoundedIcon></Button>
+
+
+
     </Container>
   )
 }
