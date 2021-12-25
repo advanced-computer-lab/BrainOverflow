@@ -16,6 +16,50 @@
 * This project aims to make it easier for travellers to reserve an airline ticket and view all flights schedule in addition to changing  their reseved flight or seat by only few simple steps.
 
 
+## Getting Started
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+
+### Installing
+
+run the command bellow in a new terminal to install the required packages
+
+```
+npm install
+```
+
+```
+npm install mongoose
+```
+
+### Running
+
+A step by step series of examples that tell you have to get a development enviroment running
+
+Navigate to the backend directory
+```
+cd backend
+```
+
+Then run:
+
+```
+node app.js
+```
+Open a new terminal and navigate to the frontend directory
+```
+cd frontend
+```
+
+Then run:
+
+```
+npm start
+```
+
+Within few seconds the project should be running
+
+
 ## Routes
 
 ### 1. Administrator Functionalities :
