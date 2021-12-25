@@ -3,7 +3,7 @@
 
 * Salma Khalid Shreef
 
-* Alia 
+* Alia Saddik
 
 * Veronika Fayez 
 
