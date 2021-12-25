@@ -15,14 +15,21 @@ const stripe = Stripe('sk_test_51K8UnBGmD9zb7igMlNQnyWl8REycCu9x2zgLsIcLodnv2rTu
 
 
 router.use(bodyParser.urlencoded({ extended: true }))
-router.post("/refund",async(req,res)=>{
+router.post("/refund/:TicketId",async(req,res)=>{
+
+  const ticketId = req.params.TicketId;
+  const ticket =await Ticket.findById(ticketId);
+  const paymentId = ticket.PaymentId;
   console.log("ana neela")
 const amount = req.body.amount;
-const paymentId = req.body.paymentId;
 const refund = await stripe.refunds.create({
   payment_intent: paymentId,
-  amount: amount,
+  amount: Math.abs(amount)*100,
 });
+res.json({
+  message: "Refund succeeded",
+  success: true
+})
 })
 router.post("/payment", async (req, res) => {
 	let { amount, id } = req.body;

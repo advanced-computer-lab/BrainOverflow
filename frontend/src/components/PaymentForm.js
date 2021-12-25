@@ -79,8 +79,12 @@ export default function PaymentForm() {
                 id
             }).then(res=>{
                 console.log("res",res.data.paymentId)
-                setPaymentId(res.data.paymentId);
-            })
+                setPaymentId(res.data.paymentId)
+                axios.post(`http://localhost:8000/user/confirmReserved`,{Summary :Summary,paymentId:res.data.paymentId}).then(res=>{
+                    setSuccess(true);
+                
+                
+            })})
                 
             if(response.data.success) {
                 console.log("Successful payment")
@@ -91,10 +95,8 @@ export default function PaymentForm() {
         } catch (error) {
             console.log("Error", error)
         }
-            await axios.post(`http://localhost:8000/user/confirmReserved`,{Summary :Summary,paymentId:paymentId}).then(res=>{
-                setSuccess(true);
-            })
-            }
+         
+    }
 }
 const handleRefund= async (e) => {
     console.log("Came to refnd")
@@ -110,7 +112,7 @@ const handleRefund= async (e) => {
             setSuccess(true)
         }
         try {
-            //console.log(chosenSeatId)
+            console.log("ana fel change")
           await axios.put(`http://localhost:8000/user/changeFlight/${TicketId}/${flightId}`)
           .then(setSuccess(true));
     

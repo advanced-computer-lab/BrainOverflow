@@ -146,7 +146,7 @@ function UpdateFlight(props) {
       id="DepartureDate"
       name="DepartureDate"
       placeholder="date placeholder"
-      type="datetime-local"
+      type="date"
       required      //value={flight.Departure.Date}
       onChange={handleChange}
     />
@@ -173,7 +173,7 @@ Departure Time    </Label>
       id="ArrivalDate"
       name="ArrivalDate"
       placeholder="date placeholder"
-      type="datetime-local"
+      type="date"
       required
       //value={flight.Arrival.Date}
       onChange={handleChange}

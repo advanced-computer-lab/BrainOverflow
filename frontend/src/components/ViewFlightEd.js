@@ -69,10 +69,14 @@ var PriceDifference=0;
   (NewCabin=="First" && !IsChild)?PriceDifference=flight.First.Price-OldPrice:
 
   (NewCabin=="Business" && IsChild)?PriceDifference=flight.Business.ChildPrice-OldPrice:
-  (NewCabin=="Business" && !IsChild)?PriceDifference=flight.Business.ChildPrice-OldPrice:
+  (NewCabin=="Business" && !IsChild)?PriceDifference=flight.Business.Price-OldPrice:
 
-  (NewCabin=="Economy" && !IsChild)?PriceDifference=flight.Economy.ChildPrice-OldPrice:
+  (NewCabin=="Economy" && IsChild)?PriceDifference=flight.Economy.ChildPrice-OldPrice:
   PriceDifference=flight.Economy.Price-OldPrice
+  if(PriceDifference<0){
+    Math.abs(PriceDifference)<=OldPrice?PriceDifference=PriceDifference:PriceDifference=0;
+  }
+  
 
   const [HasError, setHasError] = useState(false);
   const [Error, setError] = useState('');
@@ -121,7 +125,7 @@ var PriceDifference=0;
                              { PriceDifference<0 &&
                   <Link to={{ pathname:`/user/payment` 
                          , search:'?'+new URLSearchParams({PriceDifference:PriceDifference,TicketId:TicketId,flightId:flightId}).toString()
-                           }}className="btn btn-primary " color="success">Proceed to Refund</Link> 
+                           }}className="btn btn-primary " color="success">Proceed to Refund {Math.abs(PriceDifference)}</Link> 
                      }
                            { PriceDifference==0 &&
                   <Link to={{ pathname:`/user/viewReserved` 
