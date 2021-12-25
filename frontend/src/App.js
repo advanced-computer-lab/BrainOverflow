@@ -90,13 +90,13 @@ function App() {
       <Route path="user/viewReserved" element={<ViewReserved/>}/>
       <Route path="/user/viewFlights" element={<SearchFlight />} />
       <Route path="/user/viewFlight/:id" element={<ViewFlight />} />
-      <Route path="/user/viewSeats/:id/:FlightId/:Cabin/:TicketId" element={<ViewSeats/>}/>  
+      <Route path="/user/viewSeats/:FlightId/:Cabin/:TicketId" element={<ViewSeats/>}/>  
       <Route path="/user/updateProfile" element={<UpdateProfile/>}/>
       <Route path="/user/userProfile" element={<UserProfile/>}/> 
       <Route path="/authorize/changepass" element={<ChangePass/>}/> 
 
       <Route path="/user/confirmFlight" element={<ReserveFlight/>}/> 
-      <Route path="/user/changeSeats/:FlightId/:Cabin/:TicketId" element={<changeSeats/>}/> 
+      <Route path="/user/changeSeats/:FlightId/:Cabin/:TicketId/:OldSeat" element={<changeSeats/>}/> 
 
       <Route path="/authorize/signup" element={<Registeration/>}/> 
       <Route path="/authorize/login" element={<SignIn/>}/> 

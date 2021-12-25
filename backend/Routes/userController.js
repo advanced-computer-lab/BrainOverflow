@@ -252,7 +252,7 @@ const  user = await User.findById(req.user);
 
 
 
-router.get('/changeSeats/:id/:FlightId/:Cabin/:TicketId/:OldSeat',catchAsync(async(req,res,next)=>{
+router.get('/changeSeats/:FlightId/:Cabin/:TicketId/:OldSeat',catchAsync(async(req,res,next)=>{
   const FlightId = req.params.FlightId;
   const cabin = req.params.Cabin;
  const availableSeats= await Seat.find({'FlightId':FlightId,'Cabin':cabin,'IsBooked':false});
@@ -266,23 +266,24 @@ router.get('/changeSeats/:id/:FlightId/:Cabin/:TicketId/:OldSeat',catchAsync(asy
  res.send(availableSeats);
 }));
 
-router.post('/viewSeats/:SeatId/:TicketId',auth,catchAsync(async(req,res,next)=>{
-  console.log('beginning')
-  console.log(req.params.SeatId);
-  const user=await User.findById(req.user);
-  const seat =await Seat.findById(req.params.SeatId);
-  const oldSeat =await Seat.findById(req.params.OldSeat);
-  console.log(seat);
-  const ticket =await Ticket.findById(req.params.TicketId);
-  ticket.Seat.SeatId=seat._id;
-  ticket.Seat.SeatNumber=seat.SeatNumber;
-  seat.IsBooked=true;
-  await ticket.save();
-  await seat.save();
-  await user.save();
-  console.log('end')
+// router.post('/viewSeats/:SeatId/:TicketId',auth,catchAsync(async(req,res,next)=>{
+//   console.log('beginning')
+//   console.log(req.params.SeatId);
+//   const user=await User.findById(req.user);
+//   const seat =await Seat.findById(req.params.SeatId);
+//   const oldSeat =await Seat.findById(req.params.OldSeat);
+//   console.log(seat);
+//   const ticket =await Ticket.findById(req.params.TicketId);
+//   ticket.Seat.SeatId=seat._id;
+//   ticket.Seat.SeatNumber=seat.SeatNumber;
+//   seat.IsBooked=true;
+//   await ticket.save();
+//   await seat.save();
+//   await user.save();
+//   console.log('end')
 
-}));
+// }));
+
 router.get('/viewSeats/:FlightId/:Cabin/:TicketId',auth,catchAsync(async(req,res,next)=>{
   //console.log("I CAME HEREEE")
   const FlightId = req.params.FlightId;
