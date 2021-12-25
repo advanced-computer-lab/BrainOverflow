@@ -12,6 +12,10 @@
 
 * Abdullah Husam Khalil
 
+## Motivation
+*This project aims to make it easier for travellers to reserve an airline ticket and view all flights schedule and to even change their reseved flight by only few simple steps.
+
+
 ## Routes
 
 ### 1. Administrator Functionalities :
@@ -21,7 +25,7 @@
 	* Functionality : create a new flight
 	* Route : /createFlight
 	* Request type : POST
-	* Response : 
+	
 ***
 
 
