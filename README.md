@@ -1,4 +1,5 @@
 # BrainOverflow
+* This project is an Airline reservation system. Airline reservation systems allow an airline to sell their goods (seats). It contains information on schedules and fares and contains a database of reservations and of tickets issued. 
  ## Team Members
 
 * Salma Khalid Shreef
