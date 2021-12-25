@@ -20,11 +20,11 @@ import UserProfile from './components/UserProfile';
 import Page404 from './components/Page404';
 import ViewSeats from './components/ViewSeats';
 import ReserveFlight from './components/ReserveFlight';
-import ChangeFlight from './components/ChangeFlight'
 import EditFlightSearch from './components/EditFlightSearch'
 import StripeContainer from './components/StripeContainer';
 import ViewFlightEd from './components/ViewFlightEd';
 import ChangePass from './components/ChangePass';
+import changeSeats from './components/ChangeSeat.js';
 import { AuthContextProvider } from "./components/AuthContext";
 import AuthContext from "./components/AuthContext";
 
@@ -83,23 +83,24 @@ function App() {
       <Route path="/admin/createFlight" element={<CreateFlight />} />
       <Route path="/admin" element={<AllFlights />} />
       <Route path="/admin/UpdateFlight/:id" element={<UpdateFlight/>}/> 
-      {/* <Route path="/" element={<Home/>}/> */}
+      <Route path="/" element={<Home/>}/>
       <Route path="/home" element={<Home/>}/>
       <Route path="/user" element={<Home/>}/>
 
       <Route path="user/viewReserved" element={<ViewReserved/>}/>
       <Route path="/user/viewFlights" element={<SearchFlight />} />
       <Route path="/user/viewFlight/:id" element={<ViewFlight />} />
-      <Route path="/user/viewSeats/:FlightId/:Cabin/:TicketId" element={<ViewSeats/>}/>  
+      <Route path="/user/viewSeats/:id/:FlightId/:Cabin/:TicketId" element={<ViewSeats/>}/>  
       <Route path="/user/updateProfile" element={<UpdateProfile/>}/>
       <Route path="/user/userProfile" element={<UserProfile/>}/> 
       <Route path="/authorize/changepass" element={<ChangePass/>}/> 
+
       <Route path="/user/confirmFlight" element={<ReserveFlight/>}/> 
+      <Route path="/user/changeSeats/:FlightId/:Cabin/:TicketId" element={<changeSeats/>}/> 
+
       <Route path="/authorize/signup" element={<Registeration/>}/> 
       <Route path="/authorize/login" element={<SignIn/>}/> 
-
       <Route path="/user/payment" element={<StripeContainer/>}></Route>
-      <Route path="/changeFlight/:ticketId" element={<ChangeFlight/>}/> 
       <Route path="/user/payment" element={<StripeContainer/>}/> 
     <Route path="/user/EditFlightSearch/:ticketId" element={<EditFlightSearch/>}/> 
     <Route path="/user/viewFlightEd/:flightId" element={<ViewFlightEd/>}/> 
@@ -115,3 +116,4 @@ function App() {
 }
 
 export default App;
+

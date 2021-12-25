@@ -9,6 +9,7 @@ import MyNavBar from './MyNavbar';
 import Datetime from 'react-datetime';
 import "react-datetime/css/react-datetime.css";
 import logo from './Plane Loop.gif';
+import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
 
 function CreateFlight() {
   const navigate = useNavigate();
@@ -35,6 +36,8 @@ function CreateFlight() {
   const [FirstSeats,setFirstSeats]=React.useState(0);
   const [FirstPrice,setFirstPrice]=React.useState(0);
   const [FirstBaggage,setFirstBaggage]=React.useState(0);
+  const [errorMessage, setErrorMessage] = useState('');
+
   let navigateBack = useNavigate();
   const addtoList=()=>{
     try {
@@ -47,9 +50,27 @@ function CreateFlight() {
     } catch {
       return;
     }
+
+    if(ArrivalDate<DepartureDate || (ArrivalDate==DepartureDate && ArrivalTime<=DepartureTime )){
+      setErrorMessage('Arrival Must Be After Departure');
+      console.log("i'm here");
+    }
+    else if( (FlightNumber=='')|| (FromAirport=='')||(ToAirport=='') ||(FromTerminal==0)||(ToTerminal==0) ||(DepartureTime==0)
+    ||(ArrivalTime==0)||(EconomySeats==0)||(EconomyPrice==0)||(EconomyChildPrice==0)||(EconomyBaggage==0)||(BusinessSeats==0)
+    || (BusinessPrice==0) || (BusinessChildPrice==0)|| (BusinessBaggage==0)||(FirstSeats==0)||(FirstPrice==0)
+    ||(FirstChildPrice==0)||(FirstBaggage==0)){
+      setErrorMessage('Please Enter all Parameters');
+    }
     
-    
-      //console.log(From,To,FlightDate,Economy,First,Business)
+    else if((FromTerminal<0)||(ToTerminal<0) ||(DepartureTime<0)
+    ||(ArrivalTime<0)||(EconomySeats<0)||(EconomyPrice<0)||(EconomyChildPrice<0)||(EconomyBaggage<0)||(BusinessSeats<0)
+    || (BusinessPrice<0) || (BusinessChildPrice<0)|| (BusinessBaggage<0)||(FirstSeats<0)||(FirstPrice<0)
+    ||(FirstChildPrice<0)||(FirstBaggage<0)){
+
+      setErrorMessage('Please Do not enter any Negative Numbers!');
+
+    }else{
+            //console.log(From,To,FlightDate,Economy,First,Business)
     Axios.post("http://localhost:8000/admin/createFlight",{
       FlightNumber:FlightNumber,
         FromAirport:FromAirport,
@@ -75,12 +96,17 @@ function CreateFlight() {
     }).then(navigate('/admin', { replace: true }));
 
 
+    }
+    
+    
+
+
      
  
     
 }
 
-function handleClick() {
+function handleBack() {
   navigateBack(-1)
 }
   return (
@@ -400,12 +426,11 @@ Create Flight  </Button>
 {hasError &&<Alert><a align="center" style={(Error)?{display: 'block'}:{display: 'none'}}>{Error}</a></Alert>
 }  
 </Container>
+{errorMessage && (
+  <p className="error" style={{color:'orange',fontSize:'30px'}}> {errorMessage} </p>
+)}
 
-<Button 
-onClick={handleClick} 
-style={{backgroundColor:"white",color:"#22577E" , width:"300px",fontWeight: "bold" }}
-// size="lg"
->go back</Button>
+<Button onClick={handleBack}><ArrowCircleLeftRoundedIcon fontSize="large"></ArrowCircleLeftRoundedIcon> Back </Button>
 </div>
     
     );

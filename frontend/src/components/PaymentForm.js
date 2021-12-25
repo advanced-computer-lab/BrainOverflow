@@ -1,56 +1,40 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import axios from "axios"
-import React, { useState,useContext } from 'react'
+import React, { useState } from 'react'
 import {useParams,useLocation,Link} from "react-router-dom";
-import AuthContext from './AuthContext';
-import "../Style/background.css"
-import { useNavigate } from 'react-router-dom'
-import LogoutIcon from '@mui/icons-material/Logout';
-import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
-import{
-    CardBody,Card , CardHeader , Form,Input , FormGroup , Label , Button, Container, Row , Col ,Alert
- } from 'reactstrap';
-
-
+import { Button, Container } from 'reactstrap';
 const CARD_OPTIONS = {
 	iconStyle: "solid",
 	style: {
 		base: {
 			iconColor: "#c4f0ff",
-			color: "#000000",
+			color: "#00008B",
 			fontWeight: 500,
 			fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
 			fontSize: "16px",
-            backgroundColor:"white",
 			fontSmoothing: "antialiased",
-			":-webkit-autofill": { color: "#95D1CC" },
-			"::placeholder": { color: "##95D1CC" }
+			":-webkit-autofill": { color: "#fce883" },
+			"::placeholder": { color: "#87bbfd" }
 		},
 		invalid: {    
-			iconColor: "#F6F2D4",
-			color: "rgb(223, 71, 89)"
+			iconColor: "#ffc7ee",
+			color: "#ffc7ee"
 		}
 	}
 }
 
 export default function PaymentForm() {
-    const {loggedIn} = useContext(AuthContext);
     const [success, setSuccess ] = useState(false)
-    const [paymentId,setPaymentId]= useState('');
-    const navigate = useNavigate();
-    const [HasError, setHasError] = useState(false);
-    const [Error, setError] = useState('');
     const stripe = useStripe()
     const elements = useElements();
     const {id} = useParams();
-    let location = useLocation();
+        let location = useLocation();
     let search=new URLSearchParams(location.search);
-    const PriceDifference= search.get('PriceDifference');
-    const flightId = search.get('flightId');
-    const TicketId = search.get('TicketId');
+    const returnTotalPrice=search.get('ReturnTotalPrice');
+    const depatureTotalPrice=search.get('DepatureTotalPrice');
     const Summary={
         AdultNames:search.get('AdultNames'),
-        ChildrenNames:search.get('AdultNames'),
+        ChildrenNames:search.get('ChildrenNames'),
         Cabin:search.get('Cabin'),
         Adults:search.get('Adults'),
         Children:search.get('Children'),
@@ -64,15 +48,9 @@ export default function PaymentForm() {
         ReturnTotalPrice:search.get('ReturnTotalPrice')
                        
     };
-    console.log("summary",Summary)
-    var amount=0;
-   // PriceDifference!=null?amount=PriceDifference: amount=returnTotalPrice+depatureTotalPrice;
-
-   // const Summary = search.get('Summary');
-    console.log("Summary ",Summary)
-
     
     const handleSubmit = async (e) => {
+        console.log(returnTotalPrice)
         e.preventDefault()
         const {error, paymentMethod} = await stripe.createPaymentMethod({
             type: "card",
@@ -84,175 +62,41 @@ export default function PaymentForm() {
         try {
             const {id} = paymentMethod
             const response = await axios.post("http://localhost:8000/user/payment", {
-                amount:Summary.ReturnTotalPrice+Summary.DepatureTotalPrice,
+                amount:returnTotalPrice+depatureTotalPrice,
                 id
-            }).then(res=>{
-                console.log("res",res.data.paymentId)
-                setPaymentId(res.data.paymentId);
             })
-                
+
             if(response.data.success) {
                 console.log("Successful payment")
                 setSuccess(true)
-                
             }
 
         } catch (error) {
             console.log("Error", error)
         }
-            await axios.post(`http://localhost:8000/user/confirmReserved`,{Summary :Summary,paymentId:paymentId}).then(res=>{
-                setSuccess(true);
-            })
-            }
-}
-const handleRefund= async (e) => {
-    console.log("Came to refnd")
-    
-
-        const response = await axios.post(`http://localhost:8000/user/refund/${TicketId}`, {
-            amount:PriceDifference,
-            TicketId:TicketId,
-            id
-        })
-        if(response.data.success) {
-            console.log("Successful Refund")
-            setSuccess(true)
-        }
         try {
-            //console.log(chosenSeatId)
-          await axios.put(`http://localhost:8000/user/changeFlight/${TicketId}/${flightId}`)
-          .then(setSuccess(true));
-    
-        } catch (error) {
-          setHasError(true);
-          setError('Sorry , An error occured');
-        }
-
-
-}
-
-const handlePayDifference=async (e)=>{
-    e.preventDefault()
-        const {error, paymentMethod} = await stripe.createPaymentMethod({
-            type: "card",
-            card: elements.getElement(CardElement)
-        })
-    if(!error) {
-        try {
-            const {id} = paymentMethod
-            const response = await axios.post("http://localhost:8000/user/payment", {
-                amount:PriceDifference,
-                id
-            }).then(res=>{
-                console.log("res",res.data.paymentId)
-                //setPaymentId(res.data.paymentId);
-                setSuccess(true)
-            })
-                
-            if(response.data.success) {
-                console.log("Successful payment")
-               
-                
-            }
-
-        } catch (error) {
-            console.log("Error", error)
-        }
-    
-    try {
-        //console.log(chosenSeatId)
-      await axios.put(`http://localhost:8000/user/changeFlight/${TicketId}/${flightId}`)
-      .then(navigate(`/user/viewReserved`, { replace: true }));
-
-    } catch (error) {
-      setHasError(true);
-      setError('Sorry , An error occured');
+            await axios.post(`http://localhost:8000/user/confirmReserve/${id}`,Summary) 
+            } catch (error) {
+            console.error(error);
+          }
+    } else {
+        console.log(error.message)
     }
-  }
 }
-async function logout(e) {
-    e.preventDefault();
-    console.log("log out here")
 
-
-    try {
-        await axios.get("http://localhost:8000/authorize/logout")
-        navigate('/user', { replace: true });
-
-      }
-      catch(err){
-        console.error(err);
-
-      }}
-      let navigateBack = useNavigate();
-
-      function handleBack() {
-        navigateBack(-1)
-      }
     return (
-        <div style={{backgroundColor:'#FFF',marginTop:'20%'}}>
-                    <Container style={{backgroundColor:'#FFF'}}>
+        <Container>
         <>
-        {!success && PriceDifference==null&& Summary!=null&&
-
-
-
-
-        
-
-            <div >
-    <Form onSubmit={handleSubmit} style={{marginTop:'10%',margin:'10%',backgroundColor:'#95D1CC',width:'80%',paddingTop:'5%' ,paddingBottom:'1%' ,borderRadius:'5px'}} >
-    <h1>Paying Details</h1>
-    <FormGroup>
-    <Label >
-      Card Owner:
-    </Label>
-        <input
-        style={{height:"50%"}}
-          type="text"
-        />
-        </FormGroup>
-      <FormGroup>
-      
-
-    <Label >
-      Your Visa Card
-    </Label>
-        <div style={{height:"50%"}}>
-        <CardElement options={CARD_OPTIONS}/>
-        </div>
-           
-        
-        </FormGroup>
-       
-        <button style={{color:'#FFFFFF',width:'30%',backgroundColor:'#d4902a',padding:'10px',borderRadius:'6px',marginLeft:'35%',marginRight:'auto'}}>Pay</button>
-
-      </Form>
-                    {/* <CardElement options={CARD_OPTIONS}/>
-            <button style={{color:'#FFFFFF',width:'30%',backgroundColor:'#d4902a',padding:'10px',borderRadius:'6px',marginLeft:'35%',marginRight:'auto'}}>Pay</button> */}
-            </div>
-        
-
-
-
-
-        }
-        {!success && PriceDifference>0&&
-        <form onSubmit={handlePayDifference}>
+        {!success ? 
+        <form onSubmit={handleSubmit}>
                     <CardElement options={CARD_OPTIONS}/>
-            <button>Pay difference between the flights</button>
+            <button>Pay</button>
         </form>
-        }
-        {!success && PriceDifference<0&&
-        <form onSubmit={handleRefund}>
-                    <CardElement options={CARD_OPTIONS}/>
-            <button>Refund difference between the flights</button>
-        </form>
-        }
-       {success&&<div>
+        ://user/viewReserved/:id
+       <div>
            <h2>You have successfully confirmed your tickets </h2>
            { 
-                    <Link to={{ pathname:`/user/viewReserved` 
+                    <Link to={{ pathname:`/user/viewReserved/${id}` 
                         
                            }}className="btn btn-primary " color="success">View all you reserved tickets !</Link> 
                      }
@@ -261,13 +105,5 @@ async function logout(e) {
             
         </>
         </Container>
-        
-        <div>
-      <Button onClick={handleBack}><ArrowCircleLeftRoundedIcon fontSize="large"></ArrowCircleLeftRoundedIcon> Back </Button>
-
-      {(loggedIn) &&<Button onClick={logout} color="danger" align="center"> <LogoutIcon></LogoutIcon>Log Out</Button>}
-
-      </div>
-        </div>
     )
-    }
+      }

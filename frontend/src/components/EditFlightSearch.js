@@ -8,8 +8,7 @@ import { useParams, useLocation } from "react-router-dom";
 
 import ReactHTMLDatalist from "react-html-datalist";
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
-import CloudQueueRoundedIcon from '@mui/icons-material/CloudQueueRounded';
-
+import CloudCircleOutlinedIcon from '@mui/icons-material/CloudCircleOutlined';
 
 import { useNavigate } from 'react-router-dom'
 import {
@@ -188,8 +187,8 @@ function EditSearchFlight() {
                                     <Card>
                                         <CardBody>
                                             <CardTitle tag="h5">
-                                            <label className="info2"> <CloudQueueRoundedIcon></CloudQueueRoundedIcon> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                From :  {flight.From.Airport}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FlightTakeoffIcon></FlightTakeoffIcon>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To :  {flight.To.Airport}</label>
+                                            <label className="info2"> <CloudCircleOutlinedIcon fontSize="large"></CloudCircleOutlinedIcon> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                From :  {flight.From.Airport}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FlightTakeoffIcon fontSize="large" ></FlightTakeoffIcon>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To :  {flight.To.Airport}</label>
                                             </CardTitle>
                                             <CardSubtitle
                                                 className="mb-2 text-muted"

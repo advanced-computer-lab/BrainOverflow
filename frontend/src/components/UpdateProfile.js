@@ -8,13 +8,17 @@ import{
    CardBody,Card , CardHeader , Form,Input , FormGroup , Label , Button, Container, Row , Col ,FormFeedback
 } from 'reactstrap';
 import MyNavBar from './MyNavbar';
+import profile from './Profile.jpg'
+import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
+
 function UpdateProfile(props) {
   // const navigate= useNavigate;
   // const [EmailErr, setEmailErr] = React.useState('');
   // const [FirstNameErr, setFirstNameErr] = React.useState('');
   // const [LastNameErr,setLastNameErr]=React.useState("");
   // const [PasswordErr,setPasswordErr]=React.useState("");
-
+  let navigateBack = useNavigate();
+  const [errorMessage, setErrorMessage] = useState('');
    const initialstate= {   
     Email:'',
     FirstName:'',
@@ -32,26 +36,31 @@ function UpdateProfile(props) {
     //Student name     
     if (!(user.FirstName)) {  
         formIsValid = false;    
+        
         // setFirstNameErr("First Name is required.");    
     }    
     if (!user.LastName) {    
       formIsValid = false;    
+      
       // setLastNameErr("Last Name is required.");    
   } 
 
     //Email    
     if (!user.Email) {    
-        formIsValid = false;    
+        formIsValid = false; 
+           
         // setEmailErr("Email is required.");    
     }    
-    else if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user.Email))) {    
+    else if (!(/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/.test(user.Email))) {    
 
-        formIsValid = false;    
+        formIsValid = false; 
+         
         // setEmailErr("Invalid email address");    
     }    
     //Password    
     if (!user.Password) {    
       formIsValid = false;    
+      
       // setPasswordErr("Password is required.");    
   }   
     
@@ -88,12 +97,39 @@ function UpdateProfile(props) {
   }, [props]);
   function handleSubmit(event) {
     event.preventDefault();
-    if (handleFormValidation()) {    
+
+    
+
+    if(user.PhoneNumber.length>15){
+      setErrorMessage('Please enter a Correct phone Number that is at least Shorter than 16 digits!');  
+    }
+    else if(user.VisaNumber.length>16){
+      setErrorMessage('Please enter a Correct Visa Card Number that is at least Shorter than 17 digits!');
+    }
+
+    else if (!(/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/.test(user.Email)) && user.Email.length>0){
+      setErrorMessage('Please enter a Correct email!');
+    }
+    else if(user.Passport.length>9){
+      setErrorMessage('Please enter a Correct Passport Number that is at least Shorter than 10 digits!');
+    }
+    else if (user.Password.length<6  && user.Password.length>0){
+      setErrorMessage('Please enter a Correct Password Number that is at least longer than 6 digits!');
+    }
+    else if (user.PhoneNumber<0 || user.VisaNumber<0 || user.Passport<0 ){
+      setErrorMessage('Please Do not enter any Negative Numbers!');
+
+    }
+    else if (user.FirstName=='' || user.LastName==''|| user.Country==''|| user.Email==''
+     || user.Password==''||user.Passport==''|| user.Address==''||user.PhoneNumber==0||user.VisaNumber==0){
+      setErrorMessage('Please fill all the fields!');
+     }
+    else  {    
      
   
     async function updateProfile() {
       try {
-         put(`http://localhost:8000/user/updateProfile/${id}`, user).then(
+         put(`http://localhost:8000/user/updateProfile/`, user).then(
           window.location.href = `/user/userProfile` )
         
          
@@ -103,10 +139,7 @@ function UpdateProfile(props) {
     }
     updateProfile();
   }
-  else{
-    alert('You Must fill all required info')    
-
-  }
+  
 }
   
 
@@ -114,26 +147,33 @@ function UpdateProfile(props) {
     setUser({...user, [event.target.name]: event.target.value})
     handleFormValidation();
   }
+  function handleBack() {
+    navigateBack(-1)
+  }
 
   return (
-    
-      <Container className='m-3' >
-        <Card className='p-3' style={{marginTop:'30%'}}>
-    <CardHeader className='mb-2'  >
+    <div style={{padding:"10%" , backgroundColor:"#22577E" ,color:"#22577E" , fontWeight: "bold" }}>
+     <div style={{position:"absolute" , left:"50%"}}><img src={profile} style={{width:"100%" , height:"100%"}}></img></div> 
+    <div style={{marginLeft:"-10%"}}>
+      <Container className='m-3' style={{backgroundColor:"#22577E" , width:"600px"}} >
+        <Card className='p-3' style={{backgroundColor:"#C9CCD5"}} >
+    {/* <CardHeader className='mb-2'  >
       Update 
       {user.FirstName+" "+user.LastName+"'s Profile"}
-    </CardHeader>
-    <CardBody>
+    </CardHeader> */}
+    <CardBody style={{backgroundColor:"#C9CCD5" ,color:"#22577E" , fontWeight: "bold" , width:"400px" }} >
 
     <Form >
     <FormGroup>
-    <Label for="From">
+    <Label for="From" style={{color:"#39251c"}}>
       First Name
     </Label>
     <Input
+    
+      style={{width:"400px"  , borderRadius:"8px"}}
       id="FirstName"
       name="FirstName"
-      placeholder=""
+      placeholder="First Name"
       type="text"
       value={user.FirstName}
       onChange={handleChange}
@@ -147,11 +187,12 @@ function UpdateProfile(props) {
     </FormFeedback> */}
   </FormGroup>
   <FormGroup>
-    <Label for="LastName">
+    <Label for="LastName" style={{color:"#39251c"}}>
     Last Name
     </Label>
     <Input
     required
+    style={{width:"400px" , borderRadius:"8px"}}
       id="LastName"
       name="LastName"
       placeholder="Last Name"
@@ -170,10 +211,11 @@ function UpdateProfile(props) {
 
 
   <FormGroup>
-    <Label for="Email">
+    <Label for="Email" style={{color:"#39251c"}}>
       Email
     </Label>
     <Input
+      style={{width:"400px" , borderRadius:"8px" }}
       id="Email"
       name="Email"
       placeholder="something@idk.cool"
@@ -190,12 +232,13 @@ function UpdateProfile(props) {
     </FormFeedback> */}
   </FormGroup>
   <FormGroup>
-    <Label for="Password">
+    <Label for="Password" style={{color:"#39251c"}}>
         Password   </Label>
     <Input
+      style={{width:"400px" , borderRadius:"8px"}}
       id="Password"
       name="Password"
-      placeholder=""
+      placeholder="Password"
       type="password"
       value={user.Password}
       required
@@ -210,27 +253,32 @@ function UpdateProfile(props) {
     </FormFeedback> */}
   </FormGroup>
   <FormGroup>
-    <Label for="Passport">
-    Passport number
+    <Label for="Passport" style={{color:"#39251c"}}>
+    Passport Number
     </Label>
     <Input
+      
+      style={{width:"400px" , borderRadius:"8px"}}
       id="Passport"
       name="Passport"
-      placeholder=""
+      placeholder="Passport"
       type="text"
+      required
       value={user.Passport}
       onChange={handleChange}
     />
   </FormGroup>
   <FormGroup>
-    <Label for="PhoneNumber">
-Visa card number    </Label>
+    <Label for="PhoneNumber" style={{color:"#39251c"}}>
+Phone Number    </Label>
     <Input
+      style={{width:"400px" , borderRadius:"8px"}}
       id="PhoneNumber"
       name="PhoneNumber"
-      placeholder=""
+      placeholder="Phone Number"
       type="tel"
       value={user.PhoneNumber}
+      required
       required
       onChange={handleChange}
     />
@@ -242,25 +290,28 @@ Visa card number    </Label>
     </FormFeedback> */}
   </FormGroup>
   <FormGroup>
-    <Label for="VisaNumber">
-Visa card number    </Label>
+    <Label for="VisaNumber" style={{color:"#39251c"}}>
+Visa Card Number    </Label>
     <Input
+      style={{width:"400px", borderRadius:"8px" }}
       id="VisaNumber"
       name="VisaNumber"
-      placeholder=""
+      placeholder="Visa Card Number"
       type="number"
+      required
       value={user.VisaNumber}
       onChange={handleChange}
     />
   </FormGroup>
   <FormGroup>
-    <Label for="Country">
+    <Label for="Country" style={{color:"#39251c"}}>
     Country
     </Label>
     <Input
+      style={{width:"400px" , borderRadius:"8px"}}
       id="Country"
       name="Country"
-      placeholder=""
+      placeholder="Country"
       type="text"
       value={user.Country}
       onChange={handleChange}
@@ -276,14 +327,16 @@ Visa card number    </Label>
   
   
   <FormGroup>
-    <Label for="Address">
+    <Label for="Address" style={{color:"#39251c"}}>
     Address
     </Label>
     <Input
+      style={{width:"400px" , borderRadius:"8px"}}
       id="Address"
       name="Address"
-      placeholder=""
+      placeholder="Address"
       type="text"
+      required
       value={user.Address}
       onChange={handleChange}
     />
@@ -292,6 +345,7 @@ Visa card number    </Label>
  
   <div className="float-right">
    <Button 
+   style={{backgroundColor:"#22577E" ,color:"white"}}
    onClick={handleSubmit}
    color="success"
    size="lg"
@@ -303,6 +357,12 @@ Update Profile  </Button>
 </CardBody>
 </Card>
 </Container>
+</div>
+{errorMessage && (
+  <p className="error" style={{color:"orange"}}> {errorMessage} </p>
+)}
+<Button onClick={handleBack}><ArrowCircleLeftRoundedIcon fontSize="large"></ArrowCircleLeftRoundedIcon> Back </Button>
+</div>
     
   );
 }

@@ -10,6 +10,8 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
 import AirplaneTicketOutlinedIcon from '@mui/icons-material/AirplaneTicketOutlined';
+import Tooltip from '@mui/material/Tooltip';
+
 
 import { useNavigate } from 'react-router-dom';
 import JSONDATA from './MOCK_DATA.json';
@@ -396,6 +398,7 @@ function Home() {
 
                   <Form onSubmit={addtoList} >
                       <FormGroup row>
+                      <Tooltip title="Which cabin you want ?" arrow>
                       <Col>
                           <Label for="Class">Cabin Class :</Label>
                         
@@ -406,6 +409,8 @@ function Home() {
                                   <option value="Business">Business</option>
                               </datalist>
                               </Col>
+                              </Tooltip>
+                            <Tooltip title="Number of Adults passengers" arrow>
                               <Col>
                               <Label for="Passengers">  Adults :</Label>
                                                              <Input
@@ -418,6 +423,9 @@ function Home() {
                                   required
                               />
                           </Col>
+                          </Tooltip>
+                          
+                          <Tooltip title="Number of Children" arrow>
                           <Col>
                               <Label for="PassengersChild">
                                   Children :
@@ -434,6 +442,8 @@ function Home() {
                                   
                               />
                           </Col>
+                          </Tooltip>
+                          <Tooltip title="From where you will depart" arrow>
                           <Col>
                               <Label for=" departure City ">
                                 From:
@@ -460,6 +470,10 @@ function Home() {
                                   })}
                               </datalist>
                           </Col>
+                          </Tooltip>
+
+                          <Tooltip title="to Where you are going " arrow>
+
                           <Col>
                               <Label for=" Arrival city ">
                                   To :
@@ -485,6 +499,10 @@ function Home() {
                                   })}
                               </datalist>
                           </Col>
+                          </Tooltip>
+
+                          <Tooltip title="When you will leave" arrow>
+
                           <Col>
                               <Label for="departure Date">
                                   Departure Date:
@@ -497,10 +515,15 @@ function Home() {
                                   required
                               />
                           </Col>
+                          </Tooltip>
+
+                          <Tooltip title="When you will Return" arrow>
+
                           <Col>
                               <Label for="Return Date">
                                   Return Date:
                               </Label>
+
                               <Input
                                   id="ReturnDate"
                                   name="ArrivalDate"
@@ -508,13 +531,16 @@ function Home() {
                                   type="date"
                                   required
                               />
+
                               </Col>
+                              </Tooltip>
 
 
 
                       </FormGroup>
-
+                      <Tooltip title="Search A Flight" arrow>
                       <div className="search" class="center">
+
                           <Button  style={{width:'500px',color:'#FFFFFF',backgroundColor:'#d4902a'}}
                               color="info"
                               size="lg"
@@ -524,6 +550,7 @@ function Home() {
                               <FlightTakeoffIcon></FlightTakeoffIcon> Search For A Flight</Button>
                               <br/><br/>
                       </div>
+                      </Tooltip>
                   </Form>
               </Row>
               {View ?
@@ -557,12 +584,14 @@ function Home() {
                                        &nbsp;&nbsp;&nbsp;Arrival time:{flight.Arrival.Time}<br/>
 
                                           </CardText>
+  
                                           <Button class="center" style={{backgroundColor: '#5584AC' ,marginLeft:'80%',marginTop:'-25%',padding:'10px'}}>
                                               <Link  style={{backgroundColor: '#d4902a',color:'#FFF'}}to={{
                                                   pathname: `/user/viewFlight/${flight._id}`
                                                   , search: '?' + new URLSearchParams(mysearch).toString()
                                               }} className="btn btn-primary"> <FlightTakeoffIcon></FlightTakeoffIcon>Choose This Flight</Link>
                                           </Button>
+                                         
                                       </CardBody>
                                   </Card>
 
@@ -628,6 +657,7 @@ function Home() {
 
 
 export default Home;
+
 
 
 
