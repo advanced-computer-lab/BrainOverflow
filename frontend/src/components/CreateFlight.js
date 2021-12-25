@@ -8,6 +8,7 @@ import{
 import MyNavBar from './MyNavbar';
 import Datetime from 'react-datetime';
 import "react-datetime/css/react-datetime.css";
+import logo from './Plane Loop.gif';
 
 function CreateFlight() {
   const navigate = useNavigate();
@@ -34,6 +35,7 @@ function CreateFlight() {
   const [FirstSeats,setFirstSeats]=React.useState(0);
   const [FirstPrice,setFirstPrice]=React.useState(0);
   const [FirstBaggage,setFirstBaggage]=React.useState(0);
+  let navigateBack = useNavigate();
   const addtoList=()=>{
     try {
       if (ArrivalDate<DepartureDate || (ArrivalDate==DepartureDate && ArrivalTime<=DepartureTime )) {
@@ -45,7 +47,8 @@ function CreateFlight() {
     } catch {
       return;
     }
-  
+    
+    
       //console.log(From,To,FlightDate,Economy,First,Business)
     Axios.post("http://localhost:8000/admin/createFlight",{
       FlightNumber:FlightNumber,
@@ -70,21 +73,31 @@ function CreateFlight() {
         FirstChildPrice:FirstChildPrice,
         FirstBaggage:FirstBaggage
     }).then(navigate('/admin', { replace: true }));
+
+
+     
+ 
     
 }
+
+function handleClick() {
+  navigateBack(-1)
+}
   return (
-   
+    <div style={{padding:"10%" , backgroundColor:"#22577E" ,color:"#22577E" , fontWeight: "bold" }}>
+      <div > <img style={{width:"100%" , height:"400px"}} src= {logo}></img></div> 
+      <h1 style={{color:"#ECDBBA" , padding:"2%"}} >Create Flight</h1>
       <Container className='m-3'>
         {!hasError &&
-        <Card className='p-3'>
-    <CardHeader className='mb-2'  >
-      Create New Flight
-    </CardHeader>
+        <Card className='p-3' style={{backgroundColor:"rgb(85, 132, 172)"}}>
+    {/* <CardHeader className='mb-2'  style={{backgroundColor:"white"}}  >
+     <h3> Create New Flight</h3>
+    </CardHeader> */}
     <CardBody>
 
-    <Form>
+    <Form >
     <FormGroup>
-    <Label for="FlightNumber">
+    <Label for="FlightNumber" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
       Flight Number
     </Label>
     <Input
@@ -99,7 +112,7 @@ function CreateFlight() {
     />
     </FormGroup>
     <FormGroup>
-    <Label for="From">
+    <Label for="From" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
       From
     </Label>
     <Input
@@ -112,7 +125,7 @@ function CreateFlight() {
         setFromAirport(e.target.value);
       }}
     />
-    <Label for="Terminal">
+    <Label for="Terminal" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
       Departure Terminal
     </Label>
     <Input
@@ -125,7 +138,7 @@ function CreateFlight() {
         setFromTerminal(e.target.value);
       }}
     />
-    <Label for="exampleDate">
+    <Label for="exampleDate" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
       Departure Date
     </Label>
     <Input
@@ -138,7 +151,7 @@ function CreateFlight() {
         setDepartureDate(e.target.value);
       }}
     />
-     <Label for="exampleDate">
+     <Label for="exampleDate" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
       Departure Time
     </Label>
     <Input
@@ -154,7 +167,7 @@ function CreateFlight() {
   </FormGroup>
   <br />
   <FormGroup>
-    <Label for="To">
+    <Label for="To" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
       To
     </Label>
     <Input
@@ -167,7 +180,7 @@ function CreateFlight() {
         setToAirport(e.target.value);
       }}
     />
-    <Label for="To">
+    <Label for="To" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
       Arrival Terminal
     </Label>
     <Input
@@ -180,7 +193,7 @@ function CreateFlight() {
         setToTerminal(e.target.value);
       }}
     />
-    <Label for="exampleDate">
+    <Label for="exampleDate" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
       Arrival Date
     </Label>
     <Input
@@ -193,7 +206,7 @@ function CreateFlight() {
         setArrivalDate(e.target.value);
       }}
     />
-     <Label for="exampleDate">
+     <Label for="exampleDate" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
       Arrival Time
     </Label>
     <Input
@@ -209,8 +222,8 @@ function CreateFlight() {
   </FormGroup>
   <br />
   <FormGroup>
-    <Label for="Economy">
-     Number of Economy class seats
+    <Label for="Economy" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+     Number of Economy Class Seats
     </Label>
     <Input
       id="economy"
@@ -222,8 +235,8 @@ function CreateFlight() {
         setEconomySeats(e.target.value);
       }}
     />
-    <Label for="EconomyPrice">
-     Price of Economy class seat for aduults
+    <Label for="EconomyPrice" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+     Price of Economy Class Seat for Adults
     </Label>
     <Input
       id="economyPrice"
@@ -235,8 +248,8 @@ function CreateFlight() {
         setEconomyPrice(e.target.value);
       }}
     />
-    <Label for="EconomyChildPrice">
-     Price of Economy class seat for children
+    <Label for="EconomyChildPrice" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+     Price of Economy Class Seat for Children
     </Label>
     <Input
       id="economyPriceChild"
@@ -248,8 +261,8 @@ function CreateFlight() {
         setEconomyChildPrice(e.target.value);
       }}
     />
-    <Label for="EconomyBaggege">
-     Number of Allowed Baggage in Economy class 
+    <Label for="EconomyBaggege" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+     Number of Allowed Baggage in Economy Class 
     </Label>
     <Input
       id="EconomyBaggege"
@@ -264,8 +277,8 @@ function CreateFlight() {
   </FormGroup>
   <br/>
   <FormGroup>
-    <Label for="BusinessSeats">
-     Number of Business class seats
+    <Label for="BusinessSeats" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+     Number of Business Class Seats
     </Label>
     <Input
       id="BusinessSeats"
@@ -277,8 +290,8 @@ function CreateFlight() {
         setBusinessSeats(e.target.value);
       }}
     />
-        <Label for="BusinessPrice">
-     Price of Business class seat for adults
+        <Label for="BusinessPrice" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+     Price of Business Class Seat for Adults
     </Label>
     <Input
       id="BusinessPrice"
@@ -290,8 +303,8 @@ function CreateFlight() {
         setBusinessPrice(e.target.value);
       }}
     />
-    <Label for="BusinessChildPrice">
-     Price of Business class seat for children
+    <Label for="BusinessChildPrice" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+     Price of Business Class Seat for Children
     </Label>
     <Input
       id="BusinessChildPrice"
@@ -303,8 +316,8 @@ function CreateFlight() {
         setBusinessChildPrice(e.target.value);
       }}
     />
-    <Label for="BusinessBaggege">
-     Number of Allowed Baggage in Business class 
+    <Label for="BusinessBaggege" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+     Number of Allowed Baggage in Business Class 
     </Label>
     <Input
       id="BusinessBaggege"
@@ -318,8 +331,8 @@ function CreateFlight() {
   </FormGroup>
   <br/>
   <FormGroup>
-    <Label for="First">
-     Number of first class seats
+    <Label for="First" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+     Number of First Class Seats
     </Label>
     <Input
       id="first"
@@ -331,8 +344,8 @@ function CreateFlight() {
         setFirstSeats(e.target.value);
       }}
     />
-     <Label for="FirstPrice">
-     Price of First class seat for adults
+     <Label for="FirstPrice" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+     Price of First Class Seat for Adults
     </Label>
     <Input
       id="FirstPrice"
@@ -344,8 +357,8 @@ function CreateFlight() {
         setFirstPrice(e.target.value);
       }}
     />
-     <Label for="FirstPriceChild">
-     Price of First class seat for children
+     <Label for="FirstPriceChild" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+     Price of First Class Seat for Children
     </Label>
     <Input
       id="FirstPriceChild"
@@ -357,8 +370,8 @@ function CreateFlight() {
         setFirstChildPrice(e.target.value);
       }}
     />
-    <Label for="FirstBaggege">
-     Number of Allowed Baggage in Fisrt class 
+    <Label for="FirstBaggege" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+     Number of Allowed Baggage in First Class 
     </Label>
     <Input
       id="FirstBaggege"
@@ -373,18 +386,27 @@ function CreateFlight() {
   </FormGroup>
   <div className="float-right">
   <Button 
+     style={{backgroundColor:"#22577E",color:"white" , width:"300px",fontWeight: "bold"}}
     color="success"
     size="lg"
     onClick={addtoList}>
 Create Flight  </Button>
 </div>
  
+
 </Form>
 </CardBody>
 </Card>}
 {hasError &&<Alert><a align="center" style={(Error)?{display: 'block'}:{display: 'none'}}>{Error}</a></Alert>
-}
+}  
 </Container>
+
+<Button 
+onClick={handleClick} 
+style={{backgroundColor:"white",color:"#22577E" , width:"300px",fontWeight: "bold" }}
+// size="lg"
+>go back</Button>
+</div>
     
     );
 }

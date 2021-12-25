@@ -12,9 +12,19 @@ import { CardBody, Card, CardColumns,CardImg,CardSubtitle,CardText,CardGroup,Toa
           Button,CardTitle,Col,Row} from 'reactstrap';
 import "../Style/summay.css";
 import "../Style/Navbar.css";
+import"../Style/ticketSymmary.css";
+import JSONDATA from './MOCK_DATA.json';
+
 
  import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
  import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
+ import summary1 from "./travelThree.jpeg";
+ import summary2 from "./travelFour.jpg";
+
+ 
+
+
+
 
 
 function ViewFlight(props){
@@ -55,16 +65,16 @@ Departure:{
 Arrival:{
   Date:'',
   Time:''
-} 
+}
 
-};
+};  
     const {loggedIn} = useContext(AuthContext);
     const { getLoggedIn } = useContext(AuthContext);
-
+    let navigateBack = useNavigate();
     const navigate = useNavigate();
     let location = useLocation();
-    let navigateBack = useNavigate();
     let search=new URLSearchParams(location.search)
+    
     const [flight, setFlight] = useState(initialstate);
     const [Returnflight, setReturnFlights] = useState([initialstate]);
     const [displayed, setDisplayed] = useState([initialstate]);
@@ -85,7 +95,7 @@ Arrival:{
     // function handleClick() {
     //   history.push("/home");
     // }
-  
+    
 
     const [Error, setError] = useState('');
     const returnDate =search.get('ReturnDate');
@@ -276,11 +286,21 @@ Arrival:{
       }
       console.log(mysummary);
       
-    
+      function handleBack() {
+        navigateBack(-1)
+      }
+
+      let DeptC =flight.From.Airport;
+      let result1 = DeptC.substring(0, 3);
+
+      let ArrC=flight.To.Airport;
+      let result2=ArrC.substring(0, 3);
+
+      
 
 
       return(
-        <div style={{backgroundColor:'#FFFFFF'}}>
+        <div style={{ backgroundColor:"white" }}>
     {ViewOutBound ?
 
     
@@ -315,7 +335,7 @@ Arrival:{
 {viewReturn?
 <div className="" style={{backgroundColor:"#FFFFFF"}}>
     <div className="content">
-    <CardGroup>
+    <CardGroup >
   {Returnflight.filter((f) => {
     let flag1 =false ;
     let flag2 =false ;
@@ -369,9 +389,9 @@ return flag1 & flag2 & flag3 & flag4 ;
 })
   .map(x => (
 
- 
+                        <div >
                         <Toast >
-                          <ToastHeader  style={{color:'#5584AC'}}>
+                          <ToastHeader  style={{color:'#5584AC' , marginRight:"100px"}}>
                             Return From {x.From.Airport} To :{x.To.Airport}
                           </ToastHeader>
                           <ToastBody>
@@ -398,7 +418,7 @@ return flag1 & flag2 & flag3 & flag4 ;
                           x.Economy.ChildPrice,x.First.Baggage,x.Business.Baggage,x.Economy.Baggage)} style={{backgroundColor:'#5584A'}}>Select</Button>
                           </ToastBody>
                           <br></br>
-                          </Toast>
+                          </Toast></div>
 
                         
 
@@ -408,6 +428,9 @@ return flag1 & flag2 & flag3 & flag4 ;
   ))}
 
 
+
+
+
 </CardGroup>
     </div>
 </div>
@@ -415,8 +438,12 @@ return flag1 & flag2 & flag3 & flag4 ;
 {NoFlights? <label>No Available Return Flight</label>:<label></label>}
 
 
-{viewSummary? <div style={{marginTop:'10%',marginLeft:'10%',backgroundColor:'#FFFFFF'}}>
-  <Toast>
+{viewSummary? <div style={{marginTop:'10%',marginLeft:'10%'}}>
+  
+
+ 
+
+<Toast>
     <ToastHeader icon="primary">
      OutBound {flight.Departure.Date.slice(0, 10)} at {flight.Departure.Time}<br/>
     </ToastHeader>
@@ -432,6 +459,61 @@ return flag1 & flag2 & flag3 & flag4 ;
     Flight From {mysummary.From} to {mysummary.To}
     </ToastBody>
   </Toast>
+
+  <div class="body1" style={{width:"700px", height:"300px", position:'absolute', top:"70%", right:"65%" ,transform:'scale(0.5)',borderRadius:'10px' }}  >
+  <div class="section1">
+    <div class="ticket__wrapper"  >
+      <div class="w-layout-grid ticket__main-grid" >
+        <div id="w-node-_4de94962-9e0c-9272-b6ee-d4681c5881b4-21b78d9a" class="ticket__left-wrapper">
+          <div id="w-node-ac4e0c7f-8087-572e-be1e-bb12f70742ab-21b78d9a" class="flex-vertical">
+            <div>{cabin}</div>
+            {/* <div class="ticket__important-info">Lucas rocha</div> */}
+          </div>
+          <div class="flex-vertical" ><img src={"https://uploads-ssl.webflow.com/60c68219dd06b60c362068f0/6116eb1714613cc5260a6f77_android-chrome-256x256.png"} loading="lazy" alt="" class="qr-code-img"></img></div>
+          <div class="flex-vertical">
+            <div>Gate</div>
+            <div class="ticket__important-info">d7</div>
+          </div>
+          <div class="flex-vertical">
+            <div>Flight</div>
+            <div class="ticket__important-info">{flight.FlightNumber}</div>
+          </div>
+          <div class="flex-vertical">
+            <div>Seat</div>
+            <div class="ticket__important-info">NA</div>
+          </div>
+          <div id="w-node-_02ddaefd-aa9d-15e5-8dcb-dc87316bed27-21b78d9a" class="ticket__hole-wrapper">
+            <div class="ticket__hole"></div>
+          </div>
+          <div class="ticket__left-bg"></div>
+        </div>
+        <div id="w-node-_424ca1ea-6be4-621b-4443-87861569ed47-21b78d9a" class="ticket__right-wrapper">
+          <div class="w-layout-grid ticket__right-content-wrapper">
+            <div class="ticket__destiny-wrapper">
+              <div>From </div>
+              <div class="ticket__country-text" style={{ textTransform: 'uppercase'}}>{result1}</div>
+              <div >{flight.From.Airport} Airport</div>
+            </div>
+            <div class="ticket__destiny-wrapper">
+              <div>To</div>
+              <div class="ticket__country-text" style={{ textTransform: 'uppercase'}}>{result2}</div>
+              <div>{flight.To.Airport} Airport</div>
+            </div>
+            <div id="w-node-f707f957-883b-d67f-5d7a-451aaafb833d-21b78d9a" class="ticket__id-info-wrapper">
+              <div class="ticket__id-label">Departure Date</div>
+              <div class="weight-600">{flight.Departure.Date.slice(0, 10)}  at  {flight.Departure.Time}</div>
+            </div>
+            <div id="w-node-a0034b52-4bd3-6271-0e5d-2b333fd4ca24-21b78d9a" class="ticket__id-info-wrapper">
+              <div class="ticket__id-label">Arrival Data</div>
+              <div class="weight-600">{flight.Arrival.Date.slice(0, 10)} at {flight.Arrival.Time}</div>
+            </div><img src={"https://uploads-ssl.webflow.com/60c68219dd06b60c362068f0/6116ad41eeed6d29728453f8_4aa534605d1afc465c5bdc5dd80f1ecb.png"} loading="lazy" id="w-node-_394c5a89-bbdd-4f0f-fd9d-dc484c91094c-21b78d9a" alt="" class="ticket__right-bg-img"></img>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+</div>
 
 
   <Card className="summary" style={{marginTop:'-10%'}} >
@@ -468,6 +550,8 @@ return flag1 & flag2 & flag3 & flag4 ;
                      <label className="info2"> Flight Number :&nbsp;&nbsp; {flight.FlightNumber}</label><br/><br/>
                     <label className="info2">Total price for OutBound Flight :&nbsp;&nbsp; {totalPrice}</label><br/> 
                    </CardText> 
+                   {/* <img style={{width:"100%" , height:"400px"}} src= {summary2}></img>
+                   <img style={{width:'100px',height:'60px',transform:"scale(1.2)",marginLeft:'80%',transform:"rotate(20deg)",}}src="https://cdn3.vectorstock.com/i/1000x1000/16/82/airline-tickets-flights-flat-material-design-vector-28931682.jpg"></img> */}
                    <CardSubtitle
                     className="mb-2 text-muted"
                     tag="h6"
@@ -510,10 +594,10 @@ return flag1 & flag2 & flag3 & flag4 ;
                       </Button>
                     }
                     
-                   {(loggedIn)&& <Button style={{backgroundColor: '#96C7C1',marginLeft:'30%'}}>
-                    <Link style={{backgroundColor: '#96C7C1'}}to={{ pathname:`/user/confirmFlight` 
+                   {(loggedIn)&& <Button style={{backgroundColor: '#96C7C1' , color:"#22577E",marginLeft:'30%' }}>
+                    <Link style={{backgroundColor: '#96C7C1' , color:"#22577E" , fontSize:"200%",fontWeight: "bold"}}to={{ pathname:`/user/confirmFlight` 
                          , search:'?'+new URLSearchParams(myData).toString()
-                           }}className="btn btn-primary">Confirm and book</Link> 
+                           }}className="btn btn-primary">Confirm and Book</Link> 
                       </Button>}
 
 
@@ -521,14 +605,21 @@ return flag1 & flag2 & flag3 & flag4 ;
                          
       </Card>
 
-      </div>:<label></label>}
-      <div>
 
+
+
+
+</div>
+
+      :<label></label>}
+<div>
       <Button onClick={handleBack}><ArrowCircleLeftRoundedIcon fontSize="large"></ArrowCircleLeftRoundedIcon></Button>
       </div>
 
-      {/* logging in  */}
-      {(viewForm)?
+
+     
+     
+  {(viewForm)?
 
       <div style={{backgroundColor:'#FFFFFF'}}>
       <Form onSubmit={login} style={{marginTop:'10%',margin:'10%',backgroundColor:'#95D1CC',width:'80%',paddingTop:'5%' ,paddingBottom:'5%' ,borderRadius:'5px'}}>

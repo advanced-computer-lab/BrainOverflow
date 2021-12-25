@@ -12,8 +12,10 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter,
   CardBody, Card, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, CardHeader, Form, Input, FormGroup, Label, Button, Container, Row, Col, Table
 } from 'reactstrap';
+import logo from './Plane Loop.gif';
 
 function AllFlights() {
+  let navigateBack = useNavigate(); 
   const [closeId, setId] = useState(0);
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
@@ -62,7 +64,9 @@ function AllFlights() {
       console.error(error);
     }
   }
-
+  function handleClick() {
+    navigateBack(-1)
+  }
 
   const addtoList = (event) => {
     event.preventDefault()
@@ -104,6 +108,10 @@ function AllFlights() {
   }
 
   return (
+    <div style={{padding:"5%" , backgroundColor:"rgb(34, 87, 126)"}}>
+        <div > <img style={{width:"100%" , height:"400px"}} src= {logo}></img></div> 
+        
+      
     <Container>
       <Modal isOpen={show}  >
         <ModalHeader
@@ -112,7 +120,7 @@ function AllFlights() {
         >
           Delete Flight
         </ModalHeader>
-        <ModalBody>
+        <ModalBody >
           Are you Sure you want to delete flight no: ${closeId}
         </ModalBody>
         <ModalFooter>
@@ -128,13 +136,16 @@ function AllFlights() {
           </Button>
         </ModalFooter>
       </Modal>
+      
+      <h1 style={{color:"#ECDBBA"}} >Search For Flight</h1>
       <Row xs="1">
         <Form onSubmit={addtoList}>
-
-
-          <FormGroup row>
+         
+         
+         
+        <FormGroup row>
             <Col>
-              <Label for="exampleDate">
+              <Label for="exampleDate" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
                 Date:
               </Label>
               <Input
@@ -146,33 +157,33 @@ function AllFlights() {
               />
             </Col>
             <Col>
-              <Label for="terminal">
-                terminal:
+              <Label for="terminal" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+                Terminal:
               </Label>
               <Input
                 id="terminal"
                 name="terminal"
-                placeholder="search..."
+                placeholder="Ex: 1 , 2"
                 type="text"
 
               />
             </Col>
             <Col>
-              <Label for="flight number">
-                flight number:
+              <Label for="flight number" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+                Flight Number:
               </Label>
               <Input
                 id="flight number"
                 name="flight number"
-                placeholder="search by flight number..."
+                placeholder="Ex:MS788"
                 type="text"
 
 
               />
             </Col>
             <Col>
-              <Label for="departure time">
-                departure time:
+              <Label for="departure time" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+                Departure Time:
               </Label>
               <Input
                 id="departure time"
@@ -183,8 +194,8 @@ function AllFlights() {
               />
             </Col>
             <Col>
-              <Label for="arrival time">
-                arrival time:
+              <Label for="arrival time" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
+                Arrival Time:
               </Label>
               <Input
                 id="arrival time"
@@ -198,6 +209,7 @@ function AllFlights() {
           </FormGroup>
           <div className="search">
             <Button
+              style={{backgroundColor:"white",color:"#22577E" , width:"100px",fontWeight: "bold"}}
               color="info"
               size="lg"
               type="submit"
@@ -206,16 +218,17 @@ function AllFlights() {
           </div>
         </Form>
       </Row>
+     
       <div className="">
         <div className="content">
 
           <br />
           <Container>
-            <h1>Flights available : </h1>
+            <h1  style={{color:"#95D1CC"}}>Flights available : </h1>
 
             <Table>
-              <thead><tr>
-                <th>FlightNo</th>
+              <thead><tr style={{color:"#95D1CC" , fontWeight: "bold"}}>
+                <th>Flight No</th>
                 <th>From</th>
                 <th>Deaprture Terminal</th>
                 <th>To</th>
@@ -234,7 +247,7 @@ function AllFlights() {
                 {
                   displayed.map((flight) => (
 
-                    <tr key={flight._id}>
+                    <tr key={flight._id} style={{color:"#F6F2D4" , fontWeight: "bold"}}>
                       <td>{flight.FlightNumber}</td>
                       <td>{flight.From.Airport}</td>
                       <td>{flight.From.Terminal}</td>
@@ -244,9 +257,9 @@ function AllFlights() {
                       <td>{flight.Departure.Time}</td>
                       <td>{flight.Arrival.Date}</td>
                       <td>{flight.Arrival.Time}</td>
-                      <td><Link to={`/admin/updateFlight/${flight._id}`} className="btn btn-primary">Edit</Link>
+                      <td><Link to={`/admin/updateFlight/${flight._id}`} className="btn btn-primary" style={{backgroundColor:"#F6F2D4",color:"#22577E" , width:"100px",fontWeight: "bold"}}>Edit</Link>
 
-                        <Button color="danger" onClick={() => handleShow(flight._id)}> Delete </Button>
+                        <Button color="danger" onClick={() => handleShow(flight._id)} style={{color:"#F6F2D4" , width:"100px",fontWeight: "bold"}}> Delete </Button>
 
                       </td>
                     </tr>
@@ -261,6 +274,16 @@ function AllFlights() {
       </div>
 
     </Container>
+
+    <Button 
+onClick={handleClick} 
+style={{backgroundColor:"white",color:"#22577E" , width:"150px",fontWeight: "bold" }}
+// size="lg"
+>go back</Button> 
+    
+    
+    
+    </div>
 
   );
 }
