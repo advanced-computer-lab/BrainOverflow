@@ -1,40 +1,31 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import axios from "axios"
-import React, { useState,useContext } from 'react'
+import React, { useState } from 'react'
 import {useParams,useLocation,Link} from "react-router-dom";
-import AuthContext from './AuthContext';
-import "../Style/background.css"
+import { Button, Container } from 'reactstrap';
 import { useNavigate } from 'react-router-dom'
-import LogoutIcon from '@mui/icons-material/Logout';
-import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
-import{
-    CardBody,Card , CardHeader , Form,Input , FormGroup , Label , Button, Container, Row , Col ,Alert
- } from 'reactstrap';
-
 
 const CARD_OPTIONS = {
 	iconStyle: "solid",
 	style: {
 		base: {
 			iconColor: "#c4f0ff",
-			color: "#000000",
+			color: "#00008B",
 			fontWeight: 500,
 			fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
 			fontSize: "16px",
-            backgroundColor:"white",
 			fontSmoothing: "antialiased",
-			":-webkit-autofill": { color: "#95D1CC" },
-			"::placeholder": { color: "##95D1CC" }
+			":-webkit-autofill": { color: "#fce883" },
+			"::placeholder": { color: "#87bbfd" }
 		},
 		invalid: {    
-			iconColor: "#F6F2D4",
-			color: "rgb(223, 71, 89)"
+			iconColor: "#ffc7ee",
+			color: "#ffc7ee"
 		}
 	}
 }
 
 export default function PaymentForm() {
-    const {loggedIn} = useContext(AuthContext);
     const [success, setSuccess ] = useState(false)
     const [paymentId,setPaymentId]= useState('');
     const navigate = useNavigate();
@@ -47,10 +38,11 @@ export default function PaymentForm() {
     let search=new URLSearchParams(location.search);
     const PriceDifference= search.get('PriceDifference');
     const flightId = search.get('flightId');
+    console.log("flightId fel payment form",flightId)
     const TicketId = search.get('TicketId');
     const Summary={
-        AdultNames:search.get('AdultNames'),
-        ChildrenNames:search.get('AdultNames'),
+        AdultNames:[search.get('AdultNames')],
+        ChildrenNames:[search.get('ChildrenNames')],
         Cabin:search.get('Cabin'),
         Adults:search.get('Adults'),
         Children:search.get('Children'),
@@ -108,29 +100,24 @@ export default function PaymentForm() {
     }
 }
 const handleRefund= async (e) => {
-    console.log("Came to refnd")
-    
+    e.preventDefault()
 
-        const response = await axios.post(`http://localhost:8000/user/refund/${TicketId}`, {
+            const response = await axios.post(`http://localhost:8000/user/refund/${TicketId}`, {
             amount:PriceDifference,
             TicketId:TicketId,
             id
-        })
-        if(response.data.success) {
-            console.log("Successful Refund")
-            setSuccess(true)
-        }
+        }).then(setSuccess(true))
+      
         try {
+            //console.log(chosenSeatId)
             console.log("ana fel change")
           await axios.put(`http://localhost:8000/user/changeFlight/${TicketId}/${flightId}`)
           .then(setSuccess(true));
-    
-        } catch (error) {
-          setHasError(true);
-          setError('Sorry , An error occured');
-        }
-
-
+        } 
+        catch{
+            setHasError(true);
+            setError('Sorry , An error occured');        }   
+        
 }
 
 const handlePayDifference=async (e)=>{
@@ -172,72 +159,14 @@ const handlePayDifference=async (e)=>{
     }
   }
 }
-async function logout(e) {
-    e.preventDefault();
-    console.log("log out here")
-
-
-    try {
-        await axios.get("http://localhost:8000/authorize/logout")
-        navigate('/user', { replace: true });
-
-      }
-      catch(err){
-        console.error(err);
-
-      }}
-      let navigateBack = useNavigate();
-
-      function handleBack() {
-        navigateBack(-1)
-      }
     return (
-        <div style={{backgroundColor:'#FFF',marginTop:'20%'}}>
-                    <Container style={{backgroundColor:'#FFF'}}>
+        <Container style={{marginTop:"20%"}}>
         <>
         {!success && PriceDifference==null&& Summary!=null&&
-
-
-
-
-        
-
-            <div >
-    <Form onSubmit={handleSubmit} style={{marginTop:'10%',margin:'10%',backgroundColor:'#95D1CC',width:'80%',paddingTop:'5%' ,paddingBottom:'1%' ,borderRadius:'5px'}} >
-    <h1>Paying Details</h1>
-    <FormGroup>
-    <Label >
-      Card Owner:
-    </Label>
-        <input
-        style={{height:"50%"}}
-          type="text"
-        />
-        </FormGroup>
-      <FormGroup>
-      
-
-    <Label >
-      Your Visa Card
-    </Label>
-        <div style={{height:"50%"}}>
-        <CardElement options={CARD_OPTIONS}/>
-        </div>
-           
-        
-        </FormGroup>
-       
-        <button style={{color:'#FFFFFF',width:'30%',backgroundColor:'#d4902a',padding:'10px',borderRadius:'6px',marginLeft:'35%',marginRight:'auto'}}>Pay</button>
-
-      </Form>
-                    {/* <CardElement options={CARD_OPTIONS}/>
-            <button style={{color:'#FFFFFF',width:'30%',backgroundColor:'#d4902a',padding:'10px',borderRadius:'6px',marginLeft:'35%',marginRight:'auto'}}>Pay</button> */}
-            </div>
-        
-
-
-
-
+        <form onSubmit={handleSubmit}>
+                    <CardElement options={CARD_OPTIONS}/>
+            <button>Pay</button>
+        </form>
         }
         {!success && PriceDifference>0&&
         <form onSubmit={handlePayDifference}>
@@ -263,13 +192,5 @@ async function logout(e) {
             
         </>
         </Container>
-        
-        <div>
-      <Button onClick={handleBack}><ArrowCircleLeftRoundedIcon fontSize="large"></ArrowCircleLeftRoundedIcon> Back </Button>
-
-      {(loggedIn) &&<Button onClick={logout} color="danger" align="center"> <LogoutIcon></LogoutIcon>Log Out</Button>}
-
-      </div>
-        </div>
     )
     }

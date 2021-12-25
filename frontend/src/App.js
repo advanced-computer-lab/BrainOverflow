@@ -20,7 +20,6 @@ import UserProfile from './components/UserProfile';
 import Page404 from './components/Page404';
 import ViewSeats from './components/ViewSeats';
 import ReserveFlight from './components/ReserveFlight';
-import ChangeFlight from './components/ChangeFlight'
 import EditFlightSearch from './components/EditFlightSearch'
 import StripeContainer from './components/StripeContainer';
 import ViewFlightEd from './components/ViewFlightEd';
@@ -99,7 +98,6 @@ function App() {
       <Route path="/authorize/login" element={<SignIn/>}/> 
 
       <Route path="/user/payment" element={<StripeContainer/>}></Route>
-      <Route path="/changeFlight/:ticketId" element={<ChangeFlight/>}/> 
       <Route path="/user/payment" element={<StripeContainer/>}/> 
     <Route path="/user/EditFlightSearch/:ticketId" element={<EditFlightSearch/>}/> 
     <Route path="/user/viewFlightEd/:flightId" element={<ViewFlightEd/>}/> 

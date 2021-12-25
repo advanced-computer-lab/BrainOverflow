@@ -105,8 +105,8 @@ var PriceDifference=0;
  
 
   return (
-  <Container>
-     <Modal isOpen={show}  >
+  <Container style={{marginTop:"20%"}}>
+     <Modal isOpen={show} style={{marginTop:"20%"}} >
          <ModalHeader
           charCode="Y"
 
@@ -119,12 +119,12 @@ var PriceDifference=0;
         <ModalFooter>
           { PriceDifference>0 &&
                   <Link to={{ pathname:`/user/payment` 
-                         , search:'?'+new URLSearchParams({PriceDifference:PriceDifference,TicketId:TicketId,flightId:flightId}).toString()
+                         , search:'?'+new URLSearchParams({'PriceDifference':PriceDifference,'TicketId':TicketId,'flightId':flightId}).toString()
                            }}className="btn btn-primary " color="success">Proceed to payment</Link> 
                      }
                              { PriceDifference<0 &&
                   <Link to={{ pathname:`/user/payment` 
-                         , search:'?'+new URLSearchParams({PriceDifference:PriceDifference,TicketId:TicketId,flightId:flightId}).toString()
+                         , search:'?'+new URLSearchParams({'PriceDifference':PriceDifference,'TicketId':TicketId,'flightId':flightId}).toString()
                            }}className="btn btn-primary " color="success">Proceed to Refund {Math.abs(PriceDifference)}</Link> 
                      }
                            { PriceDifference==0 &&
