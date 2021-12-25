@@ -3,6 +3,7 @@ import axios from "axios"
 import React, { useState } from 'react'
 import {useParams,useLocation,Link} from "react-router-dom";
 import { Button, Container } from 'reactstrap';
+import "../Style/background.css"
 import { useNavigate } from 'react-router-dom'
 
 const CARD_OPTIONS = {
@@ -10,17 +11,18 @@ const CARD_OPTIONS = {
 	style: {
 		base: {
 			iconColor: "#c4f0ff",
-			color: "#00008B",
+			color: "#000000",
 			fontWeight: 500,
 			fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
 			fontSize: "16px",
+            backgroundColor:"white",
 			fontSmoothing: "antialiased",
-			":-webkit-autofill": { color: "#fce883" },
-			"::placeholder": { color: "#87bbfd" }
+			":-webkit-autofill": { color: "#95D1CC" },
+			"::placeholder": { color: "##95D1CC" }
 		},
 		invalid: {    
-			iconColor: "#ffc7ee",
-			color: "#ffc7ee"
+			iconColor: "#F6F2D4",
+			color: "rgb(223, 71, 89)"
 		}
 	}
 }
@@ -164,12 +166,13 @@ const handlePayDifference=async (e)=>{
   }
 }
     return (
-        <Container>
+        <div style={{backgroundColor:'#FFF',marginTop:'30%'}}>
+        <Container style={{backgroundColor:'#FFF'}}>
         <>
         {!success && PriceDifference==null&& Summary!=null&&
         <form onSubmit={handleSubmit}>
                     <CardElement options={CARD_OPTIONS}/>
-            <button>Pay</button>
+            <button style={{color:'#FFFFFF',width:'30%',backgroundColor:'#d4902a',padding:'10px',borderRadius:'6px',marginLeft:'35%',marginRight:'auto'}}>Pay</button>
         </form>
         }
         {!success && PriceDifference>0&&
@@ -196,5 +199,6 @@ const handlePayDifference=async (e)=>{
             
         </>
         </Container>
+        </div>
     )
     }

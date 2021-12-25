@@ -1,11 +1,11 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const router = express.Router();
 const User = require('../models/User');
 const Flight = require('../models/Flight');
 const Seat = require('../models/Seat');
 const Ticket = require('../models/Ticket');
 const nodemailer = require('nodemailer');
-const bodyParser = require("body-parser");
 const auth = require ('../middleware/auth');
 
 router.use(bodyParser.json())
@@ -65,13 +65,49 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+
 const catchAsync = func => {
   return (req, res, next) => {
     func(req, res, next).catch(next);
   }
 }
  
+router.post("/mailmyTicket",auth,catchAsync (async(req,res)=>{
+  
+  const user = await User.findById(req.user);
+  
+  const ticket= req.body;
+  const Flight = req.body.Flight;
+  console.log(req.body.Flight);
+  const Departure= req.body.Departure;
+  const Arrival= req.body.Arrival
+  var mailOptions = {
+    from: 'sky.overflow.flight@gmail.com' ,
+    to: user.Email,
+    subject: 'Your Ticket',
+    text: 
+    `Here is your Ticket Info for Passenger ${ticket.Name}
+    FlightNumber:${Flight.Number},
+    Ticket Number: ${ticket._id},
+    From: ${Departure.Airport},
+    To: ${Arrival.Airport},
+    Class: ${ticket.Cabin},
+    Date: ${Departure.Date},
+    Departs At: ${Departure.Time},
+    Arrives At: ${Arrival.Time},
+    Departure Terminal: ${Departure.Terminal},
+    Arrival Terminal: ${Arrival.Terminal}`}
 
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+  
+ 
+}))
 
    router.put("/updateReserved",auth ,(req, res) => {
     let theSeat= req.body.SeatId;
@@ -152,27 +188,28 @@ router.get('/viewFlight/:id', async (req, res) => {
       console.log(err);
     });
 });
- 
 
-  router.get('/viewFlights' ,catchAsync(async (req, res,next) => {  
-    console.log(req.body,req.params);
-      const f = await Flight.find({}).populate(['First.SeatId','Business.SeatId','Economy.SeatId']);
-      res.send(f);
-      }))
+
+  // router.get('/viewFlights' ,catchAsync(async (req, res,next) => {  
+  //   console.log(req.body,req.params);
+  //     const f = await Flight.find({}).populate(['First.SeatId','Business.SeatId','Economy.SeatId']);
+  //     res.send(f);
+  //     }))
 
 
       
-   router.get('/viewFlight/:id',auth ,async (req, res)=> {   
-        const f = await Flight.find({}).populate(['First.SeatId','Business.SeatId','Economy.SeatId']);
+ 
                                                   
-       await Flight.findById(req.params.id).then(result => {
+  //      await Flight.findById(req.params.id).then(result => {
            
-          res.send({aFlight: result, allFlight: f});
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      });
+  //         res.send({aFlight: result, allFlight: f});
+  //       })
+  //       .catch(err => {
+  //         console.log(err);
+  //       });
+  //     });
+
+      
 
 router.get('/updateProfile',auth ,(req, res) => {
   User.findById(req.user).then(result => {
@@ -211,7 +248,7 @@ router.get('/viewReserved',auth ,catchAsync(async (req, res, next) => {
      
  
 router.get('/userProfile',auth ,catchAsync(async (req, res, next) => {
-  console.log(req.params.id)
+ 
 const  user = await User.findById(req.user);
   console.log(user);
   if(user==''){  res.status(404).send({
@@ -220,8 +257,10 @@ const  user = await User.findById(req.user);
   res.send(user);
 }));
 
-router.get('/viewSeats/:FlightId/:Cabin/:TicketId',auth,catchAsync(async(req,res,next)=>{
-  //console.log("I CAME HEREEE")
+
+
+
+router.get('/changeSeats/:id/:FlightId/:Cabin/:TicketId/:OldSeat',catchAsync(async(req,res,next)=>{
   const FlightId = req.params.FlightId;
   const cabin = req.params.Cabin;
  const availableSeats= await Seat.find({'FlightId':FlightId,'Cabin':cabin,'IsBooked':false});
@@ -234,6 +273,7 @@ router.get('/viewSeats/:FlightId/:Cabin/:TicketId',auth,catchAsync(async(req,res
 });}
  res.send(availableSeats);
 }));
+
 router.post('/viewSeats/:SeatId/:TicketId',auth,catchAsync(async(req,res,next)=>{
   console.log('beginning')
   console.log(req.params.SeatId);
@@ -250,6 +290,20 @@ router.post('/viewSeats/:SeatId/:TicketId',auth,catchAsync(async(req,res,next)=>
   await user.save();
   console.log('end')
 
+}));
+router.get('/viewSeats/:FlightId/:Cabin/:TicketId',auth,catchAsync(async(req,res,next)=>{
+  //console.log("I CAME HEREEE")
+  const FlightId = req.params.FlightId;
+  const cabin = req.params.Cabin;
+ const availableSeats= await Seat.find({'FlightId':FlightId,'Cabin':cabin,'IsBooked':false});
+ console.log("FlightId in get",FlightId,cabin);
+ console.log("available seats in get req",availableSeats);
+ if(availableSeats.length==0){ 
+   console.log("error in get entered")
+    res.status(404).send({
+  message: 'No availabe seats'
+});}
+ res.send(availableSeats);
 }));
 
 
@@ -347,6 +401,8 @@ router.post('/SearchFlight', catchAsync(async (req, res, next) => {
     });
 
 }));
+
+
 router.post('/SearchFlight', catchAsync(async (req, res, next) => {
   const details = req.body;
   console.log(details.ReturnDate);

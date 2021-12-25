@@ -13,7 +13,7 @@ function UserProfile(props) {
     const [Error, setError] = useState('');
     const navigate = useNavigate;
     const handleSubmit=()=>{
-        navigate(`user/${id}`, { replace: true });
+        navigate(`user`, { replace: true });
     }
     const initialstate = {
         Email: '',
@@ -26,6 +26,7 @@ function UserProfile(props) {
         PhoneNumber: 0,
         VisaNumber: 0,
     }
+   
     const { id } = useParams();
     const myLink = `/userProfile/updateProfile`;
 

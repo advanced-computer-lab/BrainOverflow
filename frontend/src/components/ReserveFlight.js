@@ -48,7 +48,7 @@ function ReserveFlight(){
 
     return (
       <Container>   
-         <Modal isOpen={show}  >
+         <Modal isOpen={show} style={{marginTop:'30%'}} >
          <ModalHeader
           charCode="Y"
 
@@ -70,7 +70,7 @@ function ReserveFlight(){
       </Modal>
          
           
-             <Form>
+             <Form style={{marginTop:'30%'}}>
                    {    
                   Summary.AdultNames.map((thename)=>(
                     <FormGroup>

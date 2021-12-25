@@ -61,6 +61,11 @@ function AllFlights() {
     const [closeId, setId] = useState(0);
     const [show, setShow] = useState(false);
     const [View, setView] = useState(false);
+    const [noflights,setNoflights]=useState(false);
+    const [valid,setvalid]=useState(false);
+    const [validNum,setvalidNum]=useState(false);
+
+
     const [HasError, setHasError] = useState(false);
     const [Error, setError] = useState('');
     const [firstView, setFirst] = useState(false);
@@ -241,6 +246,11 @@ function AllFlights() {
                 flag6 = (d1 == d2);
 
             } else { flag6 = true }
+            if (event.target[5].value > event.target[6].value ) {
+                setvalid(true);
+            }
+
+
             
              const result =  flights.filter(rflight=> {
                 let rflag1 =false;
@@ -276,7 +286,6 @@ function AllFlights() {
         }else{
             returnflag = false ;
         }
-        
         return flag1 & flag2 & flag3 & flag4 & flag5 & flag6 & returnflag;
             
 
@@ -288,7 +297,9 @@ function AllFlights() {
         if(displayed.length ==0){setHasError(true); setError('No Flights match your search criteria !')}
 
         
+
     }
+
 
 
     return (
@@ -317,6 +328,7 @@ function AllFlights() {
                                     default="0"
                                     placeholder="passengers"
                                     type="Number"
+                                    min="0"
                                     required
                                 />
                             </Col>
@@ -329,6 +341,7 @@ function AllFlights() {
                                     default="0"
                                     placeholder="Children"
                                     type="Number"
+                                    min="0"
                                     required
                                 />
                             </Col>
@@ -472,11 +485,14 @@ function AllFlights() {
                     : <label></label>}
 {!(View) &&<Alert color="info"><a align="center">Enter search parameters to view flights</a></Alert>
 }
-{console.log(displayed.length)}
+{(valid) &&<Alert color="danger"><a align="center">Please enter a valid date  </a></Alert>}
 
-          {HasError &&  <Col className="bg-light "> <Alert align="center" color="danger" Row > 
+
+
+{HasError &&  <Col className="bg-light "> <Alert align="center" color="danger" Row > 
 <a align="center" style={(Error)?{display: 'block',color:'red',fontSize:'20px'}:{display: 'none'}}><CardTitle>{Error}</CardTitle></a></Alert></Col> 
 }
+
 
         </Container>
     );
