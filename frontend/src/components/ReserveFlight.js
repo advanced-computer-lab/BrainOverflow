@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom'
 import {Modal,ModalHeader,ModalBody,ModalFooter,CardBody, Card, CardHeader, Form, Input, FormGroup,
         Label, Button, Container, Row, Col, Table} from 'reactstrap';
 import {useParams,useLocation} from "react-router-dom";
-import "../Style/summay.css"
 function ReserveFlight(){
 
     let location = useLocation();
@@ -34,13 +33,6 @@ function ReserveFlight(){
     console.log(id);
      
     const [show, setShow] = useState(false);
-    try{
-      //await     
-      axios.post(`http://localhost:8000/user/confirmReserved`,Summary) 
-          } catch (error) {
-          console.error(error);
-        }
-      
     
 
       for(let i =0;i<(parseInt(Summary.Children));i++ ){
@@ -53,11 +45,10 @@ function ReserveFlight(){
       }  
   
      
-    
+
     return (
-      <div style={{backgroundColor:'#FFF'}}>
-      <Container >   
-         <Modal isOpen={show} style={{marginTop:'20%'}} >
+      <Container>   
+         <Modal isOpen={show} style={{marginTop:'30%'}} >
          <ModalHeader
           charCode="Y"
 
@@ -71,7 +62,7 @@ function ReserveFlight(){
           { 
                     <Link to={{ pathname:`/user/payment` 
                          , search:'?'+new URLSearchParams(Summary).toString()
-                           }}className="btn btn-primary " style={{color:'#FFFFFF',backgroundColor:'#d4902a'}}>Proceed to payment</Link> 
+                           }}className="btn btn-primary " color="success">Proceed to payment</Link> 
                      }
           
          
@@ -79,7 +70,7 @@ function ReserveFlight(){
       </Modal>
          
           
-             <Form style={{marginTop:'20%',margin:'10%',backgroundColor:'#95D1CC',width:'80%',paddingTop:'5%' ,paddingBottom:'5%' ,borderRadius:'5px'}}>
+             <Form style={{marginTop:'30%'}}>
                    {    
                   Summary.AdultNames.map((thename)=>(
                     <FormGroup>
@@ -125,14 +116,13 @@ function ReserveFlight(){
                   )}
                    
 
-                  <Button style={{color:'#FFFFFF',width:'30%',backgroundColor:'#d4902a',padding:'10px',borderRadius:'6px',marginLeft:'35%',marginRight:'auto'}} onClick={() =>{ 
-                   setShow(true);}}> Confirm and Submit </Button>
+                  <Button color="danger" onClick={() =>{ 
+                                            setShow(true);}}> Confirm and Submit </Button>
                   </Form>
                    
         
  
                 </Container>  
-                </div>
                  
 
              
@@ -143,5 +133,5 @@ function ReserveFlight(){
 
 
   );
-                  }
+  }
   export default ReserveFlight;

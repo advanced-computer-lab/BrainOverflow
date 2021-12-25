@@ -140,6 +140,21 @@ Arrival:{
   const [password, setPassword] = useState("");
   const [notCorrect, setAvailable] = useState(false);
 
+  async function logout(e) {
+    e.preventDefault();
+    console.log("log out here")
+
+
+    try {
+        await axios.get("http://localhost:8000/authorize/logout")
+        navigate('/user', { replace: true });
+
+      }
+      catch(err){
+        console.error(err);
+
+      }}
+
  
   async function login(e) {
     e.preventDefault();
@@ -551,6 +566,7 @@ return flag1 & flag2 & flag3 & flag4 ;
 </div>:<label></label>}
    
 
+{(loggedIn) &&<Button onClick={logout} color="danger" align="center">Log Out</Button>}
 
 
 </div>

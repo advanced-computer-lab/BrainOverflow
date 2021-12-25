@@ -1,7 +1,6 @@
 import React, { Component ,useContext} from 'react';
  
 import { Link } from "react-router-dom";
-import AuthContext from './AuthContext';
  
 import '../Style/Navbar.css'
 import "../css/style.css";
@@ -18,13 +17,7 @@ import {
   NavItem,
   NavLink,
 } from 'reactstrap';
-// import "../css/bootstrap.min.css";
-// import "../css/font-awesome.css";
-// import "../js/owl-carousel/owl.carousel.css" ;
-// import "../js/owl-carousel/owl.theme.css" ;
-// import "../js/owl-carousel/owl.transitions.css";
-// import "../css/magnific-popup.css";
-// import "../css/animate.css";
+
 
 
 const links = [
@@ -65,12 +58,7 @@ const links = [
 				<div class="container" >
 					<div class="row">
 						<div class="col-sm-12">
-							{/* <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu">
-								<span class="sr-only">Toggle navigation</span>
-								<span class="fa fa-bars"></span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-							</button> */}
+
                            
 							<div class="logo-nav">
 								<a href="/home">

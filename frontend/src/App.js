@@ -97,6 +97,7 @@ function App() {
       <Route path="/user/confirmFlight" element={<ReserveFlight/>}/> 
       <Route path="/authorize/signup" element={<Registeration/>}/> 
       <Route path="/authorize/login" element={<SignIn/>}/> 
+
       <Route path="/user/payment" element={<StripeContainer/>}></Route>
       <Route path="/changeFlight/:ticketId" element={<ChangeFlight/>}/> 
       <Route path="/user/payment" element={<StripeContainer/>}/> 
