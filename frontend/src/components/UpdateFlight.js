@@ -13,24 +13,52 @@ import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRound
 function UpdateFlight(props) {
   let navigateBack = useNavigate();
   const navigate= useNavigate;
+  const [DepartureDate,setDepartureDate]=useState(new Date());
+  const [DepartureTime,setDepartureTime]=useState(0);
+  const [ArrivalDate,setArrivalDate]=useState(new Date());
+  const [ArrivalTime,setArrivalTime]=useState(0);
+  const [FromAirport,setFromAirport]=useState("");
+  const [ToAirport,setToAirport]=useState("");
+  const [FromTerminal,setFromTerminal]=useState(0);
+  const [ToTerminal,setToTerminal]=useState(0);
+  const [EconomyPrice,setEconomyPrice]=useState(0);
+  const [EconomyChildPrice,setEconomyChildPrice]=useState(0);
+  const [BusinessChildPrice,setBusinessChildPrice]=useState(0);
+  const [FirstChildPrice,setFirstChildPrice]=useState(0);
+  const [EconomyBaggage,setEconomyBaggage]=useState(0);
+  const [BusinessPrice,setBusinessPrice]=useState(0);
+  const [BusinessBaggage,setBusinessBaggage]=useState(0);
+  const [FirstPrice,setFirstPrice]=useState(0);
+  const [FirstBaggage,setFirstBaggage]=useState(0);
+  const [hasError, setHasError] = useState(false);
+
+
+  const [errorMessage, setErrorMessage] = useState('');
+  const { id } = useParams()
   const initialstate= {
     FlightNumber:'',
-    From:{Airport:'',Terminal:0},
-    To:{Airport:'',Terminal:0},
-    Economy:{SeatId:[],Price:0,ChildPrice:0,Baggage:0},
-    Business:{SeatId:[],Price:0,ChildPrice:0,Baggage:0},
-    First:{SeatId:[],Price:0,ChildPrice:0,Baggage:0},
-    Departure:{Date:new Date(),Time:''},
-    Arrival:{Date:new Date(),Time:''}
   }
-  const { id } = useParams()
   const [flight, setFlight] = useState(initialstate);
   useEffect(() => {
     async function getFlight() {
       try {
         const response = await get(`http://localhost:8000/admin/updateFlight/${id}`);
         console.log(id);
-        setFlight(response.data);        
+        setFlight(response.data); 
+        setBusinessBaggage(response.data.Business.Baggage);  
+        setFirstBaggage(response.data.First.Baggage);
+        setEconomyBaggage(response.data.Economy.Baggage);
+        setEconomyPrice(response.data.Economy.Price);
+        setEconomyChildPrice(response.data.Economy.ChildPrice);
+        setFirstPrice(response.data.First.Price);
+        setFirstChildPrice(response.data.First.ChildPrice);
+        setBusinessPrice(response.data.Business.Price);
+        setBusinessChildPrice(response.data.Business.ChildPrice);
+        setToAirport(response.data.To.Airport);
+        setFromAirport(response.data.From.Airport);
+        setToTerminal(response.data.To.Terminal);
+        setFromTerminal(response.data.From.Terminal);      
+     
       } catch(error) {
         console.log(error);
       }
@@ -45,7 +73,16 @@ function UpdateFlight(props) {
     console.log(flight);
     async function updateFlight() {
       try {
-         put(`http://localhost:8000/admin/updateFlight/${id}`, flight).then(
+         put(`http://localhost:8000/admin/updateFlight/${id}`,{ 'flight':flight,'DepTime':DepartureTime,'DepDate':DepartureDate,
+         'ArrDate':ArrivalDate,'ArrTime':ArrivalTime,
+          'DepAirport':FromAirport,'DepTerminal':FromTerminal,
+          'ToAirport':ToAirport,'ToTerminal':ToTerminal,'busPrice':BusinessPrice,
+          'BusBaggage':BusinessBaggage,'BusChildPrice':BusinessChildPrice,
+          'EcoPrice':EconomyPrice,'EcoChildPrice':EconomyChildPrice,
+          'EcoBaggage':EconomyBaggage,'FirstPrice':FirstPrice,'FirstChildPrice':FirstChildPrice,'FirstBaggage':FirstBaggage       
+        
+        
+        }).then(
          window.location.href = "/admin" )
         
          
@@ -77,7 +114,7 @@ function UpdateFlight(props) {
     </CardHeader> */}
     <CardBody>
     
-    <Form >
+    <Form onSubmit={handleSubmit}>
     
     <FormGroup>
     <Label for="FlightNumber" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
@@ -100,9 +137,10 @@ function UpdateFlight(props) {
       placeholder="Departure airport"
       type="text"
       required
-      value={flight.From.Airport}
-      onChange={handleChange}
-    />
+      value={FromAirport}
+      onChange={(e)=>{
+        setFromAirport(e.target.value);
+      }}    />
     <Label for="FromTerminal" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
     Departure Terminal
     </Label>
@@ -111,10 +149,11 @@ function UpdateFlight(props) {
       name="FromTerminal"
       placeholder="Departure Terminal"
       type="number"
-      value={flight.From.Terminal}
+      value={FromTerminal}
       required
-      onChange={handleChange}
-    />
+      onChange={(e)=>{
+        setFromTerminal(e.target.value);
+      }}    />
   </FormGroup>
   <FormGroup>
     <Label for="To" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
@@ -125,10 +164,11 @@ function UpdateFlight(props) {
       name="To"
       placeholder="Arrival airport"
       type="text"
-      value={flight.To.Airport}
+      value={ToAirport}
       required
-      onChange={handleChange}
-    />
+      onChange={(e)=>{
+        setToAirport(e.target.value);
+      }}/>
   </FormGroup>
 
   <FormGroup>
@@ -141,9 +181,10 @@ function UpdateFlight(props) {
       placeholder="Arrival Terminal"
       type="number"
       required
-      value={flight.To.Terminal}
-      onChange={handleChange}
-    />
+      value={ToTerminal}
+      onChange={(e)=>{
+        setToTerminal(e.target.value);
+      }}    />
   </FormGroup>
 
 
@@ -152,13 +193,15 @@ function UpdateFlight(props) {
       Departure Date
     </Label>
     <Input
-      id="DepartureDate"
-      name="DepartureDate"
+      id="date"
+      name="date"
       placeholder="date placeholder"
       type="date"
-      required      //value={flight.Departure.Date}
-      onChange={handleChange}
-    />
+      required
+      
+      onChange={(e)=>{
+        setDepartureDate(e.target.value);
+      }}></Input>
   </FormGroup>
   <FormGroup>
     <Label for="Departure" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
@@ -170,7 +213,9 @@ Departure Time    </Label>
       type="time"
       required
       //value={flight.Departure.Time}
-      onChange={handleChange}
+      onChange={(e)=>{
+        setDepartureTime(e.target.value);
+      }}
        
     />
   </FormGroup>
@@ -179,13 +224,14 @@ Departure Time    </Label>
       Arrival Date
     </Label>
     <Input
-      id="ArrivalDate"
-      name="ArrivalDate"
+      id="Arrivaldate"
+      name="Arrivaldate"
       placeholder="date placeholder"
       type="date"
       required
-      //value={flight.Arrival.Date}
-      onChange={handleChange}
+      onChange={(e)=>{
+        setArrivalDate(e.target.value);
+      }}
     />
   </FormGroup>
   <FormGroup>
@@ -198,24 +244,12 @@ Departure Time    </Label>
       placeholder=""
       required
       type="time"
-      //v/alue={flight.Arrival.Time}
-      onChange={handleChange}
-    />
+      //value={flight.Arrival.Time}
+      onChange={(e)=>{
+        setArrivalTime(e.target.value);
+      }}    />
   </FormGroup>
-  <FormGroup>
-    <Label for="Economy" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
-     Number of Economy Class Seats
-    </Label>
-    <Input
-      id="Economy"
-      name="Economy"
-      placeholder=""
-      type="number"
-      required
-      // value={flight.Economy.SeatId.length}
-      onChange={handleChange}
-    />
-  </FormGroup>
+   
   <FormGroup>
     <Label for="EconomyPrice" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
       Price of Economy Seat for Adults
@@ -226,8 +260,11 @@ Departure Time    </Label>
       placeholder=""
       type="number"
       required
-      value={flight.Economy.Price}
-      onChange={handleChange}
+      value={EconomyPrice}
+
+      onChange={(e)=>{
+        setEconomyPrice(e.target.value);
+      }}      onChange={handleChange}
     />
   </FormGroup>
   
@@ -241,26 +278,14 @@ Departure Time    </Label>
       placeholder=""
       required
       type="number"
-      value= {flight.Economy.Price}
-      onChange={handleChange}
+      value= {EconomyChildPrice}
+      onChange={(e)=>{
+        setEconomyChildPrice(e.target.value);
+      }}
     />
   </FormGroup>
 
 
-  <FormGroup>
-    <Label for="Business" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
-     Number of Business Class Seats
-    </Label>
-    <Input
-      id="Business"
-      name="Business"
-      placeholder=""
-      type="number"
-      required
-      // value={flight.Economy.SeatId.length}
-      onChange={handleChange}
-    />
-  </FormGroup>
   <FormGroup>
     <Label for="BusinessPrice" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
       Price of Business Seat for Adults
@@ -271,8 +296,10 @@ Departure Time    </Label>
       placeholder=""
       type="number"
       required
-      value={flight.Economy.Price}
-      onChange={handleChange}
+      value={BusinessPrice}
+      onChange={(e)=>{
+        setBusinessPrice(e.target.value);
+      }}
     />
   </FormGroup>
   
@@ -286,25 +313,13 @@ Departure Time    </Label>
       placeholder=""
       required
       type="number"
-      value= {flight.Economy.Price}
-      onChange={handleChange}
-    />
+      value= {BusinessChildPrice}
+      onChange={(e)=>{
+        setBusinessChildPrice(e.target.value);
+      }}/>    
   </FormGroup>
   
-  <FormGroup>
-    <Label for="First" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
-     Number of First Class Seats
-    </Label>
-    <Input
-      id="First"
-      name="First"
-      required
-      placeholder=""
-      type="number"
-      // value= {flight.First.SeatId.length}
-      onChange={handleChange}
-    />
-  </FormGroup>
+  
   <FormGroup>
     <Label for="FirstPrice" style={{color:"#ECDBBA" , fontWeight: "bold"}}>
       Price of First Class Seat for Adults
@@ -315,9 +330,10 @@ Departure Time    </Label>
       placeholder=""
       required
       type="number"
-      value={flight.First.Price}
-      onChange={handleChange}
-    />
+      value={FirstPrice}
+      onChange={(e)=>{
+        setFirstPrice(e.target.value);
+      }}/>   
   </FormGroup>
   
   <FormGroup>
@@ -329,15 +345,15 @@ Departure Time    </Label>
       name="FirstChildPrice"
       placeholder=""
       required
-      type="FirstChildPrice"
-      value= {flight.First.ChildPrice}
-      onChange={handleChange}
-    />
+      type="number"
+      value= {FirstChildPrice}
+      onChange={(e)=>{
+        setFirstChildPrice(e.target.value);
+      }}    />
   </FormGroup>
 
   <div className="float-right">
    <Button 
-   onClick={handleSubmit}
    style={{backgroundColor:"#22577E",color:"white" , width:"300px",fontWeight: "bold"}}
    color="success"
    size="lg"

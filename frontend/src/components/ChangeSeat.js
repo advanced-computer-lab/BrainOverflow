@@ -16,6 +16,8 @@ function ChangeSeat() {
 
   const [show, setShow] = useState(false);
   const [HasError, setHasError] = useState(false);
+  const [Success, setSuccess] = useState(false);
+const [Msg,setMsg]= useState('');
   const [Error, setError] = useState('');
   const [chosenSeatId, setchosenSeatId] = useState(0);
   const [chosenSeatNum, setchosenSeatNum] = useState(0);
@@ -30,8 +32,12 @@ function ChangeSeat() {
   async function handleReserve(chosenSeatId) {
     try {
         console.log(chosenSeatId)
-      await axios.put(`http://localhost:8000/user/viewSeats/${id}/${chosenSeatId}/${TicketId}`)
-      .then(navigate(`/user/viewReserved/${id}`, { replace: true }));
+      await axios.put(`http://localhost:8000/user/changeSeats/${chosenSeatId}/${TicketId}`)
+      .then(  
+        setShow(false),
+      setHasError(false),
+      setSuccess(true),
+      setMsg("You have Succeccfuly reserved the seat , To view your ticket please Click the button Below !"));
 
     } catch (error) {
       setHasError(true);
@@ -46,7 +52,7 @@ function ChangeSeat() {
     const { OldSeat } = useParams();
     const { TicketId } = useParams();
     useEffect(() => {
-        axios.get(`http://localhost:8000/user/viewSeats/${id}/${FlightId}/${Cabin}/${TicketId}/${OldSeat}`).then(res => {
+        axios.get(`http://localhost:8000/user/changeSeats/${FlightId}/${Cabin}/${TicketId}/${OldSeat}`).then(res => {
             console.log(res.data);
             setSeats(res.data);
         }).catch((err)=> {
@@ -60,8 +66,8 @@ function ChangeSeat() {
     }, []);
     return (
         
-        <Container className='mt-5 mb-5' >
-            <Modal isOpen={show}  >
+        <Container className='mt-100 mb-5' >
+            <Modal isOpen={show} style={{marginTop:'20%'}}  >
         <ModalHeader
           charCode="Y"
 
@@ -85,7 +91,7 @@ function ChangeSeat() {
         </ModalFooter>
       </Modal>
         
-      {!(HasError) &&  <Card>
+      {!(HasError) && (!Success)&& <Card>
               <CardImg  
                 alt="Card image cap"
                 src="https://easbcn.com/wp-content/uploads/2020/05/Business-Class-plane-1.jpeg"
@@ -107,7 +113,8 @@ function ChangeSeat() {
                   </thead>
 
                   <tbody>
-
+{                console.log(seats)
+}
 
               {
               seats.map((seat) => (
@@ -131,6 +138,13 @@ function ChangeSeat() {
             {HasError &&  <Col className="bg-light "> <Alert align="center" color="danger" Row > 
 <a align="center" style={(Error)?{display: 'block',color:'red',fontSize:'20px'}:{display: 'none'}}><CardTitle>{Error}</CardTitle></a></Alert></Col> 
 }
+{Success && 
+  <Col className="bg-light "> <Alert align="center" color="success" Row > 
+<a align="center" style={(Success)?{display: 'block',color:'red',fontSize:'20px'}:{display: 'none'}}><CardTitle>{Msg}</CardTitle></a></Alert></Col> 
+&&
+<Link to={{ pathname:`/user/viewReserved` 
+                        
+                           }}className="btn btn-primary " style={{color:'#FFFFFF',backgroundColor:'#d4902a'}}>View My tickets</Link> }
             </Container>
      )
 }

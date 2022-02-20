@@ -13,6 +13,7 @@ import {
 import '../Style/plane.css';
 import AirlineSeatReclineExtraOutlinedIcon from '@mui/icons-material/AirlineSeatReclineExtraOutlined';
 import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
+import NavBarUser from './MyNavbarUser.js';
 
 
 
@@ -22,6 +23,9 @@ function ViewSeats() {
   const [show, setShow] = useState(false);
   const [HasError, setHasError] = useState(false);
   const [Error, setError] = useState('');
+  const [  Success, setSuccess  ] = useState(false);
+  const [Msg, setMsg] = useState('');
+
   const [chosenSeatId, setchosenSeatId] = useState(0);
   const [chosenSeatNum, setchosenSeatNum] = useState(0);
   const handleClose = () => setShow(false);
@@ -32,12 +36,17 @@ function ViewSeats() {
     setchosenSeatNum(seatNum);
     console.log(chosenSeatNum)
   }
+  const { TicketId } = useParams();
+
   async function handleReserve(chosenSeatId) {
     try {
         console.log(chosenSeatId)
       await axios.post(`http://localhost:8000/user/viewSeats/${chosenSeatId}/${TicketId}`)
       .then(
-        navigate(`/user/viewReserved`, { replace: true }));
+        setShow(false),
+        setSuccess(true),
+        setMsg("You have Succeccfuly reserved the seat , To view your ticket please Click the button Below !")
+)
 
     } catch (error) {
       setHasError(true);
@@ -55,7 +64,6 @@ function ViewSeats() {
      
     const { FlightId } = useParams();
     const { Cabin } = useParams();
-    const { TicketId } = useParams();
     useEffect(() => {
         axios.get(`http://localhost:8000/user/viewSeats/${FlightId}/${Cabin}/${TicketId}`).then(res => {
             console.log(res.data);
@@ -70,6 +78,8 @@ function ViewSeats() {
          })
     }, []);
     return (
+      <>
+      <NavBarUser></NavBarUser>
         <div style={{backgroundColor:'#FFF'}}>
         <Container className='mt-5 mb-5'style={{backgroundColor:'#FFF'}} >
             <Modal isOpen={show} style={{marginTop:'20%'}} >
@@ -85,7 +95,8 @@ function ViewSeats() {
         <ModalFooter>
           <Button
             style={{color:'#FFFFFF',backgroundColor:'#d4902a'}}
-            onClick={() => handleReserve(chosenSeatId)}
+            onClick={() => handleReserve(chosenSeatId)
+            }
           >
             Yes
           </Button>
@@ -96,7 +107,7 @@ function ViewSeats() {
         </ModalFooter>
       </Modal>
         
-      {!(HasError) &&  <Card style={{width:'50%',marginTop:'30%',marginLeft:'10%'}}>
+      {!(HasError) && (!Success)&& <Card style={{width:'50%',marginTop:'30%',marginLeft:'10%'}}>
               <CardBody>
                 <CardTitle tag="h5">
                   Available Seats in {Cabin} Cabin 
@@ -137,7 +148,7 @@ function ViewSeats() {
               </CardBody>
               
             </Card>}
-            <div class="plane" style={{marginLeft:'70%',marginTop:'-60%'}}>
+            {/* <div class="plane" style={{marginLeft:'70%',marginTop:'-60%'}}>
   <div class="cockpit">
     <h1>Seat plan </h1>
   </div>
@@ -429,7 +440,7 @@ function ViewSeats() {
   <div class="exit exit--back fuselage">
     
   </div>
-</div>
+</div> */}
             
 
 
@@ -440,9 +451,17 @@ function ViewSeats() {
 {HasError &&  <Col className="bg-light "> <Alert align="center" color="danger" Row > 
 <a align="center" style={(Error)?{display: 'block',color:'red',fontSize:'20px'}:{display: 'none'}}><CardTitle>{Error}</CardTitle></a></Alert></Col> 
 }
+{Success && 
+  <Col className="bg-light "> <Alert align="center" color="success" Row > 
+<a align="center" style={(Success)?{display: 'block',color:'red',fontSize:'20px'}:{display: 'none'}}><CardTitle>{Msg}</CardTitle></a></Alert></Col> 
+&&
+<Link to={{ pathname:`/user/viewReserved` 
+                        
+                           }}className="btn btn-primary " style={{color:'#FFFFFF',backgroundColor:'#d4902a'}}>View My tickets</Link> }
             </Container>
 
    </div>
+   </>
      )
 }
 export default ViewSeats;

@@ -104,9 +104,13 @@ const initialMyState={
 
    
   var theIds = [];
-
+  const refreshPage = ()=>{
+    window.location.reload();
+ }
   useEffect(() => {
     axios.get(`http://localhost:8000/user/viewReserved`).then(res => {
+         // window.location.reload()
+         //refreshPage();
       setTheUser(res.data)
 
       if((theUser.TicketsId.length==0)){
@@ -188,6 +192,7 @@ function handleBack() {
   }
 
   return (
+    
     <Container style={{backgroundColor:'#FFFFFF'}} >
 
         <Modal isOpen={show} style={{marginTop:'20%'}}>
@@ -246,13 +251,13 @@ function handleBack() {
 
                      <label class='big'>{ticket.Departure.Airport} <FlightTakeoffOutlinedIcon fontSize="large" ></FlightTakeoffOutlinedIcon>{ticket.Arrival.Airport} </label><br/><br/>
 
-                     <label class="dep"> Date:  {(ticket.Departure.Date.toString()).slice(0,10)} </label><br/>
+                     <label class="dep">Departure Date:  {(ticket.Departure.Date.toString()).slice(0,10)} </label><br/>
                      <label class="dep"> Departs At:  {ticket.Departure.Time}</label><br/>
                      <label class="dep"> Departure Terminal:  {ticket.Departure.Terminal}</label><br/>
 
 
                     <div style={{marginTop:'-7%'}}>
-                     <label class="arr"> Date:  {(ticket.Arrival.Date.toString()).slice(0,10)} </label><br/>
+                     <label class="arr">Arrival Date:  {(ticket.Arrival.Date.toString()).slice(0,10)} </label><br/>
                      <label class="arr"> Arrives At:  {ticket.Arrival.Time}</label><br/>
                      <label class="arr"> Arrival Terminal:  {ticket.Arrival.Terminal}</label><br/>
                      </div>

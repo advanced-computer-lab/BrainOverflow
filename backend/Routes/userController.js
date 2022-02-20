@@ -256,40 +256,60 @@ const  user = await User.findById(req.user);
   res.send(user);
 }));
 
+router.put('/changeSeats/:SeatId/:TicketId',auth,catchAsync(async(req,res,next)=>{
+  console.log('beginning of put req')
+  const user=await User.findById(req.user);
+  const seat =await Seat.findById(req.params.SeatId);
+  //console.log(seat);
+  const ticket =await Ticket.findById(req.params.TicketId);
+  const oldSeat =await Seat.findById(ticket.Seat.SeatId);
+  seat.IsBooked=true;
+  oldSeat.IsBooked=false;
+  console.log(oldSeat);
+  ticket.Seat.SeatId=seat._id;
+  ticket.Seat.SeatNumber=seat.SeatNumber;
+  await ticket.save();
+  await seat.save();
+  await user.save();
+  console.log('I changed the seat')
 
+}));
 
 
 router.get('/changeSeats/:FlightId/:Cabin/:TicketId/:OldSeat',catchAsync(async(req,res,next)=>{
   const FlightId = req.params.FlightId;
+  console.log("ana fel get req")
   const cabin = req.params.Cabin;
+  console.log("came here")
  const availableSeats= await Seat.find({'FlightId':FlightId,'Cabin':cabin,'IsBooked':false});
  console.log("FlightId in get",FlightId,cabin);
  console.log("available seats in get req",availableSeats);
  if(availableSeats.length==0){ 
-   console.log("error in get entered")
+
+   console.log("no available flights")
     res.status(404).send({
   message: 'No availabe seats'
 });}
  res.send(availableSeats);
 }));
 
-// router.post('/viewSeats/:SeatId/:TicketId',auth,catchAsync(async(req,res,next)=>{
-//   console.log('beginning')
-//   console.log(req.params.SeatId);
-//   const user=await User.findById(req.user);
-//   const seat =await Seat.findById(req.params.SeatId);
-//   const oldSeat =await Seat.findById(req.params.OldSeat);
-//   console.log(seat);
-//   const ticket =await Ticket.findById(req.params.TicketId);
-//   ticket.Seat.SeatId=seat._id;
-//   ticket.Seat.SeatNumber=seat.SeatNumber;
-//   seat.IsBooked=true;
-//   await ticket.save();
-//   await seat.save();
-//   await user.save();
-//   console.log('end')
+router.post('/viewSeats/:SeatId/:TicketId',auth,catchAsync(async(req,res,next)=>{
+  console.log('beginning')
+  console.log(req.params.SeatId);
+  const user=await User.findById(req.user);
+  const seat =await Seat.findById(req.params.SeatId);
+  const oldSeat =await Seat.findById(req.params.OldSeat);
+  console.log(seat);
+  const ticket =await Ticket.findById(req.params.TicketId);
+  ticket.Seat.SeatId=seat._id;
+  ticket.Seat.SeatNumber=seat.SeatNumber;
+  seat.IsBooked=true;
+  await ticket.save();
+  await seat.save();
+  await user.save();
+  console.log('end')
 
-// }));
+}));
 
 router.get('/viewSeats/:FlightId/:Cabin/:TicketId',auth,catchAsync(async(req,res,next)=>{
   //console.log("I CAME HEREEE")

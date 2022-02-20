@@ -27,9 +27,7 @@ function UpdateProfile(props) {
     Passport:'',
     Country:'',
     Address:'',
-    PhoneNumber:0,
-    VisaNumber:0,
-  }
+    PhoneNumber:0  }
  function handleFormValidation() {    
     let formIsValid = true;    
   console.log(user);
@@ -86,7 +84,7 @@ function UpdateProfile(props) {
   useEffect(() => {
     async function getUser() {
       try {
-        const response = await get(`http://localhost:8000/user/updateProfile/${id}`);
+        const response = await get(`http://localhost:8000/user/updateProfile`);
         console.log(id);
         setUser(response.data);        
       } catch(error) {
@@ -103,10 +101,7 @@ function UpdateProfile(props) {
     if(user.PhoneNumber.length>15){
       setErrorMessage('Please enter a Correct phone Number that is at least Shorter than 16 digits!');  
     }
-    else if(user.VisaNumber.length>16){
-      setErrorMessage('Please enter a Correct Visa Card Number that is at least Shorter than 17 digits!');
-    }
-
+  
     else if (!(/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/.test(user.Email)) && user.Email.length>0){
       setErrorMessage('Please enter a Correct email!');
     }
@@ -116,12 +111,12 @@ function UpdateProfile(props) {
     else if (user.Password.length<6  && user.Password.length>0){
       setErrorMessage('Please enter a Correct Password Number that is at least longer than 6 digits!');
     }
-    else if (user.PhoneNumber<0 || user.VisaNumber<0 || user.Passport<0 ){
+    else if (user.PhoneNumber<0 || user.Passport<0 ){
       setErrorMessage('Please Do not enter any Negative Numbers!');
 
     }
     else if (user.FirstName=='' || user.LastName==''|| user.Country==''|| user.Email==''
-     || user.Password==''||user.Passport==''|| user.Address==''||user.PhoneNumber==0||user.VisaNumber==0){
+     ||user.Passport==''|| user.Address==''||user.PhoneNumber==0){
       setErrorMessage('Please fill all the fields!');
      }
     else  {    
@@ -129,7 +124,7 @@ function UpdateProfile(props) {
   
     async function updateProfile() {
       try {
-         put(`http://localhost:8000/user/updateProfile/`, user).then(
+         put(`http://localhost:8000/user/updateProfile`, user).then(
           window.location.href = `/user/userProfile` )
         
          
@@ -231,27 +226,13 @@ function UpdateProfile(props) {
      You Must enter your Email address in the specified pattern 
     </FormFeedback> */}
   </FormGroup>
-  <FormGroup>
-    <Label for="Password" style={{color:"#39251c"}}>
-        Password   </Label>
-    <Input
-      style={{width:"400px" , borderRadius:"8px"}}
-      id="Password"
-      name="Password"
-      placeholder="Password"
-      type="password"
-      value={user.Password}
-      required
-      onChange={handleChange}
-       
-    />
+  
      {/* <FormFeedback valid style={!(user.formErrors.Password)?{display: 'block'}:{display: 'none'}}>
      valid input
     </FormFeedback>
     <FormFeedback invalid style={((user.formErrors.Password))?{display: 'block'}:{display: 'none'}}>
      You Must enter a password
     </FormFeedback> */}
-  </FormGroup>
   <FormGroup>
     <Label for="Passport" style={{color:"#39251c"}}>
     Passport Number
@@ -289,20 +270,7 @@ Phone Number    </Label>
      You Must enter your phone number
     </FormFeedback> */}
   </FormGroup>
-  <FormGroup>
-    <Label for="VisaNumber" style={{color:"#39251c"}}>
-Visa Card Number    </Label>
-    <Input
-      style={{width:"400px", borderRadius:"8px" }}
-      id="VisaNumber"
-      name="VisaNumber"
-      placeholder="Visa Card Number"
-      type="number"
-      required
-      value={user.VisaNumber}
-      onChange={handleChange}
-    />
-  </FormGroup>
+  
   <FormGroup>
     <Label for="Country" style={{color:"#39251c"}}>
     Country

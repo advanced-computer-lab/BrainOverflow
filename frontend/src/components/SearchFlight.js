@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Component, useState, useEffect } from 'react';
 import axios from 'axios';
 import JSONDATA from './MOCK_DATA.json';
+import NavBarUser from './MyNavbarUser'
 
 
 import { useNavigate } from 'react-router-dom'
@@ -271,7 +272,7 @@ function AllFlights() {
                     //rflag3=(total<=rflight.Business.SeatId.length)
                 }else{rflag3 = true }
                 if(cabin =='Economy'){
-                    //change later to *****
+                    //change later to return*****
                     rflag4=(total<=rflight.Economy.SeatsLeft)
                     //rflag4=(total<=rflight.Economy.SeatId.length)
                 }else{rflag4 = true }
@@ -303,8 +304,10 @@ function AllFlights() {
 
 
     return (
+<>
 
         <Container>
+        <NavBarUser></NavBarUser>
 
                 <Row xs="1" className=''>
 
@@ -495,6 +498,7 @@ function AllFlights() {
 
 
         </Container>
+        </>
     );
 }
 

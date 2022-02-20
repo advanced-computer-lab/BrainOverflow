@@ -90,6 +90,20 @@ router.get('/updateFlight/:id', (req, res) => {
 });
 
 router.delete('/delete/:id', function (req, res) {
+  const flight = Flight.findById(req.params.id);
+  for(var i=0;i<flight.First.SeatId.length;i++){
+    Seat.findByIdAndDelete(flight.First.SeatId[i]._id);
+  }
+  for(var i=0;i<flight.Business.SeatId.length;i++){
+    Seat.findByIdAndDelete(flight.Business.SeatId[i]._id);
+  }
+  for(var i=0;i<flight.Economy.SeatId.length;i++){
+    Seat.findByIdAndDelete(flight.Economy.SeatId[i]._id);
+  }
+  const tickets = Ticket.find({'FlightId':req.params.id});
+  for(var i=0;i<tickets.length;i++){
+    Ticket.findByIdAndDelete(tickets[i]._id)
+  }
   Flight.findByIdAndRemove({ _id: req.params.id },
     function (err, docs) {
       if (err) res.json(err);
@@ -99,8 +113,21 @@ router.delete('/delete/:id', function (req, res) {
 
 
 router.put("/updateFlight/:id", catchAsync(async (req, res) => {
-  var _id = req.body._id;
-  await Flight.findByIdAndUpdate(req.body);
+  //console.log("req",req.body);
+  const flight =await  Flight.findById(req.params.id);
+  await Flight.findByIdAndUpdate(req.params.id,{FlightNumber:req.body.flight.FlightNumber,'Departure.Date':req.body.DepDate,
+'Departure.Time':req.body.DepTime,'Arrival.Date':req.body.ArrDate,'Arrival.Time':req.body.ArrTime,
+'To.Airport':req.body.ToAirport,'To.Terminal':req.body.ToTerminal,'From.Airport':req.body.DepAirport,
+'From.Terminal':req.body.DepTerminal,'First.Price':req.body.FirstPrice,'First.ChildPrice':req.body.FirstChildPrice,
+'First.Baggage':req.body.FirstBaggage,'Business.Baggage':req.body.BusBaggage,'Business.Price':req.body.busPrice,
+'Business.ChildPrice':req.body.BusChildPrice,
+'Economy.Price':req.body.EcoPrice,
+'Economy.ChildPrice':req.body.EcoChildPrice,
+'Economy.Baggage':req.body.EcoBaggage
+});
+ console.log('edited' , flight)
+  await flight.save();
+
 
 }));
 

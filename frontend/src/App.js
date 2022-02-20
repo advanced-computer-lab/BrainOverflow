@@ -24,7 +24,7 @@ import EditFlightSearch from './components/EditFlightSearch'
 import StripeContainer from './components/StripeContainer';
 import ViewFlightEd from './components/ViewFlightEd';
 import ChangePass from './components/ChangePass';
-import changeSeats from './components/ChangeSeat.js';
+import ChangeSeats from './components/ChangeSeat.js';
 import { AuthContextProvider } from "./components/AuthContext";
 import AuthContext from "./components/AuthContext";
 
@@ -77,7 +77,8 @@ function App() {
 
     <BrowserRouter>
      <AuthContextProvider>
-    <NavBarUser></NavBarUser>
+       <NavBarUser></NavBarUser>
+    
     <Routes>
 
       <Route path="/admin/createFlight" element={<CreateFlight />} />
@@ -96,10 +97,12 @@ function App() {
       <Route path="/authorize/changepass" element={<ChangePass/>}/> 
 
       <Route path="/user/confirmFlight" element={<ReserveFlight/>}/> 
-      <Route path="/user/changeSeats/:FlightId/:Cabin/:TicketId/:OldSeat" element={<changeSeats/>}/> 
+
+      <Route path="/user/changeSeats/:FlightId/:Cabin/:TicketId/:OldSeat" element={<ChangeSeats/>}/> 
 
       <Route path="/authorize/signup" element={<Registeration/>}/> 
       <Route path="/authorize/login" element={<SignIn/>}/> 
+
       <Route path="/user/payment" element={<StripeContainer/>}></Route>
       <Route path="/user/payment" element={<StripeContainer/>}/> 
     <Route path="/user/EditFlightSearch/:ticketId" element={<EditFlightSearch/>}/> 

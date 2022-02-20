@@ -70,7 +70,7 @@ function UserProfile(props) {
     const [user, setUser] = useState(initialstate);
     useEffect(() => {
         // const response =axios.get(`http://localhost:8000/user/userProfile/${id}`)
-        const response =axios.get(`http://localhost:8000/user/userProfile/`).then(res => {
+        const response =axios.get(`http://localhost:8000/user/userProfile`).then(res => {
            if(!(res.data.FirstName)|| res.status==404){
                console.log("Iam null")
                setHasError(true);
@@ -214,7 +214,7 @@ function UserProfile(props) {
                             </div>
                         </CardText>
                          <Link to= {myLink} className="btn btn-primary"style={{backgroundColor:"white" ,color:"#22577E" , position:"absolute" , left:"43%" , top:"120%"}}>Update Profile</Link>
-                        <Link to={`/user/viewReserved/${id}`} className="btn btn-success ml-2 " style={{backgroundColor:"white" ,color:"#22577E" ,position:"absolute" , left:"40%" , top:"150%"}}>View My Reserved flights</Link>
+                        <Link to={`/user/viewReserved`} className="btn btn-success ml-2 " style={{backgroundColor:"white" ,color:"#22577E" ,position:"absolute" , left:"40%" , top:"150%"}}>View My Reserved flights</Link>
 
                     </CardBody>
                 </Card>}
